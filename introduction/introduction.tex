@@ -1,7 +1,58 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introduction}\label{chap:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The recovery of the underlying structure of a scene captured in an image is 
+arguably one the core problems in Computer Vision. Although many properties
+of a scene may be recovered, it is the geometry of the objects within the scene
+that is of most use in many problems, as the geometry provides a strong model
+from which to perform inference. In particular, the 3D shape of the underlying
+objects is arguably the strongest cue for common tasks such as object
+recognition and object localisation. However, the general problem or recovering
+the 3D shape of an object from image (s) is incredibly ill-conditioned. Even when 
+provided with multiple images, or additional information about the scene or
+capturing conditions, 3D recovery is rife with ambiguities. As demonstrated
+by~\cref{tbl:3d_recovery_methods}, many strategies have been proposed for
+solving this problem.
 
+In contrast to the difficulty of the general case, the recovery of 3D facial
+has been highly successful. Human faces have a number of qualities that are
+highly desirable for shape recovery: they are extremely homogenous in
+configuration (all healthy human faces have two eyes, a nose and mouth in the 
+same approximate location), convex, exhibit approximately lambertian 
+reflectance~\cite{Sirovich:1987te,RefWorks:314,Basri:2003ie,RefWorks:98,Hallinan:1994dz},
+are largely captured from a single direction (frontal) and are deformable
+but not self occluding. Furthermore, there are is a large amount of publicly
+available imagery of faces and faces are of significant interest in a number
+of fields including entertainment, medicine and psychology. For example,
+the seminal work of Blanz and Vetter~\cite{RefWorks:96} provided an impressive
+shape recovery of a well-lit neutral face. However, despite the success of the
+3D Morphable Model~\cite{RefWorks:96}, the problem of high quality 3D facial 
+surface recovery from challenging images is still far from solved. For example,
+the recovery of 3D facial surfaces under arbitrary conditions,
+so called ``in-the-wild'' images, remains a challenging and active area of
+research~\cite{KemelmacherShlizerman:2013iv,Suwajanakorn:2015gf,Suwajanakorn:2014bl,Snape:2015gl,Roth:2015hq}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t]
+	\centering
+	\resizebox{\textwidth}{!}{%
+		\begin{tabular}{@{}llccl@{}}
+		\toprule
+		\multicolumn{1}{c}{Classification}                  & \multicolumn{1}{c}{Method}                                                   & \# Images & Other Input                                                                       & \multicolumn{1}{c}{Output} \\ \midrule
+		\multirow{4}{*}[-0.7cm]{Image Formation}            & Shape-from-Shading                                                           & $1$       & \begin{tabular}[c]{@{}c@{}}Reflectance Model, \\ Lighting Directions\end{tabular} & Surface Normals            \\ \cmidrule(l){3-5} 
+		                                                    & \begin{tabular}[c]{@{}l@{}} (Un) Calibrated \\ Photometric Stereo\end{tabular} & $\geq 3$  & \begin{tabular}[c]{@{}c@{}}Lighting Directions \\ (If Calibrated)\end{tabular}    & Surface Normals            \\ \cmidrule(l){3-5} 
+		                                                    & Shape-from-Contour                                                           & $1$       & Object Contour                                                                    & Coarse Surface Normals     \\ \cmidrule(l){3-5} 
+		                                                    & Analysis-by-Synthesis                                                        & $1$       & 3D Model                                                                          & 3D Shape                   \\ \midrule
+		\multicolumn{1}{c}{\multirow{2}{*}{Photogrammetry}} & Multi-View Stereo                                                            & $k$       & Camera Extrinsics                                                                 & 3D Shape                   \\ \cmidrule(l){3-5} 
+		\multicolumn{1}{c}{}                                & Structure-from-Motion                                                        & $k$       & Corresponding Points                                                              & 3D Shape                   \\ \midrule
+		\multicolumn{1}{c}{Other}                           & Shape Transfer                                                               & $1$       & 3D Model                                                                          & 3D or 2.5D Shape           \\ \bottomrule
+		\end{tabular}
+	}
+	\caption{A summary of methods for recovering 3D shape from images. The two 
+	         largest subcategories are image formation algorithms and 
+	         photogrammetry.}
+\label{tbl:3d_recovery_methods}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contributions}\label{sec:intro_contrib}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -26,8 +77,8 @@ are not directly relevant (\cref{subsec:intro_other_pubs}).
 \subsection{Other Publications}\label{subsec:intro_other_pubs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{itemize}
-	\item\bibentry{Chrysos:2015gt}
 	\item\bibentry{menpo14}
+	\item\bibentry{Chrysos:2015gt}
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Outline}\label{sec:introduction_outline}
