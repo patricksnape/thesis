@@ -23,9 +23,9 @@ shape. In this thesis we consider only the problem of dense 3D shape recovery.
 
 In contrast to the difficulty of the general case, the recovery of dense 3D
 facial shape has been highly successful. Human faces have a number of qualities
-that are desirable for shape recovery: they are extremely homogenous in
+that are desirable for shape recovery: they are extremely homogeneous in
 configuration (all healthy human faces have two eyes, a nose and mouth in the
-same approximate location), convex, exhibit approximately lambertian 
+same approximate location), convex, exhibit approximately Lambertian 
 reflectance~\cite{Sirovich:1987te,RefWorks:314,Basri:2003ie,RefWorks:98,Hallinan:1994dz,ramamoorthi2002analytic,ramamoorthi2001relationship,shashua1997photometric,moses1993face},
 are largely captured from a single direction (frontal) and are deformable
 but not self occluding. Furthermore, there exists a large amount of publicly
@@ -139,7 +139,7 @@ Although there exists many other scenarios, these three provide methods of
 recovery for the vast majority of media available for faces. In this thesis, we
 chose to investigate a novel method for improving the state-of-the-art under
 each of these three scenarios. The rest of this section will be devoted to
-describing my contributions in the area of dense 3D facial shape recovery.
+describing our contributions in the area of dense 3D facial shape recovery.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contributions}\label{sec:intro_contrib}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -235,15 +235,16 @@ Therefore, we propose the following:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{itemize}
 	\item Typically, dense correspondences~\cite{Garrido:2014gn,agudo2014online} 
-	      are acquired by optical flow~\cite{gibson1950perception} algorithms.
-	      However, optical flow is very challenging in the general case. Given
-	      we know the frames will contain faces, we propose to impose a 
-	      2D facial motion prior on the optical flow fields. By introducing
-	      a parametric motion model, the Lucas-Kanade~\cite{lucas1981iterative}
+	      are acquired by optical flow~\cite{gibson1950perception,horn1981determining} 
+	      algorithms. However, optical flow is very challenging in the general
+	      case. Given we know the frames will contain faces, we propose to
+	      impose a 2D facial motion prior on the optical flow fields. By
+	      introducing a parametric motion model, the Lucas-Kanade~\cite{lucas1981iterative} 
 	      algorithm allows the linearisation of the cost function and provides
-	      extremely efficient alignment. Furthermore, we augment the alignment
-	      method with a low-rank constraint on the model coefficients that helps
-	      enforce a smoothness prior across the length of the sequence.
+	      extremely efficient alignment.
+	      Furthermore, we augment the alignment method with a low-rank
+	      constraint on the model coefficients that helps enforce a smoothness
+	      prior across the length of the sequence.
 	\item The training of the parametric motion model is the key constraint
 	      on the performance of the above algorithm. Given the inability
 	      of optical flow algorithms to correctly model the 3D motion field,
@@ -258,8 +259,8 @@ Therefore, we propose the following:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Publications}\label{sec:intro_pubs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In this section we provide a list of publication that were authored during the
-course of my thesis. These publications are split into two sections, those
+In this section we provide a list of publications that were authored during the
+course of this thesis. These publications are split into two sections, those
 that are related to the contents of this thesis 
 (\cref{subsec:intro_rel_pubs}) and other publications that 
 are not directly relevant (\cref{subsec:intro_other_pubs}).
@@ -292,7 +293,7 @@ these publications are not considered to be my sole work.
 methodologies for 3D facial shape recovery. This includes relevant literature
 for sparse and dense shape recovery, in order to provide a complete
 picture as to the current state-of-the-art in 3D facial shape recovery.
-\cref{ch:singl_imag} introduces my contribution in the area of single image
+\cref{ch:singl_imag} introduces contributions in the area of single image
 facial shape recovery. A kernel method for representing surface normals is 
 introduced and this kernel is used in a number of areas including 2D and 3D
 image alignment and Shape-from-Shading.
