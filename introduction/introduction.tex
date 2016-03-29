@@ -171,9 +171,9 @@ the statistical surface normal models first introduced by
 		  directional nature. However, we show that surface normals can be 
 		  naturally embedded as kernels within statistical models. Unlike
 		  the more complex embeddings proposed by~\cite{smith2006recovering,smith2008facial}, 
-		  our kernel methods can be directly applied on normals. We also show
+		  our kernel methods can be applied directly on normals. We also show
 		  that the embeddings of~\cite{smith2006recovering,smith2008facial} 
-		  can also be presented as kernels.
+		  can be presented as kernels.
     \item We extend the work of~\cite{smith2006recovering,smith2008facial}
           by proposing Kernel-PCA as a constraint in their Geometric-SfS 
           algorithm.
@@ -181,11 +181,12 @@ the statistical surface normal models first introduced by
           we show that normals provide an effective feature representation
           for 2D image alignment of depth-based images. We show the natural
           robustness of normals to gross imaging defects such as occlusions
-          by employing normals as a feature representation with a Lucas-Kanade~\cite{lucas1981iterative,baker2004lucas}
+          by employing normals as a feature representation within a 
+          Lucas-Kanade~\cite{lucas1981iterative,baker2004lucas}
           based parametric image alignment algorithm.
     \item Given the statistical model of surface normals and the Lucas-Kanade
           alignment algorithm, a natural extension is to use our statistical
-          model of surface normals within an Active Appearance Model (AAM)~\cite{cootes2001active,matthews2004active} 
+          model of surface normals within the Active Appearance Model (AAM)~\cite{cootes2001active,matthews2004active} 
           algorithm. We demonstrate the effectiveness of our surface normal 
           Kernel-PCA for facial depth image alignment.
     \item We note that normals are analogous to gradients in the 3D image 
@@ -203,31 +204,31 @@ a stationary object each lit by a unique, known point light source.
 By relaxing the need for known lighting directions, we arrive at the
 Uncalibrated Photometric Stereo problem~\cite{hayakawa1994photometric,fan1997surface,yuille1999determining,basri2007photometric}.
 Recently, \citet{KemelmacherShlizerman:2013iv} further relaxed the 
-Uncalibrated PS algorithm to allow for recovery of spherical harmonic images 
+Uncalibrated PS algorithm to allow for recovery of spherical harmonics 
 from a set of unrelated ``in-the-wild'' facial images. We formalise this
 work~\cite{KemelmacherShlizerman:2013iv} in the following way:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{itemize}
 	\item Provide a formal explanation for the ad hoc decomposition proposed
-	      in by \citet{KemelmacherShlizerman:2013iv}. Given this decomposition,
+	      in \citet{KemelmacherShlizerman:2013iv}. Given this decomposition,
 	      we show how it can be augmented with a robust low-rank matrix and 
 	      sparse error term in order to better handle outliers in the input
-	      images. We also investigate the use of a coarse but an efficient
-	      parametric alignment based on sparse facial landmarking in contrast to
-	      the more accurate but costly optical flow method 
+	      images. We also investigate the use of a coarse but efficient
+	      parametric alignment method based on sparse facial landmarking, 
+	      in contrast to the more accurate but costly optical flow method 
 	      proposed in~\cite{KemelmacherShlizerman:2013iv}.
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \textbf{Image Sequences: Face Flow.} Given a sequence of images (video) of
-a single face, the recovery of a 3D surface is challenging if SfS constraints
-are imposed. Although it is possible to recover surface normals from video a
-that contains sufficient lighting variation~\cite{brostow2011video,wenger2005performance,ma2007rapid,jones2011head}, these conditions are unlikely to be found within a typical
+a single face, the recovery of a 3D surface using SfS constraints is
+challenging. Although it is possible to recover surface normals
+from video that contains sufficient lighting variation~\cite{brostow2011video,wenger2005performance,ma2007rapid,jones2011head}, these conditions are unlikely to be found within a typical
 ``in-the-wild'' video. Therefore, in order to recover 3D shape from videos,
-we investigate the approach of Structure-from-Motion (SfM). The input to a 
+we investigate a Structure-from-Motion (SfM) approach. The input to a 
 Non-Rigid SfM algorithm is a set of correspondences across all input frames. 
-Although these correspondences are typically sparse, dense SfM has also been
-proposed~\cite{garg2013dense,newcombe2011dtam,agudo2014online,fragkiadaki2014grouping}.
+Although these correspondences are typically sparse, dense SfM has recently been
+successful~\cite{garg2013dense,newcombe2011dtam,agudo2014online,fragkiadaki2014grouping}.
 However, the assumption of correspondences across all frames of a long 
 ``in-the-wild'' sequence is strong and difficult to satisfy in practise. 
 Therefore, we propose the following:
@@ -238,15 +239,15 @@ Therefore, we propose the following:
 	      However, optical flow is very challenging in the general case. Given
 	      we know the frames will contain faces, we propose to impose a 
 	      2D facial motion prior on the optical flow fields. By introducing
-	      a parametric motion model the Lucas-Kanade~\cite{lucas1981iterative}
-	      allows the linearisation of the cost function and provides extremely
-	      efficient alignment. Furthermore, we augment the alignment method
-	      with a low-rank constraint on the model coefficients that helps
-	      enforce a smoothness prior in the coefficient space.
+	      a parametric motion model, the Lucas-Kanade~\cite{lucas1981iterative}
+	      algorithm allows the linearisation of the cost function and provides
+	      extremely efficient alignment. Furthermore, we augment the alignment
+	      method with a low-rank constraint on the model coefficients that helps
+	      enforce a smoothness prior across the length of the sequence.
 	\item The training of the parametric motion model is the key constraint
-	      on the performance of our Face Flow algorithm. Given the inability
+	      on the performance of the above algorithm. Given the inability
 	      of optical flow algorithms to correctly model the 3D motion field,
-	      we opt to train our 2D motion field using an expressive 3D face model.
+	      we opt to train our 2D flow field using an expressive 3D face model.
 	      The face model is projected into the 2D plane and the flow fields
 	      are learnt directly from these projections. This has a significant
 	      advantage in that any alignment computed has a direct correspondence
