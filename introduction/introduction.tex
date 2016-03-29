@@ -1,8 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introduction}\label{ch:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The recovery of the underlying structure of a scene captured in an image is 
-arguably one the core problems in Computer Vision. Although many properties
+The recovery of the true structure of a scene captured by an image is 
+arguably one of the core problems in Computer Vision. Although many properties
 of a scene may be recovered, it is the geometry of the objects within the scene
 that is of most use in many problems, as the geometry provides a strong model
 from which to perform inference. In particular, the 3D shape of the underlying
@@ -12,18 +12,18 @@ the 3D shape of an object from image (s) is incredibly ill-conditioned. Even whe
 provided with multiple images, or additional information about the scene or
 capturing conditions, 3D recovery is rife with ambiguities. As demonstrated
 by~\cref{tbl:3d_recovery_methods}, many strategies have been proposed for
-solving this problem. It is also important to note that they are two very
-different outputs that can be obtained: \textit{dense shape
-recovery} and \textit{sparse shape recovery.} Sparse shape recovery has been
+solving this problem. It is also important to note that there are two very
+different outputs that can be obtained: \textit{dense shape} and 
+\textit{sparse shape.} Sparse shape recovery has been
 well studied in areas such as Structure-from-Motion where it has been
 employed for large-scale reconstruction of urban scenes~\cite{agarwal2009building,torr1998robust}.
-However, dense shape recovery is a much more difficult problem as the necessary
-complexity of the recovery problem increases. In this thesis I consider
-only the problem of dense 3D shape recovery.
+However, dense shape recovery is a much more difficult problem as the
+complexity scales with the number of elements in the predicted
+shape. In this thesis I consider only the problem of dense 3D shape recovery.
 
 In contrast to the difficulty of the general case, the recovery of dense 3D
 facial shape has been highly successful. Human faces have a number of qualities
-that are highly desirable for shape recovery: they are extremely homogenous in
+that are desirable for shape recovery: they are extremely homogenous in
 configuration (all healthy human faces have two eyes, a nose and mouth in the
 same approximate location), convex, exhibit approximately lambertian 
 reflectance~\cite{Sirovich:1987te,RefWorks:314,Basri:2003ie,RefWorks:98,Hallinan:1994dz},
@@ -70,29 +70,29 @@ is modelled via a set of parametric models and lighting conditions. Therefore,
 in the case of ``in-the-wild'' facial images, ``analysis-by-synthesis'' is
 incredibly challenging as an accurate result would require photorealistic
 rendering, which is currently not possible within the Computer Vision
-literature. Moreover, the parametric models employed contain a low number
+literature. Moreover, the models employed contain a low number
 of parameters and therefore have a tendency of being smooth and thus are not 
 able to model fine details such as wrinkles.
 
 Due to the insufficiencies of generic shape recovery, it is common to assume
 that aspects of the scene are known apriory. In the case of the 3DMM, it is 
-assumed that we know the class of object e.g faces and that we know the
+assumed that we know the class of object (e.g faces) and that we know the
 approximate location of the face in the image. Knowing the class of object is
 a strong but very powerful prior. This is most commonly exploited by introducing
 some form of template or parametric model that describes the shape space of the
 object class in question. However, there is a crucial problem that must be
 solved before these shape priors can be employed. This is the problem of
 \textit{correspondance}. For example, the 3DMM algorithm treats the entire
-shape recovery problem as a correspondance problem in which the 3D shape
-model is used to synthesize an image which is then aligned in image space
-with the input image. Another example is the seemingly unrelated area of 
-Structure-from-Motion, whereby a set of correspondances amongst a number
-of images is assumed. These corresponding points are then factorized in order
-to recover both the underlying 3D shape and the parameters of the camera 
-projection matrices that produced the input 2D points. In this case, the 
-correspondance problem is assumed to have been already solved. Therefore,
-when considering 3D facial shape recovery methods it is also important
-to consider the problem of correspondance.
+shape recovery problem as a correspondance problem. The 3D shape
+model is used to synthesize an image which is then aligned by attempting to
+minimise the reconstruction error of the rendered face against the input.
+Another example is the seemingly unrelated area of Structure-from-Motion,
+whereby a set of correspondances amongst a number of images is assumed. These
+corresponding points are then factorized in order to recover both the underlying
+3D shape and the parameters of the camera projection matrices that produced the
+2D input points. In this case, the correspondance problem is assumed to have
+already been solved. Therefore, when considering 3D facial shape recovery
+methods it is also important to consider the problem of correspondance.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 	\centering
@@ -113,7 +113,7 @@ to consider the problem of correspondance.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this thesis, I am interested in tackling the problem of 3D facial shape
-recovery from challenging ``in-the-wild'' conditions. This is in contrast
+recovery in challenging ``in-the-wild'' conditions. This is in contrast
 to many works, such as the 3DMM, that focus on the recovery of facial shape
 under ideal conditions (uniform frontal illumination, frontal face,
 no expression, young caucasian subject). As previously mentioned and summarised
@@ -135,12 +135,11 @@ three major areas:
 	      parametric models.
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Although there exists many more scenarios than those just described, 
-these three provide methods of recovery for the vast majority of media 
-available for faces. In this thesis, I chose to investigate a novel method
-for improving the state-of-the-art under each of these three scenarios. The rest
-of this section will be devoted to describing my contributions in the area 
-of dense 3D facial shape recovery.
+Although there exists many other scenarios, these three provide methods of
+recovery for the vast majority of media available for faces. In this thesis, I
+chose to investigate a novel method for improving the state-of-the-art under
+each of these three scenarios. The rest of this section will be devoted to
+describing my contributions in the area of dense 3D facial shape recovery.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contributions}\label{sec:intro_contrib}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
