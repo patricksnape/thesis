@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{setspace}
+\usepackage{xcolor}
 % Math
 \usepackage{amssymb}
 % Fancy headers and section titles
@@ -25,3 +26,27 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{icthesis.sty}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Command for entries in a timeline
+\newcommand\ytl[2]{
+\parbox[b]{0.2\textwidth}{\hfill{\color{cyan}\bfseries\sffamily #1}~$\cdots\cdots$~}\makebox[0pt][c]{$\bullet$}%
+\vrule\quad%
+\parbox[c]{0.8\textwidth}{\vspace{7pt}\color{red!40!black!80}\raggedright\sffamily #2.\\[7pt]}\\[-3pt]%
+}
+
+% Example of inserting a timeline - which I will do AFTER I have formalised
+% all of the citations.
+% \begin{table}
+% 	\centering
+% 	\begin{minipage}[t]{.8\linewidth}
+% 		\color{gray}
+% 		\rule{\linewidth}{1pt}
+
+% 		\ytl{1947}{AT and T Bell Labs develop the idea of cellular phones}
+% 		\ytl{1968}{Xerox Palo Alto Research Centre envisage the `Dynabook'}
+% 		\ytl{1971}{Busicom 'Handy-LE' Calculator}
+
+% 		\bigskip
+% 		\rule{\linewidth}{1pt}%
+% 	\end{minipage}%
+% 	\caption{Timeline of something.}
+% \end{table}
