@@ -27,10 +27,22 @@ an exhaustive review of all of the relevant literature for a given method.
 Instead, only those methods that focus on facial shape recovery or provide
 representative reconstructions of faces will be considered.
 
-In contrast to generic shape recovery, facial shape recovery implies a strong
-assumption that the input image contains a face. The prior knowledge that the
-image contains a face enables the use of training data to improve the
-quality of the reconstruction.
+The rest of this section will proceed as follows. \cref{ch:bg_db_capture} will
+discuss the currently available databases of 3D facial shape in the form
+of meshes and reflectance information. It will also briefly touch on recent
+innovations for capturing these databases. \cref{ch:bg_sfs} provides an overview
+of Shape-from-Shading (SfS) methods for facial surface normal recovery from
+single images. \cref{ch:bg_ps} discusses both calibrated and 
+Uncalibrated Photometric Stereo methods. When discussing Uncalibrated methods,
+more recent large-scale methods from Internet images are also included. 
+\cref{ch:bg_3dmm} presents the relevant literature for Morphable Models,
+beginning with work of \citet{RefWorks:96}. \cref{ch:bg_model_based} gives an
+overview of methods that attempt to directly infer shape information from images
+by using models. \cref{ch:bg_sfm} discusses Structure-from-Motion methods,
+including relevant methods that provide representative reconstructions
+on faces despite not leveraging facial models. Finally, \cref{ch:bg_sf_other}
+reviews any other Shape-from-X methods that have been used for 3D facial
+shape recovery from images.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{background/databases_and_capture.tex}
 \input{background/shape_from_shading.tex}
