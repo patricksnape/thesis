@@ -3,6 +3,7 @@
 \usepackage{graphicx}
 \usepackage{setspace}
 \usepackage{xcolor}
+\usepackage{xparse}
 % Math
 \usepackage{amssymb}
 % Fancy headers and section titles
@@ -27,10 +28,10 @@
 \input{icthesis.sty}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Command for entries in a timeline
-\newcommand\ytl[2]{
-\parbox[b]{0.2\textwidth}{\hfill{\color{cyan}\bfseries\sffamily #1}~$\cdots\cdots$~}\makebox[0pt][c]{$\bullet$}%
+\DeclareDocumentCommand{\ytl}{ O{0.2\textwidth} O{0.8\textwidth} m m }{
+\parbox[b]{#1}{\hfill{\color{cyan}\bfseries\sffamily #3}~$\cdots\cdots$~}\makebox[0pt][c]{$\bullet$}%
 \vrule\quad%
-\parbox[c]{0.8\textwidth}{\vspace{7pt}\color{red!40!black!80}\raggedright\sffamily #2.\\[7pt]}\\[-3pt]%
+\parbox[c]{#2}{\vspace{7pt}\color{red!40!black!80}\raggedright\sffamily #4.\\[7pt]}\\[-3pt]%
 }
 
 % Example of inserting a timeline - which I will do AFTER I have formalised
