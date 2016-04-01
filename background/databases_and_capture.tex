@@ -4,16 +4,80 @@
 In contrast to generic shape recovery, facial shape recovery implies a strong
 assumption that the input image contains a face. This prior knowledge, that the
 image contains a face, enables the use of training data to improve the
-quality of the reconstruction. The capture and collection of this training data
-was historically a complicated endeavour and until recently there were few
-publicly available 3D facial databases. However, with the introduction of 
-commercial systems such as \citet{3dmd} and \citet{di4d}, the capturing
-of this data has become more prevalent for research purposes. For example,
-\cref{tbl:timeline_db} provides a timeline outlining when popular 3D facial
-databases were released. It is particularly interesting to note that, despite
-the fact that one of the first 3D facial models was released in 1987 
-(CANDIDE~\cite{Rydfalk:1987tg}), the majority of existing databases were 
-produced in the last decade.
+quality of the reconstruction. \cref{tbl:timeline_db} provides a
+timeline outlining the existing 3D facial databases and the data they provide.
+It is particularly interesting to note that, despite the fact that one of the
+first 3D facial models was released in 1987 (CANDIDE~\cite{Rydfalk:1987tg}), the
+majority of existing databases were produced in the last decade. The quality
+of these facial models has also increased substantially. 
+
+The CANDIDE~\cite{Rydfalk:1987tg,Ahlberg:1998uk} models were parametrizable
+wireframe models that contained a low number of vertices (75--95) and were
+designed to be controlled according to pre-defined Action Units. The CANDIDE
+model was not captured from real data and thus had limited uses for modelling
+identity. Early attempts at recording facial databases focused on the use
+of laser scanning technology~\cite{cyberware,minolta} or structured light. For
+example, the early work of \citep{beumier2001face} used an internally developed 
+structured light system to provide low quality neutral face scans. Structured
+light was also used for the Bosphorus~\cite{Savran:2008gg} 
+and UoY~\cite{heseltine2008three} databases. One of the most commonly used
+parametric 3D models is that of the Basel 3D Morphable Model 
+(3DMM)~\cite{paysan20093d} which also utilized a custom structured light
+scanner called the ABW-3D scanner. The introduction of the consumer priced
+Kinect by Microsoft ensured that structured light technology was extremely 
+cheap to acquire and thus both the BIWI Head Pose~\cite{fanelli2013random}, 
+EURECOM~\cite{min2014kinectfacedb} and the FaceWarehouse~\cite{Cao:2014gy} 
+databases used the Kinect for capturing data.
+
+Researchers at the MPI used the \citet{cyberware} laser scanner to capture
+neutral faces of high quality which were used in the seminal work of the 3DMM
+by \citet{RefWorks:96}. The Cyberware scanner was also employed in the more 
+recent works of BJUT-3D~\cite{baocai2009bjut} and Beckmann~\cite{hu2007building}
+as it provides high quality shape and texture. Another commonly used
+laser scanning system is the Minolta Vivid 900/910~\cite{minolta} which was
+employed by Notre Dame University when collecting data for the Facial
+Recognition Grand Challenge (FRGC)~\cite{phillips2005overview} and the following
+ND-2006~\cite{faltemier2007using}. It was also employed by Notre Dame for the
+collection of a twins database (3D-TEC)~\cite{vijayan2011twins}. 
+The Konika Minolta was also for the databases of CASIA 3D~\cite{casia3d},
+FSU~\cite{hesher2003novel} and the UMB-DB~\cite{colombo2011umb} which is unique
+in containing many examples of occlusions. The more advanced
+Minolta VI-700 digitizer~\cite{minolta} was used to collect both
+GavabDB~\cite{moreno2004gavabdb} and FRAV3D~\cite{conde2006multimodal}.
+ZJU-3DFED~\cite{wang2006exploring} used a white-light digitizer to capture
+the 40 subjects of their work. 
+
+Stereo systems provide a non-invasive method of capturing that is possible
+to set up at relatively low cost by an expert. One of the earliest databases
+to provide 3D face estimates was XM2VTSdb~\cite{messer1999xm2vtsdb}. 
+Commercial systems such as
+the 3dMD scanning system~\cite{3dmd} have been used by the 
+BU3D-FE~\cite{Yin:2006cc} and the very recent 3DMM provided by 
+Surrey University~\cite{Huber:F5Dca9zy}. A similar stereo capture
+system was was for the Texas 3DFRD~\cite{gupta2010anthropometric} database.
+Other than the Kinect,
+which provides extremely low quality depth estimates, capturing high-quality 4D
+(3D video) data has only been possible by performing stereo reconstructions from
+multiple calibrated cameras. For example, the commercial system of \citet{di4d}
+is capable of capturing high resolution images and converting them into
+3D meshes at 60 FPS. The Di4D~\cite{di4d} scanning system has been used for
+the only publicly available 4D databases of BU4D-FE~\cite{yin2008high} and
+BP4D-Spontaneous~\cite{Zhang:2014id}. BP4D-Spontaneous is unique in that it
+contains spontaneously produced emotions rather than the posed expressions
+that are more common in other existing databases. A custom system combining
+stereo and active light was used by the 
+B3D (AC)\textsuperscript{2}~\cite{weise2007fast,fanelli2013random} database to
+provide 17 FPS scanning of faces.
+
+There have also been efforts to collect databases using illumination constraints
+whereby 3D shape is generally recovered using Photometric Stereo (PS) 
+algorithms. One of the earliest examples of such a database is the 
+YaleB~\cite{RefWorks:314} database which contains 10 subjects captured in 
+9 poses each under 64 illumination conditions. A large scale PS database was
+provided by the Photoface database~\cite{RefWorks:293} which provided a low-cost
+and practical methodology for capturing illuminated images in a public setting.
+There has also been many works on the capturing of extremely high quality
+details 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CANDIDE 3d wireframe model
 % MPI     7 views, 200 laser scanned heads, 5 full 3D, Cyberware, static, neutral
@@ -37,7 +101,7 @@ produced in the last decade.
 % 3D_RMA structured light, 120 people, 6 shots, multi-pose
 % Beckmann cyberware, 400-500, single shot
 % UMB-DB Minolta Vivid 900 laser scanner
-\begin{table}[]
+\begin{table}[t]
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}cccccccc@{}}
@@ -48,8 +112,8 @@ MPI                         &\cite{Troje:1996ep}            & 1996              
 CANDIDE v2                  &\cite{Ahlberg:1998uk}          & \multirow{2}{*}{1998} & 1           & 1           & $\checkmark$ & ---          & MO     \\
 3D\_RMA                     &\cite{beumier2001face}         &                       & 120         & 720         &              & $\checkmark$ & D      \\ \midrule
 USF                         &\cite{RefWorks:96}             & \multirow{3}{*}{1999} & 200         & 200         &              & ---          & MO     \\
-XM2VTS                      &\cite{messer1999xm2vtsdb}      &                       & 295         & 2360        &              &              & M      \\
-YaleB                       &\cite{RefWorks:314}            &                       & 10          & 5760        &              &              & PS     \\ \midrule
+XM2VTSdb                    &\cite{messer1999xm2vtsdb}      &                       & 295         & 2360        &              &              & M      \\
+YaleB                       &\cite{RefWorks:314}            &                       & 10          & 5760        & $\checkmark$ &              & PS     \\ \midrule
 CASIA 3D                    &\cite{casia3d}                 & \multirow{2}{*}{2003} & 123         & 1845        & $\checkmark$ &              & D      \\
 FSU                         &\cite{hesher2003novel}         &                       & 37          & 222         & $\checkmark$ &              & D      \\ \midrule
 GavabDB                     &\cite{moreno2004gavabdb}       & 2004                  & 61          & 720         & $\checkmark$ & $\checkmark$ & D      \\ \midrule
@@ -57,7 +121,7 @@ FRGC v2                     &\cite{phillips2005overview}    & 2005              
 BU3D-FE                     &\cite{Yin:2006cc}              & \multirow{4}{*}{2006} & 100         & 2500        & $\checkmark$ &              & M      \\
 ND-2006                     &\cite{faltemier2007using}      &                       & 888         & 13450       & $\checkmark$ &              & D      \\
 FRAV3D                      &\cite{conde2006multimodal}     &                       & 106         & 1696        & $\checkmark$ &              & M      \\
-ZJU-3DFED                   &\cite{wang2006exploring}       &                       & 360         & 40          & $\checkmark$ &              & M      \\ \midrule
+ZJU-3DFED                   &\cite{wang2006exploring}       &                       & 40          & 360         & $\checkmark$ &              & M      \\ \midrule
 Beckmann                    &\cite{hu2007building}          & 2007                  & $\sim$400   &~?           & $\checkmark$ &              & M      \\ \midrule
 Bosphorus                   &\cite{Savran:2008gg}           & \multirow{3}{*}{2008} & 105         & 4652        & $\checkmark$ &              & M      \\
 UoY                         &\cite{heseltine2008three}      &                       & 350         & 5250        & $\checkmark$ & $\checkmark$ & M      \\
@@ -72,7 +136,7 @@ UMB-DB                      &\cite{colombo2011umb}          &                   
 ICT-3DRFE                   &\cite{stratou2012exploring}    & 2012                  & 23          & 345         & $\checkmark$ &              & PS     \\ \midrule
 Photoface                   &\cite{RefWorks:293}            & 2013                  & 261         & 1839        & $\checkmark$ &              & PS/M   \\ \midrule
 FaceWarehouse               &\cite{Cao:2014gy}              & \multirow{3}{*}{2014} & 150         & 3000        & $\checkmark$ & ---          & MO/D   \\
-BP-4DFE                     &\cite{Zhang:2014id}            &                       & 41          & Many        & $\checkmark$ & $\checkmark$ & 4D M   \\
+BP4D-Spontaneous            &\cite{Zhang:2014id}            &                       & 41          & Many        & $\checkmark$ & $\checkmark$ & 4D M   \\
 EURECOM                     &\cite{min2014kinectfacedb}     &                       & 52          & 936         & $\checkmark$ & $\checkmark$ & D      \\ \midrule
 SURREY                      &\cite{Huber:F5Dca9zy}          & 2016                  & 169         & 169         &              & ---          & MO     \\ \bottomrule
 \end{tabular}%
@@ -84,27 +148,7 @@ SURREY                      &\cite{Huber:F5Dca9zy}          & 2016              
 \label{tbl:timeline_db}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Capture}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{center}
-	\begin{itemize}
-		\item\bibentry{Gotardo:2015vo}
-		\item\bibentry{Klehm:2015jb}
-		\item\bibentry{graham2015near}
-		\item\bibentry{vonderPahlen:2014kg}
-		\item\bibentry{Fyffe:2014hc}
-		\item\bibentry{bhat2013high}
-		\item\bibentry{zhu2012estimating}
-		\item\bibentry{Beeler:2011ey}
-		\item\bibentry{ghosh2011multiview}
-		\item\bibentry{Beeler:2010dg}
-	\end{itemize}
-\end{center}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
