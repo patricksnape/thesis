@@ -2,29 +2,87 @@
 \section{Databases And Capture Methods}\label{ch:bg_db_capture}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In contrast to generic shape recovery, facial shape recovery implies a strong
-assumption that the input image contains a face. This prior knowledge that the
-image contains a face enables the use of training data to improve the
-quality of the reconstruction.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Databases}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+assumption that the input image contains a face. This prior knowledge, that the
+image contains a face, enables the use of training data to improve the
+quality of the reconstruction. The capture and collection of this training data
+was historically a complicated endeavour and until recently there were few
+publicly available 3D facial databases. However, with the introduction of 
+commercial systems such as \citet{3dmd} and \citet{di4d}, the capturing
+of this data has become more prevalent for research purposes. For example,
+\cref{tbl:timeline_db} provides a timeline outlining when popular 3D facial
+databases were released. It is particularly interesting to note that, despite
+the fact that one of the first 3D facial models was released in 1987 
+(CANDIDE~\cite{Rydfalk:1987tg}), the majority of existing databases were 
+produced in the last decade.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{center}
-	\begin{tabular}{c c p{0.7\textwidth}}
-		\toprule\cite{Huber:F5Dca9zy} & SURREY & A Multiresolution 3D Morphable Face Model and Fitting Framework \\
-		\midrule\cite{stratou2012exploring} & ICT-3DFE & Exploring the effect of illumination on automatic expression recognition using the ICT-3DRFE database \\
-		\midrule\cite{Cao:2014gy} & FaceWarehouse & FaceWarehouse: A 3D Facial Expression Database for Visual Computing \\
-		\midrule\cite{RefWorks:293} & Photoface & Face Recognition and Verification Using Photometric Stereo: The Photoface Database and a Comprehensive Evaluation \\
-		\midrule\cite{Savran:2008gg} & Bosphorous & Bosphorus Database for 3D Face Analysis \\ 
-		\midrule\cite{Yin:2006cc} & BU3D & A 3D Facial Expression Database For Facial Behavior Research \\
-		\midrule\cite{yin2008high} & BU4D & A high-resolution 3D dynamic facial expression database \\
-		\midrule\cite{Zhang:2014id} & BP4D & BP4D-Spontaneous: a high-resolution spontaneous 3D dynamic facial expression database \\
-		\midrule\cite{Rydfalk:1987tg,Ahlberg:1998uk} & CANDIDE & CANDIDE --- A parameterized face, CANDIDE-3 --- an updated parameterized face \\
-		\midrule\cite{Troje:1996ep} & MPI & Face recognition under varying poses: The role of texture and shape \\
-		\midrule\cite{RefWorks:96} & USF & Face recognition under varying poses: The role of texture and shape \\
-		\bottomrule
-	\end{tabular}
-\end{center}
+% CANDIDE 3d wireframe model
+% MPI     7 views, 200 laser scanned heads, 5 full 3D, Cyberware, static, neutral
+% ND-D    953 scans, Minolta Vivid 900 3D scanner, 656 subjects, neutral, static
+% ND-2006 13,450 images containing 6 different types of expressions, 888 distinct people
+%         Static, Minolta Vivid 910 range scanner
+% 3D-TEC 212 individuals (106 twins),  Minolta VIVID 910 3D scanner, 1 neutral, 1 smiling, static
+% CASIA 3D 4624 scans of 123 persons, Minolta Vivid 910, various poses, emotions, static
+% B3D(AC)^2 scanned using \cite{weise2007fast}, 14 subjects, 1109 sequences, dynamic 25 FPS, reading
+% BIWI Head Pose  15K images of 20 people, various head poses, missing frames, kinect
+% UOY Face Database 97 people, multi-pose, neutral, smile and frown
+% GavabDB 61 individuals, 427 images, multi pose, static, 3 expressions
+% FRAV3D 106 subjects,  MINOLTA VIVID-700, multi-pose, static
+% Basel 200 scans, neutral, ABW-3D structured light scanner
+% BJUT-3D, cyberware
+% EURECOM Kinect, 52 people * 18 image, multi poses, expressions, static
+% XM2VTS stereo, 25 subjects, neutral,
+% Texas 3DFRD 1149 pairs of facial color and range images of 105 adult human subjects,
+%             stereo imaging system manufactured by 3Q Technologies, neutral, frontal
+% ZJU-3DFED  40 subjects, total 360, expressions, InSpeck 3D MEGA Capturor DF
+% 3D_RMA structured light, 120 people, 6 shots, multi-pose
+% Beckmann cyberware, 400-500, single shot
+% UMB-DB Minolta Vivid 900 laser scanner
+\begin{table}[]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}cccccccc@{}}
+\toprule
+\multicolumn{3}{c}{DB}                                                              & \# Subjects & \# Outputs  & Expressions  & Poses        & Type   \\ \midrule
+CANDIDE v1                 &\cite{Rydfalk:1987tg}          & 1987                  & 1           & 1           & $\checkmark$ & ---          & MO     \\ \midrule
+MPI                        &\cite{Troje:1996ep}            & 1996                  & 200         & 200         &              &              & M      \\ \midrule
+CANDIDE v2                 &\cite{Ahlberg:1998uk}          & \multirow{2}{*}{1998} & 1           & 1           & $\checkmark$ & ---          & MO     \\
+3D\_RMA                    &\cite{beumier2001face}         &                       & 120         & 720         &              & $\checkmark$ & D      \\ \midrule
+USF                        &\cite{RefWorks:96}             & \multirow{3}{*}{1999} & 200         & 200         &              & ---          & MO     \\
+XM2VTS                     &\cite{messer1999xm2vtsdb}      &                       & 295         & 2360        &              &              & M      \\
+YaleB                      &\cite{RefWorks:314}            &                       & 10          & 5760        &              &              & PS     \\ \midrule
+CASIA 3D                   &\cite{casia3d}                 & \multirow{2}{*}{2003} & 123         & 1845        & $\checkmark$ &              & D      \\
+FSU                        &\cite{hesher2003novel}         &                       & 37          & 222         & $\checkmark$ &              & D      \\ \midrule
+GavabDB                    &\cite{moreno2004gavabdb}       & 2004                  & 61          & 720         & $\checkmark$ & $\checkmark$ & D      \\ \midrule
+FRGC v2                    &\cite{phillips2005overview}    & 2005                  & 466         & 4007        & $\checkmark$ &              & D      \\ \midrule
+BU3D-FE                    &\cite{Yin:2006cc}              & \multirow{4}{*}{2006} & 100         & 2500        & $\checkmark$ &              & M      \\
+ND-2006                    &\cite{faltemier2007using}      &                       & 888         & 13450       & $\checkmark$ &              & D      \\
+FRAV3D                     &\cite{conde2006multimodal}     &                       & 106         & 1696        & $\checkmark$ &              & M      \\
+ZJU-3DFED                  &\cite{wang2006exploring}       &                       & 360         & 40          & $\checkmark$ &              & M      \\ \midrule
+Beckmann                   &\cite{hu2007building}          & 2007                  & $\sim$400   &~?           & $\checkmark$ &              & M      \\ \midrule
+Bosphorus                  &\cite{Savran:2008gg}           & \multirow{3}{*}{2008} & 105         & 4652        & $\checkmark$ &              & M      \\
+UoY                        &\cite{heseltine2008three}      &                       & 350         & 5250        & $\checkmark$ & $\checkmark$ & M      \\
+BU4D-FE                    &\cite{yin2008high}             &                       & 101         & Many        & $\checkmark$ & $\checkmark$ & 4D M   \\ \midrule
+Basel                      &\cite{paysan20093d}            & \multirow{2}{*}{2009} & 200         & 200         &              & ---          & MO     \\
+BJUT-3D                    &\cite{baocai2009bjut}          &                       & 500         & 500         &              &              & M      \\ \midrule
+B3D (AC)\textsuperscript{2} &\cite{fanelli20103}            & \multirow{2}{*}{2010} & 14          & Many        & $\checkmark$ &              & 4D D/M \\
+Texas 3DFRD                &\cite{gupta2010anthropometric} &                       & 118         & 1149        &              &              & M      \\ \midrule
+3D-TEC                     &\cite{vijayan2011twins}        & \multirow{3}{*}{2011} & 212         & 212         & $\checkmark$ &              & M      \\
+BIWI Head Pose             &\cite{fanelli2013random}       &                       & 20          & $\sim$15000 &              & $\checkmark$ & D      \\
+UMB-DB                     &\cite{colombo2011umb}          &                       & 143         & 1473        & $\checkmark$ &              & M      \\ \midrule
+ICT-3DRFE                  &\cite{stratou2012exploring}    & 2012                  & 23          & 345         & $\checkmark$ &              & PS     \\ \midrule
+Photoface                  &\cite{RefWorks:293}            & 2013                  & 261         & 1839        & $\checkmark$ &              & PS/M   \\ \midrule
+FaceWarehouse              &\cite{Cao:2014gy}              & \multirow{3}{*}{2014} & 150         & 3000        & $\checkmark$ & ---          & MO/D   \\
+BP-4DFE                    &\cite{Zhang:2014id}            &                       & 41          & Many        & $\checkmark$ & $\checkmark$ & 4D M   \\
+EURECOM                    &\cite{min2014kinectfacedb}     &                       & 52          & 936         & $\checkmark$ & $\checkmark$ & D      \\ \midrule
+SURREY                     &\cite{Huber:F5Dca9zy}          & 2016                  & 169         & 169         &              & ---          & MO     \\ \bottomrule
+\end{tabular}%
+}
+\caption{A timeline of existing 3D facial databases including depth data, mesh
+         data, models and Photometric Stereo images. PS denotes Photometric
+         Stereo images, MO is a statistical model, M is a 3D mesh, 
+         D is depth/range data and 4D implies a 3D video.}
+\label{tbl:timeline_db}
+\end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
