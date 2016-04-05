@@ -1,3 +1,4 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Capture Systems
 @misc{3dmd,
 author = {3dMD},
 title = {{3dMDface System}},
@@ -22,6 +23,35 @@ year = {2016},
 note = "[Online; accessed 28-March-2016]"
 }
 
+@article{zhang2012microsoft,
+title={Microsoft kinect sensor and its effect},
+author={Zhang, Zhengyou},
+journal={IEEE MultiMedia},
+volume={19},
+number={2},
+pages={4--10},
+year={2012},
+publisher={IEEE}
+}
+
+@misc{minolta,
+author = {{Konica Minolta Sensing Americas Inc}},
+title = {{Konica Minolta Laser Scanner}},
+howpublished = "\url{http://sensing.konicaminolta.us}",
+year = {2016}, 
+note = "[Online; accessed 28-March-2016]"
+}
+
+@inproceedings{newcombe2011kinectfusion,
+title={KinectFusion: Real-time dense surface mapping and tracking},
+author={Newcombe, Richard A and Izadi, Shahram and Hilliges, Otmar and Molyneaux, David and Kim, David and Davison, Andrew J and Kohi, Pushmeet and Shotton, Jamie and Hodges, Steve and Fitzgibbon, Andrew},
+booktitle={International Symposium on Mixed and augmented reality (ISMAR)},
+pages={127--136},
+year={2011},
+organization={IEEE}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Structured light
 @article{zhang2006high,
 title={High-resolution, real-time three-dimensional shape measurement},
 author={Zhang, Song and Huang, Peisen S},
@@ -33,6 +63,28 @@ year={2006},
 publisher={International Society for Optics and Photonics}
 }
 
+@article{o2015homogeneous,
+title={Homogeneous codes for energy-efficient illumination and imaging},
+author={O'Toole, Matthew and Achar, Supreeth and Narasimhan, Srinivasa G and Kutulakos, Kiriakos N},
+journal=TOG,
+volume={34},
+number={4},
+pages={35},
+year={2015},
+publisher={ACM}
+}
+
+@article{will1971grid,
+title={Grid coding: A preprocessing technique for robot and machine vision},
+author={Will, Peter M and Pennington, Keith S},
+journal={Artificial Intelligence},
+volume={2},
+number={3-4},
+pages={319--329},
+year={1971},
+publisher={Elsevier}
+}
+
 @article{malzbender2006surface,
 title={Surface Enhancement Using Real-time Photometric Stereo and Reflectance Transformation.},
 author={Malzbender, Thomas and Wilburn, Bennett and Gelb, Dan and Ambrisco, Bill},
@@ -42,6 +94,7 @@ pages={17th},
 year={2006},
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Reflectance fields
 @inproceedings{debevec2000acquiring,
 title={Acquiring the reflectance field of a human face},
 author={Debevec, Paul and Hawkins, Tim and Tchou, Chris and Duiker, Haarm-Pieter and Sarokin, Westley and Sagar, Mark},
@@ -51,84 +104,94 @@ year={2000},
 organization={ACM Press/Addison-Wesley Publishing Co.}
 }
 
-@inproceedings{borshukov2005universal,
-title={Universal capture-image-based facial animation for the matrix reloaded},
-author={Borshukov, George and Piponi, Dan and Larsen, Oystein and Lewis, John P and Tempelaar-Lietz, Christina},
-booktitle={In Proceedings of SIGGRAPH Courses},
-pages={16},
-year={2005},
-organization={ACM}
-}
-
-@article{jung2011believable,
-title={Believable virtual characters in human-computer dialogs},
-author={Jung, Yvonne and Kuijper, Arjan and Fellner, Dieter and Kipp, Michael and Miksatko, Jan and Gratch, Jonathan and Thalmann, Daniel},
-journal={Eurographics},
-volume={2},
-year={2011}
-}
-
-@inproceedings{scherbaum2011computer,
-title={Computer-Suggested Facial Makeup},
-author={Scherbaum, Kristina and Ritschel, Tobias and Hullin, Matthias and Thorm{\"a}hlen, Thorsten and Blanz, Volker and Seidel, Hans-Peter},
-booktitle={Computer Graphics Forum},
-volume={30},
-number={2},
-pages={485--492},
-year={2011},
-organization={Wiley Online Library}
-}
-
-@inproceedings{rusinkiewicz2002real,
-title={Real-time 3D model acquisition},
-author={Rusinkiewicz, Szymon and Hall-Holt, Olaf and Levoy, Marc},
+% MERL/ETH Skin Reflectance Database
+@inproceedings{weyrich2006analysis,
+title={Analysis of human faces using a measurement-based skin reflectance model},
+author={Weyrich, Tim and Matusik, Wojciech and Pfister, Hanspeter and Bickel, Bernd and Donner, Craig and Tu, Chien and McAndless, Janet and Lee, Jinho and Ngan, Addy and Jensen, Henrik Wann and others},
 booktitle=TOG,
-volume={21},
+volume={25},
 number={3},
-pages={438--446},
-year={2002},
+pages={1013--1024},
+year={2006},
 organization={ACM}
 }
 
-@inproceedings{zhang2008spacetime,
-title={Spacetime faces: High-resolution capture for modeling and animation},
-author={Zhang, Li and Snavely, Noah and Curless, Brian and Seitz, Steven M},
-booktitle=TOG,
-year={2004}
+% This reference states that subsurface scattering limits the applicability of Photometric Stereo
+@incollection{ramella2008out,
+title={Out of plane polarimetric imaging of skin: Surface and subsurface effect},
+author={Ramella-Roman, Jessica C},
+booktitle={Optical Waveguide Sensing and Imaging},
+pages={259--269},
+year={2008},
+publisher={Springer}
 }
 
-@misc{minolta,
-author = {{Konica Minolta Sensing Americas Inc}},
-title = {{Konica Minolta Laser Scanner}},
-howpublished = "\url{http://sensing.konicaminolta.us}",
-year = {2016}, 
-note = "[Online; accessed 28-March-2016]"
-}
-
-@inproceedings{Gotardo:2015vo,
-author = {Gotardo, Paulo F U and Simon, Tomas and Sheikh, Yaser and Matthews, Iain},
-title = {{Photogeometric Scene Flow for High-Detail Dynamic 3D Reconstruction}},
-booktitle = ICCV,
+% Survey
+@article{Klehm:2015jb,
+author = {Klehm, Oliver and Rousselle, Fabrice and Papas, Marios and Bradley, Derek and Hery, Christophe and Bickel, Bernd and Jarosz, Wojciech and Beeler, Thabo},
+title = {{Recent Advances in Facial Appearance Capture}},
+journal = {Computer Graphics Forum},
 year = {2015},
-pages = {846--854}
+volume = {34},
+number = {2},
+pages = {709--733},
+month = may
 }
 
-@inproceedings{weise2007fast,
-title={Fast 3d scanning with automatic motion compensation},
-author={Weise, Thibaut and Leibe, Bastian and Van Gool, Luc},
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Passive Stereo
+@inproceedings{Lengagne:1996ej,
+author = {Lengagne, R and Tarel, J P and Monga, O},
+booktitle=FG,
+title = {{From 2D images to 3D face geometry}},
+year = {1996}
+}
+
+% Also mainly about performance capture (consistent topology)
+@inproceedings{bradley2010high,
+title={High resolution passive facial performance capture},
+author={Bradley, Derek and Heidrich, Wolfgang and Popa, Tiberiu and Sheffer, Alla},
+booktitle=TOG,
+volume={29},
+number={4},
+pages={41},
+year={2010},
+organization={ACM}
+}
+
+@inproceedings{Leclercq:2005ee,
+author = {Leclercq, Ph and Liu, J and Woodward, A and Delmas, P},
+title = {{Which Stereo Matching Algorithm for Accurate 3D Face Creation?}},
+booktitle = IWCIA,
+year = {2005},
+pages = {690--704}
+}
+
+@phdthesis{Zhang:2005ww,
+author = {Zhang, Li},
+title = {{Spacetime stereo and its applications}},
+school = {University of Washington},
+year = {2005},
+address = {University of Washington},
+}
+
+@article{barnard1982computational,
+title={Computational stereo},
+author={Barnard, Stephen T and Fischler, Martin A},
+journal={ACM Computing Surveys (CSUR)},
+volume={14},
+number={4},
+pages={553--572},
+year={1982},
+publisher={ACM}
+}
+
+@inproceedings{seitz2006comparison,
+title={A comparison and evaluation of multi-view stereo reconstruction algorithms},
+author={Seitz, Steven M and Curless, Brian and Diebel, James and Scharstein, Daniel and Szeliski, Richard},
 booktitle=CVPR,
-pages={1--8},
-year={2007},
-organization={IEEE}
-}
-
-@article{vonderPahlen:2014kg,
-author = {von der Pahlen, Javier and Jimenez, Jorge and Danvoye, Etienne and Debevec, Paul and Fyffe, Graham and Alexander, Oleg},
-title = {{Digital ira and beyond: creating real-time photoreal digital actors}},
-journal = TOG,
-year = {2014},
-pages = {1--384},
-month = jul
+volume={1},
+pages={519--528},
+year={2006}
 }
 
 @article{Beeler:2010dg,
@@ -142,17 +205,38 @@ pages = {40},
 month = jul
 }
 
-@article{Klehm:2015jb,
-author = {Klehm, Oliver and Rousselle, Fabrice and Papas, Marios and Bradley, Derek and Hery, Christophe and Bickel, Bernd and Jarosz, Wojciech and Beeler, Thabo},
-title = {{Recent Advances in Facial Appearance Capture}},
-journal = {Computer Graphics Forum},
-year = {2015},
-volume = {34},
-number = {2},
-pages = {709--733},
-month = may
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Active Stereo
+@inproceedings{zhang2004spacetime,
+title={Spacetime faces: High-resolution capture for modeling and animation},
+author={Zhang, Li and Snavely, Noah and Curless, Brian and Seitz, Steven M},
+booktitle=TOG,
+year={2004}
 }
 
+@inproceedings{weise2007fast,
+title={Fast 3d scanning with automatic motion compensation},
+author={Weise, Thibaut and Leibe, Bastian and Van Gool, Luc},
+booktitle=CVPR,
+pages={1--8},
+year={2007},
+organization={IEEE}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Structured Light
+@inproceedings{rusinkiewicz2002real,
+title={Real-time 3D model acquisition},
+author={Rusinkiewicz, Szymon and Hall-Holt, Olaf and Levoy, Marc},
+booktitle=TOG,
+volume={21},
+number={3},
+pages={438--446},
+year={2002},
+organization={ACM}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Unknowns
+
+% Unknown
 @article{wilson2010temporal,
 title={Temporal upsampling of performance geometry using photometric alignment},
 author={Wilson, Cyrus A and Ghosh, Abhijeet and Peers, Pieter and Chiang, Jen-Yuan and Busch, Jay and Debevec, Paul},
@@ -164,6 +248,7 @@ year={2010},
 publisher={ACM}
 }
 
+% Unknown
 @inproceedings{hernandez2010self,
 title={Self-calibrating a real-time monocular 3d facial capture system},
 author={Hern{\'a}ndez, Carlos and Vogiatzis, George},
@@ -171,17 +256,7 @@ booktitle={International Symposium on 3D Data Processing, Visualization and Tran
 year={2010}
 }
 
-@inproceedings{fyffe2011comprehensive,
-title={Comprehensive facial performance capture},
-author={Fyffe, Graham and Hawkins, Tim and Watts, Chris and Ma, Wan-Chun and Debevec, Paul},
-booktitle={Computer Graphics Forum},
-volume={30},
-number={2},
-pages={425--434},
-year={2011},
-organization={Wiley Online Library}
-}
-
+% Unknown
 @inproceedings{klaudiny2012high,
 title={High-detail 3D capture and non-sequential alignment of facial performance},
 author={Klaudiny, Martin and Hilton, Adrian},
@@ -191,24 +266,7 @@ year={2012},
 organization={IEEE}
 }
 
-@inproceedings{zhu2012estimating,
-title={Estimating diffusion parameters from polarized spherical gradient illumination},
-author={Zhu, Yufeng and Peers, Pieter and Debevec, Paul and Ghosh, Abhijeet},
-booktitle={IEEE Computer Graphics \& Applications Special Issue on Scattering},
-pages={8},
-year={2012},
-organization={ACM}
-}
-
-@inproceedings{graham2015near,
-title={Near-instant capture of high-resolution facial geometry and reflectance},
-author={Graham, Paul and Fyffe, Graham and Tonwattanapong, Borom and Ghosh, Abhijeet and Debevec, Paul},
-booktitle={Computer Graphics Forum},
-pages={32},
-year={2015},
-organization={ACM}
-}
-
+% Unknown
 @article{Fyffe:2014hc,
 author = {Fyffe, Graham and Jones, Andrew and Alexander, Oleg and Ichikari, Ryosuke and Debevec, Paul},
 title = {{Driving High-Resolution Facial Scans with Video Performance Capture}},
@@ -220,6 +278,7 @@ pages = {8--14},
 month = dec
 }
 
+% Unknown
 @article{valgaerts2012lightweight,
 title={Lightweight binocular facial performance capture under uncontrolled lighting.},
 author={Valgaerts, Levi and Wu, Chenglei and Bruhn, Andr{\'e}s and Seidel, Hans-Peter and Theobalt, Christian},
@@ -230,6 +289,7 @@ pages={187},
 year={2012}
 }
 
+% Unknown
 @inproceedings{wu2011shading,
 title={Shading-based dynamic shape refinement from multi-view video under general illumination},
 author={Wu, Chenglei and Varanasi, Kiran and Liu, Yebin and Seidel, Hans-Peter and Theobalt, Christian},
@@ -239,17 +299,7 @@ year={2011},
 organization={IEEE}
 }
 
-@inproceedings{bradley2010high,
-title={High resolution passive facial performance capture},
-author={Bradley, Derek and Heidrich, Wolfgang and Popa, Tiberiu and Sheffer, Alla},
-booktitle=TOG,
-volume={29},
-number={4},
-pages={41},
-year={2010},
-organization={ACM}
-}
-
+% Unknown
 @inproceedings{popa2010globally,
 title={Globally Consistent Space-Time Reconstruction},
 author={Popa, Tiberiu and South-Dickinson, Ian and Bradley, Derek and Sheffer, Alla and Heidrich, Wolfgang},
@@ -261,15 +311,7 @@ year={2010},
 organization={Wiley Online Library}
 }
 
-@inproceedings{ma2007rapid,
-title={Rapid acquisition of specular and diffuse normal maps from polarized spherical gradient illumination},
-author={Ma, Wan-Chun and Hawkins, Tim and Peers, Pieter and Chabert, Charles-Felix and Weiss, Malte and Debevec, Paul},
-booktitle=EUROG_RENDER,
-pages={183--194},
-year={2007},
-organization={Eurographics Association}
-}
-
+% Unknown
 @inproceedings{pighin2005digital,
 title={Digital face cloning},
 author={Pighin, Fred and Lewis, JP},
@@ -277,27 +319,7 @@ booktitle={In Proceedings of SIGGRAPH Courses},
 volume={2005},
 year={2005}
 }
-
-@inproceedings{alexander2009digital,
-title={The digital emily project: photoreal facial modeling and animation},
-author={Alexander, Oleg and Rogers, Mike and Lambeth, William and Chiang, Matt and Debevec, Paul},
-booktitle={In Proceedings of SIGGRAPH Courses},
-pages={12},
-year={2009},
-organization={ACM}
-}
-
-# MERL/ETH Skin Reflectance Database
-@inproceedings{weyrich2006analysis,
-title={Analysis of human faces using a measurement-based skin reflectance model},
-author={Weyrich, Tim and Matusik, Wojciech and Pfister, Hanspeter and Bickel, Bernd and Donner, Craig and Tu, Chien and McAndless, Janet and Lee, Jinho and Ngan, Addy and Jensen, Henrik Wann and others},
-booktitle=TOG,
-volume={25},
-number={3},
-pages={1013--1024},
-year={2006},
-organization={ACM}
-}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Combining Normals
 
 @article{nehab2005efficiently,
 title={Efficiently combining positions and normals for precise 3D geometry},
@@ -310,16 +332,7 @@ year={2005},
 publisher={ACM}
 }
 
-# This reference states that subsurface scattering limits the applicability of MVS
-@incollection{ramella2008out,
-title={Out of plane polarimetric imaging of skin: Surface and subsurface effect},
-author={Ramella-Roman, Jessica C},
-booktitle={Optical Waveguide Sensing and Imaging},
-pages={259--269},
-year={2008},
-publisher={Springer}
-}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Illumination constraints
 @article{ghosh2011multiview,
 title={Multiview face capture using polarized spherical gradient illumination},
 author={Ghosh, Abhijeet and Fyffe, Graham and Tunwattanapong, Borom and Busch, Jay and Yu, Xueming and Debevec, Paul},
@@ -331,18 +344,72 @@ year={2011},
 publisher={ACM}
 }
 
-@article{Beeler:2011ey,
-author = {Beeler, Thabo and Hahn, Fabian and Bradley, Derek and Bickel, Bernd and Beardsley, Paul and Gotsman, Craig and Sumner, Robert W and Gross, Markus},
-title = {{High-quality passive facial performance capture using anchor frames}},
-journal = TOG,
-year = {2011},
-volume = {30},
-number = {4},
-pages = {75},
-month = aug
+@inproceedings{zhu2012estimating,
+title={Estimating diffusion parameters from polarized spherical gradient illumination},
+author={Zhu, Yufeng and Peers, Pieter and Debevec, Paul and Ghosh, Abhijeet},
+booktitle={IEEE Computer Graphics \& Applications Special Issue on Scattering},
+pages={8},
+year={2012},
+organization={ACM}
 }
 
-# Diffuse/specular seperation
+% Unknown
+@inproceedings{fyffe2011comprehensive,
+title={Comprehensive facial performance capture},
+author={Fyffe, Graham and Hawkins, Tim and Watts, Chris and Ma, Wan-Chun and Debevec, Paul},
+booktitle={Computer Graphics Forum},
+volume={30},
+number={2},
+pages={425--434},
+year={2011},
+organization={Wiley Online Library}
+}
+
+@inproceedings{graham2015near,
+title={Near-instant capture of high-resolution facial geometry and reflectance},
+author={Graham, Paul and Fyffe, Graham and Tonwattanapong, Borom and Ghosh, Abhijeet and Debevec, Paul},
+booktitle={Computer Graphics Forum},
+pages={32},
+year={2015},
+organization={ACM}
+}
+
+@inproceedings{ma2007rapid,
+title={Rapid acquisition of specular and diffuse normal maps from polarized spherical gradient illumination},
+author={Ma, Wan-Chun and Hawkins, Tim and Peers, Pieter and Chabert, Charles-Felix and Weiss, Malte and Debevec, Paul},
+booktitle=EUROG_RENDER,
+pages={183--194},
+year={2007},
+organization={Eurographics Association}
+}
+
+@inproceedings{Gotardo:2015vo,
+author = {Gotardo, Paulo F U and Simon, Tomas and Sheikh, Yaser and Matthews, Iain},
+title = {{Photogeometric Scene Flow for High-Detail Dynamic 3D Reconstruction}},
+booktitle = ICCV,
+year = {2015},
+pages = {846--854}
+}
+
+@inproceedings{alexander2009digital,
+title={The digital emily project: photoreal facial modeling and animation},
+author={Alexander, Oleg and Rogers, Mike and Lambeth, William and Chiang, Matt and Debevec, Paul},
+booktitle={In Proceedings of SIGGRAPH Courses},
+pages={12},
+year={2009},
+organization={ACM}
+}
+
+@article{vonderPahlen:2014kg,
+author = {von der Pahlen, Javier and Jimenez, Jorge and Danvoye, Etienne and Debevec, Paul and Fyffe, Graham and Alexander, Oleg},
+title = {{Digital ira and beyond: creating real-time photoreal digital actors}},
+journal = TOG,
+year = {2014},
+pages = {1--384},
+month = jul
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Diffuse/specular seperation
 @article{nayar1997separation,
 title={Separation of reflection components using color and polarization},
 author={Nayar, Shree K and Fang, Xi-Sheng and Boult, Terrance},
@@ -372,4 +439,33 @@ number={1},
 pages={13--30},
 year={2008},
 publisher={Springer}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Usages
+@inproceedings{borshukov2005universal,
+title={Universal capture-image-based facial animation for the matrix reloaded},
+author={Borshukov, George and Piponi, Dan and Larsen, Oystein and Lewis, John P and Tempelaar-Lietz, Christina},
+booktitle={In Proceedings of SIGGRAPH Courses},
+pages={16},
+year={2005},
+organization={ACM}
+}
+
+@article{jung2011believable,
+title={Believable virtual characters in human-computer dialogs},
+author={Jung, Yvonne and Kuijper, Arjan and Fellner, Dieter and Kipp, Michael and Miksatko, Jan and Gratch, Jonathan and Thalmann, Daniel},
+journal={Eurographics},
+volume={2},
+year={2011}
+}
+
+@inproceedings{scherbaum2011computer,
+title={Computer-Suggested Facial Makeup},
+author={Scherbaum, Kristina and Ritschel, Tobias and Hullin, Matthias and Thorm{\"a}hlen, Thorsten and Blanz, Volker and Seidel, Hans-Peter},
+booktitle={Computer Graphics Forum},
+volume={30},
+number={2},
+pages={485--492},
+year={2011},
+organization={Wiley Online Library}
 }
