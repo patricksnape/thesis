@@ -36,7 +36,7 @@ booktitle = CVPR,
 year = {2016}
 }
 
-% Head-mounted stereo with drawn markers.
+% Head-mounted vieo with drawn markers. Person specific blendshape - 2d Marker tracking
 @inproceedings{bhat2013high,
 title={High fidelity facial animation capture and retargeting with contours},
 author={Bhat, Kiran S and Goldenthal, Rony and Ye, Yuting and Mallet, Ronald and Koperwas, Michael},
@@ -47,6 +47,7 @@ organization={ACM}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Performance Capture
+% Captured using Beeler:2010dg
 @article{Beeler:2011ey,
 author = {Beeler, Thabo and Hahn, Fabian and Bradley, Derek and Bickel, Bernd and Beardsley, Paul and Gotsman, Craig and Sumner, Robert W and Gross, Markus},
 title = {{High-quality passive facial performance capture using anchor frames}},
@@ -56,4 +57,70 @@ volume = {30},
 number = {4},
 pages = {75},
 month = aug
+}
+
+% Stereo plus non-rigid deformation for motion capturing (fixed topology)
+% Initial mesh topology recovered using Furu:2010:PMVS
+% Motion tracking is done in 3D, not 2D - surface patch model
+@inproceedings{furukawa2009dense,
+title={Dense 3d motion capture for human faces},
+author={Furukawa, Yudai and Ponce, Jean},
+booktitle=CVPR,
+pages={1674--1681},
+year={2009},
+organization={IEEE}
+}
+
+% painted skin - single high resolution static mesh is acquire, then
+% two different levels of face motion are recorded using different frame rate
+% cameras to match expressions to the scan. deform using mocap
+@article{bickel2007multi,
+  title={Multi-scale capture of facial geometry and motion},
+  author={Bickel, Bernd and Botsch, Mario and Angst, Roland and Matusik, Wojciech and Otaduy, Miguel and Pfister, Hanspeter and Gross, Markus},
+  journal={ACM Transactions on Graphics (TOG)},
+  volume={26},
+  number={3},
+  pages={33},
+  year={2007},
+  publisher={ACM}
+}
+
+% Uses dots drawn on face - original dotted mocap
+@inproceedings{williams1990performance,
+title={Performance-driven facial animation},
+author={Williams, Lance},
+booktitle={Computer Graphics},
+volume={24},
+number={4},
+pages={235--242},
+year={1990},
+organization={ACM}
+}
+
+% Consistent topology - starts with output from bradley 2008
+% Sparse optical flow for tracking - hierarchical assembly of a globally consistent model
+% template free - assumes very similar adjacent frames
+@inproceedings{popa2010globally,
+title={Globally Consistent Space-Time Reconstruction},
+author={Popa, Tiberiu and South-Dickinson, Ian and Bradley, Derek and Sheffer, Alla and Heidrich, Wolfgang},
+booktitle={Computer Graphics Forum},
+volume={29},
+number={5},
+pages={1633--1642},
+year={2010},
+organization={Wiley Online Library}
+}
+
+% Captured using ghosh2011multiview - introduce a performance flow graph
+% for matching input videos to the scans. Optical flow between frames with a
+% confidence map
+@article{Fyffe:2014hc,
+author = {Fyffe, Graham and Jones, Andrew and Alexander, Oleg and Ichikari, Ryosuke and Debevec, Paul},
+title = {{Driving High-Resolution Facial Scans with Video Performance Capture}},
+journal = TOG,
+year = {2014},
+volume = {34},
+number = {1},
+pages = {8--14},
+month = dec
 }

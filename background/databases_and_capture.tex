@@ -157,7 +157,8 @@ system combining stereo and active light was used by the B3D
 provide 17 FPS scanning of faces.
 
 There have also been efforts to collect databases using illumination constraints
-whereby 3D shape is generally recovered using Photometric Stereo (PS) 
+whereby 3D shape is generally recovered using 
+Photometric Stereo (PS)~\cite{woodham1980photometric}
 algorithms. One of the earliest examples of such a database is the 
 YaleB~\cite{RefWorks:314} database which contains 10 subjects captured in 
 9 poses each under 64 illumination conditions. A large scale PS database was
@@ -244,26 +245,42 @@ the recent survey on facial appearance capture by \citet{Klehm:2015jb}.
 
 Given the intended use cases for the captured data, facial capturing has focused
 on scenarios where both the illumination and camera parameters are tightly
-controlled. For this reason, much of the literature focuses on two primary
-areas: structured light and stereo. Passive stereo is a photogrammetric method
-that requires 2 or more calibrated cameras who's relative positions are used to
-infer the 3D position of an objects surface. A key requirement of passive stereo
-is a set of correspondences that are shared across multiple camera views. These
+controlled. Thus, the methods considered in this section are not applicable
+to the ``in-the-wild'' images that are the focus of this thesis. However,
+given that training examples are required to recover reasonable 3D surfaces
+from unconstrained images, these training examples provide an upper bound
+on the quality of 3D surface that can be recovered. Therefore, it is important
+to understand the performance and limitations of the state-of-the-art in 
+facial capture in order to provide a point of reference for ``in-the-wild''
+shape recovery.
+
+The majority of the facial capture literature focuses on two primary areas: 
+active illumination and
+stereo. Passive stereo is a photogrammetric method that requires 2 or more
+calibrated cameras who's relative positions are used to infer the 3D position of
+an objects surface. A key requirement of passive stereo is a set of
+correspondences that are shared across multiple camera views. These
 correspondences are defined as a set of 2D coordinates that mark salient areas
 of the object, visible across multiple cameras. These 2D points are assumed to
 represent the 2D projection of a real 3D point onto each camera plane. It is
 these correspondences that are used to form geometric constraints for recovery
-of 3D positions. However, the computation of these correspondences is itself 
-ill-defined as variation in illumination and orientation may cause
-the appearance of a true correspondence to vary heavily. Active stereo is
-an extension of passive stereo that attempts to simplify the correspondence 
-problem by projecting a pattern onto the object at capture time. The pattern
-thus provides less ambiguous texture cues for computing correspondences.
-In contrast, structured light only requires a single camera and unlike
-active stereo this camera must be calibrated with respect to the position of the 
-projector supplying the light pattern. The light patterns projected 
-by the projector encode the correspondences and 3D information is recovered 
-via triangulation.
+of 3D positions. However, the computation of these correspondences is itself
+ill-defined as variation in illumination and orientation may cause the
+appearance of a true correspondence to vary heavily. Active stereo is an
+extension of passive stereo that attempts to simplify the correspondence problem
+by projecting a pattern onto the object at capture time. The pattern thus
+provides less ambiguous texture cues for computing correspondences. In contrast,
+structured light only requires a single camera and unlike active stereo this
+camera must be calibrated with respect to the position of the projector
+supplying the light pattern. The light patterns projected by the projector
+encode the correspondences and 3D information is recovered via triangulation.
+Active illumination methods such as 
+Photometric Stereo (PS)~\cite{woodham1980photometric} uses reflectance
+information in order to recover surface information. In traditional photometric
+stereo a number of images are captured under different know illumination
+conditions and these are used to recover surface normals for the objects in the
+image. For and in-depth discussion of PS methods please see
+\cref{ch:bg_ps}.
 
 \textbf{Passive (computational) stereo} is an extremely common technique for
 surface recovery and the geometric relationships between two calibrated cameras
@@ -281,11 +298,11 @@ solely on the recovery of macroscopic shape using only stereo. Whilst older
 works such as that of \citet{Lengagne:1996ej} required 3D models to perform
 inference, such as segmentation, on depth maps, modern depth maps are of much
 higher quality. Even relatively recent reviews on the subject of passive stereo
-applied to faecs~\cite{Leclercq:2005ee} have become obsolete given the price and
+applied to faces~\cite{Leclercq:2005ee} have become obsolete given the price and
 quality of modern digital camera systems. For example, the work of
 \citet{Beeler:2010dg} demonstrates that standard passive stereo methods can
-recover 3D surfaces that contain many high frequency features such as wrinkles.
-The highest quality results presented by \citet{Beeler:2010dg} comes from a 7
+recover 3D surfaces that contain high frequency features such as wrinkles.
+The highest quality result presented by \citet{Beeler:2010dg} comes from a seven
 camera studio setup where per-pixel correspondences and disparity map refinement
 is computed in a coarse-to-fine manner. Further constraints are imposed that are
 face specific including a smoothness constraint when computing correspondences
@@ -298,27 +315,93 @@ Under the assumption that these mesoscopic variations in intensity are linked to
 variations in the geometry of the skin, a high-pass filter is first performed in
 order to filter out any details captured by stereo. Then, the result of the
 stereo is refined along the surface normal direction and is weighted to ignore
-high frequency areas caused by larger features such as hairs.
+high frequency areas caused by larger features such as hairs. 
+\citet{bradley2010high} propose a passive method for performance capture that
+focuses on the concept that modern cameras are capable of capturing such high
+detail that stereo-matching is greatly simplified. Fourteen stereo cameras, in
+seven pairs, are focused on seven overlapping facial regions, allowing the
+capture of high frequency facial detail such as pores. This high frequency
+detail is utilized for stereo matching and the seven overlapping regions are
+then merged to recover a single high quality mesh. The remainder of the work
+focuses on recovering a topologically consistent mesh throughout the sequence by
+applying optical flow and drift correction methods. The output is a performance
+capture sequence at 30 fps with a high resolution mesh and texture map 
+with consistent topology across the sequence.
 
-% Need to heavily edit/rewrite this because I got the classification wrong
-Structured light methods were some of the
-earliest methods for 3D acquisition~\cite{will1971grid}. These methods became
-particularly effective for real-time acquisition~\cite{rusinkiewicz2002real} and
-more recently structured light was used in the infrared light spectrum for
-the original Microsoft Kinect~\cite{zhang2012microsoft}. Although the quality
-of output, as depicted for the BIWI head pose database in 
+\textbf{Active stereo} augments traditional passive stereo with a signal that is
+used to aid in the stereo correspondence step. Typically, this signal is a laser
+or light that is shone on the subjects faces in order to give consistent
+features where matching may be difficult such as the smooth low texture areas of
+the face (e.g cheeks). For example, \citet{zhang2004spacetime} used the
+Spacetime Stereo~\cite{zhang2003spacetime,davis2005spacetime} technique to
+recover a 3D mesh per frame. A set of striped lighting patterns are projected
+across the face, with every third frame having no projection in order to recover
+texture. These textured frames are use for optical flow a single topologically
+consistent template mesh is deformed to be photometrically consistent with the
+frame.
+Although active stereo is typically defined in terms of improving stereo
+matching via light projection, early marker based stereo methods can also be
+seen as methods for improving stereo matching.
+Stemming back to the work of \citet{williams1990performance}, manually placing
+markers on faces became the de facto method for performance 
+capture~\cite{bickel2007multi,furukawa2009dense,bredow2005mocap}, 
+used in films such as \textit{The Polar Express (2004)}, 
+\textit{Dawn of the Planet of the Apes (2014)} and 
+\textit{The Lord of the Rings: The Two Towers (2002)}. 
+\citet{bickel2007multi} used painted markers to map deformations from two 
+different resolution camera pairs and used these markers to drive the
+deformations of a previously recorded high resolution mesh. 
+\citet{furukawa2009dense} used densely painted black markers to perform
+scene flow form stereo. Initialised in the first frame with a reconstruction
+provided by \citet{Furu:2010:PMVS}, patch-based scene flow is computed across 
+the sequence in order to maintain a single mesh topology. 
+
+\textbf{Structured light} methods drop the requirement of a second camera in
+favour of a calibrated light projector. When a known lighting pattern, even as
+simple as a grid~\cite{will1971grid}, is projected onto the scene it becomes
+possible to estimate the surface by measuring the distortion of the light by the
+surface. Structured lights is particularly effective for real-time
+acquisition~\cite{rusinkiewicz2002real} and more recently was used by the
+Microsoft Kinect~\cite{zhang2012microsoft}. Although the quality of output, as
+depicted for the BIWI head pose database in
 \cref{fig:db_examples_biwi}, is known to be low in the case of the Microsoft
 Kinect, structured light is capable of high recovering high quality macroscopic
-shape. For example, the Spacetime stereo method of \citet{Zhang:2005ww} was
-effectively applied to faces in~\cite{zhang2004spacetime}. Here, 2 projectors
-are used in conjunction with 2 stereo pairs (4 cameras) to perform stereo
-on a sequence of images. The use of both structured light and multiple frames
-allows for the recovery of high quality facial shape. \citet{zhang2004spacetime}
-also propose a global optimisation that helps reduce the ridging artefacts
-that are common in structured light geometries. Real time capture of 
-high-quality facial shape using structured light has also been 
-proposed~\cite{zhang2006high,weise2007fast}. \citet{zhang2006high} proposed
-a set of custom hardware the enabled 40 FPS capture and reconstruction. The
-reconstruction is computed rapidly via a novel three-step phase shifting
-algorithm. \citet{weise2007fast}.
+shape. In fact, recent work has shown that by using specially crafted 
+homogeneous codes for structured lighting it is possible to recover light 
+transport information even under strong ambient lighting. 
+By synchronising a laser projector with the rolling shutter of the camera and
+masking out pixels that do not lie on the projector-camera epipolar plane it 
+becomes possible to only receive light from the laser within the epipolar plane.
+This means that very little ambient light pollutes the laser emitted
+signal and it becomes possible to measure the structured lighting pattern
+even within bright scenes such as outdoors.
+Real time capture of high-quality facial shape using
+structured light has been proposed by \citet{zhang2006high,weise2007fast}. 
+\citet{zhang2006high,wang2004high} proposed a set of custom hardware that
+enabled up to 120 fps capture and reconstruction. The reconstruction is computed
+rapidly via a novel three-step sinusoidal phase shifting algorithm.
+\citet{zhang2006high} proceed to non-rigidly align a generic model to the output
+meshes in order to achieve a topologically consistent sequence.
+\citet{weise2007fast} also utilize a projected light pattern, but in contrast to
+\citet{zhang2006high}, the projector is calibrated with respect to two stereo
+cameras and so extra constraints are imposed on stereo matching. This has the
+advantage that the structured lighting constraints complement the stereo
+matching, but due to the phase shifted structure of the lighting patterns three
+consecutive images are required for 3D recovery. Thus, motion artefacts become
+evident in a dynamic scene. To mitigate this, \citet{weise2007fast} propose a
+motion compensation scheme involving estimating the phase error cause by motion.
+
+\textbf{Active illumination} is a general term that we are using to describe
+methods that attempt to recover surface information by using structured
+illumination patterns. In contrast to active stereo and structured
+light, these illumination patterns are not designed to encode geometric
+information. Instead, the illumination is designed to reveal surface information
+that may not be visible to traditional stereo methods due to effects
+such as subsurface scattering. The most commonly employed surface recovery
+algorithm is PS~\cite{woodham1980photometric}, which is discussed in detail in 
+\cref{ch:bg_ps}. The use of PS for high quality facial capture
+can be seperated into two distinct categories: time-multiplexing~\cite{ma2007rapid,%
+fyffe2011comprehensive,alexander2009digital,vonderPahlen:2014kg,zhu2012estimating,%
+malzbender2006surface,wilson2010temporal,ghosh2011multiview} and
+multi-spectral~\cite{hernandez2010self,brostow2011video}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
