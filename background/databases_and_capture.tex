@@ -403,5 +403,43 @@ algorithm is PS~\cite{woodham1980photometric}, which is discussed in detail in
 can be seperated into two distinct categories: time-multiplexing~\cite{ma2007rapid,%
 fyffe2011comprehensive,alexander2009digital,vonderPahlen:2014kg,zhu2012estimating,%
 malzbender2006surface,wilson2010temporal,ghosh2011multiview} and
-multi-spectral~\cite{hernandez2010self,brostow2011video}.
+multi-spectral~\cite{hernandez2010self,brostow2011video,fyffe2011single}.
+Time multiplexed PS involves taking multiple images, each under
+a different illumination, over a short time-frame. Although databases such as
+YaleB~\cite{RefWorks:314} and Photoface~\cite{RefWorks:293} were produced
+using time multiplexed PS, modern high quality capturing using PS employs
+many lights generally arrayed in a ``light-stage''. One of the earliest works
+using a light-stage for facial capture was the work of 
+\citet{debevec2000acquiring}, which focused on extrapolating a reflectance
+field from a human face. Here, two cameras record the subject and a spotlight
+suspended 1.5 metres away from the subejct is revolved at approximately
+25 rpm, producing around 2048 output images. Both subsurface (diffuse) and specular data were
+recovered using chromaticity analysis and the specular component was utilized
+to allow relighting from novel viewpoints. This work focused on the recovery
+of reflectance information for image relighting and
+required approximately one minute for capture, making
+it impractical for dynamic use. \citet{weyrich2006analysis} provided a more
+detailed reflectance field by proposing a novel skin reflectance model
+that can be parametrised from measurements. They also use a light-stage and
+capture 150 fixed illumination patterns across 16 cameras to allow for more 
+accurate specular normal estimation. They also measure skin translucency
+using a fiber optic spectrometer~\cite{nickell2000anisotropy} and provide
+a model built from 149 subjects that is diverse across race, age and gender.
+Both of these methods focused used a structured light method to recover
+the macroscopic shape and then augmented this model with the normals
+recovered from the illumination~\cite{nehab2005efficiently}. 
+\citet{wenger2005performance} utilized a light-stage in order to capture
+short performances. A high speed camera and time multiplexed illumination was
+utilized to capture many images. They also experimented with different 
+illumination bases to attempt to improve the lighting of the subject
+under such short exposures. Diffuse normals are recovered with PS and 
+reflectance mapping~\cite{miller1984illumination} is utilized for facial 
+relighting. To improve the performance of multi-illumination time multiplexed
+capture, \citet{ma2007rapid} propose a spherical gradient illumination pattern.
+Only four spherical gradient illumination patterns are required to allow
+normal estimation from arbitrary viewpoints. A light-stage consisting of 156
+LED lights and a single camera are used to construct the 4 illumination 
+patterns. The primary novelty, other than arbitrary viewpoint synthesis, is
+the simple separation of diffuse and specular normals by polarizing the 
+gradients. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
