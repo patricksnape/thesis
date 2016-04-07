@@ -396,15 +396,16 @@ methods that attempt to recover surface information by using structured
 illumination patterns. In contrast to active stereo and structured
 light, these illumination patterns are not designed to encode geometric
 information. Instead, the illumination is designed to reveal surface information
-that may not be visible to traditional stereo methods due to effects
-such as subsurface scattering. The most commonly employed surface recovery
+that may not be visible to traditional stereo methods. 
+The most commonly employed surface recovery
 algorithm is PS~\cite{woodham1980photometric}, which is discussed in detail in 
 \cref{ch:bg_ps}. The use of PS for high quality facial capture
-can be seperated into two distinct categories: time-multiplexing~\cite{ma2007rapid,%
-fyffe2011comprehensive,alexander2009digital,vonderPahlen:2014kg,zhu2012estimating,%
+can be separated into two distinct categories: time-multiplexing~\cite{ma2007rapid,%
+fyffe2011comprehensive,alexander2009digital,vonderPahlen:2014kg,%
 malzbender2006surface,wilson2010temporal,ghosh2011multiview} and
-multi-spectral~\cite{hernandez2010self,brostow2011video,fyffe2011single}.
-Time multiplexed PS involves taking multiple images, each under
+multi-spectral~\cite{vogiatzis2012self,brostow2011video,fyffe2011single}.
+
+\textit{Time multiplexed PS} involves taking multiple images, each under
 a different illumination, over a short time-frame. Although databases such as
 YaleB~\cite{RefWorks:314} and Photoface~\cite{RefWorks:293} were produced
 using time multiplexed PS, modern high quality capturing using PS employs
@@ -412,20 +413,20 @@ many lights generally arrayed in a ``light-stage''. One of the earliest works
 using a light-stage for facial capture was the work of 
 \citet{debevec2000acquiring}, which focused on extrapolating a reflectance
 field from a human face. Here, two cameras record the subject and a spotlight
-suspended 1.5 metres away from the subejct is revolved at approximately
-25 rpm, producing around 2048 output images. Both subsurface (diffuse) and specular data were
-recovered using chromaticity analysis and the specular component was utilized
-to allow relighting from novel viewpoints. This work focused on the recovery
-of reflectance information for image relighting and
-required approximately one minute for capture, making
-it impractical for dynamic use. \citet{weyrich2006analysis} provided a more
+suspended 1.5 metres away from the subject is revolved at approximately 25 rpm,
+producing around 2048 output images. Both subsurface (diffuse) and specular data
+were recovered using chromaticity analysis and the specular component was
+utilized to allow relighting from novel viewpoints. This work focused on the
+recovery of reflectance information for image relighting and required
+approximately one minute for capture, making it impractical for dynamic use. 
+\citet{weyrich2006analysis} provided a more
 detailed reflectance field by proposing a novel skin reflectance model
 that can be parametrised from measurements. They also use a light-stage and
 capture 150 fixed illumination patterns across 16 cameras to allow for more 
 accurate specular normal estimation. They also measure skin translucency
-using a fiber optic spectrometer~\cite{nickell2000anisotropy} and provide
-a model built from 149 subjects that is diverse across race, age and gender.
-Both of these methods focused used a structured light method to recover
+using a fibre optic spectrometer~\cite{nickell2000anisotropy} and provide
+a reflectance model built from 149 subjects that is diverse across race, age and
+gender. Both of these methods used a structured light method to recover
 the macroscopic shape and then augmented this model with the normals
 recovered from the illumination~\cite{nehab2005efficiently}. 
 \citet{wenger2005performance} utilized a light-stage in order to capture
@@ -434,12 +435,90 @@ utilized to capture many images. They also experimented with different
 illumination bases to attempt to improve the lighting of the subject
 under such short exposures. Diffuse normals are recovered with PS and 
 reflectance mapping~\cite{miller1984illumination} is utilized for facial 
-relighting. To improve the performance of multi-illumination time multiplexed
+relighting. \citet{malzbender2006surface} also propose PS for dynamic
+capture and provide a hardware set up that enables real-time capture
+of reflectance information of small objects. However, specular effects
+were not considered.
+To improve the performance of multi-illumination time multiplexed
 capture, \citet{ma2007rapid} propose a spherical gradient illumination pattern.
 Only four spherical gradient illumination patterns are required to allow
 normal estimation from arbitrary viewpoints. A light-stage consisting of 156
 LED lights and a single camera are used to construct the 4 illumination 
 patterns. The primary novelty, other than arbitrary viewpoint synthesis, is
-the simple separation of diffuse and specular normals by polarizing the 
-gradients. 
+the simple separation of diffuse and specular normals by polarization of the 
+gradients. Due to the lower number of lighting configurations required,
+\citet{ma2007rapid} do not require a high speed camera. 
+\citet{wilson2010temporal} extend the work of \citet{ma2007rapid} to
+improve the temporal resolution of the capturing without resorting to
+high-speed cameras. In order to model the non-rigid movement present
+during a facial performance, \citet{wilson2010temporal} perform optical
+flow to ensure alignment. However, most optical flow algorithms will fail under
+the large illumination variation present in the gradient illuminated images.
+Therefore, \citet{wilson2010temporal} augment the 4 spherical gradient
+illumination patterns ($x$, $y$, $z$, $0$) with the inverse spherical
+gradient patterns ($x$, $-x$, $y$, $-y$, $z$, $-z$, $0$), where $0$ is the
+fully illuminated frontal image. They note that the summation of two
+complementary gradient pairs cancel out and yield the fully lit image. Thus
+optical flow can be computed between complementary gradient pairs and the fully
+lit image with any existing optical flow algorithm, assuming moderate dynamic
+movement. Similar to~\cite{ma2007rapid,debevec2000acquiring,weyrich2006analysis},
+\citet{wilson2010temporal} augment the output of a coarse model, predicted
+from passive stereo, with their recovered normals. 
+\citet{fyffe2011comprehensive} extend the work of \citet{wilson2010temporal}
+with multiple stereo viewpoints that are merged into a single output mesh.
+They also propose a maximum likelihood estimate of the output shape
+that fuses the coarse geometry estimate from stereo with photometric normals
+to provide a unified method for recovering stereo fused with normals.
+\citet{ghosh2011multiview} note that although \citet{fyffe2011comprehensive} 
+performed multi-view reconstruction, there were unable to apply polarization
+in order to recover diffuse and specular normals. Therefore, 
+\citet{ghosh2011multiview} propose a new set of spherical gradient
+illumination patterns that allow view independent polarization
+for viewpoints that lie along the yaw plane (profile-to-profile). Like
+\citet{fyffe2011comprehensive}, they perform geometry recover jointly
+on the stereo and normals estimates, however, they do not merge the multiple
+views and instead recover a single displacement map. Most recently,
+\citet{graham2015near} have proposed a fast capture method involving 24 cameras
+and six ring lights where where each flash is fired sequentially with a subset
+of the cameras. Thus, 24 specular reflection angles are recovered which
+enables chromaticity separation of the diffuse and specular normals. Passive
+stereo is performed to recover a base mesh and diffuse and specular normals
+are separated using the chroma-space of \citet{zickler2008color}. A modified
+PS algorithm is performed to recover the diffuse and specular normals and
+the passive stereo mesh is augmented with the diffuse normals followed
+by the specular normals~\cite{nehab2005efficiently}.
+
+\textit{Multi-spectral PS} involves illuminating an object under
+multiple constant illuminations that are spectrally separable. Unlike
+time-multiplexed methods, spectral methods do not require multiple images
+and thus have the advantage that optical flow or other alignment assumptions
+are not required. However, the difficulty lies in effectively separating the
+illumination channels in order perform surface recovery. To this end
+Hern{\'a}ndez and co-authors have a number of works that provide
+calibration methods~\cite{vogiatzis2012self,hernandez2008multiview,brostow2011video} 
+for colour PS~\cite{drew1992shape}. The most relevant work of Hern{\'a}ndez
+is the work of \cite{vogiatzis2012self}, which proposes a self-calibrating
+method for multi-spectral 3D face capture. A rigid motion is performed by
+the subject and structure-from-motion is used to recover approximate camera
+parameters. Passive stereo is then performed to recover an initial dense
+shape estimate and this is then used to calibrate the multi-spectral PS.
+Once calibrated, the method of \citet{brostow2011video} can be used to
+recover non-rigid PS from multi-spectral illumination. 
+\citet{fyffe2011single} generalise the typical 3-colour multi-spectral
+and provide a practical 6-channel capture system. A beam splitter is used
+to obtain 6-channel photographs via 2 cameras that are filtered using
+2 different dichroic filters that separate the visible light spectrum
+into 6 non-overlapping bands. Calibration is performed manually using colour
+charts.
+
+% TODO: From the puppeteer.bib - all the methods that concentrate on 
+% performance capture but not using models.
+% \textbf{Hybrid Methods.} Although many of the \textit{active illumination}
+% methods discussed above were technically hybrid methods, as they augmented
+% a coarse model captured through structured light or passive stereo with
+% photometric normals, they all proposed a novel illumination methodology. 
+% However, there have been a number of hybrid methods, mostly involving
+% combining passive stereo with photometric normals, where the major focuses of
+% the works are algorithmic methods for achieving stereo and photometric fusion.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

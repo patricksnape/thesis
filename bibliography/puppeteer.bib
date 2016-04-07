@@ -36,7 +36,7 @@ booktitle = CVPR,
 year = {2016}
 }
 
-% Head-mounted vieo with drawn markers. Person specific blendshape - 2d Marker tracking
+% Head-mounted video with drawn markers. Person specific blendshape - 2d Marker tracking
 @inproceedings{bhat2013high,
 title={High fidelity facial animation capture and retargeting with contours},
 author={Bhat, Kiran S and Goldenthal, Rony and Ye, Yuting and Mallet, Ronald and Koperwas, Michael},
@@ -47,6 +47,42 @@ organization={ACM}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Performance Capture
+ Multi-view stereo + colour photometric stereo
+% First multi-view stereo (with graph cut), then consistent topology using non-sequential minimum spanning
+% tree. Then colour photometric stereo is used to create time varying photometric
+% stereo - requires uniform white makeup
+@inproceedings{klaudiny2012high,
+title={High-detail 3D capture and non-sequential alignment of facial performance},
+author={Klaudiny, Martin and Hilton, Adrian},
+booktitle=THREEDIMPVT,
+pages={17--24},
+year={2012},
+organization={IEEE}
+}
+
+@inproceedings{Gotardo:2015vo,
+author = {Gotardo, Paulo F U and Simon, Tomas and Sheikh, Yaser and Matthews, Iain},
+title = {{Photogeometric Scene Flow for High-Detail Dynamic 3D Reconstruction}},
+booktitle = ICCV,
+year = {2015},
+pages = {846--854}
+}
+
+% Binocular stereo -> track template mesh using image based scene flow (novel)
+% Coarse-to-fine, shading refinement
+% variational stereo, then focusing on scene flow and mesh refinement
+% novel varying albedo optimisation to insert shading into mesh - similar
+% to wu2011shading
+@article{valgaerts2012lightweight,
+title={Lightweight binocular facial performance capture under uncontrolled lighting.},
+author={Valgaerts, Levi and Wu, Chenglei and Bruhn, Andr{\'e}s and Seidel, Hans-Peter and Theobalt, Christian},
+journal=TOG,
+volume={31},
+number={6},
+pages={187},
+year={2012}
+}
+
 % Captured using Beeler:2010dg
 @article{Beeler:2011ey,
 author = {Beeler, Thabo and Hahn, Fabian and Bradley, Derek and Bickel, Bernd and Beardsley, Paul and Gotsman, Craig and Sumner, Robert W and Gross, Markus},

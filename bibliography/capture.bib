@@ -291,14 +291,6 @@ volume={190},
 year={1984}
 }
 
-% multispectral color photometric stereo - focusing on how to calibrate
-@inproceedings{hernandez2010self,
-title={Self-calibrating a real-time monocular 3d facial capture system},
-author={Hern{\'a}ndez, Carlos and Vogiatzis, George},
-booktitle={International Symposium on 3D Data Processing, Visualization and Transmission (3DPVT)},
-year={2010}
-}
-
 @article{wilson2010temporal,
 title={Temporal upsampling of performance geometry using photometric alignment},
 author={Wilson, Cyrus A and Ghosh, Abhijeet and Peers, Pieter and Chiang, Jen-Yuan and Busch, Jay and Debevec, Paul},
@@ -318,15 +310,6 @@ journal=EUROG_RENDER,
 volume={2006},
 pages={17th},
 year={2006},
-}
-
-@inproceedings{zhu2012estimating,
-title={Estimating diffusion parameters from polarized spherical gradient illumination},
-author={Zhu, Yufeng and Peers, Pieter and Debevec, Paul and Ghosh, Abhijeet},
-booktitle={IEEE Computer Graphics \& Applications Special Issue on Scattering},
-pages={8},
-year={2012},
-organization={ACM}
 }
 
 % Capture using light-stage and gradient illumination of wilson/ma
@@ -379,6 +362,18 @@ pages = {1--384},
 month = jul
 }
 
+% multispectral color photometric stereo - focusing on how to calibrate
+@article{vogiatzis2012self,
+title={Self-calibrated, multi-spectral photometric stereo for 3d face capture},
+author={Vogiatzis, George and Hern{\'a}ndez, Carlos},
+journal=IJCV,
+volume={97},
+number={1},
+pages={91--103},
+year={2012},
+publisher={Springer}
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Diffuse/specular seperation
 @article{nayar1997separation,
 title={Separation of reflection components using color and polarization},
@@ -411,56 +406,7 @@ year={2008},
 publisher={Springer}
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Hybrid
-% Multi-view stereo + colour photometric stereo
-% First multi-view stereo (with graph cut), then consistent tpology using non-sequential minimum spanning
-% tree. Then colour photometric stereo is used to create time varying photometric
-% stereo - requires uniform white makeup
-@inproceedings{klaudiny2012high,
-title={High-detail 3D capture and non-sequential alignment of facial performance},
-author={Klaudiny, Martin and Hilton, Adrian},
-booktitle=THREEDIMPVT,
-pages={17--24},
-year={2012},
-organization={IEEE}
-}
-
-% MAP estimates the incident illumination and the spatially varying
-% albedo map on the mesh surface for every time instant.
-% start from very coarse motion capture - spherical harmonic estimation
-@inproceedings{wu2011shading,
-title={Shading-based dynamic shape refinement from multi-view video under general illumination},
-author={Wu, Chenglei and Varanasi, Kiran and Liu, Yebin and Seidel, Hans-Peter and Theobalt, Christian},
-booktitle=ICCV,
-pages={1108--1115},
-year={2011},
-organization={IEEE}
-}
-
-@inproceedings{Gotardo:2015vo,
-author = {Gotardo, Paulo F U and Simon, Tomas and Sheikh, Yaser and Matthews, Iain},
-title = {{Photogeometric Scene Flow for High-Detail Dynamic 3D Reconstruction}},
-booktitle = ICCV,
-year = {2015},
-pages = {846--854}
-}
-
-% Binocular stereo -> track template mesh using image based scene flow (novel)
-% Coarse-to-fine, shading refinement
-% variational stereo, then focusing on scene flow and mesh refinement
-% novel varying albedo optimisation to insert shading into mesh - similar
-% to wu2011shading
-@article{valgaerts2012lightweight,
-title={Lightweight binocular facial performance capture under uncontrolled lighting.},
-author={Valgaerts, Levi and Wu, Chenglei and Bruhn, Andr{\'e}s and Seidel, Hans-Peter and Theobalt, Christian},
-journal=TOG,
-volume={31},
-number={6},
-pages={187},
-year={2012}
-}
-
-% Not strictly hybrid, but combining normals is most generally useful for hybrid methods
+% Combining normals is most generally useful for hybrid methods
 % where MVS and PS are fused.
 @article{nehab2005efficiently,
 title={Efficiently combining positions and normals for precise 3D geometry},
