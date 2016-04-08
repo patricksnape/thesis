@@ -3,7 +3,80 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \minitoc{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The most difficult scenario for shape recovery is recovery from a single
+image. As discussed in \cref{ch:bg_sfs}, Shape-from-shading provides a
+principled way to recover shape from single images of human faces. In this case,
+the shape representation recovered are surface normals that parametrise how
+light interacts with the surface of the face. However, given that the general
+shape-from-shading case is ill-defined, it would be beneficial to augment 
+shape-from-shading with prior knowledge that constraints the space of plausibly
+recovered facial shapes. The work of \citet{smith2006recovering,smith2008facial}
+provides a statistical framework for shape recovery based around regularising
+the output of a shape-from-shading algorithm with a parametric linear
+model of normals.
 
+%%% Component analysis
+Component analysis is an important tool for understanding and processing visual
+data. Computer vision problems often involve high-dimensional data that are non-
+linearly related. This has spurred a lot of interest in the development of
+efficient and effective techniques for computing nonlinear dimensionality
+reduction \cite{RefWorks:92,RefWorks:93,RefWorks:94}. In parallel with this,
+there has been increased interest in appearance based object recognition and
+reconstruction \cite{RefWorks:95,RefWorks:96,RefWorks:97,RefWorks:98}. 
+%% Existing component analysis and it's problems
+However, much of the existing work on the statistical analysis of appearance-
+based models has focused on the use of shape or texture, which are not
+necessarily robust descriptors of an object. Texture, for example, is often
+corrupted by outliers such as occlusions, cast shadows and illumination changes.
+%% Solution? Normals.
+Surface normals, on the other hand, are invariant to changes in illumination and
+still offer a method for shape recovery via integration \cite{RefWorks:99}. In
+fact, many reconstruction techniques, such as shape-from-shading
+(SFS)\cite{RefWorks:230, RefWorks:252, RefWorks:225}, recover normals directly
+and thus component analysis of normals is beneficial.
+
+% However, normals are non-linear
+If we wish to perform subspace analysis on normals, we must consider the
+properties of normal spaces. A distribution of unit normals define a set of
+points that lie upon the surface of a spherical manifold. Therefore, the
+computation of distances between normals is a non-trivial task. In order to
+perform subspace analysis on manifolds we have to be able to compute non-linear
+relationships.
+% But we can use KPCA for non-linear relationships
+Kernel Principal Component Analysis (KPCA), is a non-linear generalisation of
+the linear data analysis method Principal Component Analysis (PCA). KPCA is able
+to perform subspace analysis within arbitrary dimensional Hilbert spaces,
+including the subspace of normals. By providing a kernel function that defines
+an inner product within a Hilbert space, we can perform component analysis in
+spaces where PCA would normally be infeasible.
+
+% So what do we do about it?
+In this paper, we show the power of using KPCA to perform component analysis of
+normals. The difference of the proposed framework is that instead of using off-
+the-shelf kernels such as RBF or polynomial kernels used in the majority of KPCA
+papers, we are interested only in kernels tailored to normals. By defining
+kernel functions on normals, we allow more robust component analysis to be
+computed. In particular, we propose a novel kernel based upon the angular
+difference between normals that is shown to be more robust than any existing
+descriptor of normals. We also investigate previous work on component analysis
+of normals, and incorporate it into our framework.
+
+%% Previous work?
+Existing work on constructing a feature space whereby distances between normals
+can be computed has been investigated by Smith and Hancock
+\cite{RefWorks:90,RefWorks:86}. Smith and Hancock propose two projection
+methods, the Azimuthal Equidistant Projection (AEP) \cite{RefWorks:102} and
+Principal Geodesic Analysis (PGA) \cite{RefWorks:100,RefWorks:101}. By
+projecting normals into tangent spaces, they show that linear component analysis
+can be performed. Smith and Hancock argue that projection of normals is a
+requirement for the component analysis of normals. However, although the
+observation that computing distances between normals is non-trivial is correct,
+this does not actually prevent component analysis directly on normals
+(\ie without applying any transformation). By formulating the component analysis in
+terms of a kernel, it becomes obvious that component analysis \textit{can be
+performed directly on normals by defining the kernel as the Euclidean inner
+product}. We generalise AEP and PGA as kernels in our framework and provide a
+kernel for component analysis directly on normals without transformation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {
 % List of mathametical commands for this chapter
