@@ -70,7 +70,7 @@ BIWI Head Pose              &\cite{fanelli2013random}       &                   
 UMB-DB                      &\cite{colombo2011umb}          &                       & 143         & 1473        & $\checkmark$ &              & M      \\
 Florence 3D                 &\cite{bagdanov2011florence}    &                       & 53          & 212         &              & $\checkmark$ & M      \\ \midrule
 ICT-3DRFE                   &\cite{stratou2012exploring}    & \multirow{2}{*}{2012} & 23          & 345         & $\checkmark$ &              & PS     \\
-Superfaces                  &\cite{berretti2012superfaces}  &                       & 20          &~?           &              & $\checkmark$ & M/D    \\ \midrule                               
+Superfaces                  &\cite{berretti2012superfaces}  &                       & 20          &~?           &              & $\checkmark$ & M/D    \\ \midrule
 Photoface                   &\cite{RefWorks:293}            & 2013                  & 261         & 1839        & $\checkmark$ &              & PS/M   \\ \midrule
 FaceWarehouse               &\cite{Cao:2014gy}              & \multirow{3}{*}{2014} & 150         & 3000        & $\checkmark$ & ---          & MO/D   \\
 BP4D-Spontaneous            &\cite{Zhang:2014id}            &                       & 41          & Many        & $\checkmark$ & $\checkmark$ & 4D M   \\
@@ -80,7 +80,7 @@ SURREY                      &\cite{Huber:F5Dca9zy}          & 2016              
 }
 \caption{A timeline of existing 3D facial databases including depth data, mesh
          data, models and Photometric Stereo images. PS denotes Photometric
-         Stereo images, MO is a statistical model, M is a 3D mesh, 
+         Stereo images, MO is a statistical model, M is a 3D mesh,
          D is depth/range data and 4D implies a 3D video.}
 \label{tbl:timeline_db}
 \end{table}
@@ -90,13 +90,13 @@ SURREY                      &\cite{Huber:F5Dca9zy}          & 2016              
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The collection of 3D facial databases has a rich history
 that spans over many decades. \cref{tbl:timeline_db} provides a
-timeline outlining these 3D facial databases and the composition of the 
+timeline outlining these 3D facial databases and the composition of the
 data that they provide.
 It is particularly interesting to note that, despite the fact that one of the
 first 3D facial models was released in 1987 (CANDIDE~\cite{Rydfalk:1987tg}), the
 majority of existing databases were produced in the last decade. The quality
 of these facial models has also increased substantially, which is demonstrated
-in \cref{fig:db_examples}. 
+in \cref{fig:db_examples}.
 
 The CANDIDE~\cite{Rydfalk:1987tg,Ahlberg:1998uk} models were parametrizable
 wireframe models that contained a low number of vertices (75--95) and were
@@ -104,11 +104,11 @@ designed to be controlled according to pre-defined Action Units. The CANDIDE
 model was not captured from real data and thus had limited uses for modelling
 identity. Early attempts at recording facial databases focused on the use
 of laser scanning technology~\cite{cyberware,minolta} or structured light. For
-example, the early work of \citet{beumier2001face} used an internally developed 
+example, the early work of \citet{beumier2001face} used an internally developed
 structured light system to provide low quality neutral face scans. Structured
-light was also used for the Bosphorus~\cite{Savran:2008gg} 
+light was also used for the Bosphorus~\cite{Savran:2008gg}
 and UoY~\cite{heseltine2008three} databases. One of the most commonly used
-parametric 3D models is that of the Basel 3D Morphable Model 
+parametric 3D models is that of the Basel 3D Morphable Model
 (3DMM)~\cite{paysan20093d} which also utilized a custom structured light
 scanner called the ABW-3D scanner. The introduction of the consumer priced
 Kinect by Microsoft~\cite{zhang2012microsoft} ensured that structured light
@@ -119,25 +119,25 @@ FaceWarehouse~\cite{Cao:2014gy} databases used the Kinect for capturing data.
 
 Researchers at the MPI used the \citet{cyberware} laser scanner to capture
 neutral faces of high quality which were used in the seminal work of the 3DMM
-by \citet{RefWorks:96}. The Cyberware scanner was also employed in the more 
+by \citet{RefWorks:96}. The Cyberware scanner was also employed in the more
 recent works of BJUT-3D~\cite{baocai2009bjut} and Beckmann~\cite{hu2007building}
 as it provides high quality shape and texture. Another commonly used
 laser scanning system is the Minolta Vivid 900/910~\cite{minolta} which was
 employed by Notre Dame University when collecting data for the Facial
 Recognition Grand Challenge (FRGC)~\cite{phillips2005overview} and the following
 ND-2006~\cite{faltemier2007using}. It was also employed by Notre Dame for the
-collection of a twins database (3D-TEC)~\cite{vijayan2011twins}. 
+collection of a twins database (3D-TEC)~\cite{vijayan2011twins}.
 The Konika Minolta was also for the databases of CASIA 3D~\cite{casia3d},
 FSU~\cite{hesher2003novel} and the UMB-DB~\cite{colombo2011umb} which is unique
 in containing many examples of occlusions. The more advanced
 Minolta VI-700 digitizer~\cite{minolta} was used to collect both
 GavabDB~\cite{moreno2004gavabdb} and FRAV3D~\cite{conde2006multimodal}.
 ZJU-3DFED~\cite{wang2006exploring} used a white-light digitizer to capture
-the 40 subjects of their work. 
+the 40 subjects of their work.
 
 Stereo systems provide a non-invasive method of capturing that is possible to
 set up at relatively low cost by an expert. One of the earliest databases to
-provide 3D face estimates via stereo was XM2VTSdb~\cite{messer1999xm2vtsdb}. 
+provide 3D face estimates via stereo was XM2VTSdb~\cite{messer1999xm2vtsdb}.
 Commercial systems such as the 3dMD scanning system~\cite{3dmd} have been used
 by the BU3D-FE~\cite{Yin:2006cc}, Florence 3D~\cite{bagdanov2011florence},
 Superfaces~\cite{berretti2012superfaces} and the very recent 3DMM provided by
@@ -146,7 +146,7 @@ for the Texas 3DFRD~\cite{gupta2010anthropometric} database. The most common
 commercial systems for capturing high-quality 4D (3D video) data employ passive
 stereo methods. For example, the commercial
 system of \citet{di4d} is capable of capturing high resolution images and
-converting them into 3D meshes at 60 frames per second (fps). 
+converting them into 3D meshes at 60 frames per second (fps).
 The Di4D~\cite{di4d} scanning system
 has been used for the only publicly available 4D databases of BU4D-
 FE~\cite{yin2008high} and BP4D-Spontaneous~\cite{Zhang:2014id}. BP4D-Spontaneous
@@ -157,18 +157,18 @@ system combining stereo and active light was used by the B3D
 provide 17 FPS scanning of faces.
 
 There have also been efforts to collect databases using illumination constraints
-whereby 3D shape is generally recovered using 
+whereby 3D shape is generally recovered using
 Photometric Stereo (PS)~\cite{woodham1980photometric}
-algorithms. One of the earliest examples of such a database is the 
-YaleB~\cite{RefWorks:314} database which contains 10 subjects captured in 
+algorithms. One of the earliest examples of such a database is the
+YaleB~\cite{RefWorks:314} database which contains 10 subjects captured in
 9 poses each under 64 illumination conditions. A large scale PS database was
 provided by the Photoface database~\cite{RefWorks:293} which provided a low-cost
 and practical methodology for capturing illuminated images in a public setting.
 The ICT-3DRFE~\cite{stratou2012exploring} database provides multiple expressions
 of 23 subjects captured by a 156 light ``light-stage''. Millimetre-accurate
-facial shape is recovered through computational stereo and high frequency 
+facial shape is recovered through computational stereo and high frequency
 mesoscopic detail is recovered via the spherical lighting conditions proposed
-by \citet{ma2007rapid}. The ICT-3DRFE database thus provides a dense 
+by \citet{ma2007rapid}. The ICT-3DRFE database thus provides a dense
 3D facial mesh, as well as a diffuse and specular texture map and diffuse and
 specular normals.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -209,17 +209,17 @@ specular normals.
 	\end{subfigure}
 	\caption{Examples of the quality of the facial meshes provided in various
 	         databases. The meshes were captured by the following systems:
-	         \lsubref{fig:db_examples_basel} is from the Basel 3DMM, 
+	         \lsubref{fig:db_examples_basel} is from the Basel 3DMM,
 	         which was manually cleaned and captured using a structured light
-	         scanner, \lsubref{fig:db_examples_bu3d} by the 
-	         3dMD~\cite{3dmd} active stereo system, 
-	         \lsubref{fig:db_examples_bp4d} by the 
-	         Di4D~\cite{di4d} 4D passive stereo system, 
-	         \lsubref{fig:db_examples_frgc} by the 
-	         Minolta~\cite{minolta} laser scanning system, 
-	         \lsubref{fig:db_examples_biwi} by the 
-	         Microsoft Kinect~\cite{zhang2012microsoft} and 
-	         \lsubref{fig:db_examples_ict} by a passive stereo 
+	         scanner, \lsubref{fig:db_examples_bu3d} by the
+	         3dMD~\cite{3dmd} active stereo system,
+	         \lsubref{fig:db_examples_bp4d} by the
+	         Di4D~\cite{di4d} 4D passive stereo system,
+	         \lsubref{fig:db_examples_frgc} by the
+	         Minolta~\cite{minolta} laser scanning system,
+	         \lsubref{fig:db_examples_biwi} by the
+	         Microsoft Kinect~\cite{zhang2012microsoft} and
+	         \lsubref{fig:db_examples_ict} by a passive stereo
 	         light stage~\cite{debevec2000acquiring}.}
 \label{fig:db_examples}
 \end{figure}
@@ -250,11 +250,11 @@ to the ``in-the-wild'' images that are the focus of this thesis. However,
 given that training examples are required to recover reasonable 3D surfaces
 from unconstrained images, these training examples provide an upper bound
 on the quality of 3D surface that can be recovered. Therefore, it is important
-to understand the performance and limitations of the state-of-the-art in 
+to understand the performance and limitations of the state-of-the-art in
 facial capture in order to provide a point of reference for ``in-the-wild''
 shape recovery.
 
-The majority of the facial capture literature focuses on two primary areas: 
+The majority of the facial capture literature focuses on two primary areas:
 active illumination and
 stereo. Passive stereo is a photogrammetric method that requires 2 or more
 calibrated cameras who's relative positions are used to infer the 3D position of
@@ -274,7 +274,7 @@ structured light only requires a single camera and unlike active stereo this
 camera must be calibrated with respect to the position of the projector
 supplying the light pattern. The light patterns projected by the projector
 encode the correspondences and 3D information is recovered via triangulation.
-Active illumination methods such as 
+Active illumination methods such as
 Photometric Stereo (PS)~\cite{woodham1980photometric} uses reflectance
 information in order to recover surface information. In traditional photometric
 stereo a number of images are captured under different know illumination
@@ -315,7 +315,7 @@ Under the assumption that these mesoscopic variations in intensity are linked to
 variations in the geometry of the skin, a high-pass filter is first performed in
 order to filter out any details captured by stereo. Then, the result of the
 stereo is refined along the surface normal direction and is weighted to ignore
-high frequency areas caused by larger features such as hairs. 
+high frequency areas caused by larger features such as hairs.
 \citet{bradley2010high} propose a passive method for performance capture that
 focuses on the concept that modern cameras are capable of capturing such high
 detail that stereo-matching is greatly simplified. Fourteen stereo cameras, in
@@ -325,7 +325,7 @@ detail is utilized for stereo matching and the seven overlapping regions are
 then merged to recover a single high quality mesh. The remainder of the work
 focuses on recovering a topologically consistent mesh throughout the sequence by
 applying optical flow and drift correction methods. The output is a performance
-capture sequence at 30 fps with a high resolution mesh and texture map 
+capture sequence at 30 fps with a high resolution mesh and texture map
 with consistent topology across the sequence.
 
 \textbf{Active stereo} augments traditional passive stereo with a signal that is
@@ -343,18 +343,18 @@ Although active stereo is typically defined in terms of improving stereo
 matching via light projection, early marker based stereo methods can also be
 seen as methods for improving stereo matching.
 Stemming back to the work of \citet{williams1990performance}, manually placing
-markers on faces became the de facto method for performance 
-capture~\cite{bickel2007multi,furukawa2009dense,bredow2005mocap}, 
-used in films such as \textit{The Polar Express (2004)}, 
-\textit{Dawn of the Planet of the Apes (2014)} and 
-\textit{The Lord of the Rings: The Two Towers (2002)}. 
-\citet{bickel2007multi} used painted markers to map deformations from two 
+markers on faces became the de facto method for performance
+capture~\cite{bickel2007multi,furukawa2009dense,bredow2005mocap},
+used in films such as \textit{The Polar Express (2004)},
+\textit{Dawn of the Planet of the Apes (2014)} and
+\textit{The Lord of the Rings: The Two Towers (2002)}.
+\citet{bickel2007multi} used painted markers to map deformations from two
 different resolution camera pairs and used these markers to drive the
-deformations of a previously recorded high resolution mesh. 
+deformations of a previously recorded high resolution mesh.
 \citet{furukawa2009dense} used densely painted black markers to perform
 scene flow form stereo. Initialised in the first frame with a reconstruction
-provided by \citet{Furu:2010:PMVS}, patch-based scene flow is computed across 
-the sequence in order to maintain a single mesh topology. 
+provided by \citet{Furu:2010:PMVS}, patch-based scene flow is computed across
+the sequence in order to maintain a single mesh topology.
 
 \textbf{Structured light} methods drop the requirement of a second camera in
 favour of a calibrated light projector. When a known lighting pattern, even as
@@ -366,17 +366,17 @@ Microsoft Kinect~\cite{zhang2012microsoft}. Although the quality of output, as
 depicted for the BIWI head pose database in
 \cref{fig:db_examples_biwi}, is known to be low in the case of the Microsoft
 Kinect, structured light is capable of high recovering high quality macroscopic
-shape. In fact, recent work has shown that by using specially crafted 
-homogeneous codes for structured lighting it is possible to recover light 
-transport information even under strong ambient lighting. 
+shape. In fact, recent work has shown that by using specially crafted
+homogeneous codes for structured lighting it is possible to recover light
+transport information even under strong ambient lighting.
 By synchronising a laser projector with the rolling shutter of the camera and
-masking out pixels that do not lie on the projector-camera epipolar plane it 
+masking out pixels that do not lie on the projector-camera epipolar plane it
 becomes possible to only receive light from the laser within the epipolar plane.
 This means that very little ambient light pollutes the laser emitted
 signal and it becomes possible to measure the structured lighting pattern
 even within bright scenes such as outdoors.
 Real time capture of high-quality facial shape using
-structured light has been proposed by \citet{zhang2006high,weise2007fast}. 
+structured light has been proposed by \citet{zhang2006high,weise2007fast}.
 \citet{zhang2006high,wang2004high} proposed a set of custom hardware that
 enabled up to 120 fps capture and reconstruction. The reconstruction is computed
 rapidly via a novel three-step sinusoidal phase shifting algorithm.
@@ -396,9 +396,9 @@ methods that attempt to recover surface information by using structured
 illumination patterns. In contrast to active stereo and structured
 light, these illumination patterns are not designed to encode geometric
 information. Instead, the illumination is designed to reveal surface information
-that may not be visible to traditional stereo methods. 
+that may not be visible to traditional stereo methods.
 The most commonly employed surface recovery
-algorithm is PS~\cite{woodham1980photometric}, which is discussed in detail in 
+algorithm is PS~\cite{woodham1980photometric}, which is discussed in detail in
 \cref{ch:bg_ps}. The use of PS for high quality facial capture
 can be separated into two distinct categories: time-multiplexing~\cite{ma2007rapid,%
 fyffe2011comprehensive,alexander2009digital,vonderPahlen:2014kg,%
@@ -410,7 +410,7 @@ a different illumination, over a short time-frame. Although databases such as
 YaleB~\cite{RefWorks:314} and Photoface~\cite{RefWorks:293} were produced
 using time multiplexed PS, modern high quality capturing using PS employs
 many lights generally arrayed in a ``light-stage''. One of the earliest works
-using a light-stage for facial capture was the work of 
+using a light-stage for facial capture was the work of
 \citet{debevec2000acquiring}, which focused on extrapolating a reflectance
 field from a human face. Here, two cameras record the subject and a spotlight
 suspended 1.5 metres away from the subject is revolved at approximately 25 rpm,
@@ -418,23 +418,23 @@ producing around 2048 output images. Both subsurface (diffuse) and specular data
 were recovered using chromaticity analysis and the specular component was
 utilized to allow relighting from novel viewpoints. This work focused on the
 recovery of reflectance information for image relighting and required
-approximately one minute for capture, making it impractical for dynamic use. 
+approximately one minute for capture, making it impractical for dynamic use.
 \citet{weyrich2006analysis} provided a more
 detailed reflectance field by proposing a novel skin reflectance model
 that can be parametrised from measurements. They also use a light-stage and
-capture 150 fixed illumination patterns across 16 cameras to allow for more 
+capture 150 fixed illumination patterns across 16 cameras to allow for more
 accurate specular normal estimation. They also measure skin translucency
 using a fibre optic spectrometer~\cite{nickell2000anisotropy} and provide
 a reflectance model built from 149 subjects that is diverse across race, age and
 gender. Both of these methods used a structured light method to recover
 the macroscopic shape and then augmented this model with the normals
-recovered from the illumination~\cite{nehab2005efficiently}. 
+recovered from the illumination~\cite{nehab2005efficiently}.
 \citet{wenger2005performance} utilized a light-stage in order to capture
 short performances. A high speed camera and time multiplexed illumination was
-utilized to capture many images. They also experimented with different 
+utilized to capture many images. They also experimented with different
 illumination bases to attempt to improve the lighting of the subject
-under such short exposures. Diffuse normals are recovered with PS and 
-reflectance mapping~\cite{miller1984illumination} is utilized for facial 
+under such short exposures. Diffuse normals are recovered with PS and
+reflectance mapping~\cite{miller1984illumination} is utilized for facial
 relighting. \citet{malzbender2006surface} also propose PS for dynamic
 capture and provide a hardware set up that enables real-time capture
 of reflectance information of small objects. However, specular effects
@@ -443,11 +443,11 @@ To improve the performance of multi-illumination time multiplexed
 capture, \citet{ma2007rapid} propose a spherical gradient illumination pattern.
 Only four spherical gradient illumination patterns are required to allow
 normal estimation from arbitrary viewpoints. A light-stage consisting of 156
-LED lights and a single camera are used to construct the 4 illumination 
+LED lights and a single camera are used to construct the 4 illumination
 patterns. The primary novelty, other than arbitrary viewpoint synthesis, is
-the simple separation of diffuse and specular normals by polarization of the 
+the simple separation of diffuse and specular normals by polarization of the
 gradients. Due to the lower number of lighting configurations required,
-\citet{ma2007rapid} do not require a high speed camera. 
+\citet{ma2007rapid} do not require a high speed camera.
 \citet{wilson2010temporal} extend the work of \citet{ma2007rapid} to
 improve the temporal resolution of the capturing without resorting to
 high-speed cameras. In order to model the non-rigid movement present
@@ -463,15 +463,15 @@ optical flow can be computed between complementary gradient pairs and the fully
 lit image with any existing optical flow algorithm, assuming moderate dynamic
 movement. Similar to~\cite{ma2007rapid,debevec2000acquiring,weyrich2006analysis},
 \citet{wilson2010temporal} augment the output of a coarse model, predicted
-from passive stereo, with their recovered normals. 
+from passive stereo, with their recovered normals.
 \citet{fyffe2011comprehensive} extend the work of \citet{wilson2010temporal}
 with multiple stereo viewpoints that are merged into a single output mesh.
 They also propose a maximum likelihood estimate of the output shape
 that fuses the coarse geometry estimate from stereo with photometric normals
 to provide a unified method for recovering stereo fused with normals.
-\citet{ghosh2011multiview} note that although \citet{fyffe2011comprehensive} 
+\citet{ghosh2011multiview} note that although \citet{fyffe2011comprehensive}
 performed multi-view reconstruction, there were unable to apply polarization
-in order to recover diffuse and specular normals. Therefore, 
+in order to recover diffuse and specular normals. Therefore,
 \citet{ghosh2011multiview} propose a new set of spherical gradient
 illumination patterns that allow view independent polarization
 for viewpoints that lie along the yaw plane (profile-to-profile). Like
@@ -495,15 +495,15 @@ and thus have the advantage that optical flow or other alignment assumptions
 are not required. However, the difficulty lies in effectively separating the
 illumination channels in order perform surface recovery. To this end
 Hern{\'a}ndez and co-authors have a number of works that provide
-calibration methods~\cite{vogiatzis2012self,hernandez2008multiview,brostow2011video} 
+calibration methods~\cite{vogiatzis2012self,hernandez2008multiview,brostow2011video}
 for colour PS~\cite{drew1992shape}. The most relevant work of Hern{\'a}ndez
-is the work of \cite{vogiatzis2012self}, which proposes a self-calibrating
+is the work of \citet{vogiatzis2012self}, which proposes a self-calibrating
 method for multi-spectral 3D face capture. A rigid motion is performed by
 the subject and structure-from-motion is used to recover approximate camera
 parameters. Passive stereo is then performed to recover an initial dense
-shape estimate and this is then used to calibrate the multi-spectral PS.
+shape estimate and this is then used to calibrate the multi-spectral PS.\@
 Once calibrated, the method of \citet{brostow2011video} can be used to
-recover non-rigid PS from multi-spectral illumination. 
+recover non-rigid PS from multi-spectral illumination.
 \citet{fyffe2011single} generalise the typical 3-colour multi-spectral
 and provide a practical 6-channel capture system. A beam splitter is used
 to obtain 6-channel photographs via 2 cameras that are filtered using
@@ -511,14 +511,54 @@ to obtain 6-channel photographs via 2 cameras that are filtered using
 into 6 non-overlapping bands. Calibration is performed manually using colour
 charts.
 
-% TODO: From the puppeteer.bib - all the methods that concentrate on 
-% performance capture but not using models.
-% \textbf{Hybrid Methods.} Although many of the \textit{active illumination}
-% methods discussed above were technically hybrid methods, as they augmented
-% a coarse model captured through structured light or passive stereo with
-% photometric normals, they all proposed a novel illumination methodology. 
-% However, there have been a number of hybrid methods, mostly involving
-% combining passive stereo with photometric normals, where the major focuses of
-% the works are algorithmic methods for achieving stereo and photometric fusion.
-
+\textbf{Performance Capture.} Furthering the efforts on capturing high
+quality static geometry and reflectance information, there have also been
+a number of works that focus on performance capture. Performance capture places
+constraints on the capture methodology as it becomes necessary to achieve
+a frame-rate that is sufficient for non-rigid deformation recording.
+Furthermore, it may also be desirable to recover a facial surface with
+consistent topology across all frames. Whilst this may be handled during
+post-processing of the capture, it is often more accurate to enforce
+the consistent topology during geometry recovery. \citet{bickel2007multi}
+utilize painted face markers for sparse motion capture recording. A dense
+generic facial template is then deformed using the motion capture displacements
+and wrinkles are synthesized from the texture information to recover
+``medium-scale'' details. \citet{popa2010globally} record a sequence by
+employing the method of \citet{bradley2010high}. A hierarchical sequence
+is then built by pairing consecutively longer subsequences together. Sparse
+optical flow is employed as a set of soft correspondences and a patch-based
+optimisation method is employed to build a single topologically consistent
+mesh. \citet{Beeler:2011ey} extend their earlier work~\cite{Beeler:2010dg}
+to recover a single mesh from a sequence. They employ the notion
+of ``anchor frames'' to partition a sequence whereby optical flow is applied
+in order to track deformations between anchor frames. These deformations
+are then propagated onto a manually identified reference frame and a further
+refinement process is employed to introduce spatial and temporal consistency.
+\citet{valgaerts2012lightweight} propose to use binocular passive stereo
+in order track a coarse person specific template over the sequence. They
+propose a novel image based scene flow method to deform the template
+mesh in a photometrically consistent manner across the sequence. This coarse
+geometry is then refined using a novel shading energy that is similar
+but more efficient than the one proposed in \citet{wu2011high}.
+\citet{klaudiny2012high} also propose to augment the result of passive
+stereo with shading information. They introduce multi-spectral PS in
+conjunction with passive stereo in order to recover higher frequency
+shading related features. A consistent topology is recovered using
+a on-sequential spanning tree. However, uniform white make-up must be applied
+to the actors face in order to allow multi-spectral calibration. Similarly,
+\citet{Gotardo:2015vo} propose a hybrid method that attempts to iteratively
+recover a high quality performance capture result by utilizing both
+passive stereo and multi-spectral PS information. They perform
+correspondence recovery over small windows and geometry information is thus
+recovered using stereo. This coarse geometry is refined using multi-spectral PS
+and then illumination normalised albedo maps are synthesized using the surface
+normal information. These albedo images are then re-utilized for optical flow
+computation to iteratively improve the initial stereo recovery.
+\citet{Fyffe:2014hc} employ the capturing system of \citet{ghosh2011multiview}
+to recover a base set of person specific meshes. A uniformly lit
+sequence is then captured in stereo and a ``performance flow graph'' is
+computed whereby optical flow is calculated between every pair of frames.
+An optimisation procedure is proposed to perform 3D tracking between the
+static scans and the performance capture is parametrized between the given
+static 3D scans a single artist rigged neutral mesh.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
