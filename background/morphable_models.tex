@@ -1,5 +1,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{3D Morphable Models}\label{ch:bg_3dmm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\cite{atick1996statistical} proposed one of the earliest analysis-by-synthesis
+methods for facial shape recovery. They compute PCA on a set of 
+Cyberware~\cite{cyberware} scanned heads they are parametrized using
+cylindrical coordinates. They then pose shape recovery as the problem
+of recovering the PCA coefficients for a given input image by minimizing
+the least squares error between the basis rendered orthographically
+using a Lambertian BRDF (with assumed known light and uniform albedo) 
+and the input image. This work was inspired by the Eigenfaces work of 
+\citet{Sirovich:1987te} but utilized 3D data rather than images. To solve
+the least squares a linearisation is performed via a Taylor series expansion
+and conjugate gradient descent is applied.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

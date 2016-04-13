@@ -25,29 +25,29 @@
 		\caption*{Inverted}
 	\end{subfigure}
 	\caption{An example of a bas-relief ambiguity for a mesh illuminated
-	         frontally under orthographic projection, with a lambertian shader. 
+	         frontally under orthographic projection, with a lambertian shader.
 	         ``Inverted'' implies that the mesh is actually facing away from the
 	         camera and thus the interior is visible, as demonstrated by the
 	         rotated ``Inverted'' image. Both of the non-frontal images are
 	         rotated versions of the frontal images, approximately $25^\circ$
 	         around the Yaw axis.}
-\label{fig:sfs_bas_relief}
+\label{fig:bg_sfs_bas_relief}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Shape-from-shading (SfS) is the process of attempting to recover surface
-information from an object in an image using \textit{inverse rendering}, 
-or \textit{image formation}, methods. The primary assumption is that shading, or
-the intensity of a pixel in the image, is generated as a function of the surface
-geometry and its interaction with light reflected/absorbed by the surface and
-captured by an imaging device. Naturally, the reality of this process in the
-physical world is a complex interaction between light and both microscopic and
-macroscopic elements of the surface structure. This is further complicated by
-the noise present in the recording procedure of the camera sensing
-hardware. Furthermore, it is well known that shading alone is insufficient to
-disambiguate shape. For example, the well known bas-relief
+Shape-from-shading (SfS)~\cite{horn1970shape} is the process of attempting to
+recover surface information from an object in an image using \textit{inverse
+rendering}, or \textit{image formation}, methods. The primary assumption is that
+shading, or the intensity of a pixel in the image, is generated as a function of
+the surface geometry and its interaction with light reflected/absorbed by the
+surface and captured by an imaging device. Naturally, the reality of this
+process in the physical world is a complex interaction between light and both
+microscopic and macroscopic elements of the surface structure. This is further
+complicated by the noise present in the recording procedure of the camera
+sensing hardware. Furthermore, it is well known that shading alone is
+insufficient to disambiguate shape. For example, the well known bas-relief
 ambiguity~\cite{belhumeur1999bas} is demonstrated for a facial mesh in
-\cref{fig:sfs_bas_relief}. The bas-relief ambiguity states that for an object
-imaged under orthographic projection that exhibits lambertian reflectance, there
+\cref{fig:bg_sfs_bas_relief}. The bas-relief ambiguity states that for an object
+imaged under orthographic projection that exhibits Lambertian reflectance, there
 exists a family of transformations (generalized bas-relief transformations) for
 which the images produced will be identical. In fact, more generally there
 exists an infinite number of ways to describe any image given only shading
@@ -55,7 +55,7 @@ information through different arrangements of surfaces, lightings and
 albedos~\cite{adelson1996perception}. However, despite the ill-posedness of the
 SfS problem, shading does in fact provide a very strong imaging prior and many
 higher frequency detail such as wrinkles can only be recovered using shading
-cues. Before discussing the facial surface recovery literature, we briefly 
+cues. Before discussing the facial surface recovery literature, we briefly
 describe the image formation problem including the common assumptions
 made.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -84,7 +84,7 @@ made.
 			\centering
 			\includegraphics[width=\textwidth]{background/images/irradiance}
 			\caption*{Irradiance}
-		\end{subfigure} & 
+		\end{subfigure} &
 		\begin{subfigure}[b]{0.48\textwidth}
 			\centering
 			\includegraphics[width=\textwidth]{background/images/radiance}
@@ -92,62 +92,72 @@ made.
 		\end{subfigure}
 	\end{tabular}
 	\caption{Illustration of common radiometric terms, focusing on the surface
-	         irradiance and radiance. ${sr}^{-1}$ denotes steradians, the 
+	         irradiance and radiance. ${sr}^{-1}$ denotes steradians, the
 	         Standard International unit of solid angular measure and
 	         $W$ denotes watts.}
 \label{fig:bg_sfs_rad_irrad}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-When discussing image formation methods a number of assumptions are commonly 
+When discussing image formation methods a number of assumptions are commonly
 made in order to ensure tractability of of the rendering physics. Firstly,
 unless explicitly mentioned, we assume an orthographic camera projection. This
 is a reasonable assumption for most facial images as faces tend to the be
 the focus of an image and thus photographs are commonly taken close enough
 to the face that perspective effects are minimal. We also only consider
-reflection functions that can be expressed as a Bidirectional 
+reflection functions that can be expressed as a Bidirectional
 Reflectance-Distribution Function (BRDF). A BRDF is a convenient construct
 that allows the expression of how bright a surface will appear from a given
-view point direction when illuminated from another direction. More formally, it 
-is the ratio of the reflected radiance in the viewing direction to the 
-irradiance, in the direction toward the light source. 
+view point direction when illuminated from another direction. More formally, it
+is the ratio of the reflected radiance in the viewing direction to the
+irradiance, in the direction toward the light source.
 See \cref{fig:bg_sfs_rad_irrad} for an illustration of the radiance and
-irradiance as well as a table of useful radiometric terms.
-\textit{Radiant flux} is the power emitted from a light source, measured in 
+irradiance as well as a table of useful radiometric terms. BRDFs are functions
+of local illumination and do not model global illumination effects such
+as shadows or inter-reflections.
+\textit{Radiant flux} is the power emitted from a light source, measured in
 watts $(W)$.
-The \textit{solid angle} subtended by a surface patch is defined as the 
-surface area of a unit sphere covered by the surface's projection onto the 
+The \textit{solid angle} subtended by a surface patch is defined as the
+surface area of a unit sphere covered by the surface's projection onto the
 sphere and is measured in steradians $(sr)$. In \cref{fig:bg_sfs_rad_irrad},
 $r$ refers to the distance from the sphere's origin to the patch.
-\textit{Radiant intensity} is the radiant flux per unit solid angle and is 
-measured in watts per steradian $(W {sr}^{-1})$. 
+\textit{Radiant intensity} is the radiant flux per unit solid angle and is
+measured in watts per steradian $(W {sr}^{-1})$.
 The \textit{irradiance} is the amount of energy received by a given surface
-patch, measured in watts per square meter $(W m^{-2})$. 
+patch, measured in watts per square meter $(W m^{-2})$.
 The \textit{radiance} is the amount of energy emitted per unit foreshortened
-surface area per unit solid angle, measured in watts per square meter 
+surface area per unit solid angle, measured in watts per square meter
 per steradian $(W m^{-2} {sr}^{-1})$. In \cref{fig:bg_sfs_rad_irrad},
 the unit foreshortened area is given by $dA \cos{\theta_r}$.
-It is important to note that radiance, unlike irradiance, is a directional 
+It is important to note that radiance, unlike irradiance, is a directional
 quantity. This implies that the viewing angle affects the amount of perceived
 light from a given image area and for some reflectance functions that manifests
 as specular style highlights. Finally, we rely on the fact that the image
 irradiance captured by the camera sensor is directly proportional to the
-scene radiance~\cite{horn1979calculating}. Given the previous notation, we
-can now formally define the general equation for a BRDF
+scene radiance~\cite{horn1979calculating}. To simplify matters, when referring
+to image irradiance we assume that the linear relationship between the scene
+radiance and image irradiance is the identity
+\ie~scene radiance = image irradiance. An illustration of the relationship
+between scene radiance and image irradiance is given in
+\cref{fig:bg_sfs_scene_to_intensity}.
+
+Given the previous definitions, we can now formally define the general equation
+for a BRDF
 %%%%%%%%%%%%%%%%%%%
-\begin{align}
+\begin{align}\label{eg:bg_sfs_general_brdf}
 	f(\theta_i,\phi_i;\theta_r,\phi_r) &= \frac{L(\theta_r,\phi_r)}{E(\theta_i,\phi_i)} \\
 	L(\theta_r,\phi_r)                 &= E(\theta_i,\phi_i) f(\theta_i,\phi_i;\theta_r,\phi_r) \\
 	L(\theta_r,\phi_r)                 &= \int_{2\pi} I_{\operatorname{src}}(\theta_i,\phi_i) f(\theta_i,\phi_i;\theta_r,\phi_r) \; \cos{\theta_i} \; d\omega_i
 \end{align}
 %%%%%%%%%%%%%%%%%%%
-$I_{\operatorname{src}}(\theta_i,\phi_i)$ is the intensity of output
-from a given light source. In fact, assuming an isotropy, the BRDF is
+where $I_{\operatorname{src}}(\theta_i,\phi_i)$ is the intensity of output
+from a given light source. In fact, assuming isotropy, the BRDF is
 only a function of 3 parameters, $f(\theta_i,\theta_r, \Delta \phi)$ where
-$\Delta \phi = \phi_i - \phi_r$. We also assume Helmholtz reciprocity, which
+$\Delta \phi = \phi_i - \phi_r$. An isotropic BRDF is invariant to rotations
+around the direction of the normal. We also assume Helmholtz reciprocity, which
 states that if the light source and viewing direction are swapped the BRDF
-remains unchanged 
+remains unchanged
 \ie~$f(\theta_i,\phi_i;\theta_r,\phi_r) = f(\theta_r,\phi_r;\theta_i,\phi_i)$.
-An illustration of the general BRDF is given in \cref{fig:sfs_brdf_example}.
+An illustration of the general BRDF is given in \cref{fig:bg_sfs_brdf_example}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 	\centering
@@ -163,14 +173,132 @@ An illustration of the general BRDF is given in \cref{fig:sfs_brdf_example}.
 	\end{subfigure}
 	\caption{The left image shows the general radiance equation for a generic
 	         BRDF that is parametrized by the irradiance $(\theta_i, \phi_i)$
-	         and radiance $(\theta_r, \theta_r)$ reflecting from the surface. 
+	         and radiance $(\theta_r, \theta_r)$ reflecting from the surface.
 	         The right image shows the Lambertian BRDF assuming unit light
 	         intensity. Note that the Lambertian BRDF is independent of
 	         the viewing direction.}
-\label{fig:sfs_brdf_example}
+\label{fig:bg_sfs_brdf_example}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The most commonly assumed BRDF is that of the Lambertian BRDF.\@ A Lambertian
+BRDF models only the diffuse component of radiance and is physically accurate
+for materials whose reflectance are dominated by scattering effects. For
+example, a commonly cited highly Lambertian object is chalk. In more
+detail, the Lambertian BRDF modifies \cref{eg:bg_sfs_general_brdf} such that
+$f(\theta_i,\theta_r, \Delta \phi) = \rho_{\smallsub{d}} / \pi$ and therefore
+the image irradiance is defined as
+%%%%%%%%%%%%%%%%%%%
+\begin{align}\label{eg:bg_sfs_lambertian_brdf}
+	L_{\operatorname{lambert}} &= I_{\operatorname{src}} \frac{\rho_{\smallsub{d}}}{\pi} \cos{\theta_i} \\
+	L_{\operatorname{lambert}} &= I_{\operatorname{src}} \frac{\rho_{\smallsub{d}}}{\pi} \bb{n}^T \bb{s}
+\end{align}
+%%%%%%%%%%%%%%%%%%%
+where $\bb{n}$ is the unit normal of the surface patch, $\bb{s}$ is the unit
+light vector and $\rho_{\smallsub{d}}$ is the diffuse albedo scaled by $1/\pi$
+to ensure $\rho_{\smallsub{d}} \in [0, 1]$. The Lambertian BRDF is illustrated
+in \cref{fig:bg_sfs_brdf_example}. Note that for the Lambertian BRDF, the image
+irradiance does not depend on the viewing direction and thus
+$L_{\operatorname{lambert}}$ is not a function of $(\theta_r,\phi_r)$.
+Physically, this implies that Lambertian surfaces do not exhibit specular
+effects and appear evenly lit from all viewing angles, scaled by the cosine
+of the angle between the light and normal vectors. Commonly,
+\cref{eg:bg_sfs_lambertian_brdf} is simplified further as it is assumed that the
+radiant intensity is normalised and thus the most commonly cited form of the
+Lambertian BRDF is
+%%%%%%%%%%%%%%%%%%%
+\begin{align}\label{eg:bg_sfs_lambertian_simple}
+	L_{\operatorname{lambert}} = \rho_{\smallsub{d}} \bb{n}^T \bb{s}
+\end{align}
+%%%%%%%%%%%%%%%%%%%
+Finally, \cref{eg:bg_sfs_lambertian_simple} may generate outputs that are
+not physically realisable. For example, a patch lit from the vector opposite
+its normal would produce negative intensity. Therefore, the correct physical
+form of the Lambertian BRDF is
+$L_{\operatorname{lambert}} = \rho_{\smallsub{d}} \max(\bb{n}^T \bb{s}, 0)$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\textwidth]{background/images/scene_radiance_to_pixel}
+	\caption{Illustration of the formation of a pixel intensity in image space
+	         from scene radiance. Scene radiance is linearly proportional
+	         to image irradiance~\cite{horn1979calculating} and image irradiance
+	         is non-linearly mapped to a pixel intensity via the camera
+	         response function, $f$.}
+\label{fig:bg_sfs_scene_to_intensity}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+For completeness, is it worthwhile noting that the image irradiance, formed
+through the interaction of the scene radiance and the optic lens, is not
+the final measured pixel intensity value commonly utilized on Computer Vision.
+The final measured pixel intensity is a function of the image irradiance
+and a non-linear function commonly referred to as the
+\textit{camera response function}. The camera response function models a number
+of effects such as detector sensitivity, vignetting, lens falloff and the
+camera electronics. In fact, many manufacturers intentionally model
+the camera response function to simulate the responses of other media
+such as film~\cite{grossberg2003space}. The calibration function is consistent
+over the entire image area and is invertible. Therefore, the camera response
+function modifies the image irradiance as follows: $I = f(L)$ where $I$ denotes
+a singe pixel in the image, $f$ denotes the camera response function and $L$
+denotes the image irradiance as was being discussed above.
+\cref{fig:bg_sfs_scene_to_intensity} gives an illustration of this process. Note
+that the transformation from scene radiance to image irradiance is
+linear~\cite{horn1979calculating} and was previously ignored when discussing
+radiometric terms. Camera response calibration requires acquiring controlled
+images of a MacBeth board or other colour chart, or the use of pre-calculated
+response model~\cite{grossberg2003space}. Therefore, unless explicitly
+mentioned, we make the strong assumption that the camera response function
+is the identity function and thus pixels in any given image directly
+represent the scene radiance.
+
+In the following section we review relevant facial SfS algorithms. Unless
+explicitly mentioned, the methods below assume that faces exhibit ideal
+Lambertian reflectance given by \cref{eg:bg_sfs_lambertian_simple},
+which has been shown to be a reasonable approximation
+of facial reflectance~\cite{Sirovich:1987te,georghiades2001fromfew,%
+Basri:2003ie,turk1991eigenfaces,Hallinan:1994dz,ramamoorthi2002analytic,%
+ramamoorthi2001relationship,shashua1997photometric,moses1993face}. For a more
+thorough treatment of the generic SfS literature we suggest the surveys
+of \citet{zhang1999shape} and \citet{durou2008numerical}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{SfS Facial Surface Recovery}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The current state-of-the-art in SfS is the generic method of
+\citet{barron2015shape}, called
+Shape, Illumination and Reflectance from Shading (SIRFS). The SIRFS method is
+described as a generalisation of the modern ``intrinsic image'' algorithm in
+which shading is parametrized in terms shape and illumination.
+\citet{barron2015shape} seek to recover the most likely explanation, in a
+statistical sense, by imposing a set of very general priors around smoothness
+and colour composition on the input image. Although this is a state-of-the-art
+method, it does not perform well for shape recover of faces.
+\citet{li2014intrinsic} extend SIRFS by enforcing facial specific priors. They
+use the physically based skin BRDF proposed by \citet{weyrich2006analysis} and
+place priors on the skin reflectance parameters using the data
+from~\cite{weyrich2006analysis}. They also impose a geometric prior on the face
+shape by providing an initial estimate of the 3D face shape
+using~\cite{Yang:2011gj}. \citet{li2014intrinsic} show superior results to the
+original SIRFS, particular for surface normal recovery.
+\citet{atick1996statistical} propose an analysis-by-synthesis method
+for minimizing the reconstruction error between a statistical model of facial 
+surface based on depth images rendered using a Lambertian BRDF and the input 
+image. Although this is termed as SfS, we classify it as analysis-by-synthesis
+and discuss it in further detail in \cref{ch:bg_3dmm}.
+\citet{dovgard2004statistical} combine the symmetric SfS method of 
+\citet{yilmaz2002estimation} with the statistical model of 
+\citet{atick1996statistical} in order to resolve an ambiguity present in
+the symmetric formulation of~\cite{yilmaz2002estimation}.
+%TODO: Smiths IJCV about facial shading (smith2010estimating)
+\citet{biswas2009robust} concentrate on robust albedo estimation, though they
+demonstrate the accuracy of their albedo estimation by performing SfS
+using the method of \citet{ping1994shape}. In particular, they utilize a mean
+shape as the initial shape estimate and thus produce a robust estimate
+of the albedo using a Linear Minimum Mean Square Error Estimator (LMMSE). They
+proceed to normalise the image using the albedo estimate and then transform
+the normalised image to appear lit by the initial illumination direction
+estimate. Finally, SfS is performed on the transformed image, which they
+showed was much more accurate than performing SfS on the initial input image.
+% TODO: Template deformation methods like Kemelmacher
+% TODO: Model based methods like Smith/Minsik
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
