@@ -1,6 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Shape Transfer and Model-based Methods}\label{ch:bg_model_based}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TODO: Check Castelan's work
 \citet{minsik2013robust} propose a direct mapping from 3D facial shape to an
 image of a face under general unknown lighting. The depth and texture pairs from
 FRGC~\cite{phillips2005overview} are used to generate a discrete set of
@@ -16,4 +17,18 @@ the depth is recovered using the CCA mapping. This process is very fast for
 recovery of an input image and handles arbitrary lighting conditions, but
 only applies to frontal faces and does not guarantee photometric consistency
 of the recovered shape.
+\citet{minsik2014realtime} extend the work of \citet{minsik2011fast} with a
+novel optimisation procedure that is extremely efficient. Similar
+to~\cite{minsik2011fast}, a tensor formulation is proposed. However, the
+bilinear model of~\cite{minsik2011fast} is relaxed by enforcing that the
+illumination and identity modes can be described as a set of rank-one matrices.
+Furthermore, in order to incorporate cast shadows, they render the input meshes
+under a variety of illumination conditions including cast shadows and perform
+the tensor decomposition on the rendered data rather than the spherical
+harmonics, similar to \citet{minsik2013robust}. At test time, the input image
+is projected against the bilinear illumination basis and the best rank-one
+structure of the lighting and identity coefficients are recovered. The images
+are aligned using affine alignment of the eye centres and depth is recovered
+from the learnt tensor depth model and the recovered rank-one identity
+coefficients.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

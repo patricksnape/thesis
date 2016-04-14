@@ -1,0 +1,64 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%PS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+A.S. Georghiages, “Recovering 3D Shape and Reflectance from a
+Small Number of Photographs,” Proc. 14th Eurographics Workshop
+Rendering, 2003.
+
+A.S. Georghiades, P.N. Belhumeur, and D.J. Kriegman,
+“Illumination-Based Image Synthesis: Creating Novel Images
+of Human Faces under Differing Pose & Lighting,” Proc. IEEE
+Workshop Multi-View Modeling and Analysis of Visual Scenes,
+1999.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%SFS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+A. Shashua and T.R. Raviv, “The Quotient Image: Class-Based
+Re-Rendering and Recognition with Varying Illuminations,”
+IEEE Trans. Pattern Analysis and Machine Intelligence, vol. 23,
+no. 2, pp. 129-139, Feb. 2001.
+
+Kumar, Ritwik, et al. 
+"Non-lambertian reflectance modeling and shape recovery of 
+faces using tensor Splines." 
+Pattern Analysis and Machine Intelligence, 
+IEEE Transactions on 33.3 (2011): 533-567.
+
+Z. Wen, Z. Liu, and T. Huang, “Face Relighting with Radiance
+Environment Maps,” Proc. IEEE CS Conf. Computer Vision and
+Pattern Recognition, pp. 158-165, 2003.
+
+R. Gross, I. Matthews, and S. Baker, “Appearance-Based Face
+Recognition and Light-Fields,” IEEE Trans. Pattern Analysis and
+Machine Intelligence, vol. 26, no. 4, pp. 449-465, Apr. 2004.
+
+K.C. Lee and B. Moghaddam, “A Practical Face Relighting
+Method for Directional Lighting Normalization,” Proc. IEEE Int’l
+Workshop Analysis and Modeling of Faces and Gestures, 2005.
+
+L. Zhang and D. Samaras, “Face Recognition from A Single
+Training Image under Arbitrary Unknown Lighting Using
+Spherical Harmonics,” IEEE Trans. Pattern Analysis and Machine
+Intelligence, vol. 28, no. 3, pp. 351-363, Mar. 2006.
+
+T. Zickler, R. Ramamoorthi, S. Enrique, and P.N. Belhumeur,
+“Reflectance Sharing: Predicting Appearance from a Sparse Set of
+Images of a Known Shape,” IEEE Trans. Pattern Analysis and
+Machine Intelligence, vol. 28, no. 8, pp. 1287-1302, Aug. 2006.
+
+S.K. Zhou, G. Aggarwal, R. Chellappa, and D.W. Jacobs,
+“Appearance Characterization of Linear Lambertian Objects,
+Generalized Photometric Stereo, and Illumination-Invariant Face
+Recognition,” IEEE Trans. Pattern Analysis and Machine Intelligence,
+vol. 29, no. 2, pp. 230-245, Feb. 2007.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%CHECK%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Probably PS
+A. Georghiades, P. Belhumeur, and D. Kriegman, “From Few to
+Many: Illumination Cone Models for Face Recognition under
+Variable Lighting and Pose,” IEEE Trans. Pattern Analysis and
+Machine Intelligence, vol. 23, no. 6, pp. 643-60, June 2001.
+
+R. Basri and D. Jacobs, “Lambertian Reflectance and Linear
+Subspaces,” IEEE Trans. Pattern Analysis and Machine Intelligence,
+vol. 25, no. 2, pp. 218-233, Feb. 2003.
+
+P. Hallinan, “A Low-Dimensional Representation of Human Faces
+for Arbitrary Lighting Conditions,” Proc. IEEE CS Conf. Computer
+Vision and Pattern Recognition, pp. 995-999, 1994.
