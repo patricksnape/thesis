@@ -1,5 +1,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Shape Transfer and Model-based Methods}\label{ch:bg_model_based}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\citet{minsik2013robust} propose a direct mapping from 3D facial shape to an
+image of a face under general unknown lighting. The depth and texture pairs from
+FRGC~\cite{phillips2005overview} are used to generate a discrete set of
+renderings of faces with cast shadows. N-Mode
+SVD~\cite{vasilescu2003multilinear} followed by orthogonalisation is applied to
+both the rendered textures and the depths in order to perform dimensionality
+reduction. This provides a set of transformed images and a subspace is recovered
+using a generalised eigenvalue method to further reduce the dimensionality.
+Finally, Canonical Correlations Analysis (CCA) is applied between the
+dimensionality reduced depth images and a hyperspherical representation of the
+image subspace. At test time, the image is transformed using the subspace and
+the depth is recovered using the CCA mapping. This process is very fast for
+recovery of an input image and handles arbitrary lighting conditions, but
+only applies to frontal faces and does not guarantee photometric consistency
+of the recovered shape.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
