@@ -148,7 +148,7 @@ for a BRDF
 \begin{align}\label{eg:bg_sfs_general_brdf}
 	f(\theta_i,\phi_i;\theta_r,\phi_r) &= \frac{L(\theta_r,\phi_r)}{E(\theta_i,\phi_i)} \\
 	L(\theta_r,\phi_r)                 &= E(\theta_i,\phi_i) f(\theta_i,\phi_i;\theta_r,\phi_r) \\
-	L(\theta_r,\phi_r)                 &= \int_{2\pi} I_{\operatorname{src}}(\theta_i,\phi_i) f(\theta_i,\phi_i;\theta_r,\phi_r) \; \cos{\theta_i} \; d\omega_i
+	L(\theta_r,\phi_r)                 &= \int_{2\pi} I_{\operatorname{src}}(\theta_i,\phi_i) f(\theta_i,\phi_i;\theta_r,\phi_r) \; \cos{\theta_i} \; d\omega_i,
 \end{align}
 %%%%%%%%%%%%%%%%%%%
 where $I_{\operatorname{src}}(\theta_i,\phi_i)$ is the intensity of output
@@ -193,10 +193,11 @@ the image irradiance is defined as
 %%%%%%%%%%%%%%%%%%%
 \begin{align}\label{eg:bg_sfs_lambertian_brdf}
 	L_{\operatorname{lambert}} &= I_{\operatorname{src}} \frac{\rho_{\smallsub{d}}}{\pi} \cos{\theta_i} \\
-	L_{\operatorname{lambert}} &= I_{\operatorname{src}} \frac{\rho_{\smallsub{d}}}{\pi} \bb{n}^T \bb{s}
+	L_{\operatorname{lambert}} &= I_{\operatorname{src}} \frac{\rho_{\smallsub{d}}}{\pi} \bb{n}^T \bb{s},
 \end{align}
 %%%%%%%%%%%%%%%%%%%
-where $\bb{n}$ is the unit normal of the surface patch, $\bb{s}$ is the unit
+where $\bb{n} = {[n_x, n_y, n_z]}^T \in \R^{3}$ is the unit normal of the surface patch,
+$\bb{s} = {[s1, s2, s3]}^T \in \R^{3}$ is the unit
 light vector and $\rho_{\smallsub{d}}$ is the diffuse albedo scaled by $1/\pi$
 to ensure $\rho_{\smallsub{d}} \in [0, 1]$. The Lambertian BRDF is illustrated
 in \cref{fig:bg_sfs_brdf_example}. Note that for the Lambertian BRDF, the image
@@ -210,7 +211,7 @@ radiant intensity is normalised and thus the most commonly cited form of the
 Lambertian BRDF is
 %%%%%%%%%%%%%%%%%%%
 \begin{align}\label{eg:bg_sfs_lambertian_simple}
-	L_{\operatorname{lambert}} = \rho_{\smallsub{d}} \bb{n}^T \bb{s}
+	L_{\operatorname{lambert}} = \rho_{\smallsub{d}} \bb{n}^T \bb{s},
 \end{align}
 %%%%%%%%%%%%%%%%%%%
 Finally, \cref{eg:bg_sfs_lambertian_simple} may generate outputs that are
@@ -253,6 +254,86 @@ response model~\cite{grossberg2003space}. Therefore, unless explicitly
 mentioned, we make the strong assumption that the camera response function
 is the identity function and thus pixels in any given image directly
 represent the scene radiance.
+
+Even assuming that all of the assumptions outlined above are perfectly
+satisfied by an image, SfS is still an under-constrained problem. In the
+simple case of an image that depicts a perfectly convex and Lambertian
+object with uniform albedo ($\rho_{\smallsub{d}} = 1$), lit by a single
+point light of unit flux and known direction that is infinitely far away, the
+SfS problem for a single pixel is: $I(x, y) = {\bb{n}(x, y)}^T \bb{s}$,
+where $(x, y)$ implies the pixel in the image domain at the given $x$ and $y$
+coordinates.
+Since $\bb{s}$ and $I(x, y)$ are known, the solution to the problem is a
+function of $\bb{n}$. An important property of surface normals is that the are
+directional vectors that represent local surface orientation. Therefore, they
+are parametrised by a unit vector that exists in 3D Cartesian space. However, given the unit norm constraint, surface normals can
+also be parametrised as points on the surface of a unit sphere. This is more
+evident when normals are converted into spherical coordinates:
+%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:bg_sfs_normal_spherical}
+    \phi = \arctan{\frac{y}{x}}, \;\;\;\; \theta = \arccos{z}, \;\;\;\; r = 1,
+\end{equation}
+%%%%%%%%%%%%%%%%%%%
+which are clearly a function of two parameters, the azimuth ($\phi$) and
+elevation ($\theta$). Similarly, it is common in the SfS literature to
+parametrise the surface normals as 2D vectors of the image gradient field:
+%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:bg_sfs_normal_pq}
+    \bb{n} = \frac{{[p, q, -1]}^T}{\sqrt{p^2 + q^2 + {(-1)}^2}},
+\end{equation}
+%%%%%%%%%%%%%%%%%%%
+where $p = \frac{\partial z}{\partial x}$ and
+$q = \frac{\partial z}{\partial y}$ are the parameters of the gradient field
+of the surface represented in the image. Therefore, the naive least squares
+solution (often termed the \textit{brightness error}) to the SfS problem can be
+constructed in matrix form:
+%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:bg_sfs_least_squares_lambert}
+    \min_{\bb{N}} \lVert \bb{I} - \bb{N}^T \bb{s} \rVert_F \triangleq
+    \min_{\bb{p}, \bb{q}} \lVert \bb{I} - (s_1 \bb{\tilde{p}} + s_2 \bb{\tilde{q}} + s_3 \bb{\tilde{1}}) \rVert_F,
+\end{equation}
+%%%%%%%%%%%%%%%%%%%
+given $m$ is the total number of pixels in the image and
+%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+    \bb{N} &= {[\bb{n}(x_1, y_1), \ldots, \bb{n}(x_m, y_m)]}^T &\in &\R^{3 \times m} \\
+	\bb{I} &= {[I(x_1, y_1), \ldots, I(x_m, y_m)]}^T &\in &\R^{m} \\
+	\bb{\tilde{p}} &= {[p(x_1, y_1) / d(x_1, y_1), \ldots, p(x_m, y_m) / d(x_m, y_m)]}^T &\in &\R^{m} \\
+	\bb{\tilde{q}} &= {[q(x_1, y_1) / d(x_1, y_1), \ldots, q(x_m, y_m) / d(x_m, y_m)]}^T &\in &\R^{m} \\
+ 	\bb{\tilde{1}} &= {[1 / d(x_1, y_1), \ldots, 1 / d(x_m, y_m)]}^T &\in &\R^{m} \\
+	d(x_k, y_k) &= \sqrt{{p(x_k, y_k)}^2 + {q(x_k, y_k)}^2 + 1}. & &
+\end{align*}
+%%%%%%%%%%%%%%%%%%%
+Clearly, this is a function of both $\bb{p}$ and $\bb{q}$ and thus even
+the simplest SfS problem is under-constrained. Since
+even in the most constrained setting SfS is under-constrained, any violations
+of these very strict assumptions will only further degrade the recovered shape.
+
+Although surface normals
+are a parametrisation of an objects shape, in this thesis we are most
+interested in the recovered 3D coordinates. In the case of SfS, this can be
+realized as a height map (or depth map) of $z$-coordinates that protrude
+from the image plane. Given the $\{p, q\}$ gradient field parametrisation, the
+height map may be recovered via integration of the gradient field. However,
+due to noise in the gradient field recovery, the gradient field will not be
+directly integrable. Therefore, integration of the gradient field into a
+surface is itself an area of research. The simplest solution to the
+problem is to formulate the integration in terms of the unknown surface,
+$\bb{Z}$, and to minimise the least squares error~\cite{horn1990height,simchony1990direct,agrawal2006range}
+between the image gradient field and the gradient field of the height map,
+$\{\bb{Z}_x, \bb{Z}_y\}$:
+%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:bg_sfs_gradient_field_ls}
+    \bb{Z} = \int \int (\bb{Z}_x - \bb{p})^2 + (\bb{Z_y} - \bb{q})^2 \;\; dx dy
+\end{equation}
+%%%%%%%%%%%%%%%%%%%
+which is readily solved via the Poisson equation:
+$\nabla^2 \bb{Z} = \operatorname{div}(\bb{p}, \bb{q})$ where
+$\operatorname{div}(\bb{p}, \bb{q}) = \frac{\partial p}{\partial x} + \frac{\partial q}{\partial y}$ 
+is the divergence operator. The interested reader should consult the
+work of \citet{agrawal2006range}, which provides a unified method for 
+surface gradient field integration, including the commonly employed Fourier
+basis method of \citet{frankot1988method}.
 
 In the following section we review relevant facial SfS algorithms. Unless
 explicitly mentioned, the methods below assume that faces exhibit ideal
