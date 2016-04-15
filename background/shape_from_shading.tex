@@ -191,13 +191,13 @@ detail, the Lambertian BRDF modifies \cref{eg:bg_sfs_general_brdf} such that
 $f(\theta_i,\theta_r, \Delta \phi) = \rho_{\smallsub{d}} / \pi$ and therefore
 the image irradiance is defined as
 %%%%%%%%%%%%%%%%%%%
-\begin{align}\label{eg:bg_sfs_lambertian_brdf}
-	L_{\operatorname{lambert}} &= I_{\operatorname{src}} \frac{\rho_{\smallsub{d}}}{\pi} \cos{\theta_i} \\
-	L_{\operatorname{lambert}} &= I_{\operatorname{src}} \frac{\rho_{\smallsub{d}}}{\pi} \bb{n}^T \bb{s},
-\end{align}
+\begin{equation}\label{eg:bg_sfs_lambertian_brdf}
+	L_{\operatorname{lambert}} = I_{\operatorname{src}} \frac{\rho_{\smallsub{d}}}{\pi} \cos{\theta_i} =
+	I_{\operatorname{src}} \frac{\rho_{\smallsub{d}}}{\pi} \bb{n}^T \bb{s},
+\end{equation}
 %%%%%%%%%%%%%%%%%%%
 where $\bb{n} = {[n_x, n_y, n_z]}^T \in \R^{3}$ is the unit normal of the surface patch,
-$\bb{s} = {[s1, s2, s3]}^T \in \R^{3}$ is the unit
+$\bb{s} = {[s_1, s_2, s_3]}^T \in \R^{3}$ is the unit
 light vector and $\rho_{\smallsub{d}}$ is the diffuse albedo scaled by $1/\pi$
 to ensure $\rho_{\smallsub{d}} \in [0, 1]$. The Lambertian BRDF is illustrated
 in \cref{fig:bg_sfs_brdf_example}. Note that for the Lambertian BRDF, the image
