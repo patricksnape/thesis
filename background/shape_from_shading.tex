@@ -256,15 +256,16 @@ is the identity function and thus pixels in any given image directly
 represent the scene radiance.
 
 Even assuming that all of the assumptions outlined above are perfectly
-satisfied by an image, SfS is still an under-constrained problem. In the
+satisfied by an image, SfS is still an under-constrained problem. Given
+a single image, $\mathcal{I} \in \R^{w \times h}$ and $d = h \cdot w$, we define
+the pixel extraction notation as $\mathcal{I}(x, y)$ which is the scalar
+intensity value at the location $(x, y)$ in the image. In the
 simple case of an image that depicts a perfectly convex and Lambertian
 object with uniform albedo ($\rho_{\smallsub{d}} = 1$), lit by a single
 point light of unit flux and known direction that is infinitely far away, the
-SfS problem for a single pixel is: $I(x, y) = {\bb{n}(x, y)}^T \bb{s}$,
-where $(x, y)$ implies the pixel in the image domain at the given $x$ and $y$
-coordinates.
-Since $\bb{s}$ and $I(x, y)$ are known, the solution to the problem is a
-function of $\bb{n}$. An important property of surface normals is that the are
+SfS problem for a single pixel is: $\mathcal{I}(x, y) = {\bb{n}(x, y)}^T \bb{s}$.
+Since $\bb{s}$ and $\mathcal{I}(x, y)$ are known, the solution to the problem is a
+function of $\bb{n}(x, y)$. An important property of surface normals is that the are
 directional vectors that represent local surface orientation. Therefore, they
 are parametrised by a unit vector that exists in 3D Cartesian space. However, given the unit norm constraint, surface normals can
 also be parametrised as points on the surface of a unit sphere. This is more
@@ -289,25 +290,25 @@ solution (often termed the \textit{brightness error}) to the SfS problem can be
 constructed in matrix form:
 %%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:bg_sfs_least_squares_lambert}
-    \min_{\bb{N}} \lVert \bb{I} - \bb{N}^T \bb{s} \rVert_F \triangleq
+    \min_{\bb{N}} \lVert \bb{I} - \bb{N} \bb{s} \rVert_F \triangleq
     \min_{\bb{p}, \bb{q}} \lVert \bb{I} - (s_1 \bb{\tilde{p}} + s_2 \bb{\tilde{q}} + s_3 \bb{\tilde{1}}) \rVert_F,
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
-given $m$ is the total number of pixels in the image and
+given $d$ is the total number of pixels in the image and
 %%%%%%%%%%%%%%%%%%%
 \begin{align*}
-    \bb{N} &= {[\bb{n}(x_1, y_1), \ldots, \bb{n}(x_m, y_m)]}^T &\in &\R^{3 \times m} \\
-	\bb{I} &= {[I(x_1, y_1), \ldots, I(x_m, y_m)]}^T &\in &\R^{m} \\
-	\bb{\tilde{p}} &= {[p(x_1, y_1) / d(x_1, y_1), \ldots, p(x_m, y_m) / d(x_m, y_m)]}^T &\in &\R^{m} \\
-	\bb{\tilde{q}} &= {[q(x_1, y_1) / d(x_1, y_1), \ldots, q(x_m, y_m) / d(x_m, y_m)]}^T &\in &\R^{m} \\
- 	\bb{\tilde{1}} &= {[1 / d(x_1, y_1), \ldots, 1 / d(x_m, y_m)]}^T &\in &\R^{m} \\
-	d(x_k, y_k) &= \sqrt{{p(x_k, y_k)}^2 + {q(x_k, y_k)}^2 + 1}. & &
+    \bb{N} &= {[\bb{n}(x_1, y_1), \ldots, \bb{n}(x_w, y_h)]}^T &\in &\R^{d \times 3} \\
+	\bb{I} &= {[I(x_1, y_1), \ldots, I(x_w, y_h)]}^T &\in &\R^{d} \\
+	\bb{\tilde{p}} &= {[p(x_1, y_1) / e(x_1, y_1), \ldots, p(x_w, y_h) / e(x_w, y_h)]}^T &\in &\R^{d} \\
+	\bb{\tilde{q}} &= {[q(x_1, y_1) / e(x_1, y_1), \ldots, q(x_w, y_h) / e(x_w, y_h)]}^T &\in &\R^{d} \\
+ 	\bb{\tilde{1}} &= {[1 / e(x_1, y_1), \ldots, 1 / e(x_w, y_h)]}^T &\in &\R^{d} \\
+	e(x_k, y_k) &= \sqrt{{p(x_k, y_k)}^2 + {q(x_k, y_k)}^2 + 1}. & &
 \end{align*}
 %%%%%%%%%%%%%%%%%%%
 Clearly, this is a function of both $\bb{p}$ and $\bb{q}$ and thus even
 the simplest SfS problem is under-constrained. Since
-even in the most constrained setting SfS is under-constrained, any violations
-of these very strict assumptions will only further degrade the recovered shape.
+even in the strictest settings SfS is under-constrained, any violations
+of the assumptions will only further serve to degrade the recovered shape.
 
 Although surface normals
 are a parametrisation of an objects shape, in this thesis we are most
