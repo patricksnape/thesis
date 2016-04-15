@@ -40,6 +40,8 @@
 \parbox[c]{#2}{\vspace{7pt}\color{red!40!black!80}\raggedright\sffamily #4.\\[7pt]}\\[-3pt]%
 }
 \newcommand{\lsubref}[1]{(\protect\subref{#1})}
+\newcommand*{\nolink}[1]{\begin{NoHyper}#1\end{NoHyper}}
+\newcommand{\printauthor}[1]{\nolink{\citeauthor{#1}}}
 
 % Add a period to the end of an abbreviation unless there's one
 % already, then \xspace.
