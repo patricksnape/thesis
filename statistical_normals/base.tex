@@ -4,7 +4,7 @@
 \minitoc{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The most difficult scenario for shape recovery is recovery from a single
-image. As discussed in \cref{ch:bg_sfs}, Shape-from-shading provides a
+image. As discussed in \cref{ch:bg_sfs}, Shape-from-shading (SfS) provides a
 principled way to recover shape from single images of human faces. In this case,
 the shape representation recovered are surface normals that parametrise how
 light interacts with the surface of the face. However, given that the general
@@ -12,71 +12,141 @@ shape-from-shading case is ill-defined, it would be beneficial to augment
 shape-from-shading with prior knowledge that constraints the space of plausibly
 recovered facial shapes. The work of \citet{smith2006recovering,smith2008facial}
 provides a statistical framework for shape recovery based around regularising
-the output of a shape-from-shading algorithm with a parametric linear
-model of normals.
-
-%%% Component analysis
-Component analysis is an important tool for understanding and processing visual
-data. Computer vision problems often involve high-dimensional data that are non-
-linearly related. This has spurred a lot of interest in the development of
+the output of a SfS algorithm with a parametric linear model of normals. 
+Parametric linear models are readily constructed from facial data and have 
+been successfully used for both 2D~\cite{cootes2001active,turk1991eigenfaces} 
+and 3D~\cite{enciso1999synthesis,atick1996statistical} analysis of faces. 
+Most commonly, statistical models of faces are built using component analysis
+in order to leverage the highly correlated nature of different faces. Although
+the most common form of component analysis, Principal Component Analysis (PCA)
+is linear, the relationships between data are often nonlinear.  
+This has spurred a lot of interest in the development of
 efficient and effective techniques for computing nonlinear dimensionality
-reduction \cite{RefWorks:92,RefWorks:93,RefWorks:94}. In parallel with this,
-there has been increased interest in appearance based object recognition and
-reconstruction \cite{RefWorks:95,RefWorks:96,RefWorks:97,RefWorks:98}. 
-%% Existing component analysis and it's problems
-However, much of the existing work on the statistical analysis of appearance-
-based models has focused on the use of shape or texture, which are not
-necessarily robust descriptors of an object. Texture, for example, is often
-corrupted by outliers such as occlusions, cast shadows and illumination changes.
-%% Solution? Normals.
-Surface normals, on the other hand, are invariant to changes in illumination and
-still offer a method for shape recovery via integration \cite{RefWorks:99}. In
-fact, many reconstruction techniques, such as shape-from-shading
-(SFS)\cite{RefWorks:230, RefWorks:252, RefWorks:225}, recover normals directly
-and thus component analysis of normals is beneficial.
-
-% However, normals are non-linear
-If we wish to perform subspace analysis on normals, we must consider the
-properties of normal spaces. A distribution of unit normals define a set of
-points that lie upon the surface of a spherical manifold. Therefore, the
-computation of distances between normals is a non-trivial task. In order to
-perform subspace analysis on manifolds we have to be able to compute non-linear
-relationships.
-% But we can use KPCA for non-linear relationships
-Kernel Principal Component Analysis (KPCA), is a non-linear generalisation of
-the linear data analysis method Principal Component Analysis (PCA). KPCA is able
-to perform subspace analysis within arbitrary dimensional Hilbert spaces,
-including the subspace of normals. By providing a kernel function that defines
+reduction~\cite{yang2005kpca,goudelis2007class,scholkopf1998nonlinear}. These
+nonlinear dimensionality reduction methods are interesting as they provide
+a method for computing distances, or dissimilarity, between data that
+lie in spaces that are not necessarily Euclidean. For example, if we wish to
+perform subspace analysis on normals, we must consider the properties of 
+directional statistics such as surface normals.
+A distribution of unit normals define a set of points that lie upon the
+surface of the unit sphere. This implies that surface normals can be
+parametrised as coordinates on the surface of the unit 2-sphere and thus 
+the computation of distances between normals is a non-trivial task. The
+computation of distances between data elements is a key requirement for
+component analysis techniques. For example, PCA can be derived in a number of
+ways, one of which is expressed as the minimisation of the orthogonal 
+reconstruction error of a given set of data points. More precisely, given
+a mean-centred data matrix, $\bb{X} \in \R^{p \times q}$, PCA can be expressed 
+as
+%%%%%%%%%%%%%%%%%%%
+\begin{equation*}
+\begin{alignedat}{2}
+	&\argmin_{\bb{W}} \quad &&\lVert \bb{X} - \bb{W} \bb{W}^T \bb{X} \rVert^2 \\
+	&\quad \, \st      &&\bb{W} \bb{W}^T = \bb{I}_p
+\end{alignedat}
+\end{equation*}
+%%%%%%%%%%%%%%%%%%%
+where $\bb{W} \in \R^{p \times k}$ where $k \ll q$ and
+$\bb{I} \in \R^{p \times p}$ is an identity matrix. This clearly demonstrates
+that PCA minimizes the orthogonal Euclidean reconstruction error. In the PCA
+reconstruction objective above, a mean-centred data matrix was assumed. This is
+important as PCA may also be derived as a rotation around the mean that
+maximises the variance of the data. What is important is the accurate
+computation of the mean. For normals, the computation of the correct mean normal
+is complicated by the constraint that the mean normal must also lie on the
+manifold of the unit 2-sphere. Unfortunately, a linear combination of unit
+vectors is not guaranteed to yield a unit vector. Given the embedding of normals
+in the 2-sphere manifold, the correct metric for normals is not the Euclidean
+distance. This is illustrated in
+\cref{fig:singl_img_norm_normal_distance}, which clearly shows that the Euclidean
+distance represents an underestimate of the true distance between two unit
+vectors.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+	\centering
+	\begin{minipage}[t]{.45\textwidth}
+	    \centering
+		\includegraphics[width=0.9\textwidth]{statistical_normals/images/normal_distance}
+		\captionof{figure}{The two arrow-header vectors represents normals
+		                   embedded on the surface of the unit sphere. The red
+		                   line is the Euclidean distance, which underestimates
+		                   the true distance. The green line is the metrically
+		                   correct geodesic distance.}
+\label{fig:singl_img_norm_normal_distance}
+	\end{minipage}
+	\hspace{1cm}
+	\begin{minipage}[t]{.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{statistical_normals/images/united_nations_logo}
+		\captionof{figure}{The flag of the United Nations (UN) depicts
+		                   an Azimuthal Equidistant projection centred on the
+		                   North pole. Image of the UN flag is used under the 
+		                   terms of the public domain~\cite{un_flag}.}
+\label{fig:singl_img_united_nations}
+	\end{minipage}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Thus, any component analysis method that is to be performed on directional data
+must be able to account for the non-Euclidean distances and manifold constraints
+on the data mean. One method of computing component analysis on data that is
+not related linearly and thus where Euclidean distances do not hold, is
+Kernel Principal Component Analysis (KPCA).
+KPCA is a non-linear generalisation of PCA that allows the computation
+of component analysis within arbitrary dimensional Hilbert spaces,
+including the subspace of normals. A Hilbert space is a generalisation
+of a Euclidean space to arbitrary dimensions. More specifically, a Hilbert
+space is an abstract vector space possessing the structure of an inner
+product. Thus, by providing a kernel function that defines
 an inner product within a Hilbert space, we can perform component analysis in
 spaces where PCA would normally be infeasible.
 
-% So what do we do about it?
-In this paper, we show the power of using KPCA to perform component analysis of
-normals. The difference of the proposed framework is that instead of using off-
-the-shelf kernels such as RBF or polynomial kernels used in the majority of KPCA
-papers, we are interested only in kernels tailored to normals. By defining
-kernel functions on normals, we allow more robust component analysis to be
-computed. In particular, we propose a novel kernel based upon the angular
-difference between normals that is shown to be more robust than any existing
-descriptor of normals. We also investigate previous work on component analysis
-of normals, and incorporate it into our framework.
+In this \namecref{ch:singl_imag}, we show the power of using KPCA to perform
+component analysis of normals. The difference of the proposed framework from
+previous works is that, instead of using off-the-shelf kernels such as Radial
+Basis Functions (RBFs) or polynomial kernels, we are interested only in kernels
+tailored to directional data. By incorporating the constraints of directional
+data directly into our analysis we derive two novel kernels for performing
+statistical analysis directly on normals. It is important to note that this is
+not the first work to consider the construction of statistical models of surface
+normals. Smith and Hancock~\cite{smith2006recovering,smith2008facial} were the
+first to note the complexities of performing component analysis on normals. To
+solve this problem, Smith and Hancock proposed to borrow from the cartographic
+community in order to define projection operators map points on the surface of a
+sphere to a tangent plane that preserves distances. This projection, called the
+Azimuthal Equidistant Projection (AEP)~\cite{snyder1987map} is demonstrated most
+commonly by the flag of the United Nations as depicted in
+\cref{fig:singl_img_united_nations}. They also investigated the use of Principal
+Geodesic Analysis (PGA)~\cite{fletcher2004principal,smith2008facial} for
+building statistical models of normals. In particular, PGA provides a principled
+way to correctly compute the mean of a Riemannian manifold. However, although
+the observation that computing distances between normals is non-trivial is
+correct, this does not actually prevent component analysis being computed
+directly on normals (\ie~without applying any transformation). By formulating
+the component analysis in terms of a kernel, it becomes obvious that component
+analysis \textit{can be performed directly on normals by defining the kernel as
+the Euclidean inner product or cosine kernel}. We generalise AEP and PGA as
+kernels in our framework and provide a kernel that allows for the computation of
+component analysis directly on normals, without the need for projection into a
+tangent space.
 
-%% Previous work?
-Existing work on constructing a feature space whereby distances between normals
-can be computed has been investigated by Smith and Hancock
-\cite{RefWorks:90,RefWorks:86}. Smith and Hancock propose two projection
-methods, the Azimuthal Equidistant Projection (AEP) \cite{RefWorks:102} and
-Principal Geodesic Analysis (PGA) \cite{RefWorks:100,RefWorks:101}. By
-projecting normals into tangent spaces, they show that linear component analysis
-can be performed. Smith and Hancock argue that projection of normals is a
-requirement for the component analysis of normals. However, although the
-observation that computing distances between normals is non-trivial is correct,
-this does not actually prevent component analysis directly on normals
-(\ie without applying any transformation). By formulating the component analysis in
-terms of a kernel, it becomes obvious that component analysis \textit{can be
-performed directly on normals by defining the kernel as the Euclidean inner
-product}. We generalise AEP and PGA as kernels in our framework and provide a
-kernel for component analysis directly on normals without transformation.
+%TODO: Write about the fact that we can use statistical models of surface
+%      normals for alignment.
+
+The rest of this chapter continues as follows:
+\cref{sec:singl_img_ca} describes Kernel PCA and outlines the construction of
+surface normal kernels for component analysis of normals. It also embeds the the
+existing AEP and PGA operators as kernels.
+\cref{sec:singl_img_gsfs} demonstrates how the KPCA framework augments
+the geometric SfS method of \citet{worthington1999new} in a similar manner to
+\citet{smith2006recovering}. \cref{sec:singl_imag_lk} demonstrates how surface
+normals can be utilized for alignment within Lucas-Kanade style
+algorithms~\cite{lucas1981iterative}. Two modalities of data are considered,
+\cref{subsec:singl_img_lk_2d} demonstrates how a statistical model of normals can be
+utilized to align 2.5D depth data by building an appearance model of surface
+normals for use in an Active Appearance Model~\cite{cootes2001active}. Finally,
+\cref{subsec:singl_img_lk_3d} demonstrates the use of normals for the formation of
+a statistically robust rigid Lucas-Kanade~\cite{lucas1981iterative} alignment
+method for 3D (volumetric) data.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {
 % List of mathametical commands for this chapter
@@ -122,9 +192,11 @@ kernel for component analysis directly on normals without transformation.
 \newcommand{\zero}{\bb{0}}
 \newcommand{\p}{\bb{p}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{statistical_normals/kpca}
+\input{statistical_normals/component_analysis/base}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{statistical_normals/normal_kernels}
+\input{statistical_normals/geometric_sfs/base}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{statistical_normals/lk/base}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

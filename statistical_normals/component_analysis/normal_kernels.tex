@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Inner Product Kernel}\label{subsec:ip-kernel}
+\subsection{Inner Product Kernel}\label{subsec:sing_img_ip_kernel}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Given that the Euclidean inner product is well defined for normals, as 
 described in \cref{eq:3d-inner-product}, we can define a kernel of the form
@@ -37,7 +37,7 @@ Reconstruction of a test vector of normals $\mathbf{x}$ is performed via
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{AEP Kernel}\label{subsec:aep-kernel}
+\subsection{AEP Kernel}\label{subsec:sing_img_aep_kernel}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The azimuthal equidistant projection (AEP)~\cite{snyder1987map,smith2006recovering} is a
 cartographic projection often used for creating charts centred on the north
@@ -79,7 +79,7 @@ of a test vector of normals $\mathbf{x}$ is performed via
 In~\cite{smith2006recovering}, $\mathbf{U}_{AEP}$ has been used as a prior to
 perform facial shape-from-shading.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{PGA Kernel}\label{subsec:pga-kernel}
+\subsection{PGA Kernel}\label{subsec:singl_img_pga_kernel}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Principal geodesic analysis (PGA)~\cite{fletcher2004principal,smith2008facial} replaces the
 linear subspace normally created by PCA by a geodesic manifold. PGA can be used
@@ -135,7 +135,7 @@ of a test vector of normals $\mathbf{x}$ is performed via
 In~\cite{smith2008facial}, $\mathbf{U}_{PGA}$ has been used as a prior to
 perform facial shape-from-shading.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Spherical Cosine Kernel}\label{subsec:cosine-kernel}
+\subsection{Spherical Cosine Kernel}\label{subsec:singl_img_cosine_kernel}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 As described in \cref{subsubsec:spherical-normals}, the distance between
 two normals can also be expressed in terms of spherical coordinates. Motivated
