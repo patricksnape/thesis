@@ -256,12 +256,17 @@ shape recovery.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}
 \centering
-\resizebox{\textwidth}{!}{%
+\begin{adjustbox}{totalheight=\textheight-2\baselineskip,width=\textwidth}
+\begin{minipage}{\textwidth}
+\centering
 \begin{tabular}{@{}llrcccccc@{}}
 \toprule
 \multicolumn{3}{c}{Method}                                                                       & P-S   & A-S             & SL    & TM-PS   & MS-PS & PC    \\ \midrule
 1996                  & \printauthor{Lengagne:1996ej}          &~\cite{Lengagne:1996ej}          & $\cm$ &                 &       &         &       &       \\ \midrule
+1999                  & \printauthor{enciso1999synthesis}      &~\cite{enciso1999synthesis}      &       & $\cm$           & $\cm$ & $\cm$   &       &       \\ \midrule
 2000                  & \printauthor{debevec2000acquiring}     &~\cite{debevec2000acquiring}     &       &                 & $\cm$ & $\cm$   &       &       \\ \midrule
+2001                  & \printauthor{garcia2001low}            &~\cite{garcia2001low}            &       &                 & $\cm$ &         &       &       \\ \midrule
+2002                  & \printauthor{d2002modeling}            &~\cite{d2002modeling}            &       & $\cm$           & $\cm$ &         &       &       \\ \midrule
 2004                  & \printauthor{zhang2004spacetime}       &~\cite{zhang2004spacetime}       &       & $\cm$           &       &         &       &       \\ \midrule
 \multirow{4}{*}{2005} & \printauthor{Leclercq:2005ee}          &~\cite{Leclercq:2005ee}          & $\cm$ &                 &       &         &       &       \\
                       & \printauthor{borshukov2005universal}   &~\cite{borshukov2005universal}   &       & $\cm^{\dagger}$ &       &         &       & $\cm$ \\
@@ -289,17 +294,16 @@ shape recovery.
                       & \printauthor{Fyffe:2014hc}             &~\cite{Fyffe:2014hc}             &       &                 &       & $\cm$   & $\cm$ &       \\ \midrule
 \multirow{2}{*}{2015} & \printauthor{Gotardo:2015vo}           &~\cite{Gotardo:2015vo}           & $\cm$ &                 &       &         & $\cm$ & $\cm$ \\
                       & \printauthor{graham2015near}           &~\cite{graham2015near}           & $\cm$ &                 &       & $\cm$   &       &       \\ \bottomrule
-\end{tabular}%
-}
-\caption{A timeline of facial capture methods, focusing on methods that propose
-         a novel capturing methodology rather than an exhaustive review of
-         methods such as marker-based capture. P-S denotes Passive Stereo,
+\end{tabular}
+\caption{A timeline of facial capture methods. P-S denotes Passive Stereo,
          A-S is Active Stereo, SL is Structured Light, TM-PS is Time-multiplexed
          Photometric Stereo, MS-PS is Multispectral Photometric Stereo and PC
          denotes Performance Capture. \textsuperscript{$\dagger$} denotes marker 
          based A-S and \textsuperscript{*} denotes spherical gradient 
          illumination.}
 \label{tbl:timeline_capture}
+\end{minipage}
+\end{adjustbox}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -386,7 +390,12 @@ in~\cite{nehab2005efficiently}.
 used to aid in the stereo correspondence step. Typically, this signal is a laser
 or light that is shone on the subjects faces in order to give consistent
 features where matching may be difficult such as the smooth low texture areas of
-the face (e.g cheeks). For example, \citet{zhang2004spacetime} used the
+the face (e.g cheeks). For example, \citet{enciso1999synthesis} proposed a noisy
+shape pattern to aid in stereo reconstruction whereby the result is registered
+with a generic mesh for use in animation. Similarly, \citet{d2002modeling}
+use a random noise pattern in order to aid in stereo matching and allow
+for extremely efficient depth generation.
+\citet{zhang2004spacetime} used the
 Spacetime Stereo~\cite{zhang2003spacetime,davis2005spacetime} technique to
 recover a 3D mesh per frame. A set of striped lighting patterns are projected
 across the face, with every third frame having no projection in order to recover
@@ -414,7 +423,10 @@ the sequence in order to maintain a single mesh topology.
 favour of a calibrated light projector. When a known lighting pattern, even as
 simple as a grid~\cite{will1971grid}, is projected onto the scene it becomes
 possible to estimate the surface by measuring the distortion of the light by the
-surface. Structured lights is particularly effective for real-time
+surface. For example, the work of \citet{garcia2001low} provided a method
+for full 3D surface recovery by performing strucuted light across multiple
+head poses and then merging them into a final result.
+Structured lights is particularly effective for real-time
 acquisition~\cite{rusinkiewicz2002real} and more recently was used by the
 Microsoft Kinect~\cite{zhang2012microsoft}. Although the quality of output, as
 depicted for the BIWI head pose database in
