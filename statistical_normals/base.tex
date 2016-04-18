@@ -8,35 +8,35 @@ image. As discussed in \cref{ch:bg_sfs}, Shape-from-shading (SfS) provides a
 principled way to recover shape from single images of human faces. In this case,
 the shape representation recovered are surface normals that parametrise how
 light interacts with the surface of the face. However, given that the general
-shape-from-shading case is ill-defined, it would be beneficial to augment 
+shape-from-shading case is ill-defined, it would be beneficial to augment
 shape-from-shading with prior knowledge that constraints the space of plausibly
 recovered facial shapes. The work of \citet{smith2006recovering,smith2008facial}
 provides a statistical framework for shape recovery based around regularising
-the output of a SfS algorithm with a parametric linear model of normals. 
-Parametric linear models are readily constructed from facial data and have 
-been successfully used for both 2D~\cite{cootes2001active,turk1991eigenfaces} 
-and 3D~\cite{enciso1999synthesis,atick1996statistical} analysis of faces. 
+the output of a SfS algorithm with a parametric linear model of normals.
+Parametric linear models are readily constructed from facial data and have
+been successfully used for both 2D~\cite{cootes2001active,turk1991eigenfaces}
+and 3D~\cite{enciso1999synthesis,atick1996statistical} analysis of faces.
 Most commonly, statistical models of faces are built using component analysis
 in order to leverage the highly correlated nature of different faces. Although
 the most common form of component analysis, Principal Component Analysis (PCA)
-is linear, the relationships between data are often nonlinear.  
+is linear, the relationships between data are often nonlinear.
 This has spurred a lot of interest in the development of
 efficient and effective techniques for computing nonlinear dimensionality
 reduction~\cite{yang2005kpca,goudelis2007class,scholkopf1998nonlinear}. These
 nonlinear dimensionality reduction methods are interesting as they provide
 a method for computing distances, or dissimilarity, between data that
 lie in spaces that are not necessarily Euclidean. For example, if we wish to
-perform subspace analysis on normals, we must consider the properties of 
+perform subspace analysis on normals, we must consider the properties of
 directional statistics such as surface normals.
 A distribution of unit normals define a set of points that lie upon the
 surface of the unit sphere. This implies that surface normals can be
-parametrised as coordinates on the surface of the unit 2-sphere and thus 
+parametrised as coordinates on the surface of the unit 2-sphere and thus
 the computation of distances between normals is a non-trivial task. The
 computation of distances between data elements is a key requirement for
 component analysis techniques. For example, PCA can be derived in a number of
-ways, one of which is expressed as the minimisation of the orthogonal 
+ways, one of which is expressed as the minimisation of the orthogonal
 reconstruction error of a given set of data points. More precisely, given
-a mean-centred data matrix, $\bb{X} \in \R^{p \times q}$, PCA can be expressed 
+a mean-centred data matrix, $\bb{X} \in \R^{p \times q}$, PCA can be expressed
 as
 %%%%%%%%%%%%%%%%%%%
 \begin{equation*}
@@ -80,7 +80,7 @@ vectors.
 		\includegraphics[width=0.9\textwidth]{statistical_normals/images/united_nations_logo}
 		\captionof{figure}{The flag of the United Nations (UN) depicts
 		                   an Azimuthal Equidistant projection centred on the
-		                   North pole. Image of the UN flag is used under the 
+		                   North pole. Image of the UN flag is used under the
 		                   terms of the public domain~\cite{un_flag}.}
 \label{fig:singl_img_united_nations}
 	\end{minipage}
@@ -125,12 +125,24 @@ directly on normals (\ie~without applying any transformation). By formulating
 the component analysis in terms of a kernel, it becomes obvious that component
 analysis \textit{can be performed directly on normals by defining the kernel as
 the Euclidean inner product or cosine kernel}. We generalise AEP and PGA as
-kernels in our framework and provide a kernel that allows for the computation of
-component analysis directly on normals, without the need for projection into a
-tangent space.
+kernels in our framework and provide novel kernels that allow for the
+computation of component analysis directly on normals, without the need for
+projection into a tangent space.
 
-%TODO: Write about the fact that we can use statistical models of surface
-%      normals for alignment.
+Recent works on robust feature spaces for alignment~\cite{antonakos2015feature}
+have shown that performing well known alignment algorithms such as
+Lucas-Kanade~\cite{lucas1981iterative} on image descriptors (or features) can
+provide significant improvements in alignment. Given a statistical model
+of normals, we further investigate the properties of normals for rigid and
+deformable alignment within the Lucas-Kanade framework. Specifically, we
+investigate two separate modalities of data, \textbf{2.5D data} as is
+commonly supplied by depth cameras and \textbf{3D data} as is more common
+in the medical imaging community. For 2.5D data, we propose to use normals both
+as a feature for Lucas-Kanade fitting, as in the work of
+\citet{antonakos2015feature}, and as a statistical appearance model for Active
+Appearance Model aligning. For 3D data, we provide two novel inverse
+compositional alignment~\cite{baker2004lucas} algorithms for robustly aligning
+data that contains gross outliers such as occlusions.
 
 The rest of this chapter continues as follows:
 \cref{sec:singl_img_ca} describes Kernel PCA and outlines the construction of

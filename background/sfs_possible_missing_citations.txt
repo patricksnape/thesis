@@ -9,6 +9,8 @@ of Human Faces under Differing Pose & Lighting,” Proc. IEEE
 Workshop Multi-View Modeling and Analysis of Visual Scenes,
 1999.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%SFS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TODO: Check the work of Farag et al
+
 A. Shashua and T.R. Raviv, “The Quotient Image: Class-Based
 Re-Rendering and Recognition with Varying Illuminations,”
 IEEE Trans. Pattern Analysis and Machine Intelligence, vol. 23,
@@ -47,6 +49,36 @@ S.K. Zhou, G. Aggarwal, R. Chellappa, and D.W. Jacobs,
 Generalized Photometric Stereo, and Illumination-Invariant Face
 Recognition,” IEEE Trans. Pattern Analysis and Machine Intelligence,
 vol. 29, no. 2, pp. 230-245, Feb. 2007.
+
+@inproceedings{yuan2002sfs,
+title={SFS based neural algorithm for robust 3D face shape recovery},
+author={Yuan, Youwei and Yan, Lamei and Deris, M},
+booktitle={International Conference on Neural Information Processing},
+volume={2},
+pages={665--669},
+year={2002},
+organization={IEEE}
+}
+
+@inproceedings{kouzani1998example,
+title={Example-based shape from shading: 3D heads form 2D face images},
+author={Kouzani, AZ and He, Fangpo and Sammut, Karl},
+booktitle={International Conference on Systems, Man, and Cybernetics},
+volume={4},
+pages={4092--4097},
+year={1998},
+organization={IEEE}
+}
+
+@inproceedings{fanany2002analysis,
+title={Analysis of shape from shading algorithms for fast and realistic 3D face reconstruction},
+author={Fanany, Mohamad and Kumazawa, Itsuo},
+booktitle={Asia-Pacific Conference on Circuits and Systems},
+volume={2},
+pages={181--185},
+year={2002},
+organization={IEEE}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%CHECK%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Probably PS
