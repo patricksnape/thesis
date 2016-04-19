@@ -1,5 +1,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Model-based and Alignment Methods}\label{ch:bg_model_based}
+\section{Model-based and Alignment Methods}\label{sec:bg_model_based}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this section we considered methods that seek to recover 3D by the use
+of explicit models of faces. Given some model of the 3D structure of a human
+face, it is possible to attempt to find some feature of the input image
+that is best matched to some aspect of the model. We separate the literature
+into two distinct areas: those that consider reconstruction as a problem of
+alignment and those that seek to recover structure from the model assuming
+alignment is solved. In contrast to other seemingly similar techniques such as
+3D Morphable Models~\cite{volker1999morphable} that use 3D statistical models
+of faces the methods considered in this section do not necessarily enforce any 
+specific structure on the formation of the image.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Model-based Methods}\label{subsec:bg_model_based_model}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %TODO: Check Castelan's work
 \citet{minsik2013robust} propose a direct mapping from 3D facial shape to an
@@ -31,4 +44,8 @@ structure of the lighting and identity coefficients are recovered. The images
 are aligned using affine alignment of the eye centres and depth is recovered
 from the learnt tensor depth model and the recovered rank-one identity
 coefficients.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Alignment Methods}\label{subsec:bg_model_based_alignment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

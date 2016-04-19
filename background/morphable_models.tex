@@ -1,9 +1,89 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{3D Morphable Models}\label{ch:bg_3dmm}
+\section{3D Morphable Models}\label{sec:bg_3dmm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The term 3D Morphable Models (3DMMs) was first proposed by 
+\citet{volker1999morphable} to describe a 3D reconstruction based on inverse
+rendering methods. These methods are described as ``analysis-by-synthesis''
+methods in that they attempt to model the input image by synthesizing a new
+image using the model and a rendering pipeline. Most commonly, this synthesized
+image is then compared with the input image and the image reconstruction error
+is minimised. In~\cite{volker1999morphable}, \printauthor{volker1999morphable}
+model the face through two statistical models which are built using 
+Principal Component Analysis (PCA). The first is a generative model of 3D
+facial shape and the second is a generative model of facial texture.
+An instance of the models can be generated as follows
+%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eg:bg_3dmm_pca}
+	\bb{s} = \bb{\bar{s}} + \bb{S} \bb{\alpha} \qquad \qquad \bb{t} = \bb{\bar{t}} + \bb{T} \bb{\beta},
+\end{equation}
+%%%%%%%%%%%%%%%%%%%
+where
+$\bb{s} = {[x_1, y_1, z_1, \ldots, x_m, y_m, z_m]}^T \in \R^{3m \times 1}$ is 
+a vectorized instance of the $m$ vertex 3D shape model,
+$\bb{\bar{s}} \in \R^{3m \times 1}$ is a mean 3D face shape,
+$\bb{S} \in \R^{3m \times p}$ are the orthogonal PCA shape eigenvectors and 
+$\bb{\alpha} \in \R^{p \times 1}$ are the coefficients describing the unique
+linear combination of eigenvectors. Similarly, 
+$\bb{t} = {[t_1, \ldots, t_d]}^T \in \R^{d \times 1}$ is 
+a vectorized instance of the $d = w \times h$ pixel texture image,
+$\bb{\bar{t}} \in \R^{d \times 1}$ is a mean texture,
+$\bb{T} \in \R^{d \times q}$ are the PCA texture eigenvectors and 
+$\bb{\beta} \in \R^{q \times 1}$ are the coefficients.
+These two statistical models are built from textured meshes captured using
+one of the methods outlined in \cref{sec:bg_db_capture}. For example,
+the Surrey~\cite{Huber:F5Dca9zy}, Basel~\cite{paysan20093d} and 
+USF~\cite{volker1999morphable} models are all examples of appropriate
+statistical models for 3DMM fitting.
+In this thesis, we make the distinction between 
+``morphable models'' as statistical models and ``morphable models'' as an
+analysis-by-synthesis method for 3D face recovery. When referring to 
+the statistical models we will simply refer to them as statistical models and
+we reserve the phrase ``morphable models'' or 3DMMs solely for the 
+analysis-by-synthesis algorithms. In order to recover 3D shape from an image,
+the objective minimized is the error between the synthesized image of the
+3DMM and the input image. Thus, 3DMMs must explicitly model the rendering
+method and require both synthetic camera parameters and a parametric model
+of lighting. In~\cite{volker1999morphable}, 
+the Phong illumination~\cite{tuong1973illumination} model is used to render
+the illumination of the 3DMM output. These extra parameters are encapsulated
+by $\bb{\rho}$ and include the parameters of a weak perspective projection
+and the parameters of the Phong illumination model.
+\citet{volker1999morphable} proposed to recover the 3D shape by expressing
+the likelihood of observing the input image $\bb{I}$ as
+$p(\bb{I} \given \bb{\alpha},\bb{\beta},\bb{\rho}) \sim \exp{[\frac{-1}{2{\sigma_N}^2} \cdot E_I]}$
+assuming Gaussian noise with standard deviation $\sigma_N$ and the image
+reconstruction error $E_I = \lVert \bb{I} - f(\bb{S}, \bb{\bar{s}}, \bb{\alpha}, \bb{T}, \bb{\bar{t}}, \bb{\beta}, \bb{\rho}) \rVert^2$ where $f$ is the parametrised rendering function. This
+can be optimised using the maximum a posterior estimator (MAP) to form
+the objective function:
+%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eg:bg_3dmm_objective}
+	E = \frac{1}{{\sigma_N}^2} E_I + \sum_i \frac{{\phi_i}^2}{{\sigma_{S,i}}^2} + \sum_i \frac{{\theta_i}^2}{{\sigma_{T,i}}^2} + \sum_i \frac{{\rho_i}^2 - {\rho_0}_i^2}{{\sigma_{R,i}}^2} 
+\end{equation}
+%%%%%%%%%%%%%%%%%%%
+where $\{\sigma_N,\sigma_S,\sigma_T,\sigma_R\}$ are regularisation weights,
+$\{\phi_i, \theta_i \}$ are the eigenvalues of the shape and texture models
+respectively and ${\rho_0}_i$ are the initial camera and illumination parameters.
+This is then optimised using a stochastic gradient descent method where
+only a subset of the triangles within the shape model are optimised at any
+iteration. \cref{eg:bg_3dmm_objective} clearly illustrates the primary
+disadvantage of 3DMM algorithms: they are complicated to optimise and contain
+many local minima due to the large number of parameters. 3DMMs also require
+a very accurate initialisation in terms of head pose and are unable to model
+even moderate illumination variation due to the complexities of optimising
+\cref{eg:bg_3dmm_objective}. Finally, 3DMMs only generalise as well as the
+statistical models used within them. These models can be expensive to 
+construct and often do not generalise well across the entire population as
+they do not contain children or individuals of non-Caucasian descent.
+
+However, 3DMMs remain one of the most impressive 3D facial reconstruction
+methods as they are highly constrained by the statistical models
+of shape and texture. This causes them to be unlikely to generate results
+that vary too far from the mean face and thus the textured output of a 3DMM
+often looks visually convincing. Thus 3DMMs have been a popular area of
+research despite their shortcomings.
 \cite{atick1996statistical} proposed one of the earliest analysis-by-synthesis
 methods for facial shape recovery. They compute PCA on a set of 
-Cyberware~\cite{cyberware} scanned heads they are parametrized using
+Cyberware~\cite{cyberware} scanned heads that are parametrized using
 cylindrical coordinates. They then pose shape recovery as the problem
 of recovering the PCA coefficients for a given input image by minimizing
 the least squares error between the basis rendered orthographically

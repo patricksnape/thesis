@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Databases And Capture Methods}\label{ch:bg_db_capture}
+\section{Databases And Capture Methods}\label{sec:bg_db_capture}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In contrast to generic shape recovery, facial shape recovery implies a strong
 assumption that the input image contains a face. This prior knowledge, that the
@@ -46,7 +46,7 @@ CANDIDE v1                  &\cite{Rydfalk:1987tg}          & 1987              
 MPI                         &\cite{Troje:1996ep}            & 1996                  & 200         & 200         &             &       & M      \\ \midrule
 CANDIDE v2                  &\cite{Ahlberg:1998uk}          & \multirow{2}{*}{1998} & 1           & 1           & $\cm$       & ---   & MO     \\
 3D\_RMA                     &\cite{beumier2001face}         &                       & 120         & 720         &             & $\cm$ & D      \\ \midrule
-USF                         &\cite{RefWorks:96}             & \multirow{3}{*}{1999} & 200         & 200         &             & ---   & MO     \\
+USF                         &\cite{volker1999morphable}     & \multirow{3}{*}{1999} & 200         & 200         &             & ---   & MO     \\
 XM2VTSdb                    &\cite{messer1999xm2vtsdb}      &                       & 295         & 2360        &             &       & M      \\
 YaleB                       &\cite{georghiades2001fromfew}  &                       & 10          & 5760        & $\cm$       &       & PS     \\ \midrule
 CASIA 3D                    &\cite{casia3d}                 & \multirow{2}{*}{2003} & 123         & 1845        & $\cm$       &       & D      \\
@@ -119,7 +119,7 @@ FaceWarehouse~\cite{Cao:2014gy} databases used the Kinect for capturing data.
 
 Researchers at the MPI used the \citet{cyberware} laser scanner to capture
 neutral faces of high quality which were used in the seminal work of the 3DMM
-by \citet{RefWorks:96}. The Cyberware scanner was also employed in the more
+by \citet{volker1999morphable}. The Cyberware scanner was also employed in the more
 recent works of BJUT-3D~\cite{baocai2009bjut} and Beckmann~\cite{hu2007building}
 as it provides high quality shape and texture. Another commonly used
 laser scanning system is the Minolta Vivid 900/910~\cite{minolta} which was
@@ -333,7 +333,7 @@ information in order to recover surface information. In traditional photometric
 stereo a number of images are captured under different know illumination
 conditions and these are used to recover surface normals for the objects in the
 image. For and in-depth discussion of PS methods please see
-\cref{ch:bg_ps}.
+\cref{sec:bg_ps}.
 
 \textbf{Passive (computational) stereo} is an extremely common technique for
 surface recovery and the geometric relationships between two calibrated cameras
@@ -465,7 +465,7 @@ information. Instead, the illumination is designed to reveal surface information
 that may not be visible to traditional stereo methods.
 The most commonly employed surface recovery
 algorithm is PS~\cite{woodham1980photometric}, which is discussed in detail in
-\cref{ch:bg_ps}. The use of PS for high quality facial capture
+\cref{sec:bg_ps}. The use of PS for high quality facial capture
 can be separated into two distinct categories: time-multiplexing~\cite{ma2007rapid,%
 fyffe2011comprehensive,alexander2009digital,vonderPahlen:2014kg,%
 malzbender2006surface,wilson2010temporal,ghosh2011multiview} and
