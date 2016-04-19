@@ -1,8 +1,49 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Structure-from-Motion}\label{sec:bg_sfm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%TODO: This will be quite hard to nail down outside of
-%      Tassos' work. May need his advise.
-%TODO: Check references 75-86 of 
+%TODO: Check references 75-86 of
 %      A SURVEY ON 3D MODELING OF HUMAN FACES FOR FACE RECOGNITION
+Structure-from-Motion (SfM)~\cite{ullman1979interpretation,tomasi1992shape,hartley2003multiple}
+is a method for recovering the 3D structure of a set of 2D points that
+correspond to salient areas of an image. These 2D coordinates are expected to be
+in correspondence across multiple images and thus are modelled as representing
+the projection of a 3D structure onto an image plane observed from multiple
+camera positions. The positions of these cameras and the 3D structure is assumed
+to be unknown. Rigid SfM has been successfully employed to recover large outdoor
+scenes such as the Colosseum in Rome~\cite{agarwal2009building}. Although large
+scenes which may contain very sparse correspondences typically optimise rigid
+SfM via ``bundle-adjustment''~\cite{triggs1999bundle} which seeks to
+minimise the re-projection error between the predicted camera poses and
+the known 2D points. Since facial sequences will contain many fewer
+known 2D locations viewed over likely fewer camera positions, we focus on
+the matrix factorisation formation of SfM~\cite{tomasi1992shape}. Given
+a set of $p$ 2D points for $n$ images, where the 2D points are in
+correspondence across the images, we construct
+the measurement matrix $\bb{W} = [\bb{w}_1, \ldots, \bb{w}_n] \in \R^{2p \times n}$
+where each column represents the measurements from each input frame,
+$\bb{w} = {[x_1, y_1, \ldots, x_p, y_p]}^T \in \R^{2p \times 1}$. The 2D points
+in each frame are assumed to be formed via orthographic projection,
+$\bb{w} = \bb{R} \bb{S}$ where $\bb{R} \in \R^{2 \times 3}$ are the first two
+rows of a camera rotation matrix and
+$\bb{S} = [\bb{s}_1, \ldots, \bb{s}_n] \in \R^{3 \times n}$ where
+$\bb{s} = {[x_1, y_1, z_1]}^T \in \R^{3 \times 1}$ are
+the true 3D coordinates of a given 2D point. Given the parametrisation of motion
+as an orthographic projection, the measurement matrix is assumed to zero-mean
+across the columns and thus any translation in the camera plane is accounted
+for. The matrix factorisation formulation of rigid SfM is thus simply defined
+%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eg:bg_sfm_rigid_objective}
+	\bb{W} = \bb{D} \bb{S}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%
+where $\bb{D} \in \R^{2n \times 3}$ is the block diagonal camera matrix
+formed by $\sum_{i=1}^n e_i {e_i}^T \otimes \bb{R}_i$ using the canonical
+basis $\mathbb{F}^n$. However, images of faces rarely contain the same static
+face from many observation points. Although this is possible, constraining the
+subject to be perfectly still is a very strong restriction on the 3D recovery
+conditions. If this level of control is possible it is highly likely that multi-
+view stereo would be preferable and the camera positions could also be
+controlled. What is more likely is that either multiple faces of differing
+individuals (unconstrained image collection) or a video of a single individual
+in motion (sequences of images) would be captured.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

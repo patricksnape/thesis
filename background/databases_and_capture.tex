@@ -298,8 +298,8 @@ shape recovery.
 \caption{A timeline of facial capture methods. P-S denotes Passive Stereo,
          A-S is Active Stereo, SL is Structured Light, TM-PS is Time-multiplexed
          Photometric Stereo, MS-PS is Multi-spectral Photometric Stereo and PC
-         denotes Performance Capture. \textsuperscript{$\dagger$} denotes marker 
-         based A-S and \textsuperscript{*} denotes spherical gradient 
+         denotes Performance Capture. \textsuperscript{$\dagger$} denotes marker
+         based A-S and \textsuperscript{*} denotes spherical gradient
          illumination.}
 \label{tbl:timeline_capture}
 \end{minipage}
@@ -380,10 +380,10 @@ focuses on recovering a topologically consistent mesh throughout the sequence by
 applying optical flow and drift correction methods. The output is a performance
 capture sequence at 30 fps with a high resolution mesh and texture map
 with consistent topology across the sequence.
-\citet{wu2011high} apropose to augment a standard passive stereo result with 
-a term to enforce photometric consistency. However, they optimise in the space 
-of the image gradients rather than directly perturbing the surface by the 
-recovered spherical harmonic orientations, as is done 
+\citet{wu2011high} apropose to augment a standard passive stereo result with
+a term to enforce photometric consistency. However, they optimise in the space
+of the image gradients rather than directly perturbing the surface by the
+recovered spherical harmonic orientations, as is done
 in~\cite{nehab2005efficiently}.
 
 \textbf{Active stereo} augments traditional passive stereo with a signal that is
@@ -492,13 +492,13 @@ capture 150 fixed illumination patterns across 16 cameras to allow for more
 accurate specular normal estimation. They also measure skin translucency
 using a fibre optic spectrometer~\cite{nickell2000anisotropy} and provide
 a reflectance model built from 149 subjects that is diverse across race, age and
-gender. Both \citet{weyrich2006analysis} and \citet{debevec2000acquiring} used 
+gender. Both \citet{weyrich2006analysis} and \citet{debevec2000acquiring} used
 a structured light method to recover
 the macroscopic shape and then augmented this model with the normals
 recovered from the illumination~\cite{nehab2005efficiently}.
-\cite{nehab2005efficiently} provide an efficient method for combining coarse 
+\cite{nehab2005efficiently} provide an efficient method for combining coarse
 surface estimates with normal information. In particular, they demonstrate the
-efficiency of their method with data capture using an 
+efficiency of their method with data capture using an
 active stereo method~\cite{zhang2003spacetime,davis2005spacetime} which is
 augmented with surface normals recovered from time-multiplexed photometric
 stereo.
@@ -508,7 +508,7 @@ utilized to capture many images. They also experimented with different
 illumination bases to attempt to improve the lighting of the subject
 under such short exposures. Diffuse normals are recovered with PS and
 reflectance mapping~\cite{miller1984illumination} is utilized for facial
-relighting. 
+relighting.
 \citet{malzbender2006surface} also propose PS for dynamic
 capture and provide a hardware set up that enables real-time capture
 of reflectance information of small objects. However, specular effects

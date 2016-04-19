@@ -1,14 +1,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{3D Morphable Models}\label{sec:bg_3dmm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The term 3D Morphable Models (3DMMs) was first proposed by 
+The term 3D Morphable Models (3DMMs) was first proposed by
 \citet{volker1999morphable} to describe a 3D reconstruction based on inverse
 rendering methods. These methods are described as ``analysis-by-synthesis''
 methods in that they attempt to model the input image by synthesizing a new
 image using the model and a rendering pipeline. Most commonly, this synthesized
 image is then compared with the input image and the image reconstruction error
 is minimised. In~\cite{volker1999morphable}, \printauthor{volker1999morphable}
-model the face through two statistical models which are built using 
+model the face through two statistical models which are built using
 Principal Component Analysis (PCA). The first is a generative model of 3D
 facial shape and the second is a generative model of facial texture.
 An instance of the models can be generated as follows
@@ -18,32 +18,32 @@ An instance of the models can be generated as follows
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
 where
-$\bb{s} = {[x_1, y_1, z_1, \ldots, x_m, y_m, z_m]}^T \in \R^{3m \times 1}$ is 
+$\bb{s} = {[x_1, y_1, z_1, \ldots, x_m, y_m, z_m]}^T \in \R^{3m \times 1}$ is
 a vectorized instance of the $m$ vertex 3D shape model,
 $\bb{\bar{s}} \in \R^{3m \times 1}$ is a mean 3D face shape,
-$\bb{S} \in \R^{3m \times p}$ are the orthogonal PCA shape eigenvectors and 
+$\bb{S} \in \R^{3m \times p}$ are the orthogonal PCA shape eigenvectors and
 $\bb{\alpha} \in \R^{p \times 1}$ are the coefficients describing the unique
-linear combination of eigenvectors. Similarly, 
-$\bb{t} = {[t_1, \ldots, t_d]}^T \in \R^{d \times 1}$ is 
+linear combination of eigenvectors. Similarly,
+$\bb{t} = {[t_1, \ldots, t_d]}^T \in \R^{d \times 1}$ is
 a vectorized instance of the $d = w \times h$ pixel texture image,
 $\bb{\bar{t}} \in \R^{d \times 1}$ is a mean texture,
-$\bb{T} \in \R^{d \times q}$ are the PCA texture eigenvectors and 
+$\bb{T} \in \R^{d \times q}$ are the PCA texture eigenvectors and
 $\bb{\beta} \in \R^{q \times 1}$ are the coefficients.
 These two statistical models are built from textured meshes captured using
 one of the methods outlined in \cref{sec:bg_db_capture}. For example,
-the Surrey~\cite{Huber:F5Dca9zy}, Basel~\cite{paysan20093d} and 
+the Surrey~\cite{Huber:F5Dca9zy}, Basel~\cite{paysan20093d} and
 USF~\cite{volker1999morphable} models are all examples of appropriate
 statistical models for 3DMM fitting.
-In this thesis, we make the distinction between 
+In this thesis, we make the distinction between
 ``morphable models'' as statistical models and ``morphable models'' as an
-analysis-by-synthesis method for 3D face recovery. When referring to 
+analysis-by-synthesis method for 3D face recovery. When referring to
 the statistical models we will simply refer to them as statistical models and
-we reserve the phrase ``morphable models'' or 3DMMs solely for the 
+we reserve the phrase ``morphable models'' or 3DMMs solely for the
 analysis-by-synthesis algorithms. In order to recover 3D shape from an image,
 the objective minimized is the error between the synthesized image of the
 3DMM and the input image. Thus, 3DMMs must explicitly model the rendering
 method and require both synthetic camera parameters and a parametric model
-of lighting. In~\cite{volker1999morphable}, 
+of lighting. In~\cite{volker1999morphable},
 the Phong illumination~\cite{tuong1973illumination} model is used to render
 the illumination of the 3DMM output. These extra parameters are encapsulated
 by $\bb{\rho}$ and include the parameters of a weak perspective projection
@@ -57,7 +57,7 @@ can be optimised using the maximum a posterior estimator (MAP) to form
 the objective function:
 %%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eg:bg_3dmm_objective}
-	E = \frac{1}{{\sigma_N}^2} E_I + \sum_i \frac{{\phi_i}^2}{{\sigma_{S,i}}^2} + \sum_i \frac{{\theta_i}^2}{{\sigma_{T,i}}^2} + \sum_i \frac{{\rho_i}^2 - {\rho_0}_i^2}{{\sigma_{R,i}}^2} 
+	E = \frac{1}{{\sigma_N}^2} E_I + \sum_i \frac{{\phi_i}^2}{{\sigma_{S,i}}^2} + \sum_i \frac{{\theta_i}^2}{{\sigma_{T,i}}^2} + \sum_i \frac{{\rho_i}^2 - {\rho_0}_i^2}{{\sigma_{R,i}}^2}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
 where $\{\sigma_N,\sigma_S,\sigma_T,\sigma_R\}$ are regularisation weights,
@@ -71,7 +71,7 @@ many local minima due to the large number of parameters. 3DMMs also require
 a very accurate initialisation in terms of head pose and are unable to model
 even moderate illumination variation due to the complexities of optimising
 \cref{eg:bg_3dmm_objective}. Finally, 3DMMs only generalise as well as the
-statistical models used within them. These models can be expensive to 
+statistical models used within them. These models can be expensive to
 construct and often do not generalise well across the entire population as
 they do not contain children or individuals of non-Caucasian descent.
 
@@ -82,17 +82,17 @@ that vary too far from the mean face and thus the textured output of a 3DMM
 often looks visually convincing. Thus 3DMMs have been a popular area of
 research despite their shortcomings.
 \cite{atick1996statistical} proposed one of the earliest analysis-by-synthesis
-methods for facial shape recovery. They compute PCA on a set of 
+methods for facial shape recovery. They compute PCA on a set of
 Cyberware~\cite{cyberware} scanned heads that are parametrized using
 cylindrical coordinates. They then pose shape recovery as the problem
 of recovering the PCA coefficients for a given input image by minimizing
 the least squares error between the basis rendered orthographically
-using a Lambertian BRDF (with assumed known light and uniform albedo) 
-and the input image. This work was inspired by the Eigenfaces work of 
+using a Lambertian BRDF (with assumed known light and uniform albedo)
+and the input image. This work was inspired by the Eigenfaces work of
 \citet{Sirovich:1987te} but utilized 3D data rather than images. To solve
 the least squares a linearisation is performed via a Taylor series expansion
 and conjugate gradient descent is applied.
 %TODO: Check Smith's work and see if there is more stuff
-%      for this section. Likely quite a lot of citations 
+%      for this section. Likely quite a lot of citations
 %      are missing here.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

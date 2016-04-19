@@ -62,7 +62,7 @@ made.
 \subsection{Image Formation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}
+\begin{figure}[t]
 	\centering
 	\begin{tabular}{cc}
 		\multicolumn{2}{c}{
@@ -98,8 +98,7 @@ made.
 \label{fig:bg_sfs_rad_irrad}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%TODO: Need a section on Spherical Harmonics and on Integrating normals
-%      into depth.
+%TODO: Need a section on Spherical Harmonics
 When discussing image formation methods a number of assumptions are commonly
 made in order to ensure tractability of of the rendering physics. Firstly,
 unless explicitly mentioned, we assume an orthographic camera projection. This
@@ -330,9 +329,9 @@ $\{\bb{Z}_x, \bb{Z}_y\}$:
 %%%%%%%%%%%%%%%%%%%
 which is readily solved via the Poisson equation:
 $\nabla^2 \bb{Z} = \operatorname{div}(\bb{p}, \bb{q})$ where
-$\operatorname{div}(\bb{p}, \bb{q}) = \frac{\partial p}{\partial x} + \frac{\partial q}{\partial y}$ 
+$\operatorname{div}(\bb{p}, \bb{q}) = \frac{\partial p}{\partial x} + \frac{\partial q}{\partial y}$
 is the divergence operator. The interested reader should consult the
-work of \citet{agrawal2006range}, which provides a unified method for 
+work of \citet{agrawal2006range}, which provides a unified method for
 surface gradient field integration, including the commonly employed Fourier
 basis method of \citet{frankot1988method}.
 
