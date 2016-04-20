@@ -1,0 +1,33 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Further Related Work}\label{sec:related_work}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+There is a very large body of work on facial alignment that largely revolves
+around the concept of identifying a set of sparse target landmarks within an
+image. The most relevant algorithm to our proposed method is that of the
+Active Appearance Model (AAM) \cite{RefWorks:95}, particularly the variation by
+Baker and Matthews \cite{RefWorks:227} that relates AAMs to the Lucas-Kanade
+\cite{RefWorks:71,RefWorks:10} optical flow literature. However, our method
+does not incorporate an appearance model and relies on a single given template
+image and is thus closer in nature to the original Lucas-Kanade algorithm. 
+Our algorithm also places a low-rank constraint on the shape model coefficients
+enforcing a form of temporal consistency, which has not been previously 
+considered.
+
+It is also important to note that, other than a couple of examples
+\cite{Ramnath:2008jj,Anderson:2013dl}, the AAM literature has focused on the
+recovery of sparse landmarks, not a dense motion field as in this work.
+Even in the cases of \cite{Ramnath:2008jj,Anderson:2013dl}, the warping of the
+input images is achieved via an interpolation method such as
+piecewise affine or thin-plate splines. In this work, our warping
+method is derived directly from the deformation basis itself and thus recovers
+dense correspondences.
+As we show in Section~\ref{sec:method}, the linear nature of our warp allows
+us to derive a very efficient optimisation strategy,
+based on the Inverse Compositional algorithm proposed by Baker and Matthews
+\cite{RefWorks:10}. 
+
+Finally, the work of Kemelmacher-Schlizerman \mbox{\etal} \cite{kemelmacher2012collection}
+is relevant as it considers learning deformation fields between images of faces.
+However, \cite{kemelmacher2012collection} considers an optical flow method
+as a key component of the method and does not propose a novel optical formulation,
+in contrast to our proposed model-based algorithm.

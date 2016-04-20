@@ -1,0 +1,339 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Face Flow Representation}\label{sec:method}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Let us assume that the input face video contains $F$ frames. Let $M\subset\R^2$
+be a 2D domain that corresponds to the region of a mean face in neutral expression
+that will be used as a template. We seek to estimate a function
+$\bu(\bx;f) : M\times \{1,\ldots,F\} \rightarrow \R^2$ that represents the
+optical flow from this domain to every frame of the input sequence.
+More precisely, this function establishes the correspondence between every
+facial point $\bx$ in the domain $M$ and its location at every frame index $f$,
+which is given by the warping function $W_f(\bx)=\bx+\bu(\bx;f)$. This warping
+function registers the $f$-th frame to the domain $M$.
+
+Exploiting prior knowledge about the warping functions that are yielded from
+facial deformations, we adopt a linear model for every $W_f(\bx)$ as follows:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+    W_f(\bx)=W(\bx;\bc_f) = \langle \bB(\bx) , \bc_f \rangle, \,\bx \in M,
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where $\bB:M\rightarrow \R^{2 \times D}$ is a learnt basis of facial deformations that
+contains $D$ basis vector elements and is common to all frames. Also,
+$\bc_f\in\R^D$ is the coefficient vector for the $f$-th frame. $\bB(\bx)$ is 
+constructed a priori during a training process and
+therefore, for an input face video, we transform the multi-frame optical flow
+estimation to the estimation of the following $D\times F$ matrix:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+    \matr{C} = \left[ \bc_1 \cdots \bc_f \cdots \bc_F \right] \,,
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The $f$-th column of this matrix contains the coefficients that yield the
+warping function (and thus define the optical flow) for the $f$-th frame of the
+video. Following AAMs \cite{RefWorks:95}, the first 4 components of these coefficients, 
+which correspond to the first 4 rows of the coefficient matrix $\matr{C}$, 
+control the similarity transformation that rigidly-aligns the template to every 
+frame. The remaining components control the non-rigid deformations. 
+Therefore, we decompose $\matr{C}$ into the following sub-matrices:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{E:C_DEC}
+    \matr{C} =
+        \left[
+            \begin{array}{l}
+                \matr{C}_s\\
+                \matr{C}_{nr} 
+            \end{array}
+        \right],
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where $\matr{C}_s$ and $\matr{C}_{nr}$ correspond to the similarity and non-rigid 
+part of the facial deformations respectively. 
+$\matr{C}_s$ is a $4\times F$ matrix and $\matr{C}_{nr}$ is a $K \times F$ matrix, 
+where $K=D-4$ is the rank of non-rigid deformations of the model.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Proposed Energy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Let $\bI(\bx;f):\Omega\times \{1,\ldots,F\} \rightarrow \R^{N_c}$ be the
+$N_c$-channel sequence of frames of the input video, where $\Omega$ is the
+rectangular image domain that corresponds to this video. The channels of the
+input frames originate from the application of some appropriate feature descriptor.
+
+As a preprocessing step, a frame of the sequence which is as close as possible to
+a frontal pose and a neutral expression is selected as reference. This frame is
+warped to the template domain $M$ in order to match a mean face. This selection
+and warping estimation can be easily done automatically by fitting the face
+with an automatic facial alignment method \cite{kazemi2014one,RefWorks:227}. In this 
+case, we assume that there is a known correspondence between the sparse points
+found by the alignment method and the reference frame of our basis. Once the
+sparse landmarks have been acquired, it is simple to warp the image into the
+reference frame using a warping function such as piecewise affine. This
+procedure is identical to the one performed when building Active Appearance
+Models, with the exception of only being performed on a single template image.
+In short, this warped reference frame defines the template image 
+$\bT(\bx):M \rightarrow \R^{N_c}$.
+
+We also consider the case where, as further preprocessing, a sparse set of facial
+landmarks is localised and tracked in the video. Let $L$ be the total number of
+landmarks and $\bell_{i,f}\in\R^2$ the position of the $i$-th landmark on the
+$f$-th frame. In addition, let $\hat{\bell}_i\in\R^2$ be the position of the
+$i$-th landmark on the template image, which is computed by applying the warping
+function on the corresponding landmark of the reference frame.
+
+We propose to estimate the face flow through the minimisation of the following energy:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+    E(\matr{C}) = E_{img}(\matr{C}) + \beta E_{land}(\matr{C}) \,,
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+under the low-rank constraint:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:lowrank}
+    \mbox{rank}(\matr{C}_{nr}) \leq \lambda,
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where $\matr{C}_{nr}$ is the non-rigid part of $\matr{C}$ \eqref{E:C_DEC}. 
+$E_{img}$ is an image data 
+term and $E_{land}$ is a landmark term. The positive weight $\beta$ 
+controls the balance between these terms, whereas the integer $0\leq\lambda\leq K$ is the 
+imposed maximum rank of non-rigid deformations for the input sequence. 
+We now define and explain the different parts of this minimisation problem.
+
+The first term ($E_{img}$) enforces consistency of the feature descriptor values
+of every point of the template over all frames:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:eimg}
+    E_{img} = \sum_{f=1}^F \int_M  \norm{
+                \bT(\bx) -
+               \bI\left( W(\bx;\bc_f) \,;\, f \right)
+             }^2  \, \ud \bx,
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In general, such an image data term could be grossly affected by artifacts in the 
+image, such as illumination variation and external occlusions. Therefore, it is
+common to use a robust penaliser rather than the quadratic term shown in 
+(\ref{eq:eimg}). However, we act on recent advancements in facial alignment 
+algorithms \cite{7104116} that suggest that densely 
+sampled feature descriptors can vastly improve the performance of alignment
+algorithms without sacrificing the efficiency of a quadratic optimisation.
+The use of dense descriptors is similar to SIFTFlow \cite{Liu:2011jv}, where 
+SIFT \cite{lowe1999object} features are densely sampled at every pixel in order
+to improve optical flow.
+
+The second term ($E_{land}$) is a quadratic prior that ensures that the estimated
+face flow is in accordance with the landmark information on the corresponding
+sparse points in every frame:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+    E_{land} = \sum_{f=1}^F \sum_{i=1}^L \norm{
+                    W(\hat{\bell}_i;\bc_f) - \bell_{i,f}
+                }^2,
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Regarding the low-rank constraint \eqref{eq:lowrank}, it is natural to assume that the deformations
+of the face over time are highly correlated and thus lie in a low-dimensional subspace.
+However, the similarity transformations describing the face motion are, in general, not 
+sufficiently correlated with the non-rigid deformations that the face undergoes. For example,
+the similarity transformations often originate from camera motion. Consequently, we penalise the number of 
+independent components needed to describe the non-rigid face deformations of the specific input 
+sequence and thus impose $\matr{C}_{nr}$ to be of low-rank.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Estimation of the Sparse Landmarks}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In order to estimate sparse landmarks, we can make use of state-of-the-art, extremely
+efficient facial alignment methods \cite{kazemi2014one,6909636,menpo14,6909835}.
+State-of-the-art methods, such as that by Kazemi \etal \cite{kazemi2014one},
+execute in under a millisecond, and can provide landmark localisation errors
+of within 3 pixels on average for extremely challenging unconstrained images.
+In this paper, when we consider estimating landmarks, we use the method of 
+\cite{kazemi2014one} in conjunction with a robust face detector \cite{Zafeiriou20151}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Learning the Deformation Basis}\label{subsec:learning_deformation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Learning the deformation basis is a very challenging issue and most likely the reason
+why there is little research in building dense facial deformation models. However,
+inspired by the performance of recent optical methods, such as that of Garg \etal \cite{Garg:2013hu},
+we chose to build our basis using the output of optical flow methods. To realise this,
+we chose the optical flow method of Garg \etal \cite{Garg:2013hu}, augmented with
+an additional quadratic penalty involving automatically estimated sparse landmarks.
+This additional penalty was found to significantly improve the performance of 
+\cite{Garg:2013hu} in expressive sequences, such as wide openings of the mouth.
+
+We propose to learn a set of trajectories over a number of sequences, each with
+a differing reference frame. We are thus faced with the problem
+of achieving correspondence between these reference frames for the construction
+of the deformation basis. Given that each frame contains estimated sparse landmarks,
+we calculate the mean position of each landmark and define the area of spatial support
+for our deformation basis, $M$, to be the pixels that are situated inside the
+convex hull of the these positions. Once the reference frame is constructed,
+each set of trajectories is converted into endpoints for each frame, analogous
+to dense landmarks for the image, and sampled into the reference frame using
+a thin-plate splines warp parametrised by the automatically estimated landmarks.
+Finally, given that we have a set of dense landmarks in correspondence, we perform a 
+Procrustes alignment in order to normalise any scale issues that may be present.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Optimisation of the Proposed Energy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The image data term is highly non-convex, therefore we have to adopt an iterative
+linearisation scheme. For this scheme to be computationally efficient, we consider
+an inverse compositional (IC) strategy. In every iteration, we seek to update the
+current estimate $\matr{\tilde{C}}= [\tilde{\bc}_1 \cdots \tilde{\bc}_F]$ of the
+coefficient matrix. In addition, we consider a spatial discretisation of $E_{img}$ 
+on a regular pixel grid with unary steps. Let $\bx_1,\ldots,\bx_P$ be the 2D 
+locations of the $P$ pixels that lie within the domain $M$.
+
+The IC algorithm, as proposed by \cite{RefWorks:10}, is a very efficient method of solving
+a parametrised image alignment problem, which corresponds to minimising solely the image data 
+term $E_{img}$ of the proposed energy for every frame of the sequence. Given a single 
+template image $\bT$ and a single input image $\bI$, the classical 
+Lucas-Kanade \cite{RefWorks:71} problem is given by
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:lk_ic}
+    \sum_{p=1}^P  \norm{
+                         \bT(W(\bx_p;\Delta \bc)) -
+                         \bI\left( W(\bx_p;\bc) \right)
+                        }^2,
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+which is minimised for $\Delta \bc$, the parameters of the warp for a single image. 
+Here, $\bT(W(\bx_p;\Delta \bc))$ denotes 
+the template warped around the current linearised estimate of $\Delta \bc$.
+The IC algorithm is so efficient because we assume that we
+linearise (\ref{eq:lk_ic}) around $\Delta \bc$ and thus the template
+is fixed and does not require warping during the updates. To update the parameters
+$\bc$, a compositional update is performed: 
+$W(\bx_p;\Delta \bc) \leftarrow W(\bx_p;\Delta \bc) \cdot W(\bx_p;\Delta \bc)^{-1}$.
+This update ensures that the derivative with respect to the warp is also fixed
+and therefore we arrive at the extremely efficient update for $\bc$:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:lk_ic_update}
+    \Delta \bc = (\bJ^T \bJ)^{-1} \sum_{p=1}^P \bJ^T [\bI\left( W(\bx_p;\bc) \right) - \bT(\bx_p)],
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where $\bJ = \nabla \bT \frac{\partial W}{\partial \bc}$,
+and the derivative $\frac{\partial W}{\partial \bc}$ is taken around $(\bx_p;\boldsymbol{0}) = \bB(\bx_p)$. Therefore,
+the entire Hessian term $\boldsymbol{H} = \bJ^T \bJ$, does not depend on $\bc$ and can be precomputed.
+Unlike in most previous works in the area, our motion model is completely translational and thus does not involve
+a complicated compositional update. In fact, it can be shown that our compositional update
+has the form $\bc \leftarrow \bc - \Delta \bc$ and is thus equivalent to the 
+additive parameter update scheme \cite{5206788}.
+
+Returning to the optimisation of the proposed energy, the
+image data term can be approximated as (after the IC strategy and the spatial discretisation):
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+    E_{img} \approx \sum_{f=1}^F \sum_{p=1}^P  \norm{
+                                    \bT(W(\bx_p;\Delta \bc_f)) -
+                                   \bI\left( W(\bx_p;\tilde{\bc}_f)\,;\, f \right)
+                                 }^2,
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where $\Delta \bc_f$ are the additive warp parameters for frame $f$. 
+Note that $\Delta \bc_f = \bc_f - \tilde{\bc}_f$, a relation that we use since
+in our formulation, in contrast to the traditional IC algorithm, we incorporate
+terms that depend directly on $\bc_f$.
+By considering linearisations of the template in the above equation and rewriting
+the terms using compact matrix notation over all pixels and frames, the total
+proposed energy becomes:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{E:ENERGY}
+    E(\matr{C}) \approx \norm{ \matr{R} + \matr{J} (\matr{C} - \matr{\tilde{C}}) }_F^2
+    + \beta \norm{\matr{B}_\ell \matr{C} - \matr{L}_{loc}}_F^2,
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where $\matr{R}$ is a $(P N_c) \times F$ matrix that contains the error residuals
+$\bT(\bx_p)) - \bI\left( W(\bx_p;\tilde{\bc}_f) \,;\, f \right)$ for all pixels
+$p$ and frames $f$. Also,
+$\matr{J}$ is a $(P N_c) \times D$ matrix that contains the template Jacobian
+$\nabla\bT(\bx_p) \bB(\bx_p)$ for all pixels.
+Finally, $\matr{B}_\ell$ is a $2L \times D$ matrix consisting of the deformation
+basis evaluated at the locations of the landmarks on the template and
+$\matr{L}_{loc}$ is a $2L\times F$ matrix with the coordinates of the landmarks
+in all frames:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+    \matr{B}_\ell=
+        \left[
+            \begin{array}{c}
+                \bB(\hat{\bell}_1)\\
+                \vdots\\
+                \bB(\hat{\bell}_L)
+            \end{array}
+        \right] ,\,
+    \matr{L}_{loc}=
+        \left[
+            \begin{array}{ccc}
+                \bell_{1,1}&\cdots&\bell_{1,F}
+                \\
+                \vdots&&\vdots
+                \\
+                \bell_{L,1}&\cdots&\bell_{L,F}
+            \end{array}
+        \right],
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+Using the decomposition of $\matr{C}$ in a similarity and a non-rigid part (\ref{E:C_DEC}), the energy (\ref{E:ENERGY})
+is written as:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{eqnarray*}%\label{E:ENERGY_PARTS}
+    &&E(\matr{C}_s,  \matr{C}_{nr} ) \approx \\
+    &    &\norm{ \matr{R} + \matr{J}_{nr} (\matr{C}_{nr} - \matr{\tilde{C}}_{nr}) + \matr{J}_{s} (\matr{C}_{s} - \matr{\tilde{C}}_{s}) }_F^2 \nonumber \\
+    &     &+ \beta \norm{{\matr{B}_\ell}_{nr} \matr{C}_{nr} - {\matr{B}_\ell}_{s} \matr{C}_{s} - \matr{L}_{loc}}_F^2,
+\end{eqnarray*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+Consequently, we propose to solve the following rank constraint optimisation problem:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{equation}\label{E:MINIMIZATION}
+    \min_{\matr{C}_s,  \matr{C}_{nr}} E(\matr{C}_s,  \matr{C}_{nr} ) \quad \mbox{s.t.} \quad \mbox{rank}(\matr{C}_{nr}) \leq \lambda,
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+Although (\ref{E:MINIMIZATION}) is a non-convex problem, it can be solved efficiently
+by employing a block-coordinate descent (BCD) scheme. Let $t$ be the iteration index. The 
+iteration of BCD for (\ref{E:MINIMIZATION}) reads as follows:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{eqnarray}
+    & &\matr{C}_s[t+1] =  \min_{\matr{C}_s[t]} E(\matr{C}_s[t],  \matr{C}_{nr}[t] ), \label{E:SUB1} \\ 
+    & & \matr{C}_{nr}[t+1] =  \min_{\matr{C}_{nr}[t+1]} E(\matr{C}_s[t+1],  \matr{C}_{nr}[t] ), \nonumber \\
+    & &\quad \mbox{s.t.} \quad \mbox{rank}(\matr{C}_{nr}) \leq \lambda. \label{E:SUB2}
+\end{eqnarray}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+The sub-problem (\ref{E:SUB1}) is a least-squares problem admitting a closed-form solution. 
+
+The sub-problem (\ref{E:SUB2}) is also solved in closed-form. First, let us define the matrices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{equation}\label{E:Mat}
+    \matr{A}=
+        \left[
+            \begin{array}{l}
+               \matr{R} + \matr{J}_{s} (\matr{C}_{s} - \matr{\tilde{C}}_{s}) \\
+               {\matr{B}_\ell}_{s} \matr{C}_{s} - \matr{L}_{loc}
+            \end{array}
+        \right] ,\,
+    \matr{Q}=
+        \left[
+            \begin{array}{l}
+                \matr{J}_{nr} \\
+                {\matr{B}_{\ell}}_{nr}
+            \end{array}
+        \right],
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+with $\matr{Q} = \matr{U}\matr{\Sigma}\matr{V}$ being the Thin Singular Value Decomposition of $\matr{Q}$,
+$\matr{Q}^{\dag}$ denoting the pseudo-inverse of $\matr{Q}$,
+$\matr{\Xi} = \matr{U}\matr{U}^T\matr{A}$, and $\matr{\Xi}_{(\lambda)}$ being the 
+$\lambda$-rank approximation of $\matr{\Xi}$.
+Then by using (\ref{E:Mat}),  (\ref{E:SUB2}) is written as:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{equation}\label{E:RedRank}
+    \min_{\matr{C}_{nr}} \norm{\matr{A}  - \matr{Q} \matr{C}_{nr}}_F^2 \quad \mbox{s.t.} \quad  \mbox{rank}(\matr{C}_{nr}) \leq \lambda,
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+The closed form solution of (\ref{E:RedRank}) is given by \cite{Sondermann:86}: 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{equation}
+    \matr{C}_{nr}  = \matr{Q}^{\dag}\matr{\Xi}_{(\lambda)}  \,.
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+The convergence of the proposed BCD algorithm is guaranteed since the objective function
+is differentiable and involves two blocks of variables \cite{Luo:92}.

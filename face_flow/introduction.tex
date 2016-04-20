@@ -1,0 +1,174 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}\label{sec:introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Computing optical flow in the presence of non-rigid deformations
+is an important and challenging task. It plays a significant role in a wide variety of 
+problems such as medical imaging, dense non-rigid 3D reconstruction, 
+dense 3D mesh registration, motion segmentation, video re-texturing and super-resolution.
+Broadly, optical flow methods describe procedures to relate pixels in
+one image to pixels in another image of the same object. They establish a 
+displacement field that can be thought of as a sampling, or warping, of the input 
+image back onto the reference image. Traditionally, optical flow is applied on a pair 
+of consecutive frames of a sequence, treating one of the frames as the template.
+However, in terms of revealing the dynamics of a non-rigid scene, it is much more 
+useful to estimate the optical flow between every frame of a long sequence and a 
+common template. In this scenario, long-term dense 2D tracks across the sequence are established. 
+We tackle the problem of multi-frame optical flow by focusing on a 
+specific deformable object, the human face.
+
+The most straight-forward way to estimate a multi-frame optical flow is to apply an 
+algorithm that solves the traditional two-frame optical flow problem between every 
+frame and the template independently.
+However, the fact that we have to deal with long sequences poses major difficulties. 
+For example, the point displacements between the template and a frame can be substantially 
+large and severe occlusions of parts of the template can occur in some frames. Even 
+state-of-the-art two-frame optical flow methods that are especially designed to deal 
+with large displacements or occlusions, \eg \cite{Brox:2011be,revaud2015epicflow}, are 
+prone to fail. This is because they lack any additional cues that could help them 
+estimate an appropriate initialisation or to disambiguate severe occlusions.
+
+An alternative solution to the multi-frame optical flow problem, also based on 
+two-frame optical flow, is to estimate flow between consecutive frames and then 
+combine the various solutions. A simple integration of the solutions to obtain long-term 
+2D tracks is prone to drift due to error accumulation \cite{RefWorks:292,Brox:2011be}.
+This can be improved by the automatic detection of occlusions, gross errors, and other ambiguities 
+\cite{sand2008particle,sundaram2010dense,rubinstein2012towards,ricco2012simultaneous,GSRPCA}, 
+but any such solution is still limited by the accuracy of the initial two-frame optical 
+flow estimations that are completely local in time and do not exploit any temporal cues.
+
+Several recent methods solve the multi-frame optical flow problem directly, by 
+implicitly taking into account the rich temporal information that is present in 
+non-rigid scenes \cite{Irani02,Torresani:2001iw,Torresani:2002jn,tomasi2012dense,ricco2013video,Garg:2013hu}. 
+For example, the long-term 2D trajectories of points on a surface undergoing non-rigid 
+deformation are highly correlated and can be compactly described via a linear combination of a 
+low-rank trajectory basis. This basis is typically learnt from the input sequence itself. In 
+this way, these methods are more robust to occlusions and yield a temporally coherent 
+result. However, they rely only on some generic spatial and temporal regularisation 
+priors, applicable to any deformable object and do not utilise any prior knowledge 
+about the specific object observed in the scene. This makes them fail in more challenging 
+conditions that often occur in real-world scenes, such as severe occlusions or 
+significant illumination changes, which cannot be disambiguated by temporal regularisation 
+alone.
+Furthermore, the memory and runtime efficiency of all existing multi-frame optical 
+flow methods is limited by the fact that they have to estimate a very large number 
+of parameters, i.e.~a set of parameters for every pixel of the template. Specially designed 
+parallelisable algorithms, such as primal-dual optimisation schemes \cite{Wedel:DAGM:2009,Garg:2013hu} 
+can be adopted. However, they are only efficient on recent GPU hardware.
+
+In this paper, we overcome the aforementioned limitations by incorporating a face-specific 
+deformation model into the multi-frame optical flow estimation. We assume a learnt 
+deformation basis, rather than one calculated directly from the sequence itself. We 
+focus on human faces which are a very commonly considered object in computer vision, 
+and dense face correspondences are required in many research areas and applications. 
+That is, the establishment of dense correspondences of deformable faces is the first step 
+towards high-performance facial expression recognition \cite{koelstra2010dynamic}, facial 
+motion capture \cite{beeler2011high} and 3D face reconstruction \cite{Garg:2013gr}. 
+Nevertheless, computing dense face correspondences has received limited attention 
+\cite{decarlo2000optical,yacoob1996recognizing}. This is attributed to the difficulty of 
+developing a statistical model for dense facial flow due to the in-ability of humans to 
+densely annotate sequences and the limited robustness of the optical flow techniques 
+\cite{decarlo2000optical}. Hence, the research community has focused on developing 
+statistical facial models built on a sparse set of landmarks \cite{xiong2013supervised}, 
+which provide limited accuracy to the recognition of subtle expressions \cite{li2013spontaneous}. 
+In this paper, we build the first, to the best of our knowledge, statistical models of 
+dense facial flow by capitalising on the success of recent optical flow techniques applied to 
+densely tracking image sequences \cite{Garg:2013hu}. Due to the use of the statistical 
+low-rank model, and in contrast to existing approaches, our method is able to deal with 
+particularly challenging conditions such as severe occlusions of the face and strong 
+illumination changes. Furthermore, the introduction of a known deformation basis drastically 
+reduces the dimensionality of the multi-frame optical flow problem and leads to a 
+very efficient algorithm.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Contributions}\label{sec:contributions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We formulate a novel energy minimisation problem for the robust estimation of 
+multi-frame optical flow in an expressive sequence of facial images.
+Given that the range of motion expressible by a human face is limited, and that
+faces themselves are well known to be highly correlated and compactly described 
+by a low-dimensional subspace, we build a dense deformation 
+basis for faces.
+
+Furthermore, we exploit the even higher correlation between face deformations in 
+a specific input sequence by imposing a low-rank prior on the coefficients of the 
+deformation basis. This acts as a data-specific regularisation term leading to 
+temporally consistent optical flow.
+We also incorporate a sparse landmark prior term to guide the flow estimation in sparse 
+point locations that are accurately predicted by a state-of-the-art face 
+alignment method \cite{kazemi2014one}.
+Finally, we formulate the photometric cost by utilising a state-of-the-art dense 
+feature descriptor that offers robustness even with the usage of a simple quadratic 
+penaliser.
+Our proposed model-based problem formulation, in conjunction with the inverse 
+compositional strategy and low-rank matrix optimisation that we adopt, leads to a 
+highly efficient algorithm for calculating optical flow across a facial sequence.
+For experimental evaluation, we show quantitative experiments on a very challenging 
+novel benchmark of face sequences with dense ground truth optical flow based on motion 
+capture data. We also provide qualitative results on a real sequence displaying
+fast motion and natural occlusions.
+
+%
+%Human faces are a special class of deforming objects that
+%
+%In technological terms, human faces consist one of the most important special classes of non-rigid objects. 
+%The accurate estimation of multiframe optical flow of face videos under varying conditions can be extremely 
+%useful in several computer vision tasks and real-world applications, such as dense 3D face reconstruction, 
+%augmented reality, human-computer interaction ....
+
+
+
+
+
+%For example, optical flow
+%and other dense correspondence methods play an important role in problems
+%such as 3D facial surface recovery
+%\cite{Garg:2013gr,RefWorks:311,Alexander:2013kd,Garrido:2013di},
+%facial recognition \cite{Hsieh:2010jg,Bao:2009gi,Sanchez:2011bz,Liu:2011jv}
+%and facial alignment \cite{RefWorks:95,decarlo2000optical,Vetter:1997fi}.
+%Broadly, optical flow methods describe procedures to relate pixels in
+%one image to pixels in another image of the same object. Typically, this
+%is achieved by finding a displacement field that describes how the pixels
+%in the reference image have moved in the input image. More importantly,
+%this displacement field can be thought of as a sampling, or warping, of
+%the input image pixels back onto the reference image.
+%
+%
+%O
+%
+
+%
+%However, several challenges arise ....
+%
+%multiframe optical flow
+%
+%
+%Even though in a multi-frame setting we
+%
+%Classical optical flow algorithms deal with two images only and are based on the assumption that the displacement field is relatively small.
+%basic assumption is brightness or colour constancy
+%
+%
+%
+%In order to work on a multiframe setting ....
+%limitations ...
+%
+%
+%multiframe methods ...
+%
+%However limitations
+
+
+
+
+
+% Even given a pair of images lacking external occlusions
+% or lighting variation, computing optical flow between the images is ambiguous.
+% In practise, objects are often occluded and lighting in a scene
+% is rarely absolutely consistent. In the most simple optical flow formulation, the
+% range of pixel motion is also assumed to small, which is rarely the case unless
+% the two images were acquired sequentially from a smooth sequence. Given a smooth
+% sequence, the difference between the first and last frame of a deforming non-rigid
+% object can be very large and thus the small neighbourhood assumption is violated.
+% However, remarkable progress has been made in the area of optical flow and
+% recent benchmarks such as the MPI Sintel \cite{Butler:2012cv} dataset have shown
+% that state-of-the-art methods can achieve strong performance on extremely
+% challenging scenes.
