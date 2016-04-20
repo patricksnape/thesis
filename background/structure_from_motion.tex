@@ -19,31 +19,80 @@ known 2D locations viewed over likely fewer camera positions, we focus on
 the matrix factorisation formation of SfM~\cite{tomasi1992shape}. Given
 a set of $p$ 2D points for $n$ images, where the 2D points are in
 correspondence across the images, we construct
-the measurement matrix $\bb{W} = [\bb{w}_1, \ldots, \bb{w}_n] \in \R^{2p \times n}$
-where each column represents the measurements from each input frame,
-$\bb{w} = {[x_1, y_1, \ldots, x_p, y_p]}^T \in \R^{2p \times 1}$. The 2D points
+the measurement matrix $\bb{W} = [\bb{w}_1, \ldots, \bb{w}_n] \in \R^{2n \times p}$
+where each column represents the 2D positions of a single point from each input frame,
+$\bb{w}_i = {[x_{1,1}, y_{1,1}, \ldots, x_{i,n}, y_{i,n}]}^T \in \R^{2n \times 1}$
+are the $n$ locations of the $i$th 2D point. The 2D points
 in each frame are assumed to be formed via orthographic projection,
-$\bb{w} = \bb{R} \bb{S}$ where $\bb{R} \in \R^{2 \times 3}$ are the first two
-rows of a camera rotation matrix and
-$\bb{S} = [\bb{s}_1, \ldots, \bb{s}_n] \in \R^{3 \times n}$ where
-$\bb{s} = {[x_1, y_1, z_1]}^T \in \R^{3 \times 1}$ are
-the true 3D coordinates of a given 2D point. Given the parametrisation of motion
-as an orthographic projection, the measurement matrix is assumed to zero-mean
-across the columns and thus any translation in the camera plane is accounted
-for. The matrix factorisation formulation of rigid SfM is thus simply defined
+$\bb{w}_{i,j} = \bb{R}_j \bb{s}_i$ where $\bb{R}_j \in \R^{2 \times 3}$ are the
+first two rows of a the $j$th frames' camera rotation matrix and
+$\bb{s}_i = [x, y, z] \in \R^{3 \times 1}$ are
+the true 3D coordinates of the $i$th 2D point. The entire 3D shape matrix
+is then given by $\bb{S} = [\bb{s}_1, \ldots, \bb{s}_p] \in \R^{3 \times p}$.
+Given that the camera is orthographic, the measurement matrix is assumed to be
+zero-mean across the columns and thus any translation in the camera plane is
+accounted for. The matrix factorisation formulation of rigid SfM is thus simply
+defined
 %%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eg:bg_sfm_rigid_objective}
-	\bb{W} = \bb{D} \bb{S}
+	\bb{W} = \bb{M} \bb{S}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
-where $\bb{D} \in \R^{2n \times 3}$ is the block diagonal camera matrix
-formed by $\sum_{i=1}^n e_i {e_i}^T \otimes \bb{R}_i$ using the canonical
-basis $\mathbb{F}^n$. However, images of faces rarely contain the same static
-face from many observation points. Although this is possible, constraining the
-subject to be perfectly still is a very strong restriction on the 3D recovery
-conditions. If this level of control is possible it is highly likely that multi-
+where $\bb{M} = {[{\bb{R}_1}^T, \ldots, {\bb{R}_n}^T]}^T$. The solution to
+\cref{eg:bg_sfm_rigid_objective} is found via a 
+Singular Value Decomposition (SVD) under the constraint that 
+$\rank{\bb{W}} \leq 3$ assuming noise free measurements. 
+The SVD introduces a $3 \times 3$ gauge ambiguity which
+can be disambiguated by imposing metric constraints on the fact that the
+rotation matrices should be orthogonal~\cite{tomasi1992shape}. This solves the
+gauge ambiguity up to a global rotation which can be resolved by assuming that
+the world transformation matrix is equivalent to the rotation of the first
+camera.
+
+Unfortunately, images of faces rarely contain the same static
+face from many observation points. Although possible, constraining the
+subject to be perfectly still is a very strong restriction.
+If this level of control is possible then it is highly likely that multi-
 view stereo would be preferable and the camera positions could also be
 controlled. What is more likely is that either multiple faces of differing
 individuals (unconstrained image collection) or a video of a single individual
-in motion (sequences of images) would be captured.
+in motion (sequences of images) are captured. In this case, the movement
+of the true 3D surface is no longer rigid and is described as non-rigid. A
+video of an expressive face would certainly classify as deformable and thus
+non-rigid SfM would be required. Non-rigid SfM differs from rigid SfM in
+that the shape matrix is not assumed to be fix and thus the 3D shape can
+vary over every frame. Obviously this is highly under-constrained and so the
+most general assumption made is that the shape matrix is in fact formed
+from a linear shape basis with $k$ basis shapes. As first proposed by 
+\citet{bregler2000recovering}, this is defined by
+%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eg:bg_sfm_non_rigid_objective}
+	\bb{W} = \bb{D} (\bb{C} \otimes \bb{I}_3) \bb{B}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%
+where $\bb{D} \in \R^{2n \times 3}$ is the block diagonal camera matrix
+formed by $\sum_{j=1}^n e_j {e_j}^T \otimes \bb{R}_j$ using the canonical
+basis $\mathbb{F}^n$,
+$\bb{C} = [{\bb{c}_1}^T, \ldots, {\bb{c}_k}^T] \in \R^{n \times k}$ where
+$\bb{c}_q = {[c_{1, q}, \ldots, c_{n, q}]}^T \in \R^{n \times 1}$ are the 
+coefficients for the $q$th shape basis for every frame and $\bb{I}_3$ is a
+$3 \times 3$ identity matrix. The shape matrix from
+\cref{eg:bg_sfm_rigid_objective} is replaced by the linear basis, 
+$\bb{S} = (\bb{C} \otimes \bb{I}_3) \bb{B}$, where
+$\bb{B} = {[{\bb{\hat{B}}_1}^T, \ldots, {\bb{\hat{B}}_k}^T]}^T \in \R^{3k \times p}$
+and each matrix
+$\bb{\hat{B}}_q = [\bb{\hat{b}}_{1,q}, \ldots, \bb{\hat{b}}_{p,q}] \in \R^{3 \times p}$
+where $\bb{\hat{b}}_{i,q} = [x_{i,q}, y_{i,q}, z_{i,q}] \in \R^{3 \times 1}$ and thus
+$\bb{\hat{B}}_q$ is the $q$th shape basis. Note that the solution to
+\cref{eg:bg_sfm_non_rigid_objective} is found via an SVD by noting that
+$\bb{M} = \bb{D} (\bb{C} \otimes \bb{I}_3)$ and thus the solution is identical
+to \cref{eg:bg_sfm_rigid_objective}, $\bb{W} = \bb{M} \bb{B}$, but with the 
+constraint that the $\rank{\bb{W}} \leq 3k$. Again, this yields the solution up 
+to a $3k \times 3k$ ambiguity and the matrices $\bb{C}$ and $\bb{D}$ are
+recovered by forming a Euclidean upgrade 
+step~\cite{akhter2009defense,xiao2006closed,brand2005direct} or alternatively
+$\bb{M}$ and $\bb{S}$ may be recovered directly~\cite{dai2014simple}.
+Many additional priors have been proposed to improve the recovery of the 3D
+shape including trajectory based methods~\cite{akhter2011trajectory} and
+smoothness priors on the motion between the frames~\cite{bartoli2008coarse}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
