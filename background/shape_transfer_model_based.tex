@@ -44,6 +44,17 @@ structure of the lighting and identity coefficients are recovered. The images
 are aligned using affine alignment of the eye centres and depth is recovered
 from the learnt tensor depth model and the recovered rank-one identity
 coefficients.
+
+\cite{Yang:2011gj} require accurate dense 3D shape estimation in order to
+perform expression transfer between images. Given a set of known 2D landmarks on
+the input image a dense 3D bilinear statistical model is deformed so as to
+minimise the re-projection error. Landmarks on the occluding contour are
+optimised separately in order to ensure correct 2D-3D correspondences. This
+fitting is performed jointly for the two input images in order to attempt to
+ensure consistency of identity.
+Similarly, \citet{yang2012face} perform 3D expression transfer
+but augment the initial 3D shape estimation with a restricted camera model
+rather than a weak perspective model.
 %TODO: Shape-from-silhoette and shape-from-contours both fall in this section
 %      due to the fact that all the methods I can find use models!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -128,6 +139,23 @@ and deformation are solved for alternately.
 of imposing 3D priors for Active Appearance Model alignment. They propose to
 build the 2D statistical model from samples of a projected 3D model and then
 to constrain the 2D fitting by the 3D model. The 3D model is sparse and learnt
-via Structure-from-Motion on the training set.
+via Structure-from-Motion on the training set. \citet{Ramnath:2008jp} extend
+\cite{Matthews:2007gb} in order to perform alignment on multiple posed
+images of an individual. By leveraging the additional information from
+multiple images they show improved fitting performance across all views.
+\cite{Martins:2013hp} also propose a 3D AAM, but employ a fully perspective
+camera model and show how to optimise via a 3D perspective projection
+using a forward additive alignment algorithm. Therefore, no intermediate
+2D model is required.
+\cite{Liao:2010fy} use both raw pixel intensities as well as 
+SIFT~\cite{lowe2004distinctive} as input to an inverse compositional alignment
+algorithm~\cite{baker2004lucas} evaluated for face tracking. The SIFT features 
+are required to be distant from one another and matched features must be close 
+between frames. 
+\citet{Wang:2011kr} propose a method of estimating sparse 3D landmarks without 
+requiring the estimation of the camera viewpoint a priori. A maximum a
+posteriori (MAP) model is proposed that couples the 3D pose parameters, 2D
+landmarks and associated visibility with a projection prior and then maximises
+the posterior probability according to the image likelihood.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

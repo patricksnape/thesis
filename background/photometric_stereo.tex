@@ -120,4 +120,19 @@ considering the separation of lighting and surface components as a matrix
 factorisation problem. This is called
 \textit{Uncalibrated Photometric Stereo} (U-PS), due to the lack of
 requirement for calibrated illumination.
+
+\citet{kemelmacher2012collection} propose a method similar in spirit to
+\citet{vetter1997bootstrapping} in order to improve optical flow alignment
+between collection of facial images. In \citet{vetter1997bootstrapping} the
+authors proposes to build a linear model from all currently aligned images in
+order to build a target that is as close to the input image as possible. The
+more similar the target and input images are, the better the optical flow
+results will be. In \citet{kemelmacher2012collection}, they extend this
+idea and further normalise the texture output by constraining the linear
+model to a rank 4 subspace. This subspace is consistent with the spherical 
+harmonics subspace of faces and thus the output reference frame contains 
+a face closer to the mean but with illumination variation maintained. It is 
+assumed that all input images are approximately frontal and that there is 
+sufficient lighting variation in the input in order to allow the illumination
+components to dominate the first 4 eigenvectors.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
