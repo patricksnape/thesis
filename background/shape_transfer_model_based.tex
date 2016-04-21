@@ -49,5 +49,85 @@ coefficients.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Alignment Methods}\label{subsec:bg_model_based_alignment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Alignment based 3D recovery methods attempt to recover the best possible
+reconstruction of an input model for an input image. Unlike purely model
+driven methods, alignment algorithms assume that the initialisation will not be
+perfect and thus attempt to deform the model in some manner in order to best
+replicate some feature of the input image. Unlike 3DMMs, alignment methods
+do not necessarily try to synthesize the image, but instead focus on learning
+relationships between some feature of the image and the model.
+
+\cite{terzopoulos1993analysis} build a physics based synthetic tissue model
+for a sparse generic 3D model coupled with a set of anatomically motivated
+muscle activators. Contours are extracted from input images and the physically
+based model is used to deform the generic mesh. Similarly,
+\citet{essa1997coding} use a low vertex generic face mesh and augment it with
+an anatomically based muscles model. This model uses the Facial Action Coding 
+System (FACS)~\cite{ekman1977facial} to parametrise face motion. Landmarks
+are used to initialise the face model onto a frontal face and then optical
+flow is performed. The displacements recovered by optical flow from a
+neutral pose are then fed into an optimisation that deforms the mesh according 
+to the physically based muscle model.
+\citet{jebara1997parametrized} track the 3D motion of a face using a generic
+dense 3D face mesh and a modified rigid Structure-from-Motion algorithm
+to recover the head pose. Symmetric frontalisation is performed on the face
+within the image and an Extended Kalman Filter (EKF) is used to perform motion
+updates that are consistent for the 3D model. The EKF is filtered by an
+eigenspace of frontalised 3D faces to constraint the tracking to plausible face
+shapes.
+\citet{basu1996motion} regularise optical flow with an ellipsoidal mesh
+to approximate a facial shape, which they show to be superior to planar 
+tracking.
+\citet{lacascia1998head,la2000fast} do not concentrate on 3D reconstruction but
+perform 3D head tracking by approximating the head shape as a cylinder and 
+performing alignment in the texture mapped space. In \citet{la2000fast} this
+is extended with a statistical model of illumination variance built from
+many aligned images of various individuals under differing illumination.
+\cite{schoedl1998head} used a more realistic textured model than 
+\citet{lacascia1998head} and employ a low vertex count 3D generic face model. A
+single frontal texture is extracted and used in an ``analysis-by-synthesis''
+manner to minimise the difference between the input image and the rendered
+model.
+\citet{decarlo2000optical} employ a sparse generic model that is parametrically
+deformed by a set of static shape parameters and motion deformation
+parameters. The model is initialised by hand on a neutral frontal image and
+optical flow is then employed for tracking. The parameters of the
+3D deformable motion model are hard constrained by the result of the flow. 
+To combat tracking drift, image edge features are introduced as another 
+constraint.
+\cite{decarlo2002adjusting} extends the work of \citet{decarlo2000optical} with
+an extra regularisation based on minimising the residual error from the
+framework of \citet{decarlo2000optical}. Minimising these residuals with respect
+to a linearisation of the model parameters results in a more robust recovery of
+the facial shape and thus reduces the optical flow residual in a manner
+consistent with facial deformations.
+\citet{goldenstein2004facial} focus on the estimation of the update for
+the deformable model by using multiple image features (optical flow,
+edges, feature points) and assume their independence. The independence
+of these features enables the use of a multivariate Gaussian approximation
+to estimate displacements using a Kalman filter.
+\citet{pighin2002modeling} manually specify a set of landmarks and deform
+a single dense generic template head to multiple poses images of a subject. 
+Rigid Structure-from-Motion is used to estimate the head pose, initialised
+by the rough estimate of the known pose of the face \eg~side-view, frontal \etc.
+All the vertices in the generic mesh are then deformed by landmarks
+using a radial basis function including an additional 100 correspondences
+that are hand specified and a view-independent texture is created from the input
+images. This person specific model is then fit to an input
+sequence by using a non-linear least squares algorithm similar to the Active
+Appearance Model (AAM) but with a 3D model. The ``analysis-by-synthesis''
+objective involves rendering the input mesh but no lighting conditions are
+modelled.
+
+\citet{lie2006alignment} propose to model a 3D face as a set of sparse patches
+rendering from the 3D model over various poses. An expectation maximisation
+method is proposed to predict the parameters of a sparse 3D statistical face
+model (deformation) and pose parameters from a given 2D observation. Pose
+and deformation are solved for alternately.
+\cite{Matthews:2007gb} provide a detailed analysis on the advantages
+of imposing 3D priors for Active Appearance Model alignment. They propose to
+build the 2D statistical model from samples of a projected 3D model and then
+to constrain the 2D fitting by the 3D model. The 3D model is sparse and learnt
+via Structure-from-Motion on the training set.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
