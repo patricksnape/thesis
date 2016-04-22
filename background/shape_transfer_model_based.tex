@@ -45,7 +45,43 @@ are aligned using affine alignment of the eye centres and depth is recovered
 from the learnt tensor depth model and the recovered rank-one identity
 coefficients.
 
-\cite{Yang:2011gj} require accurate dense 3D shape estimation in order to
+%TODO: Check with stefanos that the solution to this is linear
+\citet{castelan2007coupled} take inspiration from the original coupled 
+texture and shape model of 2D AAMs~\cite{cootes2001active} and couple image
+intensity and surface height representations. They investigate three surface
+height representations including the surface derivatives, the surface height
+and a fourier basis of the surface derivatives. The coupled model is created
+by constructing PCA models for both intensity and shape inputs and then
+further constructing a joint PCA on the coefficients of the intensity and shape
+PCA models. At test time, the best fit coefficients for the joint model are
+constructed by minimising the difference between the coefficients of
+the input image, found by projecting the input iamge against the intensity PCA
+basis, and the best reconstruction from the joint model. This is a simple
+least squares problem that assumes that the input image is aligned
+with the intensity PCA basis. \citet{ahmed2007new} extend this work to
+include a spherical harmonic basis to represent shape. This enables
+the recovery of the albedo and thus illumination conditions are also
+recovered. Similarly, \citet{rara2009model} minimise the error between
+an intensity and shape model using spherical harmonic basis, but solve for 
+each mode seperately. They describe this as following a ``project-out'' 
+method~\cite{matthews2004active} and first solve for the shape, fixing the 
+intensity and then solving for the intensity with the recovered shape. 
+\citet{rara2010face} also employ a spherical harmonic basis but use
+Partial Least Squares (PLS) to recovery the best shape parameters.
+
+\citet{rara2011model} use principal component regression in order to map
+a set of known 2D landmarks to the parameters of a statistical 3D shape model.
+
+\citet{kouzani1998example} build a texture space model by rendering a set of
+textured 3D meshes into fixed poses. Each of the pose clusters is futher aligned
+via an image warping and a PCA subspace is constructed per cluster. A test image
+is aligned via optical flow to the mean of the correct pose cluster and the PCA
+coefficients are obtained. The key assumption is that the PCA of texture and PCA
+of 3D shape can share the same coefficients despite being differing subspaces.
+Thus, the coefficients from the texture PCA basis are used to reconstruct the 3D
+shape using the manually aligned 3D shape PCA basis.
+
+\citet{Yang:2011gj} require accurate dense 3D shape estimation in order to
 perform expression transfer between images. Given a set of known 2D landmarks on
 the input image a dense 3D bilinear statistical model is deformed so as to
 minimise the re-projection error. Landmarks on the occluding contour are
