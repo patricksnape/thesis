@@ -55,6 +55,21 @@ ensure consistency of identity.
 Similarly, \citet{yang2012face} perform 3D expression transfer
 but augment the initial 3D shape estimation with a restricted camera model
 rather than a weak perspective model.
+
+\citet{Garrido:2013dia} used the 2D facial landmarking method of
+\citet{saragih2011deformable} to track a set of sparse feature points across
+a sequence. Key frames are detected as frames where the 2D landmarking was
+deemed accurate, according to the difference between the frame and a neutral
+frame. Optical flow is used to correct the 2D landmarks and pose and blend shape
+optimisation are iterated to perform 3D tracking. Finally, the tracked
+blend shape is deformed by the optical flow estimates and a Shape-from-Shading
+refinement method~\cite{valgaerts2012lightweight} is used to include finer
+surface detail such as wrinkles.
+
+\citet{ferrari2015dictionary} used the method of
+\citet{xiong2013supervised} to provide sparse 2D landmarks and perform
+an alternating ridge regression to solve for pose and the parameters of a sparse
+dictionary of dense 3D faces.
 %TODO: Shape-from-silhoette and shape-from-contours both fall in this section
 %      due to the fact that all the methods I can find use models!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -73,11 +88,11 @@ for a sparse generic 3D model coupled with a set of anatomically motivated
 muscle activators. Contours are extracted from input images and the physically
 based model is used to deform the generic mesh. Similarly,
 \citet{essa1997coding} use a low vertex generic face mesh and augment it with
-an anatomically based muscles model. This model uses the Facial Action Coding 
+an anatomically based muscles model. This model uses the Facial Action Coding
 System (FACS)~\cite{ekman1977facial} to parametrise face motion. Landmarks
 are used to initialise the face model onto a frontal face and then optical
 flow is performed. The displacements recovered by optical flow from a
-neutral pose are then fed into an optimisation that deforms the mesh according 
+neutral pose are then fed into an optimisation that deforms the mesh according
 to the physically based muscle model.
 \citet{jebara1997parametrized} track the 3D motion of a face using a generic
 dense 3D face mesh and a modified rigid Structure-from-Motion algorithm
@@ -87,14 +102,14 @@ updates that are consistent for the 3D model. The EKF is filtered by an
 eigenspace of frontalised 3D faces to constraint the tracking to plausible face
 shapes.
 \citet{basu1996motion} regularise optical flow with an ellipsoidal mesh
-to approximate a facial shape, which they show to be superior to planar 
+to approximate a facial shape, which they show to be superior to planar
 tracking.
 \citet{lacascia1998head,la2000fast} do not concentrate on 3D reconstruction but
-perform 3D head tracking by approximating the head shape as a cylinder and 
+perform 3D head tracking by approximating the head shape as a cylinder and
 performing alignment in the texture mapped space. In \citet{la2000fast} this
 is extended with a statistical model of illumination variance built from
 many aligned images of various individuals under differing illumination.
-\cite{schoedl1998head} used a more realistic textured model than 
+\cite{schoedl1998head} used a more realistic textured model than
 \citet{lacascia1998head} and employ a low vertex count 3D generic face model. A
 single frontal texture is extracted and used in an ``analysis-by-synthesis''
 manner to minimise the difference between the input image and the rendered
@@ -103,8 +118,8 @@ model.
 deformed by a set of static shape parameters and motion deformation
 parameters. The model is initialised by hand on a neutral frontal image and
 optical flow is then employed for tracking. The parameters of the
-3D deformable motion model are hard constrained by the result of the flow. 
-To combat tracking drift, image edge features are introduced as another 
+3D deformable motion model are hard constrained by the result of the flow.
+To combat tracking drift, image edge features are introduced as another
 constraint.
 \cite{decarlo2002adjusting} extends the work of \citet{decarlo2000optical} with
 an extra regularisation based on minimising the residual error from the
@@ -118,7 +133,7 @@ edges, feature points) and assume their independence. The independence
 of these features enables the use of a multivariate Gaussian approximation
 to estimate displacements using a Kalman filter.
 \citet{pighin2002modeling} manually specify a set of landmarks and deform
-a single dense generic template head to multiple poses images of a subject. 
+a single dense generic template head to multiple poses images of a subject.
 Rigid Structure-from-Motion is used to estimate the head pose, initialised
 by the rough estimate of the known pose of the face \eg~side-view, frontal \etc.
 All the vertices in the generic mesh are then deformed by landmarks
@@ -146,16 +161,87 @@ multiple images they show improved fitting performance across all views.
 \cite{Martins:2013hp} also propose a 3D AAM, but employ a fully perspective
 camera model and show how to optimise via a 3D perspective projection
 using a forward additive alignment algorithm. Therefore, no intermediate
-2D model is required.
-\cite{Liao:2010fy} use both raw pixel intensities as well as 
+2D model is required. Similarly, \citet{saragih2011real} extend their 2D
+face alignment work~\cite{saragih2011deformable} on Constrained Local Models
+(CLMs)~\cite{cristinacce2006feature} to fit a 3D CLM.\@ These sparsely
+tracked points were primarily demonstrated for avatar animation.
+\cite{Liao:2010fy} use both raw pixel intensities as well as
 SIFT~\cite{lowe2004distinctive} as input to an inverse compositional alignment
-algorithm~\cite{baker2004lucas} evaluated for face tracking. The SIFT features 
-are required to be distant from one another and matched features must be close 
-between frames. 
-\citet{Wang:2011kr} propose a method of estimating sparse 3D landmarks without 
-requiring the estimation of the camera viewpoint a priori. A maximum a
-posteriori (MAP) model is proposed that couples the 3D pose parameters, 2D
-landmarks and associated visibility with a projection prior and then maximises
-the posterior probability according to the image likelihood.
+algorithm~\cite{baker2004lucas} evaluated for face tracking. The SIFT features
+are required to be distant from one another and matched features must be close
+between frames.
+\citet{Wang:2011kr} propose a one-shot optimization approach to simultaneously
+estimate the sparse 3D landmarks, the corresponding 2D projections and their
+visibility states without requiring explicit estimation of the camera
+parameters. A higher order Markov Random Field (MRF) is used to encode the
+outputs and optimised via a dual-decomposition optimisation
+framework~\cite{komodakis2007mrf}.
 
+\printauthor{Cao:2013cd} proposed a series of works for efficient blend shape
+tracking from a monocular sequence. Using their collected database,
+FaceWarehouse~\cite{Cao:2014gy}, \citet{Cao:2013cd} first proposed a person
+specific method for 3D face tracking. A person specific regressor was learnt
+from a set of acted expressions in order to map 2D facial images to 3D blend
+shape parameters. This initial recording specific training was important in
+order to learn the cameras intrinsic parameters. In \citet{Cao:2014bi}, the
+authors relax the requirement for a person specific calibration process and
+propose to learnt the camera intrinsic and subject identity parameters in an
+online manner. Using the same 3D regression scheme as in
+\citet{Cao:2013cd}, the camera and identity parameters are updated online when
+a new representative frame is detected. These frames are detected via distance
+from a PCA subspace that is maintained online. Thus the identity and camera
+intrinsics are shown to converge over the coarse of an input sequence. Both
+\citet{Cao:2013cd} and \citet{Cao:2014bi} use the two-stage cascaded regression
+scheme proposed by \citet{cao2014face} to learnt the regression between the
+input image and the model parameters. More recently, the work from
+\citet{Cao:2014bi} has augmented with a real-time high frequency feature
+displacement method by \citet{Cao:2015gy}. Given the coarse geometry recovered
+by \citet{Cao:2014bi}, the authors of~\cite{Cao:2015gy} augment the geometry
+to include both wrinkles and simple mesoscopic features captured by a narrow
+band Difference of Gaussians (DoG) filter~\cite{Beeler:2010dg}. They also
+further refine the geometry via GPU Lucas-Kanade~\cite{lucas1981iterative}
+optical flow algorithm between each frame. \citet{Chai:2015dq} also
+utilised \citet{Cao:2014bi} in order to recover 3D geometry for an input image
+to supplement their novel hair synthesis method.
+
+In recent years, cascaded regression methods have become popular for approaching
+2D image alignment~\cite{xiong2013supervised,cao2014face,ren2014face,kazemi2014one}.
+Given the increased availability to varied 3D face databases, recent works have
+directly extended these cascaded alignment methods in order to train 3D cascaded
+regression algorithms. \citet{tulyakov2015regressing} train on sparse 3D
+landmarks from the BU4D-FE~\cite{yin2008high} and directly extend the method
+\citet{kazemi2014one} into 3D. The training set consists of rendered examples
+from BU4D-FE.\@ They do not explicitly handle the camera projection and instead
+estimate it from the mean shape.
+\citet{Jeni:2015ft} propose a semi-dense 2D landmark alignment method that is
+learnt from the 3D meshes provided by the BU4D-FE~\cite{yin2008high} and BP4D-
+Spontaneous~\cite{Zhang:2014id} databases. At alignment time, only 2D landmarks
+are considered and a secondary alternating pose and parameter recovery method is
+used to recover 3D shape~\cite{lie2006alignment}. The training set consists of
+rendered examples from the database.
+\citet{Jourabloo:2015dw} also recover sparse landmarks but they consider a two-
+stage regression to regress both the parameters of the 3D shape model and the
+camera projection matrix separately. The 3D shape model is learnt from 3D facial
+scans and the AFLW~\cite{kostinger2011annotated} database is used to learn the
+regressors.
+\citet{zhu2015discriminative} use the FRGC~\cite{phillips2005overview} database
+to learn both the 3D statistical shape model and the 2D-3D regression. Camera
+and shape model parameters are regressed jointly and the method is initialised
+by the output of the SDM method~\cite{xiong2013supervised}.
+\citet{Huber:2015bs} use a statistical model learnt from the
+SURREY~\cite{Huber:F5Dca9zy} database and also jointly regress the camera and
+dense shape model parameters. However, no examples of the 3D recovery are given.
+All of the aforementioned methods learn to regress from local features extracted
+around projections of the 3D model into the image plane. In contrast,
+\citet{Zhu:2015ur} use a Convolutional Neural Network (CNN) to learnt a holistic
+representation based on all of the input pixels within the original detected
+facial bounding box. They also propose to use a set of mesh features from the
+current Z-buffered projection of the dense shape estimate and concatenate these
+features into a multi-channel image with the texture features. They propose a
+novel cost function for jointly optimising the camera and shape model parameters
+in a weighted manner. The 3D shape model is bilinear in expression and identity
+and is thus built from the FaceWarehouse~\cite{Cao:2014gy} and
+Basel~\cite{paysan20093d} databases respectively.
+%TODO: Include puppeteering/expression synthesis as its probably most relevant
+%      either here or in model-based.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
