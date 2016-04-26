@@ -221,7 +221,7 @@ $L_{\operatorname{lambert}} = \rho_{\smallsub{d}} \max(\bb{n}^T \bb{s}, 0)$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=\textwidth]{background/images/scene_radiance_to_pixel}
+	\includegraphics[width=\columnwidth]{background/images/scene_radiance_to_pixel}
 	\caption{Illustration of the formation of a pixel intensity in image space
 	         from scene radiance. Scene radiance is linearly proportional
 	         to image irradiance~\cite{horn1979calculating} and image irradiance
@@ -298,9 +298,9 @@ given $d$ is the total number of pixels in the image and
 \begin{align*}
     \bb{N} &= {[\bb{n}(x_1, y_1), \ldots, \bb{n}(x_w, y_h)]}^T &\in &\R^{d \times 3} \\
 	\bb{I} &= {[I(x_1, y_1), \ldots, I(x_w, y_h)]}^T &\in &\R^{d} \\
-	\bb{\tilde{p}} &= {[p(x_1, y_1) / e(x_1, y_1), \ldots, p(x_w, y_h) / e(x_w, y_h)]}^T &\in &\R^{d} \\
-	\bb{\tilde{q}} &= {[q(x_1, y_1) / e(x_1, y_1), \ldots, q(x_w, y_h) / e(x_w, y_h)]}^T &\in &\R^{d} \\
- 	\bb{\tilde{1}} &= {[1 / e(x_1, y_1), \ldots, 1 / e(x_w, y_h)]}^T &\in &\R^{d} \\
+	\bb{\tilde{p}} &= {\left[\frac{p(x_1, y_1)}{e(x_1, y_1)}, \ldots, \frac{p(x_w, y_h)}{e(x_w, y_h)}\right]}^T &\in &\R^{d} \\
+	\bb{\tilde{q}} &= {\left[\frac{q(x_1, y_1)}{e(x_1, y_1)}, \ldots, \frac{q(x_w, y_h)}{e(x_w, y_h)}\right]}^T &\in &\R^{d} \\
+ 	\bb{\tilde{1}} &= {\left[\frac{1}{e(x_1, y_1)}, \ldots, \frac{1}{e(x_w, y_h)}\right]}^T &\in &\R^{d} \\
 	e(x_k, y_k) &= \sqrt{{p(x_k, y_k)}^2 + {q(x_k, y_k)}^2 + 1}. & &
 \end{align*}
 %%%%%%%%%%%%%%%%%%%
