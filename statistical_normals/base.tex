@@ -9,8 +9,9 @@ principled way to recover shape from single images of human faces. In this case,
 the shape representation recovered are surface normals that parametrise how
 light interacts with the surface of the face. However, given that the general
 shape-from-shading case is ill-defined, it would be beneficial to augment
-shape-from-shading with prior knowledge that constraints the space of plausibly
-recovered facial shapes. The work of \citet{smith2006recovering,smith2008facial}
+shape-from-shading with prior knowledge that constrains the recovered shape to
+lie in the space of plausible facial shapes. The work of
+\citet{smith2006recovering,smith2008facial}
 provides a statistical framework for shape recovery based around regularising
 the output of a SfS algorithm with a parametric linear model of normals.
 Parametric linear models are readily constructed from facial data and have
@@ -95,7 +96,7 @@ KPCA is a non-linear generalisation of PCA that allows the computation
 of component analysis within arbitrary dimensional Hilbert spaces,
 including the subspace of normals. A Hilbert space is a generalisation
 of a Euclidean space to arbitrary dimensions. More specifically, a Hilbert
-space is an abstract vector space possessing the structure of an inner
+space is a vector space possessing the structure of an inner
 product. Thus, by providing a kernel function that defines
 an inner product within a Hilbert space, we can perform component analysis in
 spaces where PCA would normally be infeasible.
@@ -111,16 +112,17 @@ not the first work to consider the construction of statistical models of surface
 normals. Smith and Hancock~\cite{smith2006recovering,smith2008facial} were the
 first to note the complexities of performing component analysis on normals. To
 solve this problem, Smith and Hancock proposed to borrow from the cartographic
-community in order to define projection operators map points on the surface of a
-sphere to a tangent plane that preserves distances. This projection, called the
-Azimuthal Equidistant Projection (AEP)~\cite{snyder1987map} is demonstrated most
-commonly by the flag of the United Nations as depicted in
-\cref{fig:singl_img_united_nations}. They also investigated the use of Principal
-Geodesic Analysis (PGA)~\cite{fletcher2004principal,smith2008facial} for
-building statistical models of normals. In particular, PGA provides a principled
-way to correctly compute the mean of a Riemannian manifold. However, although
-the observation that computing distances between normals is non-trivial is
-correct, this does not actually prevent component analysis being computed
+community in order to define projection operators that map points on the surface
+of a sphere to a tangent plane that preserves distances. This projection, called
+the Azimuthal Equidistant Projection (AEP)~\cite{snyder1987map} is demonstrated
+most commonly by the flag of the United Nations as depicted in
+\cref{fig:singl_img_united_nations}.
+\citet{smith2008facial} also investigated the use of
+Principal Geodesic Analysis (PGA)~\cite{fletcher2004principal,smith2008facial}
+for building statistical models of normals. In particular, PGA provides a
+principled way to correctly compute the mean of a Riemannian manifold. However,
+although the observation that computing distances between normals is non-trivial
+is correct, this does not actually prevent component analysis being computed
 directly on normals (\ie~without applying any transformation). By formulating
 the component analysis in terms of a kernel, it becomes obvious that component
 analysis \textit{can be performed directly on normals by defining the kernel as
@@ -142,7 +144,7 @@ tzimiropoulos2014active} who show that gradient orientations can be coupled with
 the cosine function in order to perform robust comparisons between images. In
 particular, \citet{tzimiropoulos2012subspace} show that using the
 cosine of normalised gradients as a dissimilarity measure allows gradients
-to be effectively used for both component 
+to be effectively used for both component
 analysis~\cite{tzimiropoulos2012subspace,tzimiropoulos2014active} and alignment purposes~\cite{tzimiropoulos2011robust,tzimiropoulos2014active,%
 antonakos2015feature}. The main result of the work on the cosine of normalised
 gradients is that gross outliers, such as occlusions, are effectively suppressed
@@ -152,16 +154,16 @@ of gross outliers for dissimilarity measurement is greatly reduced
 under the distribution of normalised image gradients combined with
 the cosine function. Inspired by this, we also investigate how the cosine
 function might be used in conjunction with surface normals in order to build
-robust dissimilarity measures. Therefore, in a similar manner to 
+robust dissimilarity measures. Therefore, in a similar manner to
 \citet{tzimiropoulos2012subspace,tzimiropoulos2011robust,tzimiropoulos2014active},
 we investigate the distribution of surface normals when combined with the
-cosine function and provide applications for both component analysis and 
+cosine function and provide applications for both component analysis and
 alignment. As mentioned, we show the application of Kernel PCA for surface
 normals and provide two novel kernels which follow from the combination
 of surface normals with the cosine function. We also investigate parametric
 alignment within the Lucas-Kanade~\cite{lucas1981iterative} framework
 by employing both the cosine dissimilarity directly and with a statistical
-model of surface normals. Following recent works on robust feature spaces for 
+model of surface normals. Following recent works on robust feature spaces for
 alignment~\cite{antonakos2015feature}
 we show that performing well known alignment algorithms such as
 Lucas-Kanade~\cite{lucas1981iterative} on image descriptors (or features) can
@@ -173,34 +175,34 @@ commonly supplied by depth cameras and \textbf{3D data} as is more common
 in the medical imaging community. For 2.5D data, we propose to use normals both
 as a feature for Lucas-Kanade fitting, as in the work of
 \citet{antonakos2015feature}, and as a statistical appearance model for Active
-Appearance Model aligning. For 3D data, we provide two novel inverse
-compositional alignment~\cite{baker2004lucas} algorithms for robustly aligning
-data that contains gross outliers such as occlusions.
+Appearance Model alignment. For 3D data (or volumetric), we provide two novel
+inverse compositional alignment~\cite{baker2004lucas} algorithms for robustly
+aligning data that contains gross outliers such as occlusions.
 
 The rest of this chapter continues as follows:
 \cref{sec:singl_img_cosine_normalised_gradients} describes the various
-parametrisation of surface normals and discuses how they may be combined with
+parametrisations of surface normals and discusses how they may be combined with
 the cosine function. Preliminary examples are provided for multiple
 data sources that experimentally verify that the cosine of surface normals
 can provide a dissimilarity that is robust to gross outliers. Furthermore,
-the use of surface normals for component analysis is discussed by proposing a 
-Kernel PCA framework for normals. It also embeds the existing AEP and PGA 
+the use of surface normals for component analysis is discussed by proposing a
+Kernel PCA framework for normals. It also embeds the existing AEP and PGA
 operators as kernels.
 \cref{sec:singl_img_gsfs} demonstrates how the KPCA framework augments
 the geometric SfS method of \citet{worthington1999new} in a similar manner to
-\citet{smith2006recovering}. 
+\citet{smith2006recovering}.
 \cref{sec:singl_imag_lk} demonstrates how surface
 normals can be utilized for alignment within Lucas-Kanade style
 algorithms~\cite{lucas1981iterative}. Two modalities of data are considered,
-\cref{subsec:singl_img_lk_2d} demonstrates how a statistical model of normals can be
-utilized to align 2.5D depth data by building an appearance model of surface
-normals for use in an Active Appearance Model~\cite{cootes2001active}. Finally,
-\cref{subsec:singl_img_lk_3d} demonstrates the use of normals for the formation of
-a statistically robust rigid Lucas-Kanade~\cite{lucas1981iterative} alignment
-method for 3D (volumetric) data.
+\cref{subsec:singl_img_lk_2d} demonstrates how a statistical model of normals
+can be utilized to align 2.5D depth data by building an appearance model of
+surface normals for use in an Active Appearance Model~\cite{cootes2001active}.
+Finally, \cref{subsec:singl_img_lk_3d} demonstrates the use of normals for the
+formation of a statistically robust rigid Lucas-Kanade~\cite{lucas1981iterative}
+alignment method for 3D (volumetric) data.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {
-% List of mathametical commands for this chapter
+% List of mathematical commands for this chapter
 \input{statistical_normals/math_commands}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{statistical_normals/cosine_normalised_gradients}
