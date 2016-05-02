@@ -218,18 +218,6 @@ not physically realisable. For example, a patch lit from the vector opposite
 its normal would produce negative intensity. Therefore, the correct physical
 form of the Lambertian BRDF is
 $L_{\operatorname{lambert}} = \rho_{\smallsub{d}} \max(\bb{n}^T \bb{s}, 0)$.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=\columnwidth]{background/images/scene_radiance_to_pixel}
-	\caption{Illustration of the formation of a pixel intensity in image space
-	         from scene radiance. Scene radiance is linearly proportional
-	         to image irradiance~\cite{horn1979calculating} and image irradiance
-	         is non-linearly mapped to a pixel intensity via the camera
-	         response function, $f$.}
-\label{fig:bg_sfs_scene_to_intensity}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 For completeness, is it worthwhile noting that the image irradiance, formed
 through the interaction of the scene radiance and the optic lens, is not
 the final measured pixel intensity value commonly utilized on Computer Vision.
@@ -253,6 +241,18 @@ response model~\cite{grossberg2003space}. Therefore, unless explicitly
 mentioned, we make the strong assumption that the camera response function
 is the identity function and thus pixels in any given image directly
 represent the scene radiance.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\columnwidth]{background/images/scene_radiance_to_pixel}
+	\caption{Illustration of the formation of a pixel intensity in image space
+	         from scene radiance. Scene radiance is linearly proportional
+	         to image irradiance~\cite{horn1979calculating} and image irradiance
+	         is non-linearly mapped to a pixel intensity via the camera
+	         response function, $f$.}
+\label{fig:bg_sfs_scene_to_intensity}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Even assuming that all of the assumptions outlined above are perfectly
 satisfied by an image, SfS is still an under-constrained problem. Given

@@ -129,8 +129,41 @@ kernels in our framework and provide novel kernels that allow for the
 computation of component analysis directly on normals, without the need for
 projection into a tangent space.
 
-Recent works on robust feature spaces for alignment~\cite{antonakos2015feature}
-have shown that performing well known alignment algorithms such as
+Another intriguing property of surface normals is that they encode a local
+measurement of surface orientation. Naturally, this means that a field of
+surface normals provide insight into the curvature of the surface. This encoding
+of local curvature shares many similarities to the concept of gradients in the
+image domain. In fact, as discussed in \cref{sec:bg_sfs}, surface normals may be
+parametrised as a gradient field directly and assuming the gradient field to be
+integrable, may be integrated to recover 3D shape. The parametrisation of
+surface normals as gradient fields is particularly interesting given the work of
+\citet{tzimiropoulos2012subspace,tzimiropoulos2011robust,%
+tzimiropoulos2014active} who show that gradient orientations can be coupled with
+the cosine function in order to perform robust comparisons between images. In
+particular, \citet{tzimiropoulos2012subspace} show that using the
+cosine of normalised gradients as a dissimilarity measure allows gradients
+to be effectively used for both component 
+analysis~\cite{tzimiropoulos2012subspace,tzimiropoulos2014active} and alignment purposes~\cite{tzimiropoulos2011robust,tzimiropoulos2014active,%
+antonakos2015feature}. The main result of the work on the cosine of normalised
+gradients is that gross outliers, such as occlusions, are effectively suppressed
+by the cosine function assuming the outliers are drawn from particular
+distributions. This is an important result as it implies that the effect
+of gross outliers for dissimilarity measurement is greatly reduced
+under the distribution of normalised image gradients combined with
+the cosine function. Inspired by this, we also investigate how the cosine
+function might be used in conjunction with surface normals in order to build
+robust dissimilarity measures. Therefore, in a similar manner to 
+\citet{tzimiropoulos2012subspace,tzimiropoulos2011robust,tzimiropoulos2014active},
+we investigate the distribution of surface normals when combined with the
+cosine function and provide applications for both component analysis and 
+alignment. As mentioned, we show the application of Kernel PCA for surface
+normals and provide two novel kernels which follow from the combination
+of surface normals with the cosine function. We also investigate parametric
+alignment within the Lucas-Kanade~\cite{lucas1981iterative} framework
+by employing both the cosine dissimilarity directly and with a statistical
+model of surface normals. Following recent works on robust feature spaces for 
+alignment~\cite{antonakos2015feature}
+we show that performing well known alignment algorithms such as
 Lucas-Kanade~\cite{lucas1981iterative} on image descriptors (or features) can
 provide significant improvements in alignment. Given a statistical model
 of normals, we further investigate the properties of normals for rigid and
@@ -145,12 +178,18 @@ compositional alignment~\cite{baker2004lucas} algorithms for robustly aligning
 data that contains gross outliers such as occlusions.
 
 The rest of this chapter continues as follows:
-\cref{sec:singl_img_ca} describes Kernel PCA and outlines the construction of
-surface normal kernels for component analysis of normals. It also embeds the the
-existing AEP and PGA operators as kernels.
+\cref{sec:singl_img_cosine_normalised_gradients} describes the various
+parametrisation of surface normals and discuses how they may be combined with
+the cosine function. Preliminary examples are provided for multiple
+data sources that experimentally verify that the cosine of surface normals
+can provide a dissimilarity that is robust to gross outliers. Furthermore,
+the use of surface normals for component analysis is discussed by proposing a 
+Kernel PCA framework for normals. It also embeds the existing AEP and PGA 
+operators as kernels.
 \cref{sec:singl_img_gsfs} demonstrates how the KPCA framework augments
 the geometric SfS method of \citet{worthington1999new} in a similar manner to
-\citet{smith2006recovering}. \cref{sec:singl_imag_lk} demonstrates how surface
+\citet{smith2006recovering}. 
+\cref{sec:singl_imag_lk} demonstrates how surface
 normals can be utilized for alignment within Lucas-Kanade style
 algorithms~\cite{lucas1981iterative}. Two modalities of data are considered,
 \cref{subsec:singl_img_lk_2d} demonstrates how a statistical model of normals can be
@@ -163,6 +202,8 @@ method for 3D (volumetric) data.
 {
 % List of mathametical commands for this chapter
 \input{statistical_normals/math_commands}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{statistical_normals/cosine_normalised_gradients}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{statistical_normals/component_analysis/base}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

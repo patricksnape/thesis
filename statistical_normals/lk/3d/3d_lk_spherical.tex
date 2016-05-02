@@ -1,0 +1,109 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Spherical SSD LK}\label{subsubsec:lk-spherical}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In contrast to the inner product derivation in the previous section, the
+spherical representation requires the optimisation of the summation of two
+cosine correlations. In theory, it would be possible to solve for each
+correlation separately in a manner similar to that proposed
+by \citet{RefWorks:6}. This would be suboptimal as it would require an
+alternating optimisation scheme. Therefore, in the interest of solving a single 
+objective, we note the following relationship between the two summations:
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+    \begin{aligned}\label{eq:argmax_spherical}
+        \argmax_{\p} \quad &\sum_k \cos{\left(\Delta \phi(\p)\right)} + \sum_k \cos{\left(\Delta \theta(\p)\right)}
+    \end{aligned}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+is equivalent to the minimisation of
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+    \begin{aligned}\label{eq:argmin_spherical}
+        &\argmin_{\p} \left\lVert
+            \begin{pmatrix}
+                \cos{\phi_I}(\p) \\
+                \sin{\phi_I}(\p) \\
+                \cos{\theta_I}(\p) \\
+                \sin{\theta_I}(\p)
+            \end{pmatrix}
+            -
+            \begin{pmatrix}
+                \cos{\phi_T}(\zero) \\
+                \sin{\phi_T}(\zero) \\
+                \cos{\theta_T}(\zero) \\
+                \sin{\theta_T}(\zero)
+            \end{pmatrix}
+            \right\lVert^2 \triangleq \\
+        &\argmin_{\p} \left\lVert
+            \begin{pmatrix}
+                \bb{\tilde{g}}_{I,x}(\p) \\ 
+                \bb{\tilde{g}}_{I,y}(\p) \\ 
+                \bb{\tilde{g}}_{I,z}(\p) \\ 
+                \sqrt{1 - \bb{\tilde{g}}_{I,z}^2}(\p)
+            \end{pmatrix}
+            -
+            \begin{pmatrix}
+                \bb{\tilde{g}}_{T,x}(\zero) \\ 
+                \bb{\tilde{g}}_{T,y}(\zero) \\ 
+                \bb{\tilde{g}}_{T,z}(\zero) \\ 
+                \sqrt{1 - \bb{\tilde{g}}_{T,z}^2}(\zero)
+            \end{pmatrix}
+            \right\lVert^2
+    \end{aligned}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+where $\sin{\theta_{\ast}}(\cdot) = \sqrt{1 - {\bb{\tilde{g}}_{\ast,z}^2}(\cdot)}$
+where $\ast$ denotes either the template or the input image. For notational
+simplicity, let $\bb{\tilde{sz}}(\cdot) = \sqrt{1 - {\bb{\tilde{g}}_{z}^2}(\cdot)}$.
+
+We define the forward additive objective function as
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:spher-ssd}
+    \argmin_{\p} \norm{\bb{\hat{g}}_I(\p) - \bb{\hat{g}}_T(\zero)}^2
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+where $\bb{\hat{g}}_I(\p) = {\left[  \bb{\tilde{g}}_{I,x}(\p),
+\bb{\tilde{g}}_{I,y}(\p), \bb{\tilde{g}}_{I,z}(\p),
+\bb{\tilde{g}}_{I,sz}(\p) \right]}^{\top}$ and $\bb{\hat{g}}_T(\zero) =
+{\left[ \bb{\tilde{g}}_{T,x}(\zero), \bb{\tilde{g}}_{T,y}(\zero),
+\bb{\tilde{g}}_{T,z}(\zero), \bb{\tilde{g}}_{T,sz}(\zero)
+\right]}^{\top}$, the concatenated vectors of each normalised component.
+
+Similar to the derivation in \cref{subsec:lk-inner-product}, the Jacobian
+must be taken over each component and thus linearising around
+$\bb{\hat{g}}_I(\p)$ yields
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:spher-ssd-linearised}
+    \argmin_{\p} \norm{\bb{\hat{g}}_{I}(\p) + \hat{\bb{J}}_{\bb{g}} \Delta \p - \bb{\hat{g}}_{T}(\zero)}^2
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+where
+$\hat{\bb{J}}_{\bb{g}} = {\left[ \hat{\bb{J}}_{\bb{g},x}, \hat{\bb{J}}_{\bb{g},y}, \hat{\bb{J}}_{\bb{g},z}, \hat{\bb{J}}_{\bb{g},sz} \right]}^{\top}$. 
+Unlike in \cref{subsec:lk-inner-product}, the calculation of each 
+Jacobian is not identical due to the different normalisation procedure taken 
+for each component. Given that we can split the partial derivative
+$\bb{J}_{\bb{g},x} = \bb{J}_x \odot \frac{\partial \bb{g}_{I,x}(\p)}{\partial \p}$, 
+we define the component specific Jacobian,
+$\bb{J}_i \nobreak \forall \nobreak i \in \nobreak \{ x,y,z,sz \}$ as:
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:spher-ssd-chain-rule}
+    \begin{aligned}
+        \bb{J}_x    &= \frac{{\bb{g}_{I,y}(\p)}^2}{{\left({\bb{g}_{I,x}(\p)}^2 + {\bb{g}_{I,y}(\p)}^2 + {\bb{g}_{I,z}(\p)}^2 \right)}^{\sfrac{3}{2}}} \\
+        \bb{J}_y    &= \frac{{\bb{g}_{I,x}(\p)}^2}{{\left({\bb{g}_{I,x}(\p)}^2 + {\bb{g}_{I,y}(\p)}^2 + {\bb{g}_{I,z}(\p)}^2 \right)}^{\sfrac{3}{2}}} \\
+        \bb{J}_z    &= \frac{{\bb{g}_{I,x}(\p)}^2 + {\bb{g}_{I,y}(\p)}^2}{{\left({\bb{g}_{I,x}(\p)}^2 + {\bb{g}_{I,y}(\p)}^2 + {\bb{g}_{I,z}(\p)}^2 \right)}^{\sfrac{3}{2}}} \\
+        \bb{J}_{sz} &= - \frac{\bb{g}_{I,z}(\p) {\left( \frac{{\bb{g}_{I,x}(\p)}^2 + {\bb{g}_{I,y}(\p)}^2}{{\bb{g}_{I,x}(\p)}^2 + {\bb{g}_{I,y}(\p)}^2 + {\bb{g}_{I,z}(\p)}^2} \right)}^{\sfrac{3}{2}}}{{\bb{g}_{I,x}(\p)}^2 + {\bb{g}_{I,y}(\p)}^2}
+    \end{aligned}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+Now, given the definitions of the correct Jacobians per component, we can solve 
+(\ref{eq:spher-ssd-linearised}) as:
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:spher-ssd-gauss-newton}
+    \Delta \p = \bb{H}^{-1} \hat{\bb{J}}_{\bb{g}}^{\top} \left[ \bb{\hat{g}}_{T}(\zero) - \bb{\hat{g}}_{I}(\p) \right]
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+Given that the update in (\ref{eq:spher-ssd-gauss-newton}) is identical to that
+of (\ref{eq:l2-lk-gauss-newton-fa}), it would be trivial to formulate an inverse
+compositional form of this residual by following the steps described in
+\cref{subsec:lk-ic}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

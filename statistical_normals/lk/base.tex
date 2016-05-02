@@ -1,7 +1,153 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Lucas-Kanade with Surface Normals}\label{sec:singl_imag_lk}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%TODO: Description of Lucas-Kanade from the ground up
+When referring to the operations performed by the LK algorithm we will use the
+following notations. Warp functions
+$\mathcal{W}(\bb{x}_i;\p) = \left[\mathcal{W}_x(\bb{x}_i;\p), \mathcal{W}_y(\bb{x}_i;\p),\mathcal{W}_z(\bb{x}_i;\p) \right]$ 
+express the warping of the $i$th 3D
+coordinate vector $\bb{x}_i = {[x_i, y_i, z_i]}^{\top}$ by a set of parameters
+$\p = {\left[p_1, \ldots, p_n\right]}^{\top}$, where $n$ is the number of warp
+parameters. We extend the previously defined linear index $k$ in to a coordinate
+vector, $\bb{x} = \left[ x_1, y_1, z_1, \ldots, x_D, y_D, z_D \right]$ that
+represents the concatenated vector of coordinates, of length $D$, which allows
+the definition of a single warp for an entire image,
+$\mathcal{W}(\bb{x};\p) = \left[\right. \mathcal{W}_x(\bb{x}_1;\p), \mathcal{W}_y(\bb{x}_1;\p), \mathcal{W}_z(\bb{x}_1;\p),$ \\* $\ldots,$ $\mathcal{W}_x(\bb{x}_D;\p), \mathcal{W}_y(\bb{x}_D;\p), \mathcal{W}_z(\bb{x}_D;\p) \left.\right]$.
+We assume that the identity warp is found when $\p = \zero$, which implies that
+$\mathcal{W}(\bb{x};\zero) = \bb{x}$. We abuse notation and define the
+warping of an image $I$ by parameter vector $\p$ as $I(\p) = I(\mathcal{W}(\bb{x};\p))$,
+where $I(\p)$ is a single column vector of concatenated pixels.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Forward Additive LK Fitting}\label{subsubsec:lk-fa}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The original forward additive $\ltwo$ LK
+algorithm~\cite{RefWorks:71,RefWorks:10} seeks to minimise the sum of squared
+differences (SSD) between a given template image and an input image by
+minimising the sum of the squared pixel differences:
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:l2-lk-fa}
+    \argmin_{\p} \quad \norm{I(\p) - T(\zero)}^2
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+where $T(\zero)$ is the unwarped reference template image. Due to the non-linear
+nature of (\ref{eq:l2-lk-fa}) with respect to $\p$, (\ref{eq:l2-lk-fa}) is
+linearised by taking the first order Taylor series expansion. By iteratively
+solving for some small $\Delta \p$ update to $\p$, the objective function
+becomes
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:l2-lk-linearised-fa}
+    \argmin_{\p} \quad \norm{I(\p) + \nabla I \frac{\partial \mathcal{W}}{\partial \p} \Delta \p - T(\zero)}^2
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+where $\nabla I$ is the gradient over each dimension of $I(\p)$ warped into the
+frame of $T$ by the current warp estimate $\mathcal{W}(\bb{x};\p)$.
+$\frac{\partial \mathcal{W}}{\partial \p}$ is the Jacobian of the warp and
+represents the first order partial derivatives of the warp with respect to each
+parameter. $\nabla I \frac{\partial \mathcal{W}}{\partial \p}$ is commonly
+referred to as the steepest descent images. We will express the steepest descent
+images as $\frac{\partial I(\p)}{\partial \p}$. 
+\cref{eq:l2-lk-linearised-fa} is now solvable by assuming the 
+Gauss-Newton approximation to the Hessian,
+$\bb{H} = \left[ {\frac{\partial I(\p)}{\partial \p}}^{\top} \frac{\partial I(\p)}{\partial \p} \right]$:
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:l2-lk-gauss-newton-fa}
+    \Delta \p = \bb{H}^{-1} \frac{\partial I(\p)}{\partial \p}^{\top} \left[ T(\zero) - I(\p) \right]
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+\cref{eq:l2-lk-gauss-newton-fa} can then be solved by iteratively
+updating $\p \leftarrow \p + \Delta \p$ until convergence.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{ECC LK Fitting}\label{subsubsec:lk-ecc}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The enhanced correlation coefficient (ECC) measure, proposed by
+\citet{RefWorks:59}, seeks to be invariant to illumination differences
+between the input and template image. This is done by suppressing the magnitude
+of each pixel through normalisation. In~\cite{RefWorks:59}, they provide the
+following cost function
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:ecc-lk-max}
+   \argmax_{\p} \quad \frac{{I(\p)}^{\top} T(\zero)}{\norm{I(\p)} \norm{T(\zero)}}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+Assuming a delta update as before and linearising in a similar manner to
+(\ref{eq:l2-lk-linearised-fa}) results in
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:ecc-lk-linearised}
+    \argmax_{\p} \quad \hat{T} \frac{I(\p) + \frac{\partial I(\p)}{\partial \p} \Delta \p}{\norm{{I(\p) + \frac{\partial I(\p)}{\partial \p} \Delta \p}}}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+where $\hat{T} = \frac{T(\zero)}{\norm{T(\zero)}}$.
+\citet{RefWorks:59} give a very comprehensive proof of
+the upper bound of \cref{eq:ecc-lk-linearised}, which yields the
+following solution for $\Delta \p$
+%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:ecc-lk-gauss-newton-fa}
+    \Delta \p = \bb{H}^{-1} \frac{\partial I(\p)}{\partial \p}^{\top} \left[ \frac{\norm{I(\p)}^2 - {I(\p)}^{\top} \bb{Q} I(\p)}{\hat{T}^{\top} I(\p) - \hat{T}^{\top} \bb{Q} I(\p)} \hat{T} - I(\p) \right]
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+where $\bb{Q}$ is an orthogonal projection operator on the Jacobian, $\J =
+\frac{\partial I(\p)}{\partial \p}$, defined as $\bb{Q} = \J {(\J^\top
+\J)}^{-1} \J^\top$.
+
+In fact, the $\Delta p$ update given in~\cite{RefWorks:59} is more complex than
+(\ref{eq:ecc-lk-gauss-newton-fa}), as it seeks to find an upper bound on the
+correlation between the two images. However, in the case where 
+(\ref{eq:ecc-lk-gauss-newton-fa}) does not apply, it is unlikely that the 
+algorithm is able to converge. For this reason, we only consider the update 
+equation presented in (\ref{eq:ecc-lk-gauss-newton-fa}).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Inverse Compositional LK}\label{subsubsec:lk-ic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The inverse compositional algorithm, proposed by Baker and
+Matthews~\cite{RefWorks:74}, performs a compositional update of the warp and
+linearises over the template rather than the input image. Linearisation of the
+template image causes the gradient in the steepest descent images term to become
+fixed. The compositional update of the warp assumes linearisation of the term
+$\frac{\partial \mathcal{W}(\bb{x};\zero)}{\partial \p}$, which is also
+fixed. Therefore, the entire Jacobian term, and by extension the Hessian matrix,
+are also fixed. Similar to the $\ltwo$ SSD algorithm described in
+\cref{subsec:lk-fa}, we pose the objective function as:
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:l2-lk-ic}
+    \argmin_{\p} \norm{T(\Delta \p) - I(\p)}^2
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+where we notice that the roles of the template and input image have been
+swapped. Assuming an inverse compositional update to the warp,
+$\mathcal{W}(\bb{x};\p) \leftarrow \mathcal{W}(\bb{x};\p) \circ {\mathcal{W}(\bb{x};\Delta \p)}^{-1}$
+and linearisation around the template, (\ref{eq:l2-lk-ic}) can be expanded as:
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:l2-lk-linearised-ic}
+    \argmin_{\p} \quad \norm{I(\p) - \frac{\partial T(\zero)}{\partial \p} \Delta \p - T(\zero)}^2
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+Solving for $\Delta \p$ is identical to (\ref{eq:l2-lk-gauss-newton-fa}), except
+the Jacobian and Hessian have been pre-computed
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:l2-lk-gauss-newton-ic}
+    \Delta \p = \bb{H}^{-1} \frac{\partial T(\zero)}{\partial \p}^{\top} \left[ I(\p) - T(\zero) \right]
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+The ECC can also be described as an inverse compositional algorithm, by
+performing the same update to the warp and simply swapping the roles of the
+template and reference image. In short, solving ECC in the inverse compositional
+case becomes
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:ecc-lk-gauss-newton-ic}
+    \Delta \p = \bb{H}^{-1} \frac{\partial \hat{T}}{\partial \p}^{\top} \left[ \frac{\norm{\hat{T}}^2 - \hat{T}^{\top} \bb{Q} \hat{T}}{{I(\p)}^{\top} \hat{T} - {I(\p)}^{\top} \bb{Q} \hat{T}} I(\p) - \hat{T} \right]
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+where $\bb{Q}$ is as before, except $\J = \frac{\partial \hat{T}}{\partial \p}$. 
+Any term involving $\hat{T}$ is fixed and pre-computable, so the reduction of 
+calculations per-iteration is substantial.
+
+It is worth noting that not every family of warps is suitable for the inverse
+compositional approach. The warp must belong to a family that forms a group, and
+the identity warp must exist in the set of possible warps. For more complex
+warps, such as piecewise affine and thin plate spline warping, approximations to
+the inverse compositional updates have been
+proposed~\cite{RefWorks:227,RefWorks:277}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{statistical_normals/lk/2d/base}
 \input{statistical_normals/lk/3d/base}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

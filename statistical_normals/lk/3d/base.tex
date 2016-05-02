@@ -1,3 +1,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Robust 3D Lucas-Kanade Alignment}\label{subsec:singl_img_lk_3d}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Little work has been published on the applications of 3D Lucas-Kanade (LK),
+despite the extension of LK into 3D being trivial~\cite{RefWorks:75}. Given the
+relative efficiency of Lucas-Kanade and other similar algorithms, and their
+potential accuracy under challenging conditions, we propose to investigate using
+LK for robust affine alignment in voxel images. To the best of our knowledge,
+this is the first such comparison of using state-of-the-art LK fitting
+algorithms for voxel data. Given the similarity measures defined in
+\cref{sec:cosine_normalised_gradients}, we propose novel LK algorithms
+that directly maximise the measures.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{statistical_normals/lk/3d/3d_lk_ip}
+\input{statistical_normals/lk/3d/3d_lk_spherical}
+\input{statistical_normals/lk/3d/experiments}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
