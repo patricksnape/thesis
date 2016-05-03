@@ -5,7 +5,7 @@ In contrast to the inner product derivation in the previous section, the
 spherical representation requires the optimisation of the summation of two
 cosine correlations. In theory, it would be possible to solve for each
 correlation separately in a manner similar to that proposed
-by \citet{RefWorks:6}. This would be suboptimal as it would require an
+by \citet{tzimiropoulos2011robust}. This would be suboptimal as it would require an
 alternating optimisation scheme. Therefore, in the interest of solving a single 
 objective, we note the following relationship between the two summations:
 %%%%%%%%%%%%%%%%%%%%
@@ -39,14 +39,14 @@ is equivalent to the minimisation of
                 \bb{\tilde{g}}_{I,x}(\p) \\ 
                 \bb{\tilde{g}}_{I,y}(\p) \\ 
                 \bb{\tilde{g}}_{I,z}(\p) \\ 
-                \sqrt{1 - \bb{\tilde{g}}_{I,z}^2}(\p)
+                \sqrt{1 - \bb{\tilde{g}}_{I,z}^2(\p)}
             \end{pmatrix}
             -
             \begin{pmatrix}
                 \bb{\tilde{g}}_{T,x}(\zero) \\ 
                 \bb{\tilde{g}}_{T,y}(\zero) \\ 
                 \bb{\tilde{g}}_{T,z}(\zero) \\ 
-                \sqrt{1 - \bb{\tilde{g}}_{T,z}^2}(\zero)
+                \sqrt{1 - \bb{\tilde{g}}_{T,z}^2(\zero)}
             \end{pmatrix}
             \right\lVert^2
     \end{aligned}
