@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Lucas-Kanade with Surface Normals}\label{sec:singl_imag_lk}
+\section{Lucas-Kanade Alignment for 2.5D and 3D Images}\label{sec:singl_imag_lk}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 When referring to the operations performed by the LK algorithm we will use the
 following notations. Warp functions
@@ -17,7 +17,7 @@ $\mathcal{W}(\bb{x};\zero) = \bb{x}$. We abuse notation and define the
 warping of an image $I$ by parameter vector $\p$ as $I(\p) = I(\mathcal{W}(\bb{x};\p))$,
 where $I(\p)$ is a single column vector of concatenated pixels.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Forward Additive LK Fitting}\label{subsubsec:lk-fa}
+\paragraph{Forward Additive LK Fitting}\label{subsubsec:lk-fa}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The original forward additive $\ltwo$ LK
 algorithm~\cite{RefWorks:71,RefWorks:10} seeks to minimise the sum of squared
@@ -56,7 +56,7 @@ $\bb{H} = \left[ {\frac{\partial I(\p)}{\partial \p}}^{\top} \frac{\partial I(\p
 \cref{eq:l2-lk-gauss-newton-fa} can then be solved by iteratively
 updating $\p \leftarrow \p + \Delta \p$ until convergence.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{ECC LK Fitting}\label{subsubsec:lk-ecc}
+\paragraph{ECC LK Fitting}\label{subsubsec:lk-ecc}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The enhanced correlation coefficient (ECC) measure, proposed by
 \citet{RefWorks:59}, seeks to be invariant to illumination differences
@@ -96,7 +96,7 @@ correlation between the two images. However, in the case where
 algorithm is able to converge. For this reason, we only consider the update 
 equation presented in (\ref{eq:ecc-lk-gauss-newton-fa}).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Inverse Compositional LK}\label{subsubsec:lk-ic}
+\paragraph{Inverse Compositional LK}\label{subsubsec:lk-ic}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The inverse compositional algorithm, proposed by Baker and
 Matthews~\cite{RefWorks:74}, performs a compositional update of the warp and

@@ -35,7 +35,7 @@ analysis~\cite{tzimiropoulos2012subspace,tzimiropoulos2014active}.
 We propose to utilise the cosine function to construct robust dissimilarity
 measures for surface normals. Given that surface normals also encode a local
 measure of surface orientation they are well suited as inputs to the cosine
-function. It is necessary, however, to make a clean distinction as to the
+function. It is necessary, however, to make a clear distinction as to the
 dimensionality of the data being considered. For the original work
 on the cosine of normalised image gradients~\cite{tzimiropoulos2012subspace}
 the input data were 2D images. In this work, we consider two forms of three
@@ -49,6 +49,14 @@ whereby the discrete elements composing the image are 3D voxels as opposed to
 2D pixel. In this case, a true third dimension exists and gradients (which
 are analogous to normals) are defined in a manner similar to 2D gradients. This
 form of data is very common in the medical imaging community, for example.
+We also note that the cosine \textit{dissimilarity measure} is defined as being
+\textit{minimised} when the image areas are identical (minimum error is 0). 
+Conversely, the cosine \textit{similarity measure} is \textit{maximised} when 
+the image  areas are identical (maximum error is 1). Therefore, the 
+cosine measure is naturally defined as a similarity measure since when
+two angles are identical their difference is 0 and thus $\cos(0) = 1$. The
+cosine dissimilarity is trivially defined as $1 - \cos(\cdot)$ due to the range
+of the cosine, $[-1, 1]$.
 
 The remainder of this section will explain the assumptions and theory around
 utilising the cosine function as a robust dissimilarity measure. We then
@@ -114,7 +122,9 @@ Given orientations from two dissimilar images, it is reasonable to assume that
 difference between the orientations, $\Delta \phi(k) = \phi_1(k) - \phi_2(k)$,
 can take any angle between $[0, 2\pi)$. Intuitively, this implies that selecting
 two pixels from dissimilar images is unlikely to yield any correlation between
-the images. In~\cite{tzimiropoulos2011robust}, it was experimentally verified that the
+the images. 
+In~\cite{tzimiropoulos2011robust,tzimiropoulos2012subspace}, 
+it was experimentally verified that the
 orientation differences follow a uniform distribution, $\Delta \phi(k) \sim U(0,
 2\pi)$. The fact that the orientation differences follows a uniform distribution
 is unsurprising under the assumption that the two images have absolutely no
@@ -131,7 +141,7 @@ variable $Z = z(t)$ has mean value $E\{Z\} = 0$. In fact, by assuming mean
 ergodicity, we find that
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:cosine_integral}
-    E\{Z\} \propto \int z(t) dt \equiv \int_{\mathcal{R}^2} \cos[\Delta \phi(k)] dk = 0
+    E\{Z\} \propto \int z(t) dt \equiv \int_{\mathcal{R}^2} \cos[\Delta \phi(k)] \; dk = 0
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 This is an important property for a similarity measure to be robust against
@@ -142,43 +152,53 @@ would be able to automatically identify regions of the image that are occluding
 the true object of interest. Under the previous definition of robustness, the
 cosine similarity naturally represents a robust similarity measure as it
 automatically suppresses the contribution of outliers.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Cosine Similarity in 2.5D and 3D}\label{subsec:cosine_3d}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Measuring the angular distance between vectors in three dimensional spaces
+is more complex than in 2D, due to the extra degree of freedom. In the following
+section, we describe two different measures that can be used to calculate
+similarities between vectors within 3D spaces, the spherical coordinates and the
+inner product. In the previous section, we described in detail how properties of
+the cosine of a uniform distribution can be exploited to form a robust measure
+of similarity. The most important property was that uncorrelated areas such as
+occlusions should have no impact on similarity measurement. This was formalised
+as the fact that the expectation of the sum of the uncorrelated elements should
+be zero. In the case of input to the cosine function, a given distribution must
+simply be symmetric over the positive and negative span of outputs of the
+cosine. When symmetric over the positive and negative outputs, the expectation
+of the cosine function is zero. In fact, we can relax the definition of a
+measure being robust to outliers by stating that we actually desire a measure 
+whereby the \textit{expectation of the measure over image areas that are 
+uncorrelated is zero}.
 
-Given an image warping function with parameters $\bb{p}$, maximising the sum
-of the cosine of orientation differences provides the robust similarity measure:
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}\label{eq:2d_similarity_measure}
-    q = \sum_k \cos \left(\Delta \phi(k)[\bb{p}]\right)
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-For more details of the specifics of optimising (\ref{eq:2d_similarity_measure})
-for image alignment, we refer the reader to~\cite{tzimiropoulos2011robust}.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Cosine Similarity in 3D}\label{subsec:cosine_3d}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-We make very similar assumptions for 3D images as we did in
-\cref{subsec:cosine_2d} for 2D images. We simply extend the previous
-notation by including the gradient of the $z$-axis, denoted as $G_{i,z} = \bb{F}_z \ast I_i$.
+Both the spherical coordinate system and the dot product are applicable for
+both 2.5D data and 3D/volumetric data. In the case of 2.5D data, the spherical
+coordinates are derived from the vector perpendicular to the plane tangent
+at any point on the 2.5D surface. For example, given a 2.5D surface parametrised
+by a set of triangular facets, the surface normal for a given triangle
+can be found by computing a cross product between two of the triangles edges.
+Formally, given a triangle composed of three coordinates, 
+$\bb{p}_i = {[x_i, y_i, z_i]}^T, \; i \in \{1, 2, 3\}$, the surface normal of
+the triangle's plane can be computed from the two edge vectors as
+$\bb{n} = (\bb{p}_2 - \bb{p}_1) \times (\bb{p}_3 - \bb{p}_1)$ where
+$\times$ denotes the vector cross product. Note that the direction of the normal
+with respect to which ``side'' of the surface it extends from,
+\eg~the sign of the normal, is unimportant and need only be consistent between
+all computed normals. In this work, we assume that normals always point 
+``outward'' towards the camera and away from the surface centre of mass.
+For 3D images, we make very similar
+assumptions to those of \cref{subsec:cosine_2d} for 2D images. 
+We simply extend the previous notation by including the gradient of the
+$z$-axis, denoted as $G_{i,z} = \bb{F}_z \ast I_i$.
 We also redefine the normalised gradient as
 $\bb{\tilde{g}}_{i}(k) = \frac{\bb{g}_{i}(k)}{\norm{\bb{g}_{i}(k)}}$
 where $\norm{\bb{g}_{i}(k)} = \sqrt{{g_{i,x}(k)}^2 + {g_{i,y}(k)}^2 +
 {g_{i,z}(k)}^2}$ and $\bb{g}_{i}(k)$ is defined as the vector formed by
-concatenating the $x$, $y$ and $z$ gradients together.
-
-Measuring the angular distance between vectors in 3D is more complex than in 2D,
-due to the extra degree of freedom. In the following sections, we describe two
-different measures that can be used to calculate similarities between vectors
-within 3D images, the spherical coordinates and the inner product. In the
-previous section, we described in detail how properties of the cosine of a
-uniform distribution can be exploited to form a robust measure of similarity.
-The most important property was that uncorrelated areas such as occlusions
-should have no impact registration. This was formalised as the expectation of
-the sum of the uncorrelated elements should be zero. In the case of input to the
-cosine function, a given distribution must simply be symmetric over the positive
-and negative span of outputs of the cosine. When symmetric over the positive and
-negative outputs, the expectation of the cosine function is zero. In fact, we
-can relax the definition of a measure being robust to outliers by stating that
-we desire a measure whereby the expectation of the measure over image areas that
-are uncorrelated is zero.
+concatenating the $x$, $y$ and $z$ gradients together. Although the
+computation of spherical coordinates and the inner product are identical for
+both surface normals and 3D gradients, we disambiguate between the two and
+always denote surface normals with $\bb{n}$ and 3D gradients with $\bb{g}$.
 
 In practise, when comparing two images where one image contains occlusions,
 there will be regions that are correlated and then the occluded region that is
@@ -189,9 +209,9 @@ thus will not affect the optimisation of the similarity measure.
 
 In \cref{subsubsec:cosine_spherical} and
 \cref{subsubsec:cosine_inner_product} we describe two measures of angular
-difference between 3D images. We investigate the distribution of these angular
-measures when combined with the cosine function and motivate that they are both
-suitable for use as a similarity measure between real 3D images.
+difference between 3D orientations. We investigate the distribution of these 
+angular measures when combined with the cosine function and motivate that they 
+are both suitable for use as a similarity measure between real data.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Spherical Coordinates}\label{subsubsec:cosine_spherical}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -249,45 +269,12 @@ best fits the data. Thus, our experimental evidence suggests that the total
 distribution of $\Delta \phi$ over the entire image region is a mixture model
 between a uniform distribution and a Laplacian distribution with approximately
 zero mean.
-% The elevation angle, however, appears to have a very interesting and novel distribution. \cref{fig:delta_theta} shows that the distribution of $\Delta \theta$ approximates a Von Mises distribution. Therefore, given the range of $\Delta \theta$, \cref{fig:sin_delta_theta} shows that the correct robust function for $\Delta \theta$ is in fact the sine function, $\sin{\Delta \theta}$. Although \cref{fig:sin_delta_theta} has heavy tails at $-1$ and $1$, the distribution is symmetric and has been experimentally verified to have an expected value of $0$. However, since $\Delta \theta$ is symmetric over the range of the sine function and since (\ref{eq:cosine_integral}) holds analogously for the sine function, then $\sin{\Delta \theta}$ represents a robust measure of similarity.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}
-%     \centering
-%     \begin{subfigure}{0.32\columnwidth}
-%         \includegraphics[width=\textwidth]{images/tumour_example_axial}
-%     \end{subfigure}
-%     \begin{subfigure}{0.32\columnwidth}
-%         \includegraphics[width=\textwidth]{images/tumour_example_coronal}
-%     \end{subfigure}
-%     \begin{subfigure}{0.32\columnwidth}
-%         \includegraphics[width=\textwidth]{images/tumour_example_sagital}
-%     \end{subfigure}
-%     \caption{Example images of a T1-weighted brain containing a tumour area.
-%              The tumour areas are outlined in yellow in each image.
-%              Left: Axial View. Middle: Coronal View. Right: Sagital View.}
-% \label{fig:tumour_examples}
-% \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}
-%     \centering
-%     \begin{subfigure}{0.47\columnwidth}
-%         \includegraphics[width=\textwidth]{images/tumour_example_3d}
-%     \end{subfigure}
-%     \begin{subfigure}{0.47\columnwidth}
-%         \includegraphics[width=\textwidth]{images/healthy_example_3d}
-%     \end{subfigure}
-%     \caption{Example images of T1-weighted brain images of a single individual.
-%              Left: Simulated tumour.
-%              Right: The original healthy brain.}
-% \label{fig:3d_tumour_example}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Inner Product}\label{subsubsec:cosine_inner_product}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 A more general angular measure between two vectors is the inner product. Unlike
-in~\cite{tzimiropoulos2011robust} or \cref{subsubsec:cosine_spherical}, the inner
+in~\cite{tzimiropoulos2012subspace,tzimiropoulos2011robust} or 
+\cref{subsubsec:cosine_spherical}, the inner
 product is a single angle and not the difference between two angles.
 Practically, the inner product measures the projection error between two vectors
 and is defined as:
@@ -296,7 +283,8 @@ and is defined as:
     \cos{\sigma} = \bb{\tilde{g}}_{1}^{\top} \bb{\tilde{g}}_{2}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In~\cite{RefWorks:68}, the authors reasonably propose that the angle between the
+In~\cite{tzimiropoulos2012subspace,tzimiropoulos2010robust}, 
+the authors reasonably propose that the angle between the
 gradients of dissimilar images can take any value in $[0, 2\pi)$ with equal
 probability. Similarly, the relationship between the gradient vectors of two
 dissimilar 3D images could feasibly be in any direction with equal probability.

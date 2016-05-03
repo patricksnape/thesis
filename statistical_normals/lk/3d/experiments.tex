@@ -15,7 +15,7 @@ database. We also used MR brain images from the OASIS
 dataset~\cite{marcus2007open} and traumatic brain injury MR images from Turku
 University Hospital.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Intensity Inhomogeneity Implementation}\label{subsubsec:bias_fields}
+\paragraph{Intensity Inhomogeneity Implementation}\label{subsubsec:bias_fields}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Robustness to intensity inhomogeneities relaxes the necessity of an explicit
 intensity correction step in the registration pipeline, which can be time
@@ -56,7 +56,7 @@ For all the simulations we use $\sigma = 0.15 \cdot (N_{z} - 1)$.
 inhomogeneities.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{3D Affine Registration Using LK}\label{subsubsec:lk_results}
+\paragraph{3D Affine Registration Using LK}\label{subsubsec:lk_results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}
@@ -144,7 +144,7 @@ squared measure (CosineSquared)~\cite{haber2006intensity}. Our implementation of
 CosineSquared is equivalent to the Gauss-Newton methodology described
 within~\cite{haber2006intensity}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Experiments Without Corruption}\label{subsec:lk_results_nocorruption}
+\paragraph{Experiments Without Corruption}\label{subsec:lk_results_nocorruption}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this subsection, we present our performance evaluation results obtained
 without applying any corruption to the 3D images. We compared the performance of
@@ -164,7 +164,7 @@ deformations significantly decrease the performance of the CosineSquared
 algorithm. This is likely due to the bias created by squaring the inner product
 of the images.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Experiments With Corruption}\label{subsec:lk_results_corrupted}
+\paragraph{Experiments With Corruption}\label{subsec:lk_results_corrupted}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this subsection, we present three separate experiments: images with a
 simulated bias field, with an occlusion and with an occlusion and a simulated
