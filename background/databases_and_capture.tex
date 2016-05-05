@@ -36,7 +36,7 @@ and focus on works intended specifically for facial surface recovery.
 % 3D_RMA structured light, 120 people, 6 shots, multi-pose
 % Beckmann cyberware, 400-500, single shot
 % UMB-DB Minolta Vivid 900 laser scanner
-\begin{table}
+\begin{table*}
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lrcccccc@{}}
@@ -83,7 +83,7 @@ SURREY                      &\cite{Huber:F5Dca9zy}          & 2016              
          Stereo images, MO is a statistical model, M is a 3D mesh,
          D is depth/range data and 4D implies a 3D video.}
 \label{tbl:timeline_db}
-\end{table}
+\end{table*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Databases}\label{subsec:bg_databases}
@@ -175,37 +175,37 @@ specular normals.
 \subsection{Capture Methods}\label{subsec:bg_capture}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[ht]
+\begin{figure*}[ht]
 	\centering
-	\begin{subfigure}[b]{0.3\textwidth}
+	\begin{subfigure}[b]{0.16\textwidth}
 		\centering
-		\includegraphics[height=1.9in]{background/images/basel}
-		\caption{Basel~\cite{paysan20093d}}\label{fig:db_examples_basel}
+		\includegraphics[height=1.15in]{background/images/basel}
+		\caption{\footnotesize Basel~\cite{paysan20093d}}\label{fig:db_examples_basel}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.3\textwidth}
+	\begin{subfigure}[b]{0.16\textwidth}
 		\centering
-		\includegraphics[height=2in]{background/images/bu3d}
-		\caption{BU3D-FE~\cite{Yin:2006cc}}\label{fig:db_examples_bu3d}
+		\includegraphics[height=1.2in]{background/images/bu3d}
+		\caption{\footnotesize BU3D-FE~\cite{Yin:2006cc}}\label{fig:db_examples_bu3d}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.3\textwidth}
+	\begin{subfigure}[b]{0.16\textwidth}
 		\centering
-		\includegraphics[height=2in]{background/images/bp4d}
-		\caption{BP4D-S~\cite{Zhang:2014id}}\label{fig:db_examples_bp4d}
-	\end{subfigure} \\
-	\begin{subfigure}[b]{0.3\textwidth}
-		\centering
-		\includegraphics[height=2in]{background/images/frgc}
-		\caption{FRGC v2~\cite{phillips2005overview}}\label{fig:db_examples_frgc}
+		\includegraphics[height=1.2in]{background/images/bp4d}
+		\caption{\footnotesize BP4D-S~\cite{Zhang:2014id}}\label{fig:db_examples_bp4d}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.3\textwidth}
+	\begin{subfigure}[b]{0.16\textwidth}
 		\centering
-		\includegraphics[height=2in]{background/images/biwi}
-		\caption{BIWI~\cite{fanelli2013random}}\label{fig:db_examples_biwi}
+		\includegraphics[height=1.2in]{background/images/frgc}
+		\caption{\footnotesize FRGC v2~\cite{phillips2005overview}}\label{fig:db_examples_frgc}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.3\textwidth}
+	\begin{subfigure}[b]{0.16\textwidth}
 		\centering
-		\includegraphics[height=1.9in]{background/images/ict}
-		\caption{ICT-3DRFE~\cite{stratou2012exploring}}\label{fig:db_examples_ict}
+		\includegraphics[height=1.2in]{background/images/biwi}
+		\caption{\footnotesize BIWI~\cite{fanelli2013random}}\label{fig:db_examples_biwi}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.17\textwidth}
+		\centering
+		\includegraphics[height=1.15in]{background/images/ict}
+		\caption{\footnotesize ICT-3DRFE~\cite{stratou2012exploring}}\label{fig:db_examples_ict}
 	\end{subfigure}
 	\caption{Examples of the quality of the facial meshes provided in various
 	         databases. The meshes were captured by the following systems:
@@ -222,7 +222,7 @@ specular normals.
 	         \lsubref{fig:db_examples_ict} by a passive stereo
 	         light stage~\cite{debevec2000acquiring}.}
 \label{fig:db_examples}
-\end{figure}
+\end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The majority of the databases discussed previously were collected using
 commercial apparatus and the focus of the database was the gathering of the
@@ -254,7 +254,7 @@ to understand the performance and limitations of the state-of-the-art in
 facial capture in order to provide a point of reference for ``in-the-wild''
 shape recovery.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}
+\begin{table*}
 \centering
 \begin{adjustbox}{totalheight=\textheight-2\baselineskip,width=\textwidth}
 \begin{minipage}{\textwidth}
@@ -304,7 +304,7 @@ shape recovery.
 \label{tbl:timeline_capture}
 \end{minipage}
 \end{adjustbox}
-\end{table}
+\end{table*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The majority of the facial capture literature focuses on two primary areas:

@@ -81,6 +81,8 @@
     \cleardoublepage
     \pagenumbering{roman}
     \pagestyle{plain}
+    \setcounter{tocdepth}{3}
+    \setcounter{secnumdepth}{3}
     \tableofcontents
     
     \cleardoublepage
@@ -123,6 +125,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\minitoc}{%
   \startcontents[chapters]
+  \addtocontents{ptc}{\string\setcounter{tocdepth}{2}}
   \noindent
   {\Large \textbf{Contents}}
   \\

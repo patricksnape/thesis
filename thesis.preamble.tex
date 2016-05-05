@@ -4,6 +4,7 @@
 \usepackage{setspace}
 \usepackage{xcolor}
 \usepackage{xspace}
+\usepackage{xfrac}
 \usepackage{xparse}
 \usepackage{caption,subcaption}
 % Math
@@ -12,6 +13,7 @@
 \usepackage{bm}
 \usepackage{relsize}
 \usepackage{adjustbox}
+\usepackage{algorithm,algorithmic}
 % Fancy headers and section titles
 \usepackage[pagestyles]{titlesec}
 % TOC per chapter
@@ -34,44 +36,5 @@
 \input{icthesis.sty}
 \input{math_commands}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Command for entries in a timeline
-\DeclareDocumentCommand{\ytl}{ O{0.2\textwidth} O{0.8\textwidth} m m }{
-\parbox[b]{#1}{\hfill{\color{cyan}\bfseries\sffamily #3}~$\cdots\cdots$~}\makebox[0pt][c]{$\bullet$}%
-\vrule\quad%
-\parbox[c]{#2}{\vspace{7pt}\color{red!40!black!80}\raggedright\sffamily #4.\\[7pt]}\\[-3pt]%
-}
-\newcommand{\lsubref}[1]{(\protect\subref{#1})}
-\newcommand*{\nolink}[1]{\begin{NoHyper}#1\end{NoHyper}}
-\newcommand{\printauthor}[1]{\nolink{\citeauthor{#1}}}
-
-% Add a period to the end of an abbreviation unless there's one
-% already, then \xspace.
-\makeatletter
-\DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
-\def\@onedot{\ifx\@let@token.\else.\null\fi\xspace}
-
-\def\eg{\emph{e.g}\onedot} \def\Eg{\emph{E.g}\onedot}
-\def\ie{\emph{i.e}\onedot} \def\Ie{\emph{I.e}\onedot}
-\def\cf{\emph{c.f}\onedot} \def\Cf{\emph{C.f}\onedot}
-\def\etc{\emph{etc}\onedot} \def\vs{\emph{vs}\onedot}
-\def\wrt{w.r.t\onedot} \def\dof{d.o.f\onedot}
-\def\etal{\emph{et al}\onedot}
-\makeatother
-
-% Example of inserting a timeline - which I will do AFTER I have formalised
-% all of the citations.
-% \begin{table}
-% 	\centering
-% 	\begin{minipage}[t]{.8\linewidth}
-% 		\color{gray}
-% 		\rule{\linewidth}{1pt}
-
-% 		\ytl{1947}{AT and T Bell Labs develop the idea of cellular phones}
-% 		\ytl{1968}{Xerox Palo Alto Research Centre envisage the `Dynabook'}
-% 		\ytl{1971}{Busicom 'Handy-LE' Calculator}
-
-% 		\bigskip
-% 		\rule{\linewidth}{1pt}%
-% 	\end{minipage}%
-% 	\caption{Timeline of something.}
-% \end{table}
+\input{tex_commands}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

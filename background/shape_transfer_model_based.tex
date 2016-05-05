@@ -63,11 +63,11 @@ include a spherical harmonic basis to represent shape. This enables
 the recovery of the albedo and thus illumination conditions are also
 recovered. Similarly, \citet{rara2009model} minimise the error between
 an intensity and shape model using spherical harmonic basis, but solve for 
-each mode seperately. They describe this as following a ``project-out'' 
+each model seperately. They describe this as following a ``project-out'' 
 method~\cite{matthews2004active} and first solve for the shape, fixing the 
 intensity and then solving for the intensity with the recovered shape. 
 \citet{rara2010face} also employ a spherical harmonic basis but use
-Partial Least Squares (PLS) to recovery the best shape parameters.
+Partial Least Squares (PLS) to recover the best shape parameters.
 
 \citet{rara2011model} use principal component regression in order to map
 a set of known 2D landmarks to the parameters of a statistical 3D shape model.
@@ -122,7 +122,7 @@ replicate some feature of the input image. Unlike 3DMMs, alignment methods
 do not necessarily try to synthesize the image, but instead focus on learning
 relationships between some feature of the image and the model.
 
-\cite{terzopoulos1993analysis} build a physics based synthetic tissue model
+\citet{terzopoulos1993analysis} build a physics based synthetic tissue model
 for a sparse generic 3D model coupled with a set of anatomically motivated
 muscle activators. Contours are extracted from input images and the physically
 based model is used to deform the generic mesh. Similarly,

@@ -35,26 +35,27 @@ but not self occluding. Furthermore, there exists a large amount of publicly
 available imagery of faces and human faces are of significant interest to a 
 number of fields including entertainment, medicine and psychology.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}[t]
+\begin{table*}[t]
 	\centering
 	\resizebox{\textwidth}{!}{%
-		\begin{tabular}{@{}llccl@{}}
+		\begin{tabular}{clccl}
 		\toprule
 		\multicolumn{1}{c}{Classification}                  & \multicolumn{1}{c}{Method}                                                   & \# Images & Other Input                                                                       & \multicolumn{1}{c}{Output} \\ \midrule
 		\multirow{4}{*}[-0.7cm]{Image Formation}            & Shape-from-Shading                                                           & $1$       & \begin{tabular}[c]{@{}c@{}}Reflectance Model, \\ Lighting Directions\end{tabular} & Surface Normals            \\ \cmidrule(l){3-5} 
-		                                                    & \begin{tabular}[c]{@{}l@{}} (Un) Calibrated \\ Photometric Stereo\end{tabular} & $\geq 3$  & \begin{tabular}[c]{@{}c@{}}Lighting Directions \\ (If Calibrated)\end{tabular}    & Surface Normals            \\ \cmidrule(l){3-5} 
+		                                                    & \begin{tabular}[c]{@{}l@{}} (Un) Calibrated \\ Photometric Stereo\end{tabular} & $\geq 3$  & \begin{tabular}[c]{@{}c@{}}Lighting Directions \\ (If Calibrated)\end{tabular}  & Surface Normals            \\ \cmidrule(l){3-5} 
 		                                                    & Shape-from-Contour                                                           & $1$       & Object Contour                                                                    & Coarse Surface Normals     \\ \cmidrule(l){3-5} 
 		                                                    & Analysis-by-Synthesis                                                        & $1$       & 3D Model                                                                          & 3D Shape                   \\ \midrule
-		\multicolumn{1}{c}{\multirow{2}{*}{Photogrammetry}} & Multi-View Stereo                                                            & $k$       & Camera Extrinsics                                                                 & 3D Shape                   \\ \cmidrule(l){3-5} 
-		\multicolumn{1}{c}{}                                & Structure-from-Motion                                                        & $k$       & Corresponding Points                                                              & 3D Shape                   \\ \midrule
-		\multicolumn{1}{c}{Other}                           & Shape Transfer                                                               & $1$       & 3D Model                                                                          & 3D or 2.5D Shape           \\ \bottomrule
+		\multirow{2}{*}{Photogrammetry}                     & Multi-View Stereo                                                            & $k$       & Camera Extrinsics                                                                 & 3D Shape                   \\ \cmidrule(l){3-5} 
+		                                                    & Structure-from-Motion                                                        & $k$       & Corresponding Points                                                              & 3D Shape                   \\ \midrule
+		\multirow{2}{*}{Other}                              & Shape Transfer                                                               & $1$       & 3D Model                                                                          & 3D or 2.5D Shape           \\
+		                                                    & Alignment                                                                    & $1$       & 3D Model                                                                          & 3D Shape                   \\ \bottomrule
 		\end{tabular}
 	}
 	\caption{A summary of methods for recovering 3D shape from images. The two 
 	         largest subcategories are image formation algorithms and 
 	         photogrammetry.}
 \label{tbl:3d_recovery_methods}
-\end{table}
+\end{table*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 An impressive example of the quality of 3D reconstruction possible is the
 seminal work of \citet{volker1999morphable}. A commercial example of the

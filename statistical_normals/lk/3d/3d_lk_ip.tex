@@ -1,0 +1,89 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Inner Product ECC LK}\label{subsubsec:lk-inner-product}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Given the inner product similarity measure as described in
+\cref{subsubsec:cosine_inner_product}, we seek to embed it within the LK
+framework in order to present a robust parametric alignment algorithm.
+Therefore, we begin by restating our cost function:
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:cosine_alignment}
+   \argmax_{\p} \quad \sum_k \cos{\left(\sigma(\p)\right)}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+with an abuse of notation for the parameters which are hidden within the cosine
+function. Expanding (\ref{eq:cosine_alignment}) reveals the parameters and makes
+the relationship between our inner product similarity and the ECC framework
+clear:
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:ip-ecc-lk-max}
+   \argmax_{\p} \quad {\bb{\tilde{g}}_{I}(\p)}^{\top} \bb{\tilde{g}}_T(\zero)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+which yields our forward additive algorithm.
+
+However, unlike in ECC where the vectors represent concatenated normalised
+intensities, we are considering normalised gradients. Since gradients have three
+separate components we must consider the derivatives when linearising
+$\bb{g}_I$. Since $\bb{g}_I$ is composed of multiple components, there
+will be extra derivatives to calculate via the chain rule. Formally, linearising
+(\ref{eq:ip-ecc-lk-max}) with respect to $\bb{g}_I$ yields
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:ip-ecc-lk-linearised}
+    \argmax_{\p} \quad \bb{\tilde{g}}_T \frac{\bb{\tilde{g}}_{I}(\p) + \bb{J}_{\bb{g}} \Delta \p}{\norm{{\bb{\tilde{g}}_{I}(\p) + \bb{J}_{\bb{g}} \Delta \p}}}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+where $\bb{J}_{\bb{g}}$ is the matrix formed by correctly computing
+the derivative of $\bb{g}_{I}$ with respect to each component of
+$\bb{g}_I$. For example, given that $\bb{g}_{I,x}(\p)$ is a vector
+formed of the $x$-components of the gradients and $\bb{\tilde{g}}_{I,x}(\p)$
+is a vector formed of $\bb{\tilde{g}}_{I,x}(\p)[k] =
+\frac{\bb{g}_{I,x}(\p)[k]}{\norm{\bb{g}_{I}(\p)[k]}}$, the true
+derivative of $\bb{\tilde{g}}_{I,x}(\p)$ is
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:ip-ecc-chain-rule}
+    \begin{aligned}
+        \frac{\partial \bb{\tilde{g}}_{I,x}(\p)}{\partial \p}          &= \frac{\partial \bb{\tilde{g}}_{I,x}(\p)}{\partial \bb{g}_{I,x}(\p)} \frac{\partial \bb{g}_{I,x}(\p)}{\partial \p} \\
+        \frac{\partial \bb{\tilde{g}}_{I,x}(\p)}{\partial \bb{g}_{I,x}(\p)} &= \frac{{\bb{g}_{I,y}(\p)}^2 + {\bb{g}_{I,z}(\p)}^2}{{\left({\bb{g}_{I,x}(\p)}^2 + {\bb{g}_{I,y}(\p)}^2 + {\bb{g}_{I,z}(\p)}^2 \right)}^{\sfrac{3}{2}}}
+    \end{aligned}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+where $\frac{\partial \bb{g}_{I,x}(\p)}{\partial \p}$ is equivalent to
+$\frac{\partial I(\p)}{\partial \p}$ in the original ECC equations. The $y$ and
+$z$ derivatives are given in a similar fashion as
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:ip-ecc-chain-rule-y-z}
+    \begin{aligned}
+        \frac{\partial \bb{\tilde{g}}_{I,y}(\p)}{\partial \bb{g}_{I,y}(\p)} &= \frac{{\bb{g}_{I,x}(\p)}^2 + {\bb{g}_{I,z}(\p)}^2}{{\left({\bb{g}_{I,x}(\p)}^2 + {\bb{g}_{I,y}(\p)}^2 + {\bb{g}_{I,z}(\p)}^2 \right)}^{\sfrac{3}{2}}} \\
+        \frac{\partial \bb{\tilde{g}}_{I,z}(\p)}{\partial \bb{g}_{I,z}(\p)} &= \frac{{\bb{g}_{I,x}(\p)}^2 + {\bb{g}_{I,y}(\p)}^2}{{\left({\bb{g}_{I,x}(\p)}^2 + {\bb{g}_{I,y}(\p)}^2 + {\bb{g}_{I,z}(\p)}^2 \right)}^{\sfrac{3}{2}}}
+    \end{aligned}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+However, $\nabla \bb{g}_{I,x}$, formally the image gradient, represents the
+gradient over only the $x$-component, and is equivalent to the second order
+derivative of the gradients with respect to $x$.
+
+Since $\frac{\partial \bb{g}_{I,x}(\p)}{\partial \p}$ is a matrix and
+$\frac{\partial \bb{\tilde{g}}_{I,x}(\p)}{\partial \bb{g}_{I,x}(\p)}$ is
+a vector, we multiply the two using a Hadamard product, denoted
+by the $\odot$ operator. However, $\frac{\partial
+\bb{\tilde{g}}_{I,x}(\p)}{\partial \bb{g}_{I,x}(\p)}$ must first form a
+matrix, $\bb{J}_x$, of size $D \times p$ by repeating the vector $p$
+times to form columns within the matrix. Finally the total $x$-component
+Jacobian is given by
+$\bb{J}_{\bb{g},x} = \bb{J}_x \odot \frac{\partial \bb{g}_{I,x}(\p)}{\partial \p}$.
+
+Given that $\bb{J}_{\bb{g},i} \forall i \in \{ x,y,z \}$ have been
+calculated, the total derivative term is given by
+ $\bb{J}_{\bb{g}} = {\left[ \bb{J}_{\bb{g},x}, \bb{J}_{\bb{g},y}, \bb{J}_{\bb{g},z} \right]}^{\top}$. 
+Solving for $\Delta \p$ is now identical to the ECC formulation:
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:ip-ecc-lk-gauss-newton}
+    \Delta \p = \bb{H}^{-1} \bb{J_g} \left[ \frac{\norm{\bb{g}_I(\p)}^2 - {\bb{g}_I(\p)}^{\top} \bb{Q} \bb{g}_I(\p)}{\bb{\tilde{g}}_T^{\top} \bb{g}_I(\p) - \bb{\tilde{g}}_T^{\top} \bb{Q} \bb{g}_I(\p)} \bb{\tilde{g}}_T - \bb{g}_I(\p) \right]
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+Since the update step is identical to the one given in 
+(\ref{eq:ecc-lk-gauss-newton-ic}) it is simple to reformulate the inner product 
+ECC in an inverse compositional form by following a derivation identical to 
+\cref{subsec:lk-ic}. In the experimental section, we consider the inverse
+compositional form of the algorithm.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

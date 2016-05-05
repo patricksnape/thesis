@@ -2,7 +2,7 @@
 \section{Shape-from-Shading}\label{sec:bg_sfs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
+\begin{figure*}[t]
 	\centering
 	\begin{subfigure}[b]{0.24\textwidth}
 		\centering
@@ -32,7 +32,7 @@
 	         rotated versions of the frontal images, approximately $25^\circ$
 	         around the Yaw axis.}
 \label{fig:bg_sfs_bas_relief}
-\end{figure}
+\end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Shape-from-shading (SfS)~\cite{horn1970shape} is the process of attempting to
 recover surface information from an object in an image using \textit{inverse
@@ -62,7 +62,7 @@ made.
 \subsection{Image Formation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
+\begin{figure*}[t]
 	\centering
 	\begin{tabular}{cc}
 		\multicolumn{2}{c}{
@@ -96,7 +96,7 @@ made.
 	         Standard International unit of solid angular measure and
 	         $W$ denotes watts.}
 \label{fig:bg_sfs_rad_irrad}
-\end{figure}
+\end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %TODO: Need a section on Spherical Harmonics
 When discussing image formation methods a number of assumptions are commonly
@@ -160,7 +160,7 @@ remains unchanged
 \ie~$f(\theta_i,\phi_i;\theta_r,\phi_r) = f(\theta_r,\phi_r;\theta_i,\phi_i)$.
 An illustration of the general BRDF is given in \cref{fig:bg_sfs_brdf_example}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
+\begin{figure*}[t]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
@@ -179,7 +179,7 @@ An illustration of the general BRDF is given in \cref{fig:bg_sfs_brdf_example}.
 	         intensity. Note that the Lambertian BRDF is independent of
 	         the viewing direction.}
 \label{fig:bg_sfs_brdf_example}
-\end{figure}
+\end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The most commonly assumed BRDF is that of the Lambertian BRDF.\@ A Lambertian
@@ -218,18 +218,6 @@ not physically realisable. For example, a patch lit from the vector opposite
 its normal would produce negative intensity. Therefore, the correct physical
 form of the Lambertian BRDF is
 $L_{\operatorname{lambert}} = \rho_{\smallsub{d}} \max(\bb{n}^T \bb{s}, 0)$.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=\textwidth]{background/images/scene_radiance_to_pixel}
-	\caption{Illustration of the formation of a pixel intensity in image space
-	         from scene radiance. Scene radiance is linearly proportional
-	         to image irradiance~\cite{horn1979calculating} and image irradiance
-	         is non-linearly mapped to a pixel intensity via the camera
-	         response function, $f$.}
-\label{fig:bg_sfs_scene_to_intensity}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 For completeness, is it worthwhile noting that the image irradiance, formed
 through the interaction of the scene radiance and the optic lens, is not
 the final measured pixel intensity value commonly utilized on Computer Vision.
@@ -253,6 +241,18 @@ response model~\cite{grossberg2003space}. Therefore, unless explicitly
 mentioned, we make the strong assumption that the camera response function
 is the identity function and thus pixels in any given image directly
 represent the scene radiance.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\columnwidth]{background/images/scene_radiance_to_pixel}
+	\caption{Illustration of the formation of a pixel intensity in image space
+	         from scene radiance. Scene radiance is linearly proportional
+	         to image irradiance~\cite{horn1979calculating} and image irradiance
+	         is non-linearly mapped to a pixel intensity via the camera
+	         response function, $f$.}
+\label{fig:bg_sfs_scene_to_intensity}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Even assuming that all of the assumptions outlined above are perfectly
 satisfied by an image, SfS is still an under-constrained problem. Given
@@ -298,9 +298,9 @@ given $d$ is the total number of pixels in the image and
 \begin{align*}
     \bb{N} &= {[\bb{n}(x_1, y_1), \ldots, \bb{n}(x_w, y_h)]}^T &\in &\R^{d \times 3} \\
 	\bb{I} &= {[I(x_1, y_1), \ldots, I(x_w, y_h)]}^T &\in &\R^{d} \\
-	\bb{\tilde{p}} &= {[p(x_1, y_1) / e(x_1, y_1), \ldots, p(x_w, y_h) / e(x_w, y_h)]}^T &\in &\R^{d} \\
-	\bb{\tilde{q}} &= {[q(x_1, y_1) / e(x_1, y_1), \ldots, q(x_w, y_h) / e(x_w, y_h)]}^T &\in &\R^{d} \\
- 	\bb{\tilde{1}} &= {[1 / e(x_1, y_1), \ldots, 1 / e(x_w, y_h)]}^T &\in &\R^{d} \\
+	\bb{\tilde{p}} &= {\left[\frac{p(x_1, y_1)}{e(x_1, y_1)}, \ldots, \frac{p(x_w, y_h)}{e(x_w, y_h)}\right]}^T &\in &\R^{d} \\
+	\bb{\tilde{q}} &= {\left[\frac{q(x_1, y_1)}{e(x_1, y_1)}, \ldots, \frac{q(x_w, y_h)}{e(x_w, y_h)}\right]}^T &\in &\R^{d} \\
+ 	\bb{\tilde{1}} &= {\left[\frac{1}{e(x_1, y_1)}, \ldots, \frac{1}{e(x_w, y_h)}\right]}^T &\in &\R^{d} \\
 	e(x_k, y_k) &= \sqrt{{p(x_k, y_k)}^2 + {q(x_k, y_k)}^2 + 1}. & &
 \end{align*}
 %%%%%%%%%%%%%%%%%%%
@@ -398,24 +398,24 @@ the image using the albedo estimate and then transform the normalised image to
 appear lit by the initial illumination direction estimate. Finally, SfS is
 performed on the transformed image, which they showed was much more accurate
 than performing SfS on the initial input image.
-\citet{KemelmacherShlizerman:in} also utilize a template shape, but rather
-than simply initialising a SfS algorithm with this shape, the authors propose to
-augment the template geometry with a photometric consistency term stemming from
-spherical harmonics. This is similar in spirit to many of the methods shown in
-\cref{subsec:bg_capture} where the coarse output of stereo was augmented with
-photometric information. In \citet{KemelmacherShlizerman:in} directly optimize
-over the 3D surface rather than the normals themselves in order to avoid
-integration of the normals as a secondary process. In
-\citet{KemelmacherShlizerman:in}, the 3D surface is parametrized as a height map
-and alignment between the input image and the template mesh is performed via
-optical flow. This implies that the method is generally poor at recovering
-details from posed images as the alignment between the template and the image
-must be highly accurate. This work was also utilized
-in~\cite{kemelmacher2008mooney} for the recovery of shape using binary
-images (dubbed ``Mooney-images'') where the authors show that, with some
-consideration, a template mesh may also be deformed to recovery reasonable
+\citet{kemelmacher2011facereconstruction} also utilize a template shape, but
+rather than simply initialising a SfS algorithm with this shape, the authors
+propose to augment the template geometry with a photometric consistency term
+stemming from spherical harmonics. This is similar in spirit to many of the
+methods shown in \cref{subsec:bg_capture} where the coarse output of stereo was
+augmented with photometric information. 
+In \citet{kemelmacher2011facereconstruction} directly optimize over the 3D
+surface rather than the normals themselves in order to avoid integration of the
+normals as a secondary process. In \citet{kemelmacher2011facereconstruction}, 
+the 3D surface is parametrized as a height map and alignment between the input
+image and the template mesh is performed via optical flow. This implies that the
+method is generally poor at recovering details from posed images as the
+alignment between the template and the image must be highly accurate. This work
+was also utilized in~\cite{kemelmacher2008mooney} for the recovery of shape
+using binary images (dubbed ``Mooney-images'') where the authors show that, with
+some consideration, a template mesh may also be deformed to recovery reasonable
 facial shape from textureless images.
-\citet{roth2015unconstrained} extend the work of~\cite{KemelmacherShlizerman:in}
+\citet{roth2015unconstrained} extend the work of~\cite{kemelmacher2011facereconstruction}
 by proposing to use a 3D mesh parametrized by vertices rather than as a height
 map. 2D facial landmarks are utilized to recover the initial mesh alignment with
 the input image and a novel Laplace mesh editing method is used to deform the
