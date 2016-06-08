@@ -16,36 +16,36 @@
     \def\mut{{\mu_{[t]}}}
     \def\X{{\bb{X}}}
     
-    \begin{algorithmic}[1]
-        \STATE{} Initialise: $\bb{A}_{[0]} = 0$, $\bb{E}_{[0]} = 0$, $\bb{B}_{[0]} = 0$, $\bb{C}_{[0]} = 0$, $\bb{L}_{[0]} = 0$, $\bb{Y}_{[0]} = 0$, $\mu_{[0]} = 10^{-6}$, $\rho = 1.1$, $\epsilon = 10^{-8}$
-        \WHILE{not converged do} %(Outer loop)
-            \STATE{} Fix $\Et$, $\Bt$, $\Ct$, $\Lt$ and update $\bb{A}_{[t + 1]}$ by
+    \begin{algorithmic}
+        \State{}Initialise: $\bb{A}_{[0]} = 0$, $\bb{E}_{[0]} = 0$, $\bb{B}_{[0]} = 0$, $\bb{C}_{[0]} = 0$, $\bb{L}_{[0]} = 0$, $\bb{Y}_{[0]} = 0$, $\mu_{[0]} = 10^{-6}$, $\rho = 1.1$, $\epsilon = 10^{-8}$
+        \While{not converged} %(Outer loop)
+            \State{}Fix $\Et$, $\Bt$, $\Ct$, $\Lt$ and update $\bb{A}_{[t + 1]}$ by
                 \begin{equation}\label{eq:A_update}
                     \bb{A}_{[t+1]} = D_{\mu_{[t]}^{-1}} \left[  \Bt ( \Lt \ast \Ct ) - \At + \X - \Et + \frac{\Yt}{\mut} \right]
                 \end{equation}
-            \STATE{} Fix $\bb{A}_{[t+1]}$, $\Lt$, $\Ct$, $\Lt$ and update $\bb{A}_{[t + 1]}$ by
+            \State{}Fix $\bb{A}_{[t+1]}$, $\Lt$, $\Ct$, $\Lt$ and update $\bb{A}_{[t + 1]}$ by
                 \begin{equation}\label{eq:E_update}
                     \bb{E}_{[t+1]} = \mathcal{S}_{\lambda \mut^{-1}} \left[ \X - \bb{A}_{[t+1]} + \frac{\Yt}{\mut} \right]
                 \end{equation}
-            \STATE{} Update $\bb{B}_{[t+1]}$ by first performing the SVD on:
+            \State{}Update $\bb{B}_{[t+1]}$ by first performing the SVD on:
                 \begin{equation}\label{eq:ALC_svd}
                     \bb{A}_{[t+1]} {(\Lt \ast \Ct)}^T = \bb{U} \bb{\Sigma} \bb{V}, \; \bb{B}_{[t+1]} = \bb{U} \bb{V}^T
                 \end{equation}
-            \STATE{} Update $[\bb{L}_{[t+1]}, \bb{C}_{[t+1]}]$ via a Least Squares Khatri-Rao factorization, as described in \cref{subsec:robust_sh_basis}
-            \STATE{} Update Lagrange multipliers by
+            \State{}Update $[\bb{L}_{[t+1]}, \bb{C}_{[t+1]}]$ via a Least Squares Khatri-Rao factorization, as described in \cref{subsec:robust_sh_basis}
+            \State{} Update Lagrange multipliers by
                 \begin{equation}\label{eq:Y_update}
                     \bb{Y}_{[t+1]} = \Yt + \mut \left( \X - \bb{A}_{[t+1]} - \bb{E}_{[t+1]} \right)
                 \end{equation}
-            \STATE{} Update $\mu_{[t+1]}$ by $\mu_{[t+1]} = \min(\rho \mut, 10^6)$
-            \STATE{} Check convergence condition
+            \State{}Update $\mu_{[t+1]}$ by $\mu_{[t+1]} = \min(\rho \mut, 10^6)$
+            \State{}Check convergence condition
                 \begin{equation}\label{eq:convergence_condition}
                     \begin{aligned}
                         &\lVert \X - \bb{A}_{[t+1]} - \bb{E}_{[t+1]} \rVert_{\infty} < \epsilon, \\
                         &\lVert \bb{A}_{[t+1]} - \bb{B}_{[t+1]} - (\bb{L}_{[t+1]} \ast \bb{C}_{[t+1]}) \rVert_{\infty} < \epsilon
                     \end{aligned}
                 \end{equation}
-            \STATE{} $t \leftarrow t + 1$
-        \ENDWHILE{}
+            \State{}$t \leftarrow t + 1$
+        \EndWhile{}
     \end{algorithmic}
 }
 \end{algorithm}
