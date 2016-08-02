@@ -50,9 +50,9 @@ whereby the discrete elements composing the image are 3D voxels as opposed to
 are analogous to normals) are defined in a manner similar to 2D gradients. This
 form of data is very common in the medical imaging community, for example.
 We also note that the cosine \textit{dissimilarity measure} is defined as being
-\textit{minimised} when the image areas are identical (minimum error is 0). 
-Conversely, the cosine \textit{similarity measure} is \textit{maximised} when 
-the image  areas are identical (maximum error is 1). Therefore, the 
+\textit{minimised} when the image areas are identical (minimum error is 0).
+Conversely, the cosine \textit{similarity measure} is \textit{maximised} when
+the image  areas are identical (maximum error is 1). Therefore, the
 cosine measure is naturally defined as a similarity measure since when
 two angles are identical their difference is 0 and thus $\cos(0) = 1$. The
 cosine dissimilarity is trivially defined as $1 - \cos(\cdot)$ due to the range
@@ -122,8 +122,8 @@ Given orientations from two dissimilar images, it is reasonable to assume that
 difference between the orientations, $\Delta \phi(k) = \phi_1(k) - \phi_2(k)$,
 can take any angle between $[0, 2\pi)$. Intuitively, this implies that selecting
 two pixels from dissimilar images is unlikely to yield any correlation between
-the images. 
-In~\cite{tzimiropoulos2011robust,tzimiropoulos2012subspace}, 
+the images.
+In~\cite{tzimiropoulos2011robust,tzimiropoulos2012subspace},
 it was experimentally verified that the
 orientation differences follow a uniform distribution, $\Delta \phi(k) \sim U(0,
 2\pi)$. The fact that the orientation differences follows a uniform distribution
@@ -152,6 +152,13 @@ would be able to automatically identify regions of the image that are occluding
 the true object of interest. Under the previous definition of robustness, the
 cosine similarity naturally represents a robust similarity measure as it
 automatically suppresses the contribution of outliers.
+
+In practise, when comparing two images where one image contains occlusions,
+there will be regions that are correlated and then the occluded region that is
+uncorrelated. In this case, the total distribution of all pixels will be
+described by a mixture model of the occluded and non-occluded regions. We desire
+that the distribution of the uncorrelated areas has an expectation of zero and
+thus will not affect the optimisation of the similarity measure.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Cosine Similarity in 2.5D and 3D}\label{subsec:cosine_3d}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -168,13 +175,13 @@ be zero. In the case of input to the cosine function, a given distribution must
 simply be symmetric over the positive and negative span of outputs of the
 cosine. When symmetric over the positive and negative outputs, the expectation
 of the cosine function is zero. In fact, we can relax the definition of a
-measure being robust to outliers by stating that we actually desire a measure 
-whereby the \textit{expectation of the measure over image areas that are 
-uncorrelated is zero}. 
+measure being robust to outliers by stating that we actually desire a measure
+whereby the \textit{expectation of the measure over image areas that are
+uncorrelated is zero}.
 
 In this section we consider two forms of three dimensional
 data: 2.5D and 3D/volumetric. \textbf{2.5D data} is defined as a surface composed
-of a set of 3D coordinates, typically related by triangulation such that 
+of a set of 3D coordinates, typically related by triangulation such that
 the surface is composed of a set of triangular facets. In contrast to 3D data,
 these 2.5D points are not a discretisation of the 3D space and thus there
 is no concept of a voxel. Typically, 2.5D data is produced via a projection
@@ -185,9 +192,8 @@ arbitrary mesh would be considered 2.5D under this definition, in this work
 we consider 2.5D data recovered from imaging devices such as the Kinect and thus
 there is an implicit connectivity between neighbouring points. This connectivity
 is a regular lattice in the $x-y$ plane that is analogous with pixels and thus
-the data can be thought of as a depth or height map. Therefore, image indexing 
-returns the appropriate depth/height for a given projected pixel. 
-
+the data can be thought of as a depth or height map. Therefore, image indexing
+returns the appropriate depth/height for a given projected pixel.
 
 The spherical coordinate system and the dot product are applicable for
 both 2.5D data and 3D/volumetric data. In the case of 2.5D data, the spherical
@@ -195,22 +201,43 @@ coordinates are derived from the vector perpendicular to the plane tangent
 to any point on the 2.5D surface. For example, given a 2.5D surface parametrised
 by a set of triangular facets, the surface normal for a given triangle
 can be found by computing a cross product between two of the triangles edges.
-Formally, assuming we are given two 2.5D surfaces 
+Assuming depth data, as mentioned previously, each pixel is analogous to a single
+depth value and thus the sampled normal for a depth value corresponds to a
+vertex normal. A vertex normal is simply computed by averaging the normals
+corresponding to the centre of each triangular facet that a given vertex is
+a part of.
 
-
-of the $k$th triangle is composed of three coordinates, 
-${\bb{p}(k)}_i = {[{x(k)}_i, {y(k)}_i, {z(k)}_i]}^T, \; i \in \{1, 2, 3\}$
-the surface normal of the triangle's plane can be computed from the two edge vectors as
-$\bb{n}(k) = ({\bb{p}(k)}_2 - {\bb{p}(k)}_1) \times ({\bb{p}(k)}_3 - {\bb{p}(k)}_1) = {[{n(k)}_x, {n(k)}_y, {n(k)}_z]}^T$ 
-where $\times$ denotes the vector cross product. Note that the direction of the 
-normal with respect to which ``side'' of the surface it extends from,
-\eg~the sign of the normal, is unimportant and need only be consistent between
-all computed normals. In this work, we assume that normals always point 
-``outward'' towards the camera and away from the surface centre of mass.
+Formally, assuming we are given two 2.5D images,
+denoted as $D_i, \; i \in \{1,2\}$, we define $\bb{d}_i$ as the lexicographical
+vectorisation of $D_i$ which can be indexed by the linear index $k$ as
+$\bb{d}_i(k)$. We also assume triangulation matrices
+$\bb{T}^i \in \R^{m \times 3}$ where $m$ is the number of triangles and each row
+provides the set of linear indices into $\bb{d}_i$ that index the vertices
+that compose a triangle. The per triangle normal for row $q$ can be computed as
+${\bb{T}^i}_{q\ast} = [a_q, b_q, c_q]$ and
+$\bb{\hat{n}}^q = ({\bb{d}_i(b_q)} - {\bb{d}_i(a_q)}) \times ({\bb{d}_i(c_q)} - {\bb{d}_i(a_q)})$
+where $\times$ denotes the vector cross product. To represent a valid normal,
+$\bb{\hat{n}}^q$ must be normalised to a unit vector,
+$\bb{n}^q = \frac{\bb{\hat{n}}^q}{\norm{\bb{\hat{n}}^q}}$. The per vertex normal
+is computed as the average of all the per triangle normals that a vertex
+is a part of. Therefore, the corresponding vertex normal for index $k$ into
+$\bb{d}_i(k)$ is defined as $\bb{\hat{n}}_{i,k} = \frac{1}{t} \sum_{q \in Q} \bb{n}^q$
+where $Q \in \R^t$ is the set of indices of the triangles that the vertex at index
+$k$ is a part of. Note that $\bb{\hat{n}}_{i,k}$ must also be normalised to
+a unit vector $\bb{n}_{i,k} = \frac{\bb{\hat{n}}_{i,k}}{\norm{\bb{\hat{n}}_{i,k}}}$.
+It should also be noted that for the case of 2.5D images that are triangulated
+over a regular grid, the normals can also be computed using the
+identity given by \cref{eq:bg_sfs_normal_pq} in a manner similar to the 2D
+gradient procedure described above.
+Note that the direction of the  normal with respect to which ``side'' of the
+surface it extends from, \eg~the sign of the normal, is unimportant and need
+only be consistent between all computed normals. In this work, we assume that
+normals always point ``outward'' towards the camera and away from the surface
+centre of mass.
 
 For 3D images, we make very similar
-assumptions to those made in \cref{subsec:cosine_2d} for 2D images. 
-We simply extend the notation of \cref{subsec:cosine_2d} by including the 
+assumptions to those made in \cref{subsec:cosine_2d} for 2D images.
+We simply extend the notation of \cref{subsec:cosine_2d} by including the
 gradient of the $z$-axis, denoted as $G_{i,z} = \bb{F}_z \ast I_i$.
 We also redefine the normalised gradient as
 $\bb{\tilde{g}}_{i}(k) = \frac{\bb{g}_{i}(k)}{\norm{\bb{g}_{i}(k)}}$
@@ -219,19 +246,12 @@ where $\norm{\bb{g}_{i}(k)} = \sqrt{{g_{i,x}(k)}^2 + {g_{i,y}(k)}^2 +
 concatenating the $x$, $y$ and $z$ gradients together. Although the
 computation of spherical coordinates and the inner product are identical for
 both surface normals and 3D gradients, we disambiguate between the two and
-always denote surface normals with $\bb{n}$ and 3D gradients with $\bb{g}$. 
-
-In practise, when comparing two images where one image contains occlusions,
-there will be regions that are correlated and then the occluded region that is
-uncorrelated. In this case, the total distribution of all pixels will be
-described by a mixture model of the occluded and non-occluded regions. We desire
-that the distribution of the uncorrelated areas has an expectation of zero and
-thus will not affect the optimisation of the similarity measure.
+always denote surface normals with $\bb{n}$ and 3D gradients with $\bb{g}$.
 
 In \cref{subsubsec:cosine_spherical} and
 \cref{subsubsec:cosine_inner_product} we describe two measures of angular
-difference between 3D orientations. We investigate the distribution of these 
-angular measures when combined with the cosine function and motivate that they 
+difference between 3D orientations. We investigate the distribution of these
+angular measures when combined with the cosine function and motivate that they
 are both suitable for use as a similarity measure between real data.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Spherical Coordinates}\label{subsubsec:cosine_spherical}
@@ -248,9 +268,9 @@ coordinates, we can calculate the spherical angles as follows:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:cartesian_to_spherical}
     \begin{aligned}
-        r_i(k)      &= \lVert \bb{\tilde{g}}_{i}(k) \rVert = 1            \\
-        \phi_i(k)   &= \arctan{\frac{\tilde{g}_{i,y}(k)}{\tilde{g}_{i,x}(k)}} \\
-        \theta_i(k) &= \arccos{\tilde{g}_{i,z}(k)}
+        r_i(k)      &= \lVert \bb{\tilde{x}}_{i}(k) \rVert = 1            \\
+        \phi_i(k)   &= \arctan{\frac{\tilde{x}_{i,y}(k)}{\tilde{x}_{i,x}(k)}} \\
+        \theta_i(k) &= \arccos{\tilde{x}_{i,z}(k)}
     \end{aligned}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -294,7 +314,7 @@ zero mean.
 \subsubsection{Inner Product}\label{subsubsec:cosine_inner_product}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 A more general angular measure between two vectors is the inner product. Unlike
-in~\cite{tzimiropoulos2012subspace,tzimiropoulos2011robust} or 
+in~\cite{tzimiropoulos2012subspace,tzimiropoulos2011robust} or
 \cref{subsubsec:cosine_spherical}, the inner
 product is a single angle and not the difference between two angles.
 Practically, the inner product measures the projection error between two vectors
@@ -304,7 +324,7 @@ and is defined as:
     \cos{\sigma} = \bb{\tilde{g}}_{1}^{\top} \bb{\tilde{g}}_{2}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In~\cite{tzimiropoulos2012subspace,tzimiropoulos2010robust}, 
+In~\cite{tzimiropoulos2012subspace,tzimiropoulos2010robust},
 the authors reasonably propose that the angle between the
 gradients of dissimilar images can take any value in $[0, 2\pi)$ with equal
 probability. Similarly, the relationship between the gradient vectors of two

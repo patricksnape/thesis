@@ -6,8 +6,8 @@
 The most difficult scenario for shape recovery is recovery from a single
 image. As discussed in \cref{sec:bg_sfs}, Shape-from-shading (SfS) provides a
 principled way to recover shape from single images of human faces. In this case,
-the shape recovered is parametrised in the form of surface normals, 
-which determine how light interacts with the surface of the face. 
+the shape recovered is parametrised in the form of surface normals,
+which determine how light interacts with the surface of the face.
 However, given that the general
 shape-from-shading case is ill-defined, it would be beneficial to augment
 shape-from-shading with prior knowledge that constrains the recovered shape to
@@ -20,7 +20,8 @@ been successfully used for both 2D~\cite{cootes2001active,turk1991eigenfaces}
 and 3D~\cite{enciso1999synthesis,atick1996statistical} analysis of faces.
 Most commonly, statistical models of faces are built using component analysis
 in order to leverage the highly correlated nature of different faces. Although
-the most common form of component analysis, Principal Component Analysis (PCA),
+the most common form of component analysis,
+Principal Component Analysis (PCA)~\cite{pearson1901lines,hotelling1933analysis},
 is linear, the relationships between data are often nonlinear.
 This has spurred a lot of interest in the development of
 efficient and effective techniques for computing nonlinear dimensionality
@@ -53,7 +54,7 @@ $\bb{I} \in \R^{p \times p}$ is an identity matrix. This clearly demonstrates
 that PCA minimizes the orthogonal Euclidean reconstruction error. In the PCA
 reconstruction objective above, a mean-centred data matrix was assumed. This is
 important as PCA may also be derived as a rotation around the mean that
-maximises the variance of the data. Thus, the ability to accurately compute the 
+maximises the variance of the data. Thus, the ability to accurately compute the
 mean is an important requirement for correctly recovering principal components.
 For normals, the computation of a correct mean
 is complicated by the constraint that the mean normal must also lie on the
@@ -93,7 +94,7 @@ Thus, any component analysis method that is to be performed on directional data
 must be able to account for non-Euclidean distances and the manifold constraints
 on the data mean. One method of computing component analysis on data that is
 not related linearly and thus where Euclidean distances do not hold is
-Kernel Principal Component Analysis (KPCA).
+Kernel Principal Component Analysis (KPCA)~\cite{scholkopf1998nonlinear}.
 KPCA is a non-linear generalisation of PCA that allows the computation
 of component analysis within arbitrary dimensional Hilbert spaces,
 including the subspace of normals. A Hilbert space is a generalisation
@@ -113,7 +114,7 @@ statistical analysis directly on normals. It is important to note that this is
 not the first work to consider the construction of statistical models of surface
 normals. \citet{smith2006recovering,smith2008facial} were the
 first to note the complexities of performing component analysis on normals. To
-solve this problem, \citet{smith2006recovering,smith2008facial} 
+solve this problem, \citet{smith2006recovering,smith2008facial}
 proposed to borrow from the cartographic
 community in order to define projection operators that map points on the surface
 of a sphere to a tangent plane that preserves distances. This projection, called
@@ -148,7 +149,7 @@ the cosine function in order to perform robust comparisons between images. In
 particular, \citet{tzimiropoulos2012subspace} show that using the
 cosine of normalised gradients as a dissimilarity measure allows gradients
 to be effectively used for both component
-analysis~\cite{tzimiropoulos2012subspace,tzimiropoulos2014active} and alignment 
+analysis~\cite{tzimiropoulos2012subspace,tzimiropoulos2014active} and alignment
 purposes~\cite{tzimiropoulos2011robust,tzimiropoulos2014active,%
 antonakos2015feature}. The main result of the work on the cosine of normalised
 gradients is that gross outliers, such as occlusions, are effectively suppressed
@@ -177,9 +178,10 @@ deformable alignment within the Lucas-Kanade framework. Specifically, we
 investigate two separate modalities of data, \textbf{2.5D data} as is
 commonly supplied by depth cameras and \textbf{3D data} as is more common
 in the medical imaging community. For 2.5D data, we propose to use normals both
-as a feature for Lucas-Kanade fitting, as in the work of
-\citet{antonakos2015feature}, and as a statistical appearance model for Active
-Appearance Model alignment. For 3D data (or volumetric), we provide two novel
+as a feature for Lucas-Kanade~\cite{lucas1981iterative} fitting,
+as in the work of \citet{antonakos2015feature}, and as a statistical
+appearance model for Active Appearance Model~\cite{cootes2001active} alignment.
+For 3D data (or volumetric), we provide two novel
 inverse compositional alignment~\cite{baker2004lucas} algorithms for robustly
 aligning data that contains gross outliers such as occlusions.
 
