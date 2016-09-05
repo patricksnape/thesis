@@ -21,18 +21,20 @@ However, dense shape recovery is a much more difficult problem as the
 complexity scales with the number of elements in the predicted
 shape. In this thesis we consider only the problem of dense 3D shape recovery.
 
-In contrast to the difficulty of the general case, the recovery of dense 3D
+In contrast to the general case, the recovery of dense 3D
 facial shape has been highly successful. Human faces have a number of qualities
 that are desirable for shape recovery: they are extremely homogeneous in
 configuration (all healthy human faces have two eyes, a nose and mouth in the
-same approximate location), convex, exhibit approximately Lambertian 
+same relative configuration), convex, exhibit approximately Lambertian 
 reflectance~\cite{Sirovich:1987te,georghiades2001fromfew,Basri:2003ie,%
 turk1991eigenfaces,Hallinan:1994dz,ramamoorthi2002analytic,%
 ramamoorthi2001relationship,shashua1997photometric,moses1993face,%
 marschner1999image},
 are largely captured from a single direction (frontal) and are deformable
-but not self occluding. Furthermore, there exists a large amount of publicly
-available imagery of faces and human faces are of significant interest to a 
+but not self occluding. There also exists a large amount of publicly
+available imagery of faces in both popular media and the Internet which makes
+3D facial shape recovery an attractive avenue of research.
+Furthermore, dense 3D facial recovery is of significant interest in a 
 number of fields including entertainment, medicine and psychology.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table*}[t]
@@ -73,10 +75,11 @@ reconstruction error between the input image and a rendered output image that
 is modelled via a set of parametric models and lighting conditions. Therefore,
 in the case of ``in-the-wild'' facial images, ``analysis-by-synthesis'' is
 incredibly challenging as an accurate result would require photo-realistic
-rendering, which is currently not possible within the Computer Vision
-literature. Moreover, the models employed contain a low number
-of parameters and therefore have a tendency of being smooth and thus are not 
-able to model fine details such as wrinkles.
+rendering, which is intractable given the current state-of-the-art. 
+Moreover, the models employed necessarily contain a low number
+of parameters to ensure that optimisation is possible. Therefore, the recovered
+3D facial shapes are overly smooth and not able to recover fine details such
+as wrinkles.
 
 Due to the insufficiencies of generic shape recovery, it is common to assume
 that aspects of the scene are known a priory. In the case of the 3DMM, it is 
@@ -214,7 +217,8 @@ work~\cite{KemelmacherShlizerman:2013iv} in the following way:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{itemize}
 	\item Provide a formal explanation for the ad hoc decomposition proposed
-	      in \citet{KemelmacherShlizerman:2013iv}. Given this decomposition,
+	      in \citet{KemelmacherShlizerman:2013iv}. 
+    \item Given this decomposition,
 	      we show how it can be augmented with a robust low-rank matrix and 
 	      sparse error term in order to better handle outliers in the input
 	      images. We also investigate the use of a coarse but efficient
@@ -230,7 +234,8 @@ challenging. Although it is possible to recover surface normals
 from video that contains sufficient lighting variation~\cite{brostow2011video,wenger2005performance,ma2007rapid,jones2011head}, these conditions are unlikely to be found within a typical
 ``in-the-wild'' video. Therefore, in order to recover 3D shape from videos,
 we investigate a Structure-from-Motion (SfM) approach. The input to a 
-Non-Rigid SfM algorithm is a set of correspondences across all input frames. 
+Non-Rigid Structure-from-Motion algorithm is a set of correspondences
+across all input frames.
 Although these correspondences are typically sparse, dense SfM has recently been
 successful~\cite{garg2013dense,newcombe2011dtam,agudo2014online,fragkiadaki2014grouping}.
 However, the assumption of correspondences across all frames of a long 

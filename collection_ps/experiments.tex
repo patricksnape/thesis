@@ -13,13 +13,13 @@
 % \begin{figure*}[th]
 %     \centering
 %     \begin{tabular}{ccccc} \vspace*{0.2cm}
-%         Input & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{RefWorks:311} & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{RefWorks:311} \\
+%         Input & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} \\
 %         \comparehelen{1348}{side}                                                                                                           \\
 %         \comparehelen{555}{side}                                                                                                            \\
 %         \comparehelen{680}{chin}                                          
 %     \end{tabular}
-%     \caption{{\bf Comparison with the blind decomposition of~\cite{RefWorks:311}}.
-%              Images from the HELEN~\cite{RefWorks:318} dataset.}
+%     \caption{{\bf Comparison with the blind decomposition of~\cite{KemelmacherShlizerman:2013iv}}.
+%              Images from the HELEN~\cite{le2012interactive} dataset.}
 % \label{fig:helen_compare}
 % \end{figure*}
 % \setlength{\tabcolsep}{6pt}
@@ -52,7 +52,7 @@ robustness of our reconstructions. We also show a new application to this type
 of model that involves improving the fitting results of an AAM using our
 constructed SH basis. Choosing the number of components, $k$, to recover is an
 important problem that was not properly addressed by Kemelmacher-Schlizerman in
-\cite{RefWorks:311}. In these experiments we attempt to recover as many
+\cite{KemelmacherShlizerman:2013iv}. In these experiments we attempt to recover as many
 components as possible in order to strike a balance between cleanly
 reconstructed normals and identity. However, there is a trade-off when choosing
 the value of $k$. In particular, if the value of $k$ is too large, then the
@@ -69,7 +69,7 @@ be used in existing high frequency recovery algorithms such as SFS.\@
 
 The area of 3D facial surface recovery is lacking any form of formal
 quantitative benchmark. The quantitative benchmark presented in
-\cite{RefWorks:311} is performed on depth data recovered from photometric
+\cite{KemelmacherShlizerman:2013iv} is performed on depth data recovered from photometric
 stereo. This is not ground truth depth data, as error is introduced during
 integration, and a more accurate evaluation would be the angular error of the
 recovered normals. However, in the presence of cast shadows, even the normals of
@@ -77,18 +77,18 @@ photometric stereo are biased. For this reason, the lack of a standard and fair
 quantitative evaluation, we focus on qualitative results in this paper.
 
 Specifically we performed the following experiments: (1) We built our subspace
-using the HELEN~\cite{RefWorks:318} dataset. We directly compare against the
-blind decomposition proposed in~\cite{RefWorks:311} and show particularly
+using the HELEN~\cite{le2012interactive} dataset. We directly compare against the
+blind decomposition proposed in~\cite{KemelmacherShlizerman:2013iv} and show particularly
 challenging images from the dataset. This experiment highlights the difficulty
 in constructing subspaces from large a set of in-the-wild images. (2) We show
 that the robust subspace learnt in (1) can be used within the shape-from-shading
-(SFS) framework of \citet{RefWorks:90}. By recovering the normals
+(SFS) framework of \citet{smith2006recovering}. By recovering the normals
 from every image of HELEN, we can perform a secondary principal component
 analysis (PCA) on the normals in order to directly embed them within Smith's
 algorithm. In this experiment, we compare against a clean dataset of normals
-acquired from the ICT-3DRFE~\cite{Stratou:2012jh} database. (3) We show how our
+acquired from the ICT-3DRFE~\cite{stratou2012exploring} database. (3) We show how our
 subspace can be combined with an existing facial alignment algorithm, namely
-project-out AAMs~\cite{RefWorks:227}. Our subspace can be used both as the
+project-out AAMs~\cite{matthews2004active}. Our subspace can be used both as the
 appearance basis for the AAM and also as a methodology of recovering dense 3D
 shape.
 
@@ -100,11 +100,11 @@ what processing was performed on each dataset.
 The process of building the robust SH basis was the same for all datasets
 involved. Facial annotations consisting of 68 points were recovered through
 various methods for each dataset. In the case of the HELEN database, the manual
-annotations provided by the IBUG group were used~\cite{Sagonas:et,Sagonas:fn},
+annotations provided by the IBUG group were used~\cite{sagonas2013300,sagonas2013semi},
 in the case of the Yale B, Photoface and ICT-3DRFE databases, manual annotations
 were used and the in-the-wild images and video of Tom Hanks were automatically
-annotated by the one millisecond facial alignment method of~\cite{Kazemi:he}
-provided by the Dlib project~\cite{dlib09}.
+annotated by the one millisecond facial alignment method of~\cite{kazemi2014one}
+provided by the Dlib project~\cite{king2009dlib}.
 
 These annotations were then warped via a Piecewise Affine transformation to a
 mean reference shape that was built from all the faces, training and testing, of
@@ -114,7 +114,7 @@ SH bases, we performed the algorithm as described in
 \cref{subsec:robust_sh_basis} on the warped images. In order to provide
 the example reconstructions, the reconstructed images were warped back into
 their original shapes and then integrated using the method of 
-\citet{RefWorks:99}.
+\citet{frankot1988method}.
 
 \cref{tbl:timings} gives examples of the training time taken for the in-
 the-wild Tom Hanks images and the HELEN dataset. It is important to note that
@@ -128,7 +128,7 @@ timings do not scale linearly.
 In this set of experiments we wished to convey two results: (1) that we are
 capable of quickly constructing our basis on a large number of in-the-wild
 images, (2) that the our robust formulation of the problem gives superior
-performance to the blind decomposition used by~\cite{RefWorks:311}. In this
+performance to the blind decomposition used by~\cite{KemelmacherShlizerman:2013iv}. In this
 experiment, $k = 200$ and the total number of components was thus $4k = 800$.
 \cref{fig:helen_compare} shows the results from this experiment. As we can
 clearly see, on challenging images the blind decomposition is unable to separate
@@ -137,18 +137,18 @@ to recover accurate shape.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Using The Subspace In SFS}\label{subsec:experiments_smith}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The SFS technique of \citet{RefWorks:90} relies on a PCA basis
+The SFS technique of \citet{smith2006recovering} relies on a PCA basis
 constructed from normals of a single class of object. It then seeks to recover
 the high frequency normal information directly from the texture. In order to
-create the PCA required by~\cite{RefWorks:90}, we recovered spherical harmonics
+create the PCA required by~\cite{smith2006recovering}, we recovered spherical harmonics
 for every image in the dataset using the proposed algorithm. We then computed
 Kernel-PCA~\cite{Snape:2014de} on the normals recovered from the HELEN images
-and supplied them to~\cite{RefWorks:90}. The lighting vector is also an input to
+and supplied them to~\cite{smith2006recovering}. The lighting vector is also an input to
 the algorithm and we recover it by solving a least squares problem with the
 known mean normals.
 
 In order to provide a comparison for our reconstruction, we created a clean
-normal subspace using the data from the ICT-3DRFE~\cite{Stratou:2012jh}
+normal subspace using the data from the ICT-3DRFE~\cite{stratou2012exploring}
 database. This database is primarily use for image relighting purposes, however,
 they provide a very accurate set of normals of faces under a wide range of
 expressions. The results of this experiment are shown in \cref{fig:smith}.
@@ -202,7 +202,7 @@ recover a plausible representation of the high frequency shading information.
 In this experiment we used the Active Template Model (ATM) provided by the Menpo
 project~\cite{menpo14} in order to perform a project-out type algorithm to align
 images of Tom Hanks. This model is similar to the Lucas-Kanade
-\cite{RefWorks:71} method but uses a point distribution model (PDM) in order to
+\cite{lucas1981iterative} method but uses a point distribution model (PDM) in order to
 perform non-rigid alignment between the images. In particular, the template
 image is fixed during optimisation of the PDM, and we use our subspace to
 provide a texture representing an approximation of the diffuse component of the
@@ -211,12 +211,12 @@ project-out AAM.\@
 
 We used a person specific SH subspace that was built on images of Tom Hanks that
 were downloaded automatically from the Internet. In this case, the images were
-automatically aligned using the DLib implementation of~\cite{Kazemi:he}. For
+automatically aligned using the DLib implementation of~\cite{kazemi2014one}. For
 this experiment, $k = 30$ and thus the total number of components $4k = 120$. We
 downloaded 200 frames from a Youtube video of Tom
 Hanks\footnote{\url{https://www.youtube.com/watch?v=nFvASiMTDz0} from 3:43} and
 attempted to automatically align them using our subspace and the ATM.\@ The ATM
-was initialised using another fitting of~\cite{Kazemi:he} which was then
+was initialised using another fitting of~\cite{kazemi2014one} which was then
 iteratively improved. At each global iteration, we recovered a new set of
 diffuse textures for each frame and then performed a refitting of every frame.
 This caused the images to align over a sequence of iterations. We performed 10

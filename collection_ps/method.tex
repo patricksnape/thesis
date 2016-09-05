@@ -37,7 +37,7 @@ where $\alpha_n = \pi, 2\pi/3, \pi/4, \ldots$, $\ell_{nm}$ are the coefficients
 of the harmonic expansion of the lighting and $Y_{nm}(\bb{n}(x,y))$ are the
 surface SH functions evaluated at the surface normal, $\bb{n}(x,y)$. As
 $n \rightarrow \infty$, the coefficients tend to zero, and thus the SH can be
-accurately represented by the lower order harmonics. \citet{RefWorks:316}, it
+accurately represented by the lower order harmonics. \citet{frolova2004accuracy}, it
 was shown that the first order SH function is guaranteed to represent at least
 $87.5\%$ of the reflectance and experimentally verified to recover up to $95\%$
 in the case of faces. The first order SH expansion is also directly related to
@@ -72,16 +72,16 @@ artifacts, this problem is trivially solved as a linear least squares problem.
 Photometric stereo has been shown to provide accurate facial reconstructions
 despite faces not representing true lambertian objects. For example, there are
 many publicly available facial PS datasets such as the 
-Photoface Database~\cite{RefWorks:293} and the 
-Yale B~\cite{Georghiades:2001ft} dataset.
+Photoface Database~\cite{zafeiriou2013photoface} and the 
+Yale B~\cite{georghiades2001fromfew} dataset.
 
 If the lighting vectors are inaccurate or unknown, then PS is said to be
-uncalibrated. \citet{Basri:2006fo} showed that $\bb{X}$ can
+uncalibrated. \citet{basri2007photometric} showed that $\bb{X}$ can
 be decomposed via a rank constrained singular value decomposition (SVD) to
 recover the SH bases and the lighting coefficients in the uncalibrated setting.
 First order SH are recovered by a rank 4 SVD and are accurate up to a $4 \times 4$ 
 generalised Lorentz transformation. By enforcing constraints such as the
-integrability constraint~\cite{RefWorks:99}, the first order SH, and thus the
+integrability constraint~\cite{frankot1988method}, the first order SH, and thus the
 normals, can be recovered up to a generalised bas relief ambiguity (GBR).
 Formally, uncalibrated PS looks to recover
 %%%%%%%%%%%%%%%%%%%
@@ -106,7 +106,7 @@ recovering a joint basis of appearance and illumination. In the case of SH for
 faces, this means attempting to separate the identity of the individual from
 their surface normals. This problem is a classic example of a bilinear
 decomposition problem and has been previously studied for use in 3D surface
-recovery~\cite{Zhou:bl,RefWorks:306,RefWorks:307,Lee:2005bc,RefWorks:311}. In
+recovery~\cite{zhou2007appearance,minsik2014realtime,minsik2011fast,lee2005bilinear,KemelmacherShlizerman:2013iv}. In
 the case of SH, we seek to recover a low dimensional linear subspace that can
 recover normals for multiple individuals. This subspace implies that a face can
 be accurately reconstructed using a linear combination of basis shapes. This
@@ -124,15 +124,15 @@ where $\bb{B} \in \bb{R}^{d \times 4k}$ is the linear basis,
 $\bb{L} \in \bb{R}^{4 \times n}$ is the matrix of first order SH lighting
 coefficients, $\bb{C} \in \bb{R}^{k \times n}$ is the matrix of shape
 coefficients and $(\cdot \ast \cdot)$ denotes the Khatri-Rao
-product~\cite{Khatri:1968dj}. In fact, this is the exact decomposition problem
-solved by \citet{RefWorks:311} where they denote the combined coefficients
+product~\cite{khatri1968solutions}. In fact, this is the exact decomposition problem
+solved by \citet{KemelmacherShlizerman:2013iv} where they denote the combined coefficients
 matrix as $\bb{P} = \bb{L} \ast \bb{C}$. This was partially
-recognised by \citet{Zhou:bl}, however they recover the lighting and shape
+recognised by \citet{zhou2007appearance}, however they recover the lighting and shape
 coefficient separately by iteratively solving for each in an alternating
-fashion. \citet{Zhou:bl} also do not provide any examples of the quality of the
+fashion. \citet{zhou2007appearance} also do not provide any examples of the quality of the
 shape estimate that they recover.
 
-\citet{RefWorks:306,RefWorks:307} also attempt this decomposition by
+\citet{minsik2014realtime,minsik2011fast} also attempt this decomposition by
 posing the problem in the form of a tensor. The decomposition can then be solved
 by applying a multilinear SVD.\@ However, multilinear SVD requires a tensor
 representation and thus these techniques require prior data to recover results.
@@ -152,7 +152,7 @@ optimisation framework, which we examine in detail in the next section.
 \subsection{Robust Construction Of Spherical Harmonic Bases}\label{subsec:robust_sh_basis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Inspired by recent advances in robust low-rank subspace
-recovery~\cite{RefWorks:321}, we seek to modify \cref{eq:class_specific_ps} to
+recovery~\cite{candes2011robust}, we seek to modify \cref{eq:class_specific_ps} to
 include new constraints that impose robustness. As mentioned previously, faces
 can be accurately reconstructed by a linear combination of faces taken from a
 low-dimensional basis. Therefore, we propose to decompose the image matrix into
@@ -172,7 +172,7 @@ to solve the following non-convex optimisation problem:
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
 Although the above problem is non-convex, an accurate solution can be obtained
-by employing the Alternating Directions Method (ADM)~\cite{Bertsekas1982}. That
+by employing the Alternating Directions Method (ADM)~\cite{bertsekas2014constrained}. That
 is, to minimise the following augmented Lagrangian function:
 %%%%%%%%%%%%%%%%%%%
 \begin{equation}
@@ -193,7 +193,7 @@ and $\mu_{[t]}$, the iteration of ADM for \cref{eq:robust_sh_problem} reads:
 \end{align}
 %%%%%%%%%%%%%%%%%%%
 Subproblem~\eqref{eq:text_A_update} admits a closed-form solution, given by the
-singular value thresholding (SVT)~\cite{Cai:2010hz} operator as:
+singular value thresholding (SVT)~\cite{cai2010singular} operator as:
 %%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:text_A_SVT}
     \bb{A}_{[t+1]} = D_{\mu_{[t]}^{-1}} \left[ \bb{M}_{[t]}  - \bb{A}_{[t]} + \bb{X} - \bb{E}_{[t]} + \frac{\bb{Y}_{[t]}}{\mu_{[t]}} \right],
@@ -204,7 +204,7 @@ for brevity of the equation and the SVT is defined as
 $D_{\tau}(\bb{Q}) = \bb{U} \bb{S}_{\tau} \bb{V}^T$ for any matrix $\bb{Q}$ with SVD:\@
 $\bb{Q} = \bb{U} \bb{S} \bb{V}^T$. 
 Subproblem~\eqref{eq:text_E_update} has a unique solution that is obtained via 
-the elementwise shrinkage operator~\cite{RefWorks:321}. The shrinkage operator 
+the elementwise shrinkage operator~\cite{candes2011robust}. The shrinkage operator 
 is defined as $\mathcal{S}_{\tau}[q]=\mbox{sgn}(q) \: \max(|q|-\tau, 0)$. 
 Therefore, the solution of~\eqref{eq:text_E_update} is
 %%%%%%%%%%%%%%%%%%%
@@ -218,7 +218,7 @@ Therefore, the solution of~\eqref{eq:text_E_update} is
 \def\tp#1{{\bb{#1}_{[t+1]}}}
 %%%%%%%%%%%%%%%%%%%
 \noindent Subproblem~\eqref{eq:text_B_update} is a reduced rank Procrustes
-Rotation problem~\cite{RefWorks:327}. Its solution is given by
+Rotation problem~\cite{zou2006sparse}. Its solution is given by
 $\bb{B}_{[t]} = \bb{U} \bb{V}^{\top}$ with
 %%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:text_B_update2}
@@ -234,7 +234,7 @@ becomes
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
 Subproblem~(\ref{eq:text_LC_update},~\ref{eq:text_LC_update2}) is a least 
-squares factorisation of a Khatri-Rao product~\cite{Roemer:2010iv}, which is 
+squares factorisation of a Khatri-Rao product~\cite{roemer2010tensor}, which is 
 solved as follows:
 Let $\bb{Q} = \tp B^{\top} \tp A, \bb{L} = \t L, \text{and} \; \bb{C} = \t C$. 
 Furthermore, let $\bb{q}_i, \bb{l}_i, \text{and} \; \bb{c}_i$ be the $i_{th}$ 
@@ -269,19 +269,19 @@ of normals provided by a known mean face.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Efficient Pixelwise Correspondence}\label{subsec:correspondence}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In contrast to the related work of \citet{RefWorks:311},
+In contrast to the related work of \citet{KemelmacherShlizerman:2013iv},
 we achieved pixelwise correspondence between our images by using existing,
 efficient sparse facial alignment algorithms. This has two distinct advantages.
 Firstly, recent facial alignment algorithms such as those by
-\citet{Ren:it} and \citet{Kazemi:he} can produce a very accurate set
+\citet{ren2014face} and \citet{kazemi2014one} can produce a very accurate set
 of sparse facial features in the order of a single millisecond. In contrast, the
-optical flow method cited in \citet{RefWorks:311} takes multiple seconds even for
+optical flow method cited in \citet{KemelmacherShlizerman:2013iv} takes multiple seconds even for
 a small image. This means that our training time is drastically reduced in
-comparison to \citet{RefWorks:311}. Ideally, our technique would be able to scale
+comparison to \citet{KemelmacherShlizerman:2013iv}. Ideally, our technique would be able to scale
 to the magnitude of thousands of images, whereas the alignment of
-\citet{RefWorks:311} would quickly become infeasible as the number of images
+\citet{KemelmacherShlizerman:2013iv} would quickly become infeasible as the number of images
 increases. In fact, the optical flow step is run multiple times as the
-collection flow algorithm is used~\cite{RefWorks:290} which involves an
+collection flow algorithm is used~\cite{kemelmacher2012collection} which involves an
 iterative algorithm of rank 4 decompositions and repeated optical flow.
 Secondly, the use of a direct alignment to a single reference frame enables the
 the usage of our basis in existing appearance based facial alignment algorithms
@@ -291,7 +291,7 @@ space of the AAM and our subspace is the same.
 
 However, it is important to note that there are two potential drawbacks to our
 alignment technique. The alignment is based on a Piecewise Affine warping and is
-thus much coarser than the optical flow technique used in \citet{RefWorks:311}.
+thus much coarser than the optical flow technique used in \citet{KemelmacherShlizerman:2013iv}.
 This is particularly amplified when larger poses are present in the input
 images. However, this is partly why the low rank component of our algorithm is
 so important. As \cref{fig:low_rank_warping} shows, the robust
@@ -299,10 +299,10 @@ decomposition of the basis helps correct these large global errors so that the
 shape subspace can be successfully recovered. Secondly, our technique does not
 contain a number of sub-clusters that can be used to warp expression onto our
 model. However, by using a large number of images that contain expression we
-directly include expression within our subspace. In \citet{RefWorks:311}, the
+directly include expression within our subspace. In \citet{KemelmacherShlizerman:2013iv}, the
 recovered subspace will necessarily be devoid of expression as the global
 reference shape is neutral. This means that the subspace recovered by
-\citet{RefWorks:311} will not be able to recover expressive 3D shape using
+\citet{KemelmacherShlizerman:2013iv} will not be able to recover expressive 3D shape using
 efficient facial alignment algorithms.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \begin{figure}

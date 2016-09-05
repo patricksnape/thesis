@@ -256,6 +256,16 @@ are both suitable for use as a similarity measure between real data.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Spherical Coordinates}\label{subsubsec:cosine_spherical}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{statistical_normals/images/spherical_coords_example}
+    \caption{An illustration of the spherical coordinate system assumed in this
+             work. $\theta \in [0, \pi]$ defines the elevation angle and
+             $\phi \in [0, 2\pi]$ defines the azimuth angle.}
+\label{fig:spherical_coords_example}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In 2D, a natural parametrisation of the angle between the two gradient vectors
 is the polar coordinate system. In 3D, we have three gradient vectors and thus
 require two angles to describe their orientation. Unlike in 2D, where the
@@ -263,8 +273,8 @@ vectors lie on the unit circle, in 3D the vectors lie on the surface of a unit
 sphere. Therefore, it is possible to parametrise the vectors in terms of the
 spherical coordinate system, which is described by two angles: the azimuth angle
 $\phi$ with range $[0, 2\pi)$ and the elevation angle $\theta$ with range
-$[0, \pi]$. Given the normalised gradients as vectors with Cartesian
-coordinates, we can calculate the spherical angles as follows:
+$[0, \pi]$. Denoting ${\bb{\tilde{x}}_i}(k)$ as the $k$th normalised gradient
+for the $i$th image, either volumetric or 2.5D, we can calculate the spherical angles as follows:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:cartesian_to_spherical}
     \begin{aligned}
@@ -275,10 +285,10 @@ coordinates, we can calculate the spherical angles as follows:
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 An illustration of the spherical coordinate system, as used in this paper, is
-given in \cref{fig:spherical_coordinates}.
+given in \cref{fig:spherical_coords_example}.
 
 Our proposal is to combine the spherical coordinates with the cosine function in
-order to provide a robust similarity measure. Similar to the 2D case,, we
+order to provide a robust similarity measure. Similar to the 2D case, we
 propose the cosine of azimuth differences, $\Delta \phi = \phi_1 - \phi_2$, and
 the cosine of elevation differences, $\Delta \theta = \theta_1 - \theta_2$, as a
 combined similarity measures. Given a 3D image warping function with parameters
@@ -288,8 +298,6 @@ $\bb{p}$, the spherical coordinates form a similarity measure as follows:
     q = \sum_k \cos \left(\Delta \phi(k)[\bb{p}]\right) + \sum_k \cos \left(\Delta \theta(k)[\bb{p}]\right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Optimisation of (\ref{eq:2d_similarity_measure}) is described in detail in
-\cref{sec:robust_lk}.
 
 Experimentally, we verified that $\Delta \phi$ approximates a symmetric
 distribution for simulated tumour data taken from the Multimodal Brain Tumor

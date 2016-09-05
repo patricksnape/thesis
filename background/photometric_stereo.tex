@@ -7,7 +7,7 @@ known, varying illumination are required. The most common form of
 PS~\cite{woodham1980photometric} assumes a Lambertian BRDF and time-multiplexed
 illumination. Time-multiplexed illumination implies that the input images
 are lit under novel illumination patterns and the images are acquired
-sequentially with a time dela between each capture. Given the natural
+sequentially with a time delay between each capture. Given the natural
 ill-posedness of the Lambertian SfS problem (as shown by
 \labelcref{eq:bg_sfs_least_squares_lambert}), PS solves the problem by requiring
 3 or more images under known illumination. Given 3+ images,
@@ -20,11 +20,15 @@ may be recovered per pixel by solving a linear least squares problem:
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
 following the notation from \cref{eq:bg_sfs_least_squares_lambert},
-assuming $n$ input images of the same width and height ($d$ total pixels) and
-$\bb{X} = [\bb{I}_1, \ldots, \bb{I}_n] \in \R^{d \times n}$,
-$\bb{S} = {[\bb{s}_1, \ldots, \bb{s}_n]}^T \in \R^{3 \times n}$ and
-$\bb{\tilde{N}} = {[\rho_{\smallsub{d}}(x_1, y_1)\bb{n}(x_1, y_1), \ldots, \rho_{\smallsub{d}}(x_w, y_h)\bb{n}(x_w, y_h)]}^T \in \R^{d \times 3}$
-is the normal matrix scaled by the diffuse
+assuming $n$ input images of the same width and height ($d$ total pixels)
+%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+	\bb{X} &= [\bb{I}_1, \ldots, \bb{I}_n] \in \R^{d \times n}, \\
+	\bb{S} &= {[\bb{s}_1, \ldots, \bb{s}_n]}^T \in \R^{3 \times n}, \\
+	\bb{\tilde{N}} &= {[\rho_{\smallsub{d}}(x_1, y_1)\bb{n}(x_1, y_1), \ldots, \rho_{\smallsub{d}}(x_w, y_h)\bb{n}(x_w, y_h)]}^T \in \R^{d \times 3}
+\end{align*}
+%%%%%%%%%%%%%%%%%%%
+where $\bb{\tilde{N}}$ is the normal matrix scaled by the diffuse
 albedo. \cref{eg:bg_ps_lambertian_ls} is solved via a
 pseudoinverse as $\bb{\tilde{N}} = \bb{X} \bb{S}^{\dagger}$ and the norm of each
 row of $\bb{\tilde{N}}$ recovers the diffuse albedo,
@@ -42,9 +46,9 @@ $\bb{\tilde{n}}^i = \frac{\bb{\tilde{n}}^i}{\norm{\bb{\tilde{n}}^i}}$.
 	\includegraphics[height=2in]{background/images/photoface2}
 	\includegraphics[height=2in]{background/images/photoface3}
 	\caption{An example of Photometric Stereo imaging ``in-the-wild'' from
-	         the Photoface database~\cite{zafeiriou2013photoface}. Notice the cast-shadows
-	         (yellow dashed) and specular highlights (cyan solid) present in
-	         the images.}
+	         the Photoface database~\cite{zafeiriou2013photoface}. 
+	         Notice the cast-shadows (yellow dashed) and specular highlights
+	         (cyan solid) present in the images.}
 \label{fig:bg_ps_photoface}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -115,9 +119,9 @@ there have been efforts to perform PS on less constrained conditions, as in
 the Photoface Database~\cite{zafeiriou2013photoface}, it still requires calibrated
 lighting and specialised hardware. However, the PS problem can be relaxed by
 considering the separation of lighting and surface components as a matrix
-factorisation problem. This is called
-\textit{Uncalibrated Photometric Stereo} (U-PS), due to the lack of
-requirement for calibrated illumination.
+factorisation problem~\cite{basri2007photometric,hayakawa1994photometric}. 
+This is called \textit{Uncalibrated Photometric Stereo} (U-PS),
+due to the lack of requirement for calibrated illumination.
 
 \citet{kemelmacher2012collection} propose a method similar in spirit to
 \citet{vetter1997bootstrapping} in order to improve optical flow alignment
