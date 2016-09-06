@@ -1,52 +1,27 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\comparehelen}[2]
-{
-\includegraphics[width=2.5cm,height=2.5cm]{images/helen/helen_#1}                  & \hspace{0.5cm}
-\includegraphics[width=2.3cm,height=2.5cm]{images/helen/helen_#1_frontal_low_rank} & \hspace{0.5cm}
-\includegraphics[width=2.3cm,height=2.5cm]{images/helen/helen_#1_frontal_ira}      & \hspace{0.5cm}
-\includegraphics[width=3cm,height=2.5cm]{images/helen/helen_#1_#2_low_rank}        & \hspace{0.5cm}
-\includegraphics[width=3cm,height=2.5cm]{images/helen/helen_#1_#2_ira}
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \setlength{\tabcolsep}{1pt}
-% \begin{figure*}[th]
-%     \centering
-%     \begin{tabular}{ccccc} \vspace*{0.2cm}
-%         Input & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} \\
-%         \comparehelen{1348}{side}                                                                                                           \\
-%         \comparehelen{555}{side}                                                                                                            \\
-%         \comparehelen{680}{chin}                                          
-%     \end{tabular}
-%     \caption{{\bf Comparison with the blind decomposition of~\cite{KemelmacherShlizerman:2013iv}}.
-%              Images from the HELEN~\cite{le2012interactive} dataset.}
-% \label{fig:helen_compare}
-% \end{figure*}
-% \setlength{\tabcolsep}{6pt}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}[th]
-    \centering
-    \begin{tabular}{lccccc}
-        \toprule
-        Data   & W1 & Train & W2 & Tot \\ \midrule
-        HELEN (2330)    & 8       & 730       & 25        & 763   \\
-        T. Hanks (274)  & 1       & 21        & 4         & 26    \\  \bottomrule
-    \end{tabular}
-    \caption{\textbf{Training Times.} Mean training times in seconds over 10
-             runs rounded to the nearest second. ``W1'' denotes warping to the
-             LFPW reference frame of $(150 \times 150)$ pixels, ``W2'' denotes
-             warping back to the original images and ``Train'' denotes the total
-             training time of our method described in
-             \cref{subsec:robust_sh_basis}. Original images were larger than 
-             the reference, hence the increase from ``W1'' to ``W2''. Timings
-             were recorded on an Intel Xeon E5--1650 3.20GHz with 32GB of RAM.}
-\label{tbl:timings}
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiments}\label{sec:imag_coll_experiments}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}
+    \centering
+    \begin{tabular}{lccccc}
+        \toprule
+        \textbf{Data}          & \textbf{Warp (s)} & \textbf{Decomposition (s)} & \textbf{Inverse Warp (s)} & \textbf{Total (s)} \\ \midrule
+        HELEN (2330 images)    & 8                 & 730                        & 25                        & 763                \\
+        Tom Hanks (274 images) & 1                 & 21                         & 4                         & 26                 \\  \bottomrule
+    \end{tabular}
+    \caption{\textbf{Training Times.} Mean training times in seconds over 10
+             runs rounded to the nearest second. ``Warp'' denotes warping to the
+             LFPW reference frame of $(150 \times 150)$ pixels, ``Inverse Warp''
+             denotes warping back to the original images and ``Decomposition''
+             denotes the total training time of our method described in
+             \cref{subsec:imag_coll_robust_sh_basis}. Original images were larger than 
+             the reference, hence the increase from ``Warp'' to ``Inverse Warp''.
+             Timings were recorded on an Intel Xeon E5--1650 3.20GHz with
+             32GB of RAM.}
+\label{tbl:imag_coll_timings}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this section we provide a number of experiments that emphasise the increased
 robustness of our reconstructions. We also show a new application to this type
 of model that involves improving the fitting results of an AAM using our
@@ -111,12 +86,12 @@ mean reference shape that was built from all the faces, training and testing, of
 the LFPW facial annotations provided by IBUG.\@ This provided the dense
 correspondence required for performing matrix decompositions. To construct our
 SH bases, we performed the algorithm as described in
-\cref{subsec:robust_sh_basis} on the warped images. In order to provide
+\cref{subsec:imag_coll_robust_sh_basis} on the warped images. In order to provide
 the example reconstructions, the reconstructed images were warped back into
 their original shapes and then integrated using the method of 
 \citet{frankot1988method}.
 
-\cref{tbl:timings} gives examples of the training time taken for the in-
+\cref{tbl:imag_coll_timings} gives examples of the training time taken for the in-
 the-wild Tom Hanks images and the HELEN dataset. It is important to note that
 part of the reason the training time is much lower for the Tom Hanks images is
 that they have an inherently lower rank than the HELEN images as they are all of
@@ -130,13 +105,30 @@ capable of quickly constructing our basis on a large number of in-the-wild
 images, (2) that the our robust formulation of the problem gives superior
 performance to the blind decomposition used by~\cite{KemelmacherShlizerman:2013iv}. In this
 experiment, $k = 200$ and the total number of components was thus $4k = 800$.
-\cref{fig:helen_compare} shows the results from this experiment. As we can
+\cref{fig:imag_coll_helen_compare} shows the results from this experiment. As we can
 clearly see, on challenging images the blind decomposition is unable to separate
 the appearance from the illumination and thus the recovered normals are unable
 to recover accurate shape.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Using The Subspace In SFS}\label{subsec:experiments_smith}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \includegraphics[width=4cm,height=4.8cm]{collection_ps/images/smith/samuel_beckett}                    \hspace{0.3cm}
+    \includegraphics[width=4cm,height=4.8cm]{collection_ps/images/smith/beckett_smith_frontal_ict}         \hspace{0.3cm}
+    \includegraphics[width=4cm,height=4.8cm]{collection_ps/images/smith/beckett_smith_frontal_low_rank}    \\
+    \includegraphics[width=4cm,height=4.8cm]{collection_ps/images/smith/jude_law}                          \hspace{0.3cm}
+    \includegraphics[width=4cm,height=4.8cm]{collection_ps/images/smith/law_smith_frontal_ict}             \hspace{0.3cm}
+    \includegraphics[width=4cm,height=4.8cm]{collection_ps/images/smith/law_smith_frontal_low_rank}
+    \caption{{\bf Our subspace used for SFS}. Normals learnt automatically from 
+             the Spherical Harmonic subspace of HELEN~\cite{le2012interactive} vs
+             normals from the clean data of ICT-3DRFE~\cite{stratou2012exploring}.
+             Middle column: the clean data. 
+             Right column: proposed subspace.}
+\label{fig:imag_coll_smith}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The SFS technique of \citet{smith2006recovering} relies on a PCA basis
 constructed from normals of a single class of object. It then seeks to recover
 the high frequency normal information directly from the texture. In order to
@@ -151,7 +143,7 @@ In order to provide a comparison for our reconstruction, we created a clean
 normal subspace using the data from the ICT-3DRFE~\cite{stratou2012exploring}
 database. This database is primarily use for image relighting purposes, however,
 they provide a very accurate set of normals of faces under a wide range of
-expressions. The results of this experiment are shown in \cref{fig:smith}.
+expressions. The results of this experiment are shown in \cref{fig:imag_coll_smith}.
 Although our subspace did not provide reconstructions that are as visually
 accurate as the subspace from ICT-3DRFE, they were still able to successfully
 recover a plausible representation of the high frequency shading information.
@@ -161,44 +153,73 @@ recover a plausible representation of the high frequency shading information.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\tomhanksalignment}[1]
 {
-\includegraphics[width=2.3cm,height=2.5cm]{images/tom_hanks/tom_hanks_improve_#1_initial} &
-\includegraphics[width=2.3cm,height=2.5cm]{images/tom_hanks/tom_hanks_improve_#1_final}   & \hspace{0.3cm}
-\includegraphics[width=2cm,height=2.5cm]{images/tom_hanks/tom_hanks_improve_#1_depth}
+\includegraphics[width=4cm]{collection_ps/images/tom_hanks/tom_hanks_improve_#1_initial} &
+\includegraphics[width=4cm]{collection_ps/images/tom_hanks/tom_hanks_improve_#1_final}   & \hspace{0.3cm}
+\includegraphics[width=4cm,height=3.8cm]{collection_ps/images/tom_hanks/tom_hanks_improve_#1_depth}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \setlength{\tabcolsep}{1pt}
-% \begin{figure}[t]
-%     \centering
-%     \begin{tabular}{ccc}
-%         Initial & Final & \hspace{0.3cm} Recovered Depth \\
-%         \tomhanksalignment{1}             \\
-%         \tomhanksalignment{129}
-%     \end{tabular}
-%     \caption{{\bf Person specific model fitting for Tom Hanks}. Images of Tom 
-%              Hanks coarsely aligned by a facial alignment method. Our algorithm 
-%              improves the facial alignment and simultaneously recovers depth. 
-%              Images shown are from a YouTube video of Tom Hanks.}
-% \label{fig:improve_tom_hanks}
-% \end{figure}
-% \setlength{\tabcolsep}{6pt}
+\setlength{\tabcolsep}{1pt}
+\begin{figure}
+    \centering
+    \begin{tabular}{ccc}
+        Initial & Final & \hspace{0.3cm} Recovered Depth \\
+        \tomhanksalignment{1}                            \\
+        \tomhanksalignment{129}
+    \end{tabular}
+    \caption{{\bf Person specific model fitting for Tom Hanks}. Images of Tom 
+             Hanks coarsely aligned by a facial alignment method. Our algorithm 
+             improves the facial alignment and simultaneously recovers depth. 
+             Images shown are from a YouTube video of Tom Hanks.}
+\label{fig:imag_coll_improve_tom_hanks}
+\end{figure}
+\setlength{\tabcolsep}{6pt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[t]
-%     \centering
-%     \includegraphics[width=2cm,height=2.5cm]{images/smith/samuel_beckett}                    \hspace{0.3cm}
-%     \includegraphics[width=2cm,height=2.5cm]{images/smith/beckett_smith_frontal_ict}         \hspace{0.3cm}
-%     \includegraphics[width=2cm,height=2.5cm]{images/smith/beckett_smith_frontal_low_rank} \\
-%     \includegraphics[width=2cm,height=2.5cm]{images/smith/jude_law}                          \hspace{0.3cm}
-%     \includegraphics[width=2cm,height=2.5cm]{images/smith/law_smith_frontal_ict}             \hspace{0.3cm}
-%     \includegraphics[width=2cm,height=2.5cm]{images/smith/law_smith_frontal_low_rank}
-%     \caption{{\bf Our subspace used for SFS}. Normals learnt automatically from 
-%              the SH subspace of HELEN vs normals from the clean data of 
-%              ICT-3DRFE.\@ Middle column: the clean data. 
-%              Right column: proposed subspace.}
-% \label{fig:smith}
-% \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+    \hspace*{\fill}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=4cm]{collection_ps/images/tom_hanks/tom_hanks_improve_0_initial}
+        \caption{Start of First Iteration.}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=4cm]{collection_ps/images/tom_hanks/tom_hanks_improve_10_final}
+        \caption{End of Final (10th) Iteration.}
+    \end{subfigure}
+    \hspace*{\fill}
+    \caption{{\bf Fitting Improvement of Tom Hanks Youtube Video}. 
+             Mean of all warped frames of the Youtube video of the first and
+             final iterations.}
+\label{fig:imag_coll_mean_improve_tom_hanks}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\tomhanks}[1]
+{
+\includegraphics[width=2.7cm,height=3.2cm]{collection_ps/images/tom_hanks/tom_hanks_#1}                   &
+\includegraphics[width=2.7cm,height=3.2cm]{collection_ps/images/tom_hanks/tom_hanks_#1_low_rank}          & 
+\includegraphics[width=2.7cm,height=3.2cm]{collection_ps/images/tom_hanks/tom_hanks_#1_low_rank_textured}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\tabcolsep}{1pt}
+\begin{figure}
+    \centering
+    \begin{tabular}{cccccc}
+        Input & Shape & Textured & Input & Shape & Textured \vspace*{0.2cm} \\ 
+        \tomhanks{14}            & \tomhanks{27}                            \\
+        \tomhanks{95}            & \tomhanks{52}
+    \end{tabular}
+    \caption{{\bf Example reconstructions of Tom Hanks}. Images automatically 
+             downloaded from Google Images. First column is the input images, 
+             second column is the untextured shape from the proposed technique 
+             and the third column is the textured shape.}
+\label{fig:imag_coll_tom_hanks}
+\end{figure}
+\setlength{\tabcolsep}{6pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this experiment we used the Active Template Model (ATM) provided by the Menpo
 project~\cite{menpo14} in order to perform a project-out type algorithm to align
 images of Tom Hanks. This model is similar to the Lucas-Kanade
@@ -220,5 +241,90 @@ was initialised using another fitting of~\cite{kazemi2014one} which was then
 iteratively improved. At each global iteration, we recovered a new set of
 diffuse textures for each frame and then performed a refitting of every frame.
 This caused the images to align over a sequence of iterations. We performed 10
-such iterations. \cref{fig:improve_tom_hanks} shows two example frames
+such iterations. \cref{fig:imag_coll_improve_tom_hanks} shows two example frames
 where the alignment was improved and dense shape was also recovered.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\yaleb}[1]
+{
+\includegraphics[width=4cm,height=4.5cm]{collection_ps/images/yaleb_results/yale_b_#1}                      & \hspace{1.5cm} 
+\includegraphics[width=4cm,height=4.5cm]{collection_ps/images/yaleb_results/yale_b_#1_photometric}          & \hspace{1.5cm}
+\includegraphics[width=4cm,height=4.5cm]{collection_ps/images/yaleb_results/yale_b_#1_photometric_low_rank}
+}
+\setlength{\tabcolsep}{1pt}
+\begin{figure}
+    \centering
+    \begin{tabular}{ccc}
+        Input & \hspace{1.5cm} Photometric Stereo & \hspace{1.5cm} Proposed  \vspace*{0.2cm} \\ 
+        \yaleb{B01}                            \\
+        \yaleb{B03}                            \\
+        \yaleb{B06}                                                  
+    \end{tabular}
+    \caption{{Examples comparing against traditional Photometric Stereo}. 
+             Images from the Yale B dataset~\cite{georghiades2001fromfew}. 
+             First column is the input images, second column is traditional 
+             PS result and the third column is the proposed algorithm.}
+\label{fig:imag_coll_yale_b}
+\end{figure}
+\setlength{\tabcolsep}{6pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\comparemm}[1]
+{
+\includegraphics[width=3cm,height=3.5cm]{collection_ps/images/helen/helen_#1}                 & \hspace{0.2cm}
+\includegraphics[width=3cm,height=3.5cm]{collection_ps/images/helen/helen_#1_frontal_vizago}  & \hspace{0.2cm}
+\includegraphics[width=3cm,height=3.5cm]{collection_ps/images/helen/helen_#1_side_vizago}     & \hspace{0.2cm}
+\includegraphics[width=3cm,height=3.5cm]{collection_ps/images/helen/helen_#1_frontal_facegen} & \hspace{0.2cm}
+\includegraphics[width=3cm,height=3.5cm]{collection_ps/images/helen/helen_#1_side_facegen}
+}
+\setlength{\tabcolsep}{1pt}
+\begin{figure*}
+    \centering
+    \begin{tabular}{ccccc} \vspace*{0.2cm}
+        Input & \multicolumn{2}{c}{vizago.ch} & \multicolumn{2}{c}{facegen.com}  \\
+        \comparemm{6}                                                            \\
+        \comparemm{680}                                                          \\
+        \comparemm{821}                  
+    \end{tabular}
+    \caption{{\bf Examples of difficult reconstructions for existing commercial 
+              Morphable Model implementations}. 
+             Images from the HELEN~\cite{le2012interactive} dataset. 
+             Both implementations do not provide the ability to render 
+             textureless surfaces.
+             Facegen.com reported invalid landmarks for the image given in the
+             first row.}
+\label{fig:imag_coll_helen_compare_morphable_model}
+\end{figure*}
+\setlength{\tabcolsep}{6pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\comparehelen}[2]
+{
+\includegraphics[width=2.5cm,height=2.5cm]{collection_ps/images/helen/helen_#1}                  & \hspace{0.5cm}
+\includegraphics[width=2.3cm,height=2.5cm]{collection_ps/images/helen/helen_#1_frontal_low_rank} & \hspace{0.5cm}
+\includegraphics[width=2.3cm,height=2.5cm]{collection_ps/images/helen/helen_#1_frontal_ira}      & \hspace{0.5cm}
+\includegraphics[width=3cm,height=2.5cm]{collection_ps/images/helen/helen_#1_#2_low_rank}        & \hspace{0.5cm}
+\includegraphics[width=3cm,height=2.5cm]{collection_ps/images/helen/helen_#1_#2_ira}
+}
+\begin{landscape}
+\thispagestyle{footeronly}
+\setlength{\tabcolsep}{1pt}
+\begin{figure*}
+    \centering
+    \begin{tabular}{ccccc} \vspace*{0.2cm}
+        Input & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} \\
+        \vspace*{-0.1cm}
+        \comparehelen{1348}{side} \\ \vspace*{-0.07cm}
+        \comparehelen{555}{side}  \\ \vspace*{-0.07cm}
+        \comparehelen{680}{chin}  \\ \vspace*{-0.07cm}
+        \comparehelen{6}{chin}    \\ \vspace*{-0.07cm}
+        \comparehelen{821}{side}  \\ \vspace*{-0.07cm}
+        \comparehelen{77}{side}                                      
+    \end{tabular}
+    \caption{{\bf Comparison with the least-squares decomposition 
+             of~\cite{KemelmacherShlizerman:2013iv}}.
+             Images from the HELEN~\cite{le2012interactive} dataset.}
+\label{fig:imag_coll_helen_compare}
+\end{figure*}
+\setlength{\tabcolsep}{6pt}
+\end{landscape}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

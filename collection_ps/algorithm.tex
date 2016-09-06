@@ -1,11 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{algorithm}[t]
-    \caption{Solving~\eqref{eq:robust_sh_problem} by the ADM method.}
-\label{alg:adm_solution}
-    {\scriptsize\textbf{Input:} Data Matrix $\bb{X} \in \mathbb{R}^{d \times n}$ and parameter $\lambda$.} \\
-    {\scriptsize\textbf{Output:} Matrices $\bb{A}$, $\bb{E}$, $\bb{B}$, $\bb{C}$, $\bb{L}$.}  \\
+    \caption{Solving \cref{eq:robust_sh_problem} via the ADM method.}
+\label{alg:imag_coll_adm_solution}
+    {\textbf{Input:} Data Matrix $\bb{X} \in \mathbb{R}^{d \times n}$ and parameter $\lambda$.} \\
+    {\textbf{Output:} Matrices $\bb{A}$, $\bb{E}$, $\bb{B}$, $\bb{C}$, $\bb{L}$.}  \\
 {
-    \scriptsize
     % Define commands
     \def\At{{\bb{A}_{[t]}}}
     \def\Et{{\bb{E}_{[t]}}}
@@ -31,7 +30,7 @@
                 \begin{equation}\label{eq:ALC_svd}
                     \bb{A}_{[t+1]} {(\Lt \ast \Ct)}^T = \bb{U} \bb{\Sigma} \bb{V}, \; \bb{B}_{[t+1]} = \bb{U} \bb{V}^T
                 \end{equation}
-            \State{}Update $[\bb{L}_{[t+1]}, \bb{C}_{[t+1]}]$ via a Least Squares Khatri-Rao factorization, as described in \cref{subsec:robust_sh_basis}
+            \State{}Update $[\bb{L}_{[t+1]}, \bb{C}_{[t+1]}]$ via a Least Squares Khatri-Rao factorization, as described in \cref{subsec:imag_coll_robust_sh_basis}
             \State{} Update Lagrange multipliers by
                 \begin{equation}\label{eq:Y_update}
                     \bb{Y}_{[t+1]} = \Yt + \mut \left( \X - \bb{A}_{[t+1]} - \bb{E}_{[t+1]} \right)

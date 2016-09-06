@@ -7,14 +7,15 @@ A common relaxation of the single image shape recovery problem is to reduce
 ambiguities by considering more than one image. In the most difficult case,
 these images will not have any temporal relationship to one another and thus
 will have been captured under a variety of conditions. In the case of
-considering illumination constraints for shape recovery a number of images
+considering illumination constraints for shape recovery, a number of images
 of a single object in a fixed position under known illumination conditions
 may be considered. This family of methods are called Photometric Stereo (PS)
-methods and were discussed in detail in \cref{sec:bg_ps}. However, the two
-primary constraints, that the illumination conditions are known and that each
-image contains pixel-wise correspondence of a single object under the exact
-same view, are highly restrictive. The known illumination constraint can be
-relaxed by performing
+methods and the relevant facial recovery methods that employ PS were discussed
+in detail in \cref{sec:bg_ps}.
+However, the two primary constraints, that the illumination conditions are known
+and that each image contains pixel-wise correspondence of a single object under
+the exact same view, are highly restrictive. The known illumination constraint
+can be relaxed by performing
 Uncalibrated Photometric Stereo (U-PS)~\cite{hayakawa1994photometric,%
 basri2007photometric} which performs remarkably well for
 human faces~\cite{KemelmacherShlizerman:2013iv,kemelmacher2011face,%
@@ -22,51 +23,112 @@ kemelmacher2012collection}. In contrast, the correspondence problem is an
 unrealistic constraint for living objects. Even under highly constrained
 scenarios it can be very difficult for a person to remain completely still
 whilst multiple images are being captured.
-For example, \cref{fig:yaleb_movement_example} shows Subject 6 from the
-Yale B~\cite{georghiades2001fromfew} database where 64 images were captured
-under different illuminations provided by a geodesic lighting rig in
+For example, \cref{fig:imag_coll_yaleb_movement_example} shows the movement
+present in the images captured for Subject 6 of the
+Yale B~\cite{georghiades2001fromfew} database. In this database, $64$ images
+were captured under different illuminations provided by a geodesic lighting rig in
 approximately 2 seconds. Despite the relatively short capture time, the subjects
-still often moved during capture which can cause artefacts during 3D surface
-recovery. For example, \citet{harrison2012translational} showed that rectifying
-translational movements from the Yale B images provided a less biased
-reconstruction. However, this kind of translational alignment requires that the
-images be approximately aligned to begin with and cannot handle common issues
-such as occlusion. It can also not handle the large amount of variation that
-may be present between individuals.
-
-In this chapter, we look to borrow from ideas seen within the Photometric Stereo
+were unable to remain absolutely still during capture which introduces
+misalignment between the images. These misalignments cause artefacts
+during 3D surface recovery.
+For example, \citet{harrison2012translational} showed that rectifying
+translational movements within the per-subject Yale B images provides a less
+biased reconstruction. However, this kind of translational alignment can only
+be applied to image sets of the same individual and is not robust to common
+image corruptions such as occlusions. In contrast, we seek to recover a 3D
+facial surface for each face of an unfiltered image collection containing
+many different individuals under unknown lighting.
+Specifically, we look to borrow from ideas seen within the Photometric Stereo
 literature in order to recover shape from objects under unconstrained settings
-using \textit{only a set of images}. Typically, these types of unconstrained
+using images without an explicit 3D prior. Typically, these types of unconstrained
 photo collections are called ``in-the-wild''. We seek to construct our models in
 an automatic manner, without manual feature point placement or careful selection
 of the input images.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}
+    \hspace*{\fill}
+    \includegraphics[width=0.22\textwidth]{collection_ps/images/yaleb/yaleB06_P00A+000E+20} \hfill
+    \includegraphics[width=0.22\textwidth]{collection_ps/images/yaleb/yaleB06_P00A+000E-20} \hfill
+    \includegraphics[width=0.22\textwidth]{collection_ps/images/yaleb/yaleB06_P00A+005E-10} \hfill
+    \includegraphics[width=0.22\textwidth]{collection_ps/images/yaleb/yaleB06_P00A-020E+10}
+    \hspace*{\fill}
+    \caption{An example of unintentional movement during capture of a live
+             human subject, from the Yale-B database~\cite{georghiades2001fromfew}.
+             This movement violates the pixel-wise correspondence assumption
+             made by traditional Calibrated and Uncalibrated Photometric
+             Stereo.}
+\label{fig:imag_coll_yaleb_movement_example}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In particular, we seek to recover the shape of the object by exploiting the
-similarity within the object class. In the case of faces, there are millions of
-available images that can be utilised to build in-the-wild models. However,
-recovering shape from these images is incredibly challenging, as they have been
+similarity within the object \textit{class}. 
+In the case of faces, there are millions of
+available images that can be utilised to build ``in-the-wild'' models. These images
+were captured under a large variety of illumination conditions which can be
+leveraged in order to recover an estimate of a generic facial shape model.
+However, recovering shape from these images is incredibly challenging, as they have been
 captured in completely unconstrained conditions. No knowledge of the lighting
 conditions, the facial location or the camera geometric properties are provided
-with the images. To address these problems, we propose to recover a class
-specific spherical harmonic (SH) basis that exploits the low-rank structure of
+with the images. Thus, there are two primary issues that must be solved in
+order to perform a class-specific Photometric Stereo decomposition. The first
+is that the the input images, though of the same object class, are not
+pixel-wise aligned. This is a hard requirement for the matrix factorisation
+algorithms commonly employed by PS methods. Although challenging, recent
+advancements in facial landmark localisation~\cite{cootes2001active} have
+provided methods for achieving coarse alignment between facial images within
+these ``in-the-wild'' image collections. We employ this approximate alignment
+in order to provide a canonical reference space within which to perform
+a PS decomposition. Given the aligned ``in-the-wild'' images, we propose to
+recover a \textit{class-specific} spherical harmonic (SH)
+basis that exploits the low-rank structure of
 faces~\cite{georghiades2001fromfew,Basri:2003ie}. Spherical harmonics are ideal for
 this purpose as they can be approximated by a low-dimensional linear subspace
 \cite{Basri:2003ie,ramamoorthi2001relationship}.
-By using the first order SH, $87.5\%$ of
-the low-frequency component of the lighting is approximated. The first order SH
+By using the first order SH, up to $90\%$~\cite{yuille1999determining} of
+the low-frequency component of the lighting may be approximated for images
+of a human face~\cite{Basri:2003ie,%
+basri2007photometric,yuille1999determining}. The first order SH
 can then be used to recover 3D shape as their discrete approximation directly
-incorporates the normals of the object.
+incorporates the normals of the object. Given the ``in-the-wild'' nature of
+the input images, it is highly likely that some of the images will contain
+outliers such as occlusions and artefacts relating to head-pose. A naive
+least-squares solution to the decomposition would be heavily biased
+by these occlusions. Therefore, we propose a decomposition that seeks to
+automatically identify these sparse outliers and reduce their effect on
+the recovery of the SH basis.
+\cref{tbl:imag_coll_different_ps_methods} provides a brief
+overview of the difference in assumptions between traditional PS/U-PS and the
+proposed class-specific PS.\@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}
+    \centering
+    \begin{tabular}{@{}lcccl@{}}
+    \toprule
+    \textbf{Method}                     & \textbf{\# of Subjects}   & \textbf{Known Lights} & \textbf{Pre-Aligned} & \textbf{Equation}                                      \\ \midrule
+    PS                                  & $1$                       & $\cm$                 & $\cm$                & $\bb{X} = \bb{N} \bb{\tilde{L}}$                       \\
+    Uncalibrated PS                     & $1$                       & \xmark                & $\cm$                & $\bb{X} = \bb{N} \bb{L}$                               \\
+    Class-specific PS                   & $N$                       & \xmark                & \xmark               & $\bb{X} = \bb{B} \bb{P} = \bb{B} (\bb{L} \ast \bb{C})$ \\ \bottomrule
+    \end{tabular}
+    \caption{A summary of the input requirements for the Photometric Stereo (PS)
+             methods considered in this Chapter.}
+\label{tbl:imag_coll_different_ps_methods}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The most relevant techniques to this chapter involve recovering shape from a
-collection of images under varying illumination. Typically, this involves
+Although a challenging scenario, previous works have considered the recovery
+of facial shape from unconstrained image collections.
+Typically, this involves
 solving some form of uncalibrated photometric stereo problem
-\cite{basri2007photometric,papadhimitri2014closed,papadhimitri2014closed}. However, traditional uncalibrated
-photometric stereo techniques still assume that the images provided have been
-captured by a photometric stereo system under explicit directed lighting.
+\cite{basri2007photometric,papadhimitri2014closed,papadhimitri2014closed}. 
+However, traditional uncalibrated
+photometric stereo techniques still assume that images of a single object are 
+provided by a photometric stereo system under explicit yet unknown directed lighting.
 The relaxation of the uncalibrated photometric stereo problem to a class of
 objects further increases the ambiguity inherent within the problem.
-Specifically, it is now necessary to separate the SH lighting from the identity
-of the individuals. This problem has been approached for both shape recovery and
+Specifically, it is now necessary to separate the illumination variation 
+from the identity and deformation between the objects. 
+This problem has been approached for both shape recovery and
 facial recognition purposes
 \cite{lee2005bilinear,lee2005estimation,minsik2014realtime,minsik2013robust,zhou2007appearance}. 
 \citet{lee2005bilinear,lee2005estimation} recover facial shape by separating illumination
@@ -74,50 +136,64 @@ from identity in a manner that is similar to 3DMMs.
 \citet{lee2005bilinear,lee2005estimation} separate
 \citet{minsik2014realtime,minsik2013robust} the appearance and identity via a low rank
 tensor decomposition that provides a very efficient reconstruction methodology.
-However, both Lee \etal~and Minsik \etal~still rely on previously built dense 3D
-models to perform their decomposition.
+However, both \citet{lee2005bilinear,lee2005estimation}
+still require an explicit dense 3D model in order to perform their decomposition.
 
-Recently, \citet{KemelmacherShlizerman:2013iv} proposed a method for
-building morphable models from images of faces downloaded from the Internet.
-This work shares similarities with ours in that it attempts to build a subspace
-that explicitly separates shape and appearance. However, in~\cite{KemelmacherShlizerman:2013iv}
-they do not investigate a robust decomposition, but instead rely on a time
-consuming optical flow~\cite{kemelmacher2012collection} based registration process to remove
-outliers from the images. Although this methodology allows for expression
-transfer, it does not allow the recovered shapes to be used within existing
-facial alignment techniques such as Active Appearance Models (AAMs). In
-contrast, our use of efficient facial alignment techniques to acquire
-correspondence substantially reduces our training time. It also allows our
-recovered basis to be coupled with the alignment techniques for simultaneous
-facial landmark localisation and dense surface recovery. However, the coarse
-geometric alignment we employ is more sensitive to corruptions such as
-occlusions and extreme facial pose. For this reason, we employ a low rank
-constraint
-\cite{candes2011robust,peng2012rasl,sagonas2014raps,cheng2013rank,wu2010robust,lu2013uncalibrated}
-to help remove these high frequency errors whilst maintaining the low frequency
-lighting variations. Although we share a similar optimisation framework to other
+\citet{KemelmacherShlizerman:2013iv} proposed a method for automatically
+building morphable models from unconstrained ``in-the-wild''images of faces
+acquired from the Internet. This is an extension of their previous work
+on building person-specific models from internet photos~\cite{kemelmacher2011face}
+which concentrates on creating clusters of individuals that are portraying
+the same emotion. Semantic queries such as ``smiling baby'' were used in order
+to collect sets of images, called clusters, that contain different individuals
+with the same semantic expression (all babies, all smiling). 
+Within a cluster, the method of
+\citet{kemelmacher2012collection} is used to align all of the faces to a
+per-cluster average face. Given a number of these clusters, for example 
+``smiling baby'', ``crying baby'', ``smiling adult'', the per-cluster averages
+are aligned to a global average that allows transfer of expression and
+semantic meaning between clusters. \citet{KemelmacherShlizerman:2013iv} also
+proposes to perform a single-view reconstruction via an ad-hoc decomposition
+that seeks to decouple illumination and deformation. Our class-specific
+PS extends this decomposition in two ways. Firstly, we
+provide the explicit algebraic form of this decomposition and explain its
+connection to existing factorisation literature. Secondly, we extend the
+facorisation to incoporate a low rank
+constraint~\cite{candes2011robust,peng2012rasl,sagonas2014raps,cheng2013rank,%
+wu2010robust,lu2013uncalibrated} to help remove these high frequency errors
+whilst maintaining the low frequency lighting variations. Although this shares a
+similar optimisation framework to other
 robust principal component analysis problems such as
-\cite{candes2011robust,peng2012rasl,wu2010robust,lu2013uncalibrated}, we are the first to propose
-a low-rank decomposition that recovers a subspace of spherical harmonics.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}
-    \hspace*{\fill}
-    \includegraphics[width=0.22\textwidth]{collection_ps/images/yaleb/yaleB06_P00A+000E+20} \hfill
-    \includegraphics[width=0.22\textwidth]{collection_ps/images/yaleb/yaleB06_P00A+000E-20} \hfill
-    \includegraphics[width=0.22\textwidth]{collection_ps/images/yaleb/yaleB06_P00A+005E-10} \hfill
-    \includegraphics[width=0.22\textwidth]{collection_ps/images/yaleb/yaleB06_P00A-020E+10}
-    \hspace*{\fill}
-\label{fig:yaleb_movement_example}
-    \caption{An example of unintentional movement during capture of a live
-             human subject, from the Yale-B database~\cite{georghiades2001fromfew}.
-             This movement violates the pixel-wise correspondence assumption
-             made by traditional Calibrated and Uncalibrated Photometric
-             Stereo.}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cite{candes2011robust,peng2012rasl,wu2010robust,lu2013uncalibrated},
+we are the first to propose a low-rank decomposition that recovers a subspace
+of spherical harmonics. Furthermore, in contrast to \citet{KemelmacherShlizerman:2013iv}
+we attempt to build a single global model of illumination and deformation
+that is inspired by global models of appearance and shape such as
+Active Appearance Models (AAMs)~\cite{cootes2001active}. By performing a coarser
+alignment using modern facial landmark localisation methods, rather than
+the time-consuming optical flow performed by \citet{KemelmacherShlizerman:2013iv},
+our training time is substantially reduced.
+It also allows our recovered basis to be coupled with facial alignment
+techniques for simultaneous facial landmark localisation and dense surface
+recovery.
+
+The remainder of the Chapter will proceed as follows: \cref{sec:imag_coll_problem}
+outlines our approach to class-specific PS and explains the explicit matrix
+factorisation form of the decomposition proposed by
+\citet{KemelmacherShlizerman:2013iv}. We then extend the least-squares
+solution to the problem proposed by \citet{KemelmacherShlizerman:2013iv} to
+incorporate a low-rank prior that is robust to sparse outliers.
+\cref{sec:imag_coll_experiments} provides a comparison of our low-rank
+decomposition with our least-squares decomposition~\cite{KemelmacherShlizerman:2013iv}
+on an ``in-the-wild'' collection of images. We also investigate the suitability
+of the recovered basis as a shape-from-shading prior, as described in
+\cref{sec:singl_img_gsfs} and as a person specific appearance model for
+AAM~\cite{cootes2001active} fitting. Finally, in \cref{sec:imag_coll_summary},
+we provide a summary of the chapter and draw conclusions on our results.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{collection_ps/method}
 \input{collection_ps/experiments}
+\input{collection_ps/summary}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \stopcontents[chapters]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

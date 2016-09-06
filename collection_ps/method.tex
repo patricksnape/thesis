@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Problem Formulation}\label{sec:problem}
+\section{Recovering Shape from Image Collections}\label{sec:imag_coll_problem}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this section we describe how a spherical harmonic (SH) basis can be recovered
 using uncalibrated photometric stereo (PS) techniques. We then describe how this
@@ -7,7 +7,7 @@ problem generalises to a multi-person dataset and how a representation of shape
 can be recovered per image. Finally, we discuss the importance of achieving
 correspondence between the images in an efficient and scalable manner.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Spherical Harmonic Bases}\label{subsec:spherical_harmonic}
+\subsection{Spherical Harmonic Bases}\label{subsec:imag_coll_spherical_harmonic}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The lambertian reflectance model states that matte materials reflect light
 uniformly in all directions. This simple image formation model assumes that the
@@ -53,7 +53,7 @@ where $\bb{n}_{i}(x, y)$ denotes the $i$th component of the normal vector.
 This is a particularly useful result as recovering the first order SH means 
 directly recovering a representation of shape for an object.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Uncalibrated Photometric Stereo}\label{subsec:uncalibrated_ps}
+\subsection{Uncalibrated Photometric Stereo}\label{subsec:imag_coll_uncalibrated_ps}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Classical photometric stereo (PS) seeks to recover the normals of a convex
 object given a number of images under known different lighting with known
@@ -99,14 +99,16 @@ and $\bb{L} = \sqrt{\bb{\Sigma}} \bb{V}^T$.
 Uncalibrated PS is useful as it is not always possible to recover accurate 
 lighting estimations for every image.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Class Specific Uncalibrated Photometric Stereo}\label{subsec:class_uncalibrated_ps}
+\subsection{Class Specific Uncalibrated Photometric Stereo}\label{subsec:imag_coll_class_uncalibrated_ps}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 A generalisation of the uncalibrated PS problem for a specific class involves
-recovering a joint basis of appearance and illumination. In the case of SH for
-faces, this means attempting to separate the identity of the individual from
-their surface normals. This problem is a classic example of a bilinear
+recovering a joint basis of deformation and illumination. In the case of SH for
+faces, this means attempting to separate the identity and deformation of the
+individual from the spherical harmonic representation of their face. 
+This problem is a classic example of a bilinear
 decomposition problem and has been previously studied for use in 3D surface
-recovery~\cite{zhou2007appearance,minsik2014realtime,minsik2011fast,lee2005bilinear,KemelmacherShlizerman:2013iv}. In
+recovery~\cite{zhou2007appearance,minsik2014realtime,minsik2011fast,%
+lee2005bilinear,KemelmacherShlizerman:2013iv}. In
 the case of SH, we seek to recover a low dimensional linear subspace that can
 recover normals for multiple individuals. This subspace implies that a face can
 be accurately reconstructed using a linear combination of basis shapes. This
@@ -146,14 +148,16 @@ $\bb{X}$. To recover $\bb{B}$ from $\bb{S}$, we perform
 matricisation of $\bb{S}$ along the first mode, denoted $\bb{S}_{(1)}$,
 to yield $\bb{S}_{(1)} = \bb{B} \in \bb{R}^{d \times 4k}$.
 
-The problem given in~\eqref{eq:class_specific_ps} can now be solved within an
-optimisation framework, which we examine in detail in the next section.
+The problem given in~\eqref{eq:class_specific_ps} can now be minimised using
+classic matrix decomposition optimisation frameworks, which we examine in
+detail in the next section.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Robust Construction Of Spherical Harmonic Bases}\label{subsec:robust_sh_basis}
+\subsection{Robust Construction Of Spherical Harmonic Bases}\label{subsec:imag_coll_robust_sh_basis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Inspired by recent advances in robust low-rank subspace
 recovery~\cite{candes2011robust}, we seek to modify \cref{eq:class_specific_ps} to
-include new constraints that impose robustness. As mentioned previously, faces
+include new constraints that impose robustness to sparse outliers.
+As mentioned previously, faces
 can be accurately reconstructed by a linear combination of faces taken from a
 low-dimensional basis. Therefore, we propose to decompose the image matrix into
 a low-rank part ($\bb{A}$) capturing the low frequency shape information and a
@@ -188,6 +192,7 @@ and $\mu_{[t]}$, the iteration of ADM for \cref{eq:robust_sh_problem} reads:
 %%%%%%%%%%%%%%%%%%%
 \begin{align}
     \bb{A}_{[t+1]} &= \lVert \bb{A}_{[t]} \rVert_{*} + \frac{\mu_{[t]}}{2} \biggl( \lVert \bb{A}_{[t]} - \bb{B}_{[t]} (\bb{L}_{[t]} \ast \bb{C}_{[t]}) \rVert^{2}_{F} + \lVert \bb{X} - \bb{A}_{[t]} - \bb{E}_{[t]} + \frac{\bb{Y}_{[t]}}{\mu_{[t]}} \rVert_{F}^{2} \biggr), \label{eq:text_A_update} \\
+    \bb{E}_{[t+1]} &= \argmin_{\bb{E}_{[t]}} \lambda \lVert \bb{E}_{[t]} \rVert_{1} + \frac{\mu_{[t]}}{2} \lVert \bb{X} - \bb{A}_{[t+1]} - \bb{E}_{[t]} + \frac{\bb{Y}_{[t]}}{\mu_{[t]}} \rVert_{F}^{2}, \label{eq:text_E_update} \\
     \bb{B}_{[t+1]} &= \argmin_{\bb{B}_{[t]}^T \bb{B}_{[t]} = \bb{I}} \frac{\mu_{[t]}}{2} \lVert \bb{A}_{[t+1]} - \bb{B}_{[t]} (\bb{L}_{[t]} \ast \bb{C}_{[t]}) \rVert_{F}^{2}, \label{eq:text_B_update} \\
     \left[ \bb{L}_{[t+1]}, \bb{C}_{[t+1]} \right] &= \argmin_{\bb{L}_{[t]}, \bb{C}_{[t]}} \frac{\mu_{[t]}}{2} \lVert \bb{A}_{[t+1]} - \bb{B}_{[t+1]} (\bb{L}_{[t]} \ast \bb{C}_{[t]}) \rVert_{F}^{2}. \label{eq:text_LC_update}
 \end{align}
@@ -212,7 +217,7 @@ Therefore, the solution of~\eqref{eq:text_E_update} is
     \bb{E}_{[t+1]} = \mathcal{S}_{\lambda \mu_{[t]}^{-1}} \left[ \bb{X} - \bb{A}_{[t+1]} + \frac{\bb{Y}_{[t]}}{\mu_{[t]}} \right].
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
-{ % Courtesy of the wonderful Georgios!
+{ % Courtesy of the wonderful 4G!
 %%%%%%%%%%%%%%%%%%%
 \def\t#1{{\bb{#1}_{[t]}}}
 \def\tp#1{{\bb{#1}_{[t+1]}}}
@@ -253,7 +258,7 @@ $\bb{l}_i = \bb{u}_i \sqrt{\sigma_1}$ and $\bb{c}_i = \sqrt{\sigma_1} \bb{v}_i$,
 where $\bb{u}_i$ and $\bb{v}_i$ are the first column vectors of $\bb{U}_i$
 and $\bb{V}_i$, respectively, and $\sigma_1$ is the largest singular value.
 The ADM for solving~\eqref{eq:robust_sh_problem} is outlined in 
-\cref{alg:adm_solution}.
+\cref{alg:imag_coll_adm_solution}.
 }
 
 It is important to note that there are inherent ambiguities in this
@@ -267,7 +272,7 @@ of normals provided by a known mean face.
 \input{collection_ps/algorithm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Efficient Pixelwise Correspondence}\label{subsec:correspondence}
+\subsection{Efficient Pixelwise Correspondence}\label{subsec:imag_coll_correspondence}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In contrast to the related work of \citet{KemelmacherShlizerman:2013iv},
 we achieved pixelwise correspondence between our images by using existing,
@@ -288,13 +293,27 @@ the usage of our basis in existing appearance based facial alignment algorithms
 such as AAMs. This means that our basis can be used to reconstruct dense 3D
 shape of faces directly from an existing AAM fitting provided the reference
 space of the AAM and our subspace is the same.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}
+    \centering
+    \includegraphics[width=4cm]{collection_ps/images/example_warped_original}
+    \includegraphics[width=4cm]{collection_ps/images/example_warped}
+    \includegraphics[width=4cm]{collection_ps/images/example_warped_low_rank}
+    \includegraphics[width=3.8cm,height=3.8cm,trim = 0cm -1cm 0cm 0cm]{collection_ps/images/example_warped_shape}
+    \caption{{\bf Example of the low rank effect on warped pose}. From left to
+             right: initial input image, input image after warping,
+             warped image after the low rank constraint, 
+             recovered depth from warped image.}
+\label{fig:imag_coll_low_rank_warping}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 However, it is important to note that there are two potential drawbacks to our
 alignment technique. The alignment is based on a Piecewise Affine warping and is
 thus much coarser than the optical flow technique used in \citet{KemelmacherShlizerman:2013iv}.
 This is particularly amplified when larger poses are present in the input
 images. However, this is partly why the low rank component of our algorithm is
-so important. As \cref{fig:low_rank_warping} shows, the robust
+so important. As \cref{fig:imag_coll_low_rank_warping} shows, the robust
 decomposition of the basis helps correct these large global errors so that the
 shape subspace can be successfully recovered. Secondly, our technique does not
 contain a number of sub-clusters that can be used to warp expression onto our
@@ -304,18 +323,3 @@ recovered subspace will necessarily be devoid of expression as the global
 reference shape is neutral. This means that the subspace recovered by
 \citet{KemelmacherShlizerman:2013iv} will not be able to recover expressive 3D shape using
 efficient facial alignment algorithms.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=2cm,height=2cm]{images/example_warped_original}
-%     \includegraphics[width=2cm,height=2cm]{images/example_warped}
-%     \includegraphics[width=2cm,height=2cm]{images/example_warped_low_rank}
-%     \includegraphics[width=1.8cm,height=1.8cm,trim = 0cm -1cm 0cm 0cm]{images/example_warped_shape}
-%     \caption{{\bf Example of the low rank effect on warped pose}. From left to
-%              right:
-%              initial input image, input image after warping,
-%              warped image after the low rank constraint, 
-%              recovered depth from warped image.}
-% \label{fig:low_rank_warping}
-% \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
