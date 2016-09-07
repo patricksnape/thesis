@@ -3,7 +3,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \minitoc{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-A common relaxation of the single image shape recovery problem is to reduce
+Given the difficulty of the single image shape recovery problem, it is
+often necessary to relax the data constraints in order to reduce the 
+existing ambiguities. One common relaxation is to reduce these
 ambiguities by considering more than one image. In the most difficult case,
 these images will not have any temporal relationship to one another and thus
 will have been captured under a variety of conditions. In the case of
@@ -40,10 +42,11 @@ facial surface for each face of an unfiltered image collection containing
 many different individuals under unknown lighting.
 Specifically, we look to borrow from ideas seen within the Photometric Stereo
 literature in order to recover shape from objects under unconstrained settings
-using images without an explicit 3D prior. Typically, these types of unconstrained
-photo collections are called ``in-the-wild''. We seek to construct our models in
-an automatic manner, without manual feature point placement or careful selection
-of the input images.
+using only images. We seek to recover this shapes without the use of an explicit 
+3D prior. Typically, these types of unconstrained
+photo collections are called ``in-the-wild'' images. We seek to construct our 
+models in an automatic manner, without manual feature point placement or 
+careful selection of the input images.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}
     \hspace*{\fill}
@@ -61,7 +64,7 @@ of the input images.
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In particular, we seek to recover the shape of the object by exploiting the
+In particular, we recover the shape of the object by exploiting the
 similarity within the object \textit{class}. 
 In the case of faces, there are millions of
 available images that can be utilised to build ``in-the-wild'' models. These images
@@ -94,7 +97,7 @@ incorporates the normals of the object. Given the ``in-the-wild'' nature of
 the input images, it is highly likely that some of the images will contain
 outliers such as occlusions and artefacts relating to head-pose. A naive
 least-squares solution to the decomposition would be heavily biased
-by these occlusions. Therefore, we propose a decomposition that seeks to
+by these outliers. Therefore, we propose a decomposition that seeks to
 automatically identify these sparse outliers and reduce their effect on
 the recovery of the SH basis.
 \cref{tbl:imag_coll_different_ps_methods} provides a brief
@@ -111,7 +114,7 @@ proposed class-specific PS.\@
     Class-specific PS                   & $N$                       & \xmark                & \xmark               & $\bb{X} = \bb{B} \bb{P} = \bb{B} (\bb{L} \ast \bb{C})$ \\ \bottomrule
     \end{tabular}
     \caption{A summary of the input requirements for the Photometric Stereo (PS)
-             methods considered in this Chapter.}
+             methods considered in this chapter.}
 \label{tbl:imag_coll_different_ps_methods}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -119,12 +122,11 @@ proposed class-specific PS.\@
 Although a challenging scenario, previous works have considered the recovery
 of facial shape from unconstrained image collections.
 Typically, this involves
-solving some form of uncalibrated photometric stereo problem
+solving some form of Uncalibrated Photometric Stereo problem
 \cite{basri2007photometric,papadhimitri2014closed,papadhimitri2014closed}. 
-However, traditional uncalibrated
-photometric stereo techniques still assume that images of a single object are 
+However, traditional U-PS techniques still assume that images of a single object are 
 provided by a photometric stereo system under explicit yet unknown directed lighting.
-The relaxation of the uncalibrated photometric stereo problem to a class of
+The relaxation of the U-PS problem to a class of
 objects further increases the ambiguity inherent within the problem.
 Specifically, it is now necessary to separate the illumination variation 
 from the identity and deformation between the objects. 
@@ -132,15 +134,15 @@ This problem has been approached for both shape recovery and
 facial recognition purposes
 \cite{lee2005bilinear,lee2005estimation,minsik2014realtime,minsik2013robust,zhou2007appearance}. 
 \citet{lee2005bilinear,lee2005estimation} recover facial shape by separating illumination
-from identity in a manner that is similar to 3DMMs. 
-\citet{lee2005bilinear,lee2005estimation} separate
-\citet{minsik2014realtime,minsik2013robust} the appearance and identity via a low rank
-tensor decomposition that provides a very efficient reconstruction methodology.
-However, both \citet{lee2005bilinear,lee2005estimation}
-still require an explicit dense 3D model in order to perform their decomposition.
+from identity in a manner that is similar to 3DMMs.
+\citet{minsik2014realtime,minsik2013robust} separate the appearance and identity
+via a low rank tensor decomposition that provides a very efficient
+reconstruction methodology.
+However, all of these methods still require an explicit dense 3D model in order
+to perform their decomposition.
 
 \citet{KemelmacherShlizerman:2013iv} proposed a method for automatically
-building morphable models from unconstrained ``in-the-wild''images of faces
+building morphable models from unconstrained ``in-the-wild'' images of faces
 acquired from the Internet. This is an extension of their previous work
 on building person-specific models from internet photos~\cite{kemelmacher2011face}
 which concentrates on creating clusters of individuals that are portraying
@@ -158,9 +160,9 @@ that seeks to decouple illumination and deformation. Our class-specific
 PS extends this decomposition in two ways. Firstly, we
 provide the explicit algebraic form of this decomposition and explain its
 connection to existing factorisation literature. Secondly, we extend the
-facorisation to incoporate a low rank
+factorisation to incorporate a low rank
 constraint~\cite{candes2011robust,peng2012rasl,sagonas2014raps,cheng2013rank,%
-wu2010robust,lu2013uncalibrated} to help remove these high frequency errors
+wu2010robust,lu2013uncalibrated} to help remove sparse outliers
 whilst maintaining the low frequency lighting variations. Although this shares a
 similar optimisation framework to other
 robust principal component analysis problems such as
@@ -176,12 +178,27 @@ our training time is substantially reduced.
 It also allows our recovered basis to be coupled with facial alignment
 techniques for simultaneous facial landmark localisation and dense surface
 recovery.
+\cref{fig:imag_coll_overview} provides an overview of our proposed algorithm
+for recovering facial shape from unconstrained image collections.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=15cm]{collection_ps/images/algorithm_overview}
+    \caption{An overview of our proposed approach. Given a set of
+             ``in-the-wild'' images, we coarsely align them using an efficient
+             facial landmark localisation technique and then perform our
+             novel robust class-specific PS.\@ The recovered Spherical Harmonic
+             basis has a number of uses that are presented in
+             \cref{sec:imag_coll_experiments}.}
+\label{fig:imag_coll_overview}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The remainder of the Chapter will proceed as follows: \cref{sec:imag_coll_problem}
+The remainder of the chapter will proceed as follows: \cref{sec:imag_coll_problem}
 outlines our approach to class-specific PS and explains the explicit matrix
 factorisation form of the decomposition proposed by
 \citet{KemelmacherShlizerman:2013iv}. We then extend the least-squares
-solution to the problem proposed by \citet{KemelmacherShlizerman:2013iv} to
+solution of the problem proposed by \citet{KemelmacherShlizerman:2013iv} to
 incorporate a low-rank prior that is robust to sparse outliers.
 \cref{sec:imag_coll_experiments} provides a comparison of our low-rank
 decomposition with our least-squares decomposition~\cite{KemelmacherShlizerman:2013iv}

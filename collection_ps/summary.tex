@@ -1,3 +1,36 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary and Conclusion}\label{sec:imag_coll_summary}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this chapter we investigated 3D facial shape recovery on collections of
+``in-the-wild'' images. This is a challenging scenario as no knowledge of the
+lighting conditions, the facial location or the camera geometric properties is
+provided. However, by leveraging the large number of images and the inherent
+low-rank properties of the human face we have shown that plausible 3D shape
+can be recovered without any 3D prior. We have provided an optimisation
+framework for the recovery and separation of both the illumination and
+deformation parameters of a spherical harmonic subspace. Most importantly,
+this optimisation framework contains low-rank constraints that mitigate the
+effect of common sparse image outliers such as occlusions. We also demonstrated
+that a global and sparse alignment is sufficient for recovering plausible shape
+without the need for expensive per pixel alignment such as optical flow.
+
+We have evaluated our algorithm qualitatively on it's ability to recover
+plausible facial shape on the ``in-the-wild'' HELEN~\cite{le2012interactive}
+and demonstrate robustness to occlusions. This is particularly evident when
+qualitatively compared to the least-squares solution as originally proposed by
+\citet{KemelmacherShlizerman:2013iv}. We have also shown that our algorithm,
+due to the single global template space, is applicable for 
+GSFS (\cref{sec:singl_img_gsfs}) and iterative person specific image alignment
+and depth recovery. Unfortunately, there lacks a standard benchmark for
+3D surface recover from images using image formation techniques. Thus we provide
+relatively few quantitative experiments and rely on the perception of our
+recovered shape as is common in other works in the
+area~\cite{KemelmacherShlizerman:2013iv,kemelmacher2011face,kemelmacher2012collection}.
+
+Although the recovery of plausible normals directly from images, without any
+3D prior, is an attractive problem, it still does not recover shapes that
+are visually comparable to techniques that employ an explicit 3D prior. Therefore,
+in the next chapter we investigate another form of the image collection problem,
+where temporal consistency is assumed. We formulate the problem as one of alignment
+and use an explicit 3D model in order to recover 3D shape implicitly as part
+of the alignment output.
