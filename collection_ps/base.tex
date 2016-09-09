@@ -3,21 +3,36 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \minitoc{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Given the difficulty of the single image shape recovery problem, it is
-often necessary to relax the data constraints in order to reduce the 
-existing ambiguities. One common relaxation is to reduce these
-ambiguities by considering more than one image. In the most difficult case,
-these images will not have any temporal relationship to one another and thus
-will have been captured under a variety of conditions. In the case of
-considering illumination constraints for shape recovery, a number of images
-of a single object in a fixed position under known illumination conditions
-may be considered. This family of methods are called Photometric Stereo (PS)
-methods and the relevant facial recovery methods that employ PS were discussed
-in detail in \cref{sec:bg_ps}.
-However, the two primary constraints, that the illumination conditions are known
-and that each image contains pixel-wise correspondence of a single object under
-the exact same view, are highly restrictive. The known illumination constraint
-can be relaxed by performing
+In the previous chapter, we considered the problem of recovering a dense
+representation of 3D shape from a single image. Given the inherent
+ambiguity of this problem, we chose to investigate how shading could be used as
+a cue to recover this shape. Our result provided an estimate of the surface
+normal of the underlying surface for each area visible on the face. 
+However, shading constraints alone are not
+sufficient for recovering a set of consistent normals and so we introduced
+a statistical model of facial surface normals in order to further constrain
+the possible solutions. Although combining Shape-from-Shading (SFS) with the
+statistical model was successful in recovering results for ``in-the-wild''
+images, we assumed a very naive method of recovering an estimate of the
+lighting conditions present in the image. In practise, the lighting conditions
+in an ``in-the-wild'' image are likely to be much more complex than
+the single point light model used in the SFS algorithm of the previous chapter.
+In this chapter, we seek to relax the explicit use of a dense shape prior whilst
+also introducing a more complex illumination model that is more realistic
+for human faces. This can be achieved by leveraging the fact that there are
+millions of publicly available facial images that can be utilised to build
+``in-the-wild'' models. By relaxing the constraint of a single image and
+broadening our input to an unconstrained collection of images, we seek
+to recover a dense facial shape for every image jointly. There are two
+primary issues to solve in order for this approach to be successful. The
+first is that the illumination conditions in each image must be estimated.
+The second is that each image must be in pixel-wise correspondence with all of
+the other images being considered. This pixel-wise correspondence is necessary
+as it allows us to construct a single generic model of illumination for human
+faces.
+
+If we assume that the correspondence problem has been rectified previously, 
+the known illumination constraint can be relaxed by performing
 Uncalibrated Photometric Stereo (U-PS)~\cite{hayakawa1994photometric,%
 basri2007photometric} which performs remarkably well for
 human faces~\cite{KemelmacherShlizerman:2013iv,kemelmacher2011face,%
@@ -75,7 +90,7 @@ captured in completely unconstrained conditions. No knowledge of the lighting
 conditions, the facial location or the camera geometric properties are provided
 with the images. Thus, there are two primary issues that must be solved in
 order to perform a class-specific Photometric Stereo decomposition. The first
-is that the the input images, though of the same object class, are not
+is that the input images, though of the same object class, are not
 pixel-wise aligned. This is a hard requirement for the matrix factorisation
 algorithms commonly employed by PS methods. Although challenging, recent
 advancements in facial landmark localisation~\cite{cootes2001active} have
