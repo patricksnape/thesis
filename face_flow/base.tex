@@ -76,22 +76,22 @@ However, the fact that we have to deal with long sequences poses major difficult
 For example, the point displacements between the template and a frame can be substantially 
 large and severe occlusions of parts of the template can occur in some frames. Even 
 state-of-the-art two-frame optical flow methods that are especially designed to deal 
-with large displacements or occlusions, \eg \cite{Brox:2011be,revaud2015epicflow}, are 
+with large displacements or occlusions, \eg \cite{brox2011large,revaud2015epicflow}, are 
 prone to fail. This is because they lack any additional cues that could help them 
 estimate an appropriate initialisation or to disambiguate severe occlusions.
 
 An alternative solution to the multi-frame optical flow problem, also based on 
 two-frame optical flow, is to estimate flow between consecutive frames and then 
 combine the various solutions. A simple integration of the solutions to obtain long-term 
-2D tracks is prone to drift due to error accumulation \cite{RefWorks:292,Brox:2011be}.
+2D tracks is prone to drift due to error accumulation \cite{cosker2011facs,brox2011large}.
 This can be improved by the automatic detection of occlusions, gross errors, and other ambiguities 
-\cite{sand2008particle,sundaram2010dense,rubinstein2012towards,ricco2012simultaneous,GSRPCA}, 
+\cite{sand2008particle,sundaram2010dense,rubinstein2012towards,ricco2012simultaneous,papamakarios2011generalised}, 
 but any such solution is still limited by the accuracy of the initial two-frame optical 
 flow estimations that are completely local in time and do not exploit any temporal cues.
 
 Several recent methods solve the multi-frame optical flow problem directly, by 
 implicitly taking into account the rich temporal information that is present in 
-non-rigid scenes \cite{Irani02,Torresani:2001iw,Torresani:2002jn,tomasi2012dense,ricco2013video,Garg:2013hu}. 
+non-rigid scenes \cite{Irani02,torresani2001tracking,torresani2002space,tomasi2012dense,ricco2013video,garg2013variational}. 
 For example, the long-term 2D trajectories of points on a surface undergoing non-rigid 
 deformation are highly correlated and can be compactly described via a linear combination of a 
 low-rank trajectory basis. This basis is typically learnt from the input sequence itself. In 
@@ -105,7 +105,7 @@ alone.
 Furthermore, the memory and runtime efficiency of all existing multi-frame optical 
 flow methods is limited by the fact that they have to estimate a very large number 
 of parameters, i.e.~a set of parameters for every pixel of the template. Specially designed 
-parallelisable algorithms, such as primal-dual optimisation schemes \cite{Wedel:DAGM:2009,Garg:2013hu} 
+parallelisable algorithms, such as primal-dual optimisation schemes \cite{Wedel:DAGM:2009,garg2013variational} 
 can be adopted. However, they are only efficient on recent GPU hardware.
 
 In this paper, we overcome the aforementioned limitations by incorporating a face-specific 
@@ -125,7 +125,7 @@ statistical facial models built on a sparse set of landmarks \cite{xiong2013supe
 which provide limited accuracy to the recognition of subtle expressions \cite{li2013spontaneous}. 
 In this paper, we build the first, to the best of our knowledge, statistical models of 
 dense facial flow by capitalising on the success of recent optical flow techniques applied to 
-densely tracking image sequences \cite{Garg:2013hu}. Due to the use of the statistical 
+densely tracking image sequences \cite{garg2013variational}. Due to the use of the statistical 
 low-rank model, and in contrast to existing approaches, our method is able to deal with 
 particularly challenging conditions such as severe occlusions of the face and strong 
 illumination changes. Furthermore, the introduction of a known deformation basis drastically 

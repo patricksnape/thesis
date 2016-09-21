@@ -36,10 +36,10 @@ In this section, we describe the set of qualitative and quantitative experiments
 that we conducted in order to demonstrate the effectiveness of our proposed algorithm,
 Face Flow. In order to verify that our method is competitive with the state-of-the-art,
 we compared against the methods of
-\citet{Garg:2013hu} (denoted MFSF),
+\citet{garg2013variational} (denoted MFSF),
 \citet{revaud2015epicflow} (denoted EPICFlow),
-\citet{Liu:2011jv} (denoted SIFTFlow) and the large displacement
-optical method of \citet{Brox:2011be} (denoted LDOF). We also provide two
+\citet{liu2011sift} (denoted SIFTFlow) and the large displacement
+optical method of \citet{brox2011large} (denoted LDOF). We also provide two
 formulations of our method, one which enforces the low-rank constraint on the coefficients
 and one which does not. The latter corresponds to the choice of $\lambda=k$.
 We denote these two methods Face Flow Low-Rank (LR) and Face Flow
@@ -59,11 +59,11 @@ video examples of the sequences and further results.
 \subsection{Practical Deformation Basis Construction}\label{subsec:experiments_basis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Our facial deformation basis is built by applying MFSF multi-frame optical flow method
-\footnote{Code publicly available at https://bitbucket.org/troussos/mfsf/} of \citet{Garg:2013hu} on
+\footnote{Code publicly available at https://bitbucket.org/troussos/mfsf/} of \citet{garg2013variational} on
 the facial expression database BU4D~\cite{yin2008high}. We chose this database due
 to the large range of expression present and the fact that is captured at a high
-frame rate, which is ideal for the technique of \citet{Garg:2013hu}. However, in order
-to further improve the performance of \citet{Garg:2013hu}, we augmented the energy
+frame rate, which is ideal for the technique of \citet{garg2013variational}. However, in order
+to further improve the performance of \citet{garg2013variational}, we augmented the energy
 to include an extra quadratic landmark constraint. This landmark constraint
 takes a similar form to the landmark constraint proposed in this paper, and was
 found to improve the results considerably in sequences that displayed particularly
@@ -71,7 +71,7 @@ expressive emotion, such as surprise.
 
 The BU4D database consists of 102 subjects displaying 6 canonical expression,
 from neutral to the apex of the emotion. We selected a neutral frame for every
-sequence and used this as the reference frame for the method of \citet{Garg:2013hu}.
+sequence and used this as the reference frame for the method of \citet{garg2013variational}.
 After computing trajectories for each sequence,
 we constructed a reference frame for our deformation basis using the mean
 of the neutral images we selected previously. We then applied principal
@@ -99,7 +99,7 @@ As mentioned, we rendered three sets of texture, all with the same underlying ge
 to provide evidence of the robustness of Face Flow to challenging conditions. In the first
 sequence, we rendered unmodified textures. This is a baseline
 in order to show the performance of state-of-the-art methods for facial data. Since
-our basis is trained using the output from~\cite{Garg:2013hu}, we do not expect to
+our basis is trained using the output from~\cite{garg2013variational}, we do not expect to
 outperform other optical flow techniques on this sequence. The second sequence
 was rendered by rendering a periodically moving light source around the face. This
 is challenging for the data term and helps to demonstrate the

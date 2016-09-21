@@ -116,7 +116,7 @@ common to use a robust penaliser rather than the quadratic term shown in
 algorithms \cite{antonakos2015feature} that suggest that densely 
 sampled feature descriptors can vastly improve the performance of alignment
 algorithms without sacrificing the efficiency of a quadratic optimisation.
-The use of dense descriptors is similar to SIFTFlow \cite{Liu:2011jv}, where 
+The use of dense descriptors is similar to SIFTFlow \cite{liu2011sift}, where 
 SIFT \cite{lowe2004distinctive} features are densely sampled at every pixel in order
 to improve optical flow.
 
@@ -141,23 +141,23 @@ sequence and thus impose $\matr{C}_{nr}$ to be of low-rank.
 \subsection{Estimation of the Sparse Landmarks}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In order to estimate sparse landmarks, we can make use of state-of-the-art, extremely
-efficient facial alignment methods \cite{kazemi2014one,6909636,menpo14,6909835}.
+efficient facial alignment methods \cite{kazemi2014one,asthana2014incremental,menpo14,alabort2014bayesian}.
 State-of-the-art methods, such as that by Kazemi \etal \cite{kazemi2014one},
 execute in under a millisecond, and can provide landmark localisation errors
 of within 3 pixels on average for extremely challenging unconstrained images.
 In this paper, when we consider estimating landmarks, we use the method of 
-\cite{kazemi2014one} in conjunction with a robust face detector \cite{Zafeiriou20151}.
+\cite{kazemi2014one} in conjunction with a robust face detector \cite{zafeiriou2015survey}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Learning the Deformation Basis}\label{subsec:learning_deformation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Learning the deformation basis is a very challenging issue and most likely the reason
 why there is little research in building dense facial deformation models. However,
-inspired by the performance of recent optical methods, such as that of Garg \etal \cite{Garg:2013hu},
+inspired by the performance of recent optical methods, such as that of Garg \etal \cite{garg2013variational},
 we chose to build our basis using the output of optical flow methods. To realise this,
-we chose the optical flow method of Garg \etal \cite{Garg:2013hu}, augmented with
+we chose the optical flow method of Garg \etal \cite{garg2013variational}, augmented with
 an additional quadratic penalty involving automatically estimated sparse landmarks.
 This additional penalty was found to significantly improve the performance of 
-\cite{Garg:2013hu} in expressive sequences, such as wide openings of the mouth.
+\cite{garg2013variational} in expressive sequences, such as wide openings of the mouth.
 
 We propose to learn a set of trajectories over a number of sequences, each with
 a differing reference frame. We are thus faced with the problem
@@ -216,7 +216,7 @@ the entire Hessian term $\boldsymbol{H} = \bJ^T \bJ$, does not depend on $\bc$ a
 Unlike in most previous works in the area, our motion model is completely translational and thus does not involve
 a complicated compositional update. In fact, it can be shown that our compositional update
 has the form $\bc \leftarrow \bc - \Delta \bc$ and is thus equivalent to the 
-additive parameter update scheme \cite{5206788}.
+additive parameter update scheme \cite{amberg2009compositional}.
 
 Returning to the optimisation of the proposed energy, the
 image data term can be approximated as (after the IC strategy and the spatial discretisation):
@@ -329,11 +329,11 @@ Then by using (\ref{E:Mat}),  (\ref{E:SUB2}) is written as:
     \min_{\matr{C}_{nr}} \norm{\matr{A}  - \matr{Q} \matr{C}_{nr}}_F^2 \quad \mbox{s.t.} \quad  \mbox{rank}(\matr{C}_{nr}) \leq \lambda,
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-The closed form solution of (\ref{E:RedRank}) is given by \cite{Sondermann:86}: 
+The closed form solution of (\ref{E:RedRank}) is given by \cite{sondermann1986best}: 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{equation}
     \matr{C}_{nr}  = \matr{Q}^{\dag}\matr{\Xi}_{(\lambda)}  \,.
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 The convergence of the proposed BCD algorithm is guaranteed since the objective function
-is differentiable and involves two blocks of variables \cite{Luo:92}.
+is differentiable and involves two blocks of variables \cite{luo1992convergence}.
