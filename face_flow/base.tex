@@ -3,6 +3,71 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \minitoc{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In the previous chapter, we considered the problem of jointly recovering a
+dense representation of shape from an unconstrained image collection. The key
+insight was to leverage the shared information about the shape of an object
+that is present across many different instances of the object class. This
+involved employing shading queues in order to recover a joint representation
+of the object class' shape in the form of a spherical harmonic basis. This
+basis was recovered by performing a decomposition of the
+\textit{aligned images}. This alignment was performed coarsely by assuming the
+existance of a set of sparse landmarks that were used to approximate
+dense correspondence between all of the images. These sparse landmarks can
+be recovered very accurately across a large variety of ``in-the-wild'' facial
+images and so present an attractive method of performing alignment. However,
+to perform the decomposition and recover a dense representation of shape, it
+is necessary to perform a dense correspondence mapping. This was achieved
+by employing a piecewise constant warping function. Unfortunately, a
+piecewise warping function only recovers coarse correspondences and may produce
+artefacts in the case of extreme expression or head pose. Therefore, it is
+desirable to be able to recover a more accurate set of dense correspondences 
+between the input images. \citet{KemelmacherShlizerman:2013iv} proposed to
+perform this alignment via optical flow~\cite{liu2009beyond} which provides
+more accurate per-pixel correspondence. However, optical flow maintains a
+primary constraint, namely the ``brightness constancy'' assumption which states
+that the intensity of a given pixel in the image should not change abruptly
+between two frames of the object under motion. This assumption is clearly
+violated between images of differing individuals which are guaranteed to
+have been captured under differing illumination conditions. To aid in this,
+\citet{KemelmacherShlizerman:2013iv} employed
+Collection Flow~\cite{kemelmacher2012collection} which seeks to normalise
+lighting effects between images of differing people. However, 
+Collection Flow~\cite{kemelmacher2012collection} is unlikely to work in
+scenarios containing occlusions and more severe lighting conditions whereby
+convergence becomes extremely unlikely within the initial iterations. 
+Furthermore, the application of multiple optical stages ensures that Collection
+Flow is very slow to perform. A more 
+
+
+
+In the previous chapter, we considered the problem of recovering a dense
+representation of 3D shape from a single image. Given the inherent
+ambiguity of this problem, we chose to investigate how shading could be used as
+a cue to recover this shape. Our result provided an estimate of the surface
+normal of the underlying surface for each area visible on the face. 
+However, shading constraints alone are not
+sufficient for recovering a set of consistent normals and so we introduced
+a statistical model of facial surface normals in order to further constrain
+the possible solutions. Although combining Shape-from-Shading (SFS) with the
+statistical model was successful in recovering results for ``in-the-wild''
+images, we assumed a very naive method of recovering an estimate of the
+lighting conditions present in the image. In practise, the lighting conditions
+in an ``in-the-wild'' image are likely to be much more complex than
+the single point light model used in the SFS algorithm of the previous chapter.
+In this chapter, we seek to relax the explicit use of a dense shape prior whilst
+also introducing a more complex illumination model that is more realistic
+for human faces. This can be achieved by leveraging the fact that there are
+millions of publicly available facial images that can be utilised to build
+``in-the-wild'' models. By relaxing the constraint of a single image and
+broadening our input to an unconstrained collection of images, we seek
+to recover a dense facial shape for every image jointly. There are two
+primary issues to solve in order for this approach to be successful. The
+first is that the illumination conditions in each image must be estimated.
+The second is that each image must be in pixel-wise correspondence with all of
+the other images being considered. This pixel-wise correspondence is necessary
+as it allows us to construct a single generic model of illumination for human
+faces.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{face_flow/body}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \stopcontents[chapters]
