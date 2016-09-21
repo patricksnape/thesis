@@ -47,7 +47,7 @@ Full-Rank (FR). This self evaluation is particularly useful for demonstrating th
 and effectiveness of the low-rank constraint for multi-frame facial flow.
 
 To effectively evaluate Face Flow, we propose a novel ground truth dataset formed
-from facial motion capture data~\cite{zhang2008spacetime}. The sequence that we
+from facial motion capture data~\cite{zhang2004spacetime}. The sequence that we
 evaluate must be in correspondence and ideally contain an interesting
 sequence of deformations. Performance capture data is ideal for this purpose, as
 it is necessarily in correspondence and often deals with actors portraying
@@ -60,7 +60,7 @@ video examples of the sequences and further results.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Our facial deformation basis is built by applying MFSF multi-frame optical flow method
 \footnote{Code publicly available at https://bitbucket.org/troussos/mfsf/} of \citet{Garg:2013hu} on
-the facial expression database BU4D~\cite{bu4d}. We chose this database due
+the facial expression database BU4D~\cite{yin2008high}. We chose this database due
 to the large range of expression present and the fact that is captured at a high
 frame rate, which is ideal for the technique of \citet{Garg:2013hu}. However, in order
 to further improve the performance of \citet{Garg:2013hu}, we augmented the energy
@@ -89,7 +89,7 @@ the feature descriptor employed is the dense SIFT feature.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Motion Capture Data}\label{subsec:experiments_mocap}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In this experiment, we use the performance capture dataset provided by \citet{zhang2008spacetime}
+In this experiment, we use the performance capture dataset provided by \citet{zhang2004spacetime}
 to generate three novel ground truth sequences consisting of 280 frames. This ground truth is provided by rendering
 the sequence of meshes in a fixed pose, which yields both a texture and a set of vertices
 in the scene. These vertices can then be used in order simply calculate flow for the face

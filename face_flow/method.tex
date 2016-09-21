@@ -31,7 +31,7 @@ estimation to the estimation of the following $D\times F$ matrix:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The $f$-th column of this matrix contains the coefficients that yield the
 warping function (and thus define the optical flow) for the $f$-th frame of the
-video. Following AAMs \cite{RefWorks:95}, the first 4 components of these coefficients, 
+video. Following AAMs \cite{cootes2001active}, the first 4 components of these coefficients, 
 which correspond to the first 4 rows of the coefficient matrix $\matr{C}$, 
 control the similarity transformation that rigidly-aligns the template to every 
 frame. The remaining components control the non-rigid deformations. 
@@ -63,7 +63,7 @@ As a preprocessing step, a frame of the sequence which is as close as possible t
 a frontal pose and a neutral expression is selected as reference. This frame is
 warped to the template domain $M$ in order to match a mean face. This selection
 and warping estimation can be easily done automatically by fitting the face
-with an automatic facial alignment method \cite{kazemi2014one,RefWorks:227}. In this 
+with an automatic facial alignment method \cite{kazemi2014one,matthews2004active}. In this 
 case, we assume that there is a known correspondence between the sparse points
 found by the alignment method and the reference frame of our basis. Once the
 sparse landmarks have been acquired, it is simple to warp the image into the
@@ -113,11 +113,11 @@ In general, such an image data term could be grossly affected by artifacts in th
 image, such as illumination variation and external occlusions. Therefore, it is
 common to use a robust penaliser rather than the quadratic term shown in 
 (\ref{eq:eimg}). However, we act on recent advancements in facial alignment 
-algorithms \cite{7104116} that suggest that densely 
+algorithms \cite{antonakos2015feature} that suggest that densely 
 sampled feature descriptors can vastly improve the performance of alignment
 algorithms without sacrificing the efficiency of a quadratic optimisation.
 The use of dense descriptors is similar to SIFTFlow \cite{Liu:2011jv}, where 
-SIFT \cite{lowe1999object} features are densely sampled at every pixel in order
+SIFT \cite{lowe2004distinctive} features are densely sampled at every pixel in order
 to improve optical flow.
 
 The second term ($E_{land}$) is a quadratic prior that ensures that the estimated
@@ -182,11 +182,11 @@ coefficient matrix. In addition, we consider a spatial discretisation of $E_{img
 on a regular pixel grid with unary steps. Let $\bx_1,\ldots,\bx_P$ be the 2D 
 locations of the $P$ pixels that lie within the domain $M$.
 
-The IC algorithm, as proposed by \cite{RefWorks:10}, is a very efficient method of solving
+The IC algorithm, as proposed by \cite{baker2004lucas}, is a very efficient method of solving
 a parametrised image alignment problem, which corresponds to minimising solely the image data 
 term $E_{img}$ of the proposed energy for every frame of the sequence. Given a single 
 template image $\bT$ and a single input image $\bI$, the classical 
-Lucas-Kanade \cite{RefWorks:71} problem is given by
+Lucas-Kanade \cite{lucas1981iterative} problem is given by
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:lk_ic}
     \sum_{p=1}^P  \norm{

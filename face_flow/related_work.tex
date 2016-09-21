@@ -4,9 +4,9 @@
 There is a very large body of work on facial alignment that largely revolves
 around the concept of identifying a set of sparse target landmarks within an
 image. The most relevant algorithm to our proposed method is that of the
-Active Appearance Model (AAM) \cite{RefWorks:95}, particularly the variation by
-Baker and Matthews \cite{RefWorks:227} that relates AAMs to the Lucas-Kanade
-\cite{RefWorks:71,RefWorks:10} optical flow literature. However, our method
+Active Appearance Model (AAM) \cite{cootes2001active}, particularly the variation by
+Baker and Matthews \cite{matthews2004active} that relates AAMs to the Lucas-Kanade
+\cite{lucas1981iterative,baker2004lucas} optical flow literature. However, our method
 does not incorporate an appearance model and relies on a single given template
 image and is thus closer in nature to the original Lucas-Kanade algorithm. 
 Our algorithm also places a low-rank constraint on the shape model coefficients
@@ -24,7 +24,7 @@ dense correspondences.
 As we show in Section~\ref{sec:method}, the linear nature of our warp allows
 us to derive a very efficient optimisation strategy,
 based on the Inverse Compositional algorithm proposed by Baker and Matthews
-\cite{RefWorks:10}. 
+\cite{baker2004lucas}. 
 
 Finally, the work of Kemelmacher-Schlizerman \mbox{\etal} \cite{kemelmacher2012collection}
 is relevant as it considers learning deformation fields between images of faces.
