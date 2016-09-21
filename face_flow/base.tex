@@ -91,7 +91,7 @@ flow estimations that are completely local in time and do not exploit any tempor
 
 Several recent methods solve the multi-frame optical flow problem directly, by 
 implicitly taking into account the rich temporal information that is present in 
-non-rigid scenes \cite{Irani02,torresani2001tracking,torresani2002space,tomasi2012dense,ricco2013video,garg2013variational}. 
+non-rigid scenes \cite{irani2002multi,torresani2001tracking,torresani2002space,tomasi2012dense,ricco2013video,garg2013variational}. 
 For example, the long-term 2D trajectories of points on a surface undergoing non-rigid 
 deformation are highly correlated and can be compactly described via a linear combination of a 
 low-rank trajectory basis. This basis is typically learnt from the input sequence itself. In 
@@ -105,7 +105,7 @@ alone.
 Furthermore, the memory and runtime efficiency of all existing multi-frame optical 
 flow methods is limited by the fact that they have to estimate a very large number 
 of parameters, i.e.~a set of parameters for every pixel of the template. Specially designed 
-parallelisable algorithms, such as primal-dual optimisation schemes \cite{Wedel:DAGM:2009,garg2013variational} 
+parallelisable algorithms, such as primal-dual optimisation schemes \cite{wedel2009improved,garg2013variational} 
 can be adopted. However, they are only efficient on recent GPU hardware.
 
 In this paper, we overcome the aforementioned limitations by incorporating a face-specific 
