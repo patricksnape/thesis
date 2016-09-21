@@ -1,33 +1,68 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{landscape}
-\thispagestyle{footeronly}
-\newcommand{\framerowsynth}[1]{%
-\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3cm,height=3.3cm]{face_flow/images/synthetic/#1_gt}}                &
-\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3cm,height=3.3cm]{face_flow/images/synthetic/#1_ff_dsift_sequence}} &
-\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3cm,height=3.3cm]{face_flow/images/synthetic/#1_ff_dsift_single}}   &
-\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3cm,height=3.3cm]{face_flow/images/synthetic/#1_mfsf}}              &
-\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3cm,height=3.3cm]{face_flow/images/synthetic/#1_ldof}}              &
-\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3cm,height=3.3cm]{face_flow/images/synthetic/#1_epicflow}}          &
-\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3cm,height=3.3cm]{face_flow/images/synthetic/#1_siftflow}}
-}
-\setlength{\tabcolsep}{1pt}
-\begin{figure}[t]
-    \centering
-    \begin{tabular}{cccccccc}
-        & GT & FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \vspace{-0.3cm}
-        16 & \framerowsynth{16}                                  \\ \vspace{-0.3cm}
-        54 & \framerowsynth{54}                                  \\ \vspace{-0.3cm}
-        139 & \framerowsynth{139}                                \\
-        233 & \framerowsynth{233}
-    \end{tabular}
-    \caption{Example endpoint results for the synthetic sequence including
-             illumination variation. Each row shows a different frame of the
-             280 frame synthetic sequence (Frame 16, 54, 139 and 233 from top
-             to bottom)}
-\label{fig:synthetic_examples}
-\end{figure}
-\setlength{\tabcolsep}{6pt}
-\end{landscape}
+% \begin{landscape}
+% \thispagestyle{footeronly}
+% \setlength{\tabcolsep}{1pt}
+% \begin{figure}[t]
+%     \centering
+%     \begin{tabular}{ccccccccc}
+%            & Frame & Ground Truth & FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \vspace{-0.3cm}
+%         16 & \framerowsynth{nonoccluded}{16}   \\ \vspace{-0.3cm}
+%         54 & \framerowsynth{nonoccluded}{54}    \\ \vspace{-0.3cm}
+%         139 & \framerowsynth{nonoccluded}{139} \\
+%         233 & \framerowsynth{nonoccluded}{233}
+%     \end{tabular}
+%     \caption{Example endpoint results for the original synthetic sequence 
+%              without any outliers. Each row shows a different 
+%              frame of the 280 frame synthetic sequence (Frame 16, 54, 139 and 
+%              233 from top to bottom)}
+% \label{fig:synthetic_no_occl_examples}
+% \end{figure}
+% \setlength{\tabcolsep}{6pt}
+% \end{landscape}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{landscape}
+% \thispagestyle{footeronly}
+% \setlength{\tabcolsep}{1pt}
+% \begin{figure}[t]
+%     \centering
+%     \begin{tabular}{ccccccccc}
+%            & Frame & Ground Truth & FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \vspace{-0.3cm}
+%         16 & \framerowsynth{illumination}{16}    \\ \vspace{-0.3cm}
+%         54 & \framerowsynth{illumination}{54}    \\ \vspace{-0.3cm}
+%         139 & \framerowsynth{illumination}{139}  \\
+%         233 & \framerowsynth{illumination}{233}
+%     \end{tabular}
+%     \caption{Example endpoint results for the synthetic sequence including
+%              illumination variation. Each row shows a different frame of the
+%              280 frame synthetic sequence (Frame 16, 54, 139 and 233 from top
+%              to bottom)}
+% \label{fig:synthetic_illum_examples}
+% \end{figure}
+% \setlength{\tabcolsep}{6pt}
+% \end{landscape}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{landscape}
+% \thispagestyle{footeronly}
+% \setlength{\tabcolsep}{1pt}
+% \begin{figure}[t]
+%     \centering
+%     \begin{tabular}{ccccccccc}
+%            & Frame & Ground Truth & FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \vspace{-0.3cm}
+%         16 & \framerowsynth{illumination_occlusion}{16}    \\ \vspace{-0.3cm}
+%         54 & \framerowsynth{illumination_occlusion}{54}    \\ \vspace{-0.3cm}
+%         139 & \framerowsynth{illumination_occlusion}{139}  \\
+%         233 & \framerowsynth{illumination_occlusion}{233}
+%     \end{tabular}
+%     \caption{Example endpoint results for the synthetic sequence including
+%              illumination and occlusion variation. Each row shows a different 
+%              frame of the 280 frame synthetic sequence (Frame 16, 54, 139 and 
+%              233 from top to bottom)}
+% \label{fig:synthetic_illum_occl_examples}
+% \end{figure}
+% \setlength{\tabcolsep}{6pt}
+% \end{landscape}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiments}\label{sec:experiments}
@@ -56,8 +91,27 @@ portraying a number of common issues in facial videos, including motion blur
 and occlusions. Please see the supplementary material for
 video examples of the sequences and further results.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Practical Deformation Basis Construction}\label{subsec:experiments_basis}
+\subsection{Practical Deformation Basis Construction}\label{subsec:face_flow_experiments_basis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\tabcolsep}{1pt}
+\begin{figure}
+    \centering
+    % \resizebox{\textwidth}{!}{%
+    \begin{tabular}{cccccc}
+    Mean &  PC 1 & PC 2 & PC 3 & PC 4 & PC 5 \\
+    \multirow{2}{*}{\includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/mean}} &  \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/0_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/1_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/2_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/3_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/4_plus2} \\
+     & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/0_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/1_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/2_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/3_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/4_minus2}
+    \end{tabular}%
+    % }
+    \caption{The PCA basis of facial deformation learnt from the 
+             BU4D~\cite{yin2008high} database as described in 
+             \cref{subsec:face_flow_experiments_basis}. The top and bottoms rows
+             show the principals components for $\pm 2 \sigma$ respectively.}
+\label{fig:face_flow_of_pca_basis}
+\end{figure}
+\setlength{\tabcolsep}{6pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Our facial deformation basis is built by applying MFSF multi-frame optical flow method
 \footnote{Code publicly available at https://bitbucket.org/troussos/mfsf/} of \citet{garg2013variational} on
 the facial expression database BU4D~\cite{yin2008high}. We chose this database due
@@ -121,7 +175,7 @@ sequence. However, in the more interesting case of the illumination variation
 and occlusion sequences, our Face Flow method with low-rank constraint (Face Flow LR),
 performs the best. We also note that the low-rank method of our technique significantly
 outperforms the full-rank version, particularly in the occluded sequence. An example
-set of endpoints is given in Figure~\ref{fig:synthetic_examples}. Note how
+set of endpoints is given in Figure~\ref{fig:synthetic_illum_examples}. Note how
 the face deformation is well localised and unlikely to undergo any gross deformations
 due to being constrained by a statistical basis.
 

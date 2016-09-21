@@ -46,3 +46,15 @@
 
 \newcommand{\Lone}{\mathbf{L}^1}
 \newcommand{\Ltwo}{\mathbf{L}^2}
+
+
+\newcommand{\framerowsynth}[2]{%
+\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=2.8cm,height=3.1cm]{face_flow/images/synthetic/#1/#2_original}}                &
+\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=2.8cm,height=3.1cm]{face_flow/images/synthetic/#1/#2_gt}}                &
+\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=2.8cm,height=3.1cm]{face_flow/images/synthetic/#1/#2_ff_dsift_sequence}} &
+\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=2.8cm,height=3.1cm]{face_flow/images/synthetic/#1/#2_ff_dsift_single}}   &
+\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=2.8cm,height=3.1cm]{face_flow/images/synthetic/#1/#2_mfsf}}              &
+\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=2.8cm,height=3.1cm]{face_flow/images/synthetic/#1/#2_ldof}}              &
+\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=2.8cm,height=3.1cm]{face_flow/images/synthetic/#1/#2_epicflow}}          &
+\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=2.8cm,height=3.1cm]{face_flow/images/synthetic/#1/#2_siftflow}}
+}
