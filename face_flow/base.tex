@@ -49,26 +49,62 @@ conditions. This is ideal for optical flow methods as the brightness constancy
 assumption is maintained. However, unlike in the previous chapter, shading cues
 no longer provide a method of recovering dense 3D surfaces. This is due
 to the lack of lighting variation which is required for shading based
-recovery methods. We propose to recover 3D shape by using existing 3D
-surface models which are assumed to be in correspondence with our dense 2D pixel
-correspondences. The parameters for the 3D model are then recovered in a manner
-similar to that of \citet{aldrian2010linear,aldrian2013inverse}. Therefore,
-the primary concern of this chapter is how to efficiently recover dense 
-correspondences from a sequence of an emotive face. Given the constraint
+recovery methods. However, even given these 2D correspondences it is not
+straightforward to recover a 3D representation for every frame. One possible
+method is Non-Rigid Structure-from-Motion (NR-SfM) which seeks to jointly
+recover the 3D rigid motion and a non-rigid deformation basis for the given
+correspondences. Unfortunately, these methods do not scale well to the large number
+of correspondences being considered here. Only the work of \citet{garg2013dense}
+provides a method of computing NR-SfM on a large number of data points. Their 
+results are impressive and their use of a highly parralelizable primal
+dual algorithm yields an efficient NR-SfM algorithm. However, NR-SfM is still
+a costly procedure and does not take advantage of the prior knowledge provided
+by the fact that the sequence contains a face. This knowledge can be leveraged
+by incoporating one of the many 3D facial models that are available\footnote{As
+discussed in \cref{sec:bg_db_capture}.}. Model based 3D recovery methods
+are capable of recovering highly plausible 3D facial surfaces due to being
+restricted to the output of a detailed 3D facial model. However, employing a 3D model
+reintroduces the problem of correspondences between the image and the 3D model.
+Traditionally, this has been solved by assuming a set of \textit{sparse}
+correspondences between the image and manually annotated points on the model.
+Given these correspondences the problem of recovering 3D facial shape becomes
+one of simultaneously adjusting the non-rigid parameters of the model to fit
+the face and estimating the projection parameters of the 3D points onto the given
+2D points~\cite{aldrian2010linear,aldrian2013inverse,bas2016fitting}.
+However, these sparse correspondences lack
+detail in many areas of the face and thus are not necessarily a reliable method
+of recovering accurate facial shape. Furthermore, these sparse correspondences
+are primarily used because the current state-of-the-art facial 
+alignment methods are only capable of recovering a low number of sparse points.
+This is an issue with the available data sources and the difficulty of manually
+annotating dense sets of facial features. Therefore, having a set of dense
+2D tracks across a sequence that are in correspondence with a 3D model is a
+highly desirable output.
+
+Therefore, in this chapter, we focus on the most difficult part of this 
+problem: computing the dense 2D correspondences via a face specific
+optical flow methodology. Given the constraint
 that we only seek to estimate correspondences between frames of a human face,
 we provide a novel method of computing dense correspondences based on a variation
 of a traditional Lucas-Kanade~\cite{lucas1981iterative} optical flow method.
-Finally, we employ these correspondences to perform model-based 3D facial shape
-recovery.
+Our method, which relies on the construction of a 2D deformation model of
+human facial shape, is shown to outperform state-of-the-art generic optical flow
+methods on challenging simulated data. We also provide a model construction
+procedure that yields a 2D basis that is in correspondence with a powerful
+3D facial model. 3D surfaces per-frame can then be recovered through standard
+model based 3D recovery methods~\cite{aldrian2010linear,aldrian2013inverse,bas2016fitting}.
+
 
 The remainder of this chapter will proceed a follows: \cref{sec:face_flow_intro}
 provides an overview of the optical flow problem and in particular
 outlines the challenges of long sequence tracking. \cref{sec:face_flow_method}
-outlines our novel face-specific optical flow algorith, which we call
-``FaceFlow''. \cref{sec:face_flow_experiments} contains our experimental work
+outlines our novel face-specific optical flow algorithm, which we call
+``FaceFlow''. It also outlines two methods of 2D deformation basis
+creation and briefly discusses model-based 3D surface recovery.
+\cref{sec:face_flow_experiments} contains our experimental work
 including performance on both synthetic and real sequences for long
 sequence optical flow. We also provide examples of model based 3D shape recovery
-on real world sequences. Finally, in \cref{sec:face_flow_conclusion},
+on an ``in-the-wild'' sequence. Finally, in \cref{sec:face_flow_conclusion},
 we provide a summary of the chapter and draw conclusions on our results.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {
