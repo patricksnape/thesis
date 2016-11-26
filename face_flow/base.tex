@@ -14,10 +14,10 @@ basis was estimated by performing a decomposition of the
 existence of a set of sparse landmarks that were used to approximate
 dense correspondence between all of the images. These sparse landmarks can
 be recovered very accurately across a large variety of ``in-the-wild'' facial
-images and so present an attractive method of performing alignment. However,
+images and thus present an attractive method of performing alignment. However,
 to perform the decomposition and recover a dense representation of shape, it
-is necessary to perform a dense correspondence mapping. This was achieved
-by employing a piecewise constant warping function. Unfortunately, a
+is necessary to recover dense correspondences between all of the input images. 
+This was achieved by employing a piecewise constant warping function. Unfortunately, a
 piecewise warping function only recovers coarse correspondences and may produce
 artefacts in the case of extreme expression or head pose. Therefore, it is
 desirable to be able to recover a more accurate set of dense correspondences 
@@ -34,8 +34,8 @@ Collection Flow~\cite{kemelmacher2012collection} which seeks to normalise
 lighting effects between images of differing people. However, 
 Collection Flow~\cite{kemelmacher2012collection} is unlikely to work in
 scenarios containing occlusions and more severe lighting conditions.
-Furthermore, the application of multiple optical stages ensures that Collection
-Flow is very slow to compute. In fact, optical flow is most commonly performed
+Furthermore, the application of multiple optical flowm stages ensures that Collection
+Flow is very costly to compute. In fact, optical flow is most commonly performed
 on \textit{image sequences}, where the brightness constancy assumption is
 much less likely to be violated. In this chapter, we seek to improve the dense
 correspondences recovered between facial images in order to recover a more
@@ -44,120 +44,41 @@ correspondence for ``in-the-wild'' image collections, we concentrate on
 \textit{image sequences}. Image sequences of faces, or videos, are equally
 as prolific as still images and thus present a readily available source of
 input data. Furthermore, facial image sequences are likely to be constantly
-illuminated as many sources of video are recorded under controlled lighting such
-as indoors. This is ideal for optical flow methods as the brightness constancy
+illuminated as many sources of video are recorded under controlled lighting
+conditions. This is ideal for optical flow methods as the brightness constancy
 assumption is maintained. However, unlike in the previous chapter, shading cues
 no longer provide a method of recovering dense 3D surfaces. This is due
 to the lack of lighting variation which is required for shading based
-recovery methods. Therefore, we propose to recover 3D shape by using existing 3D
+recovery methods. We propose to recover 3D shape by using existing 3D
 surface models which are assumed to be in correspondence with our dense 2D pixel
 correspondences. The parameters for the 3D model are then recovered in a manner
-similar to that of \citet{aldrian2010linear,aldrian2013inverse}.
+similar to that of \citet{aldrian2010linear,aldrian2013inverse}. Therefore,
+the primary concern of this chapter is how to efficiently recover dense 
+correspondences from a sequence of an emotive face. Given the constraint
+that we only seek to estimate correspondences between frames of a human face,
+we provide a novel method of computing dense correspondences based on a variation
+of a traditional Lucas-Kanade~\cite{lucas1981iterative} optical flow method.
+Finally, we employ these correspondences to perform model-based 3D facial shape
+recovery.
 
-Computing optical flow in the presence of non-rigid deformations
-is an important and challenging task. It plays a significant role in a wide variety of 
-problems such as medical imaging, dense non-rigid 3D reconstruction, 
-dense 3D mesh registration, motion segmentation, video re-texturing and super-resolution.
-Broadly, optical flow methods describe procedures to relate pixels in
-one image to pixels in another image of the same object. They establish a 
-displacement field that can be thought of as a sampling, or warping, of the input 
-image back onto the reference image. Traditionally, optical flow is applied on a pair 
-of consecutive frames of a sequence, treating one of the frames as the template.
-However, in terms of revealing the dynamics of a non-rigid scene, it is much more 
-useful to estimate the optical flow between every frame of a long sequence and a 
-common template. In this scenario, long-term dense 2D tracks across the sequence are established. 
-We tackle the problem of multi-frame optical flow by focusing on a 
-specific deformable object, the human face.
-
-The most straight-forward way to estimate a multi-frame optical flow is to apply an 
-algorithm that solves the traditional two-frame optical flow problem between every 
-frame and the template independently.
-However, the fact that we have to deal with long sequences poses major difficulties. 
-For example, the point displacements between the template and a frame can be substantially 
-large and severe occlusions of parts of the template can occur in some frames. Even 
-state-of-the-art two-frame optical flow methods that are especially designed to deal 
-with large displacements or occlusions, \eg \cite{brox2011large,revaud2015epicflow}, are 
-prone to fail. This is because they lack any additional cues that could help them 
-estimate an appropriate initialisation or to disambiguate severe occlusions.
-
-An alternative solution to the multi-frame optical flow problem, also based on 
-two-frame optical flow, is to estimate flow between consecutive frames and then 
-combine the various solutions. A simple integration of the solutions to obtain long-term 
-2D tracks is prone to drift due to error accumulation \cite{cosker2011facs,brox2011large}.
-This can be improved by the automatic detection of occlusions, gross errors, and other ambiguities 
-\cite{sand2008particle,sundaram2010dense,rubinstein2012towards,ricco2012simultaneous,papamakarios2011generalised}, 
-but any such solution is still limited by the accuracy of the initial two-frame optical 
-flow estimations that are completely local in time and do not exploit any temporal cues.
-
-Several recent methods solve the multi-frame optical flow problem directly, by 
-implicitly taking into account the rich temporal information that is present in 
-non-rigid scenes \cite{irani2002multi,torresani2001tracking,torresani2002space,tomasi2012dense,ricco2013video,garg2013variational}. 
-For example, the long-term 2D trajectories of points on a surface undergoing non-rigid 
-deformation are highly correlated and can be compactly described via a linear combination of a 
-low-rank trajectory basis. This basis is typically learnt from the input sequence itself. In 
-this way, these methods are more robust to occlusions and yield a temporally coherent 
-result. However, they rely only on some generic spatial and temporal regularisation 
-priors, applicable to any deformable object and do not utilise any prior knowledge 
-about the specific object observed in the scene. This makes them fail in more challenging 
-conditions that often occur in real-world scenes, such as severe occlusions or 
-significant illumination changes, which cannot be disambiguated by temporal regularisation 
-alone.
-Furthermore, the memory and runtime efficiency of all existing multi-frame optical 
-flow methods is limited by the fact that they have to estimate a very large number 
-of parameters, i.e.~a set of parameters for every pixel of the template. Specially designed 
-parallelisable algorithms, such as primal-dual optimisation schemes \cite{wedel2009improved,garg2013variational} 
-can be adopted. However, they are only efficient on recent GPU hardware.
-
-In this paper, we overcome the aforementioned limitations by incorporating a face-specific 
-deformation model into the multi-frame optical flow estimation. We assume a learnt 
-deformation basis, rather than one calculated directly from the sequence itself. We 
-focus on human faces which are a very commonly considered object in computer vision, 
-and dense face correspondences are required in many research areas and applications. 
-That is, the establishment of dense correspondences of deformable faces is the first step 
-towards high-performance facial expression recognition \cite{koelstra2010dynamic}, facial 
-motion capture \cite{Beeler:2011ey} and 3D face reconstruction \cite{garg2013dense}. 
-Nevertheless, computing dense face correspondences has received limited attention 
-\cite{decarlo2000optical,yacoob1996recognizing}. This is attributed to the difficulty of 
-developing a statistical model for dense facial flow due to the in-ability of humans to 
-densely annotate sequences and the limited robustness of the optical flow techniques 
-\cite{decarlo2000optical}. Hence, the research community has focused on developing 
-statistical facial models built on a sparse set of landmarks \cite{xiong2013supervised}, 
-which provide limited accuracy to the recognition of subtle expressions \cite{li2013spontaneous}. 
-In this paper, we build the first, to the best of our knowledge, statistical models of 
-dense facial flow by capitalising on the success of recent optical flow techniques applied to 
-densely tracking image sequences \cite{garg2013variational}. Due to the use of the statistical 
-low-rank model, and in contrast to existing approaches, our method is able to deal with 
-particularly challenging conditions such as severe occlusions of the face and strong 
-illumination changes. Furthermore, the introduction of a known deformation basis drastically 
-reduces the dimensionality of the multi-frame optical flow problem and leads to a 
-very efficient algorithm.
-
-We formulate a novel energy minimisation problem for the robust estimation of 
-multi-frame optical flow in an expressive sequence of facial images.
-Given that the range of motion expressible by a human face is limited, and that
-faces themselves are well known to be highly correlated and compactly described 
-by a low-dimensional subspace, we build a dense deformation 
-basis for faces.
-
-Furthermore, we exploit the even higher correlation between face deformations in 
-a specific input sequence by imposing a low-rank prior on the coefficients of the 
-deformation basis. This acts as a data-specific regularisation term leading to 
-temporally consistent optical flow.
-We also incorporate a sparse landmark prior term to guide the flow estimation in sparse 
-point locations that are accurately predicted by a state-of-the-art face 
-alignment method \cite{kazemi2014one}.
-Finally, we formulate the photometric cost by utilising a state-of-the-art dense 
-feature descriptor that offers robustness even with the usage of a simple quadratic 
-penaliser.
-Our proposed model-based problem formulation, in conjunction with the inverse 
-compositional strategy and low-rank matrix optimisation that we adopt, leads to a 
-highly efficient algorithm for calculating optical flow across a facial sequence.
-For experimental evaluation, we show quantitative experiments on a very challenging 
-novel benchmark of face sequences with dense ground truth optical flow based on motion 
-capture data. We also provide qualitative results on a real sequence displaying
-fast motion and natural occlusions.
+The remainder of this chapter will proceed a follows: \cref{sec:face_flow_intro}
+provides an overview of the optical flow problem and in particular
+outlines the challenges of long sequence tracking. \cref{sec:face_flow_method}
+outlines our novel face-specific optical flow algorith, which we call
+``FaceFlow''. \cref{sec:face_flow_experiments} contains our experimental work
+including performance on both synthetic and real sequences for long
+sequence optical flow. We also provide examples of model based 3D shape recovery
+on real world sequences. Finally, in \cref{sec:face_flow_conclusion},
+we provide a summary of the chapter and draw conclusions on our results.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{face_flow/body}
+{
+\input{face_flow/commands}
+
+\input{face_flow/introduction}
+\input{face_flow/method}
+\input{face_flow/experiments}
+\input{face_flow/conclusion}
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \stopcontents[chapters]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

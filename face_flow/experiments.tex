@@ -65,7 +65,7 @@
 % \end{landscape}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Experiments}\label{sec:experiments}
+\section{Experiments}\label{sec:face_flow_experiments}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this section, we describe the set of qualitative and quantitative experiments
 that we conducted in order to demonstrate the effectiveness of our proposed algorithm,
@@ -141,7 +141,7 @@ strategy for basis construction and create three bases of increasing scale. This
 commonly employed within optical algorithms to improve robustness. In all of the following experiments,
 the feature descriptor employed is the dense SIFT feature.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Motion Capture Data}\label{subsec:experiments_mocap}
+\subsection{Motion Capture Data}\label{subsec:face_flow_experiments_mocap}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this experiment, we use the performance capture dataset provided by \citet{zhang2004spacetime}
 to generate three novel ground truth sequences consisting of 280 frames. This ground truth is provided by rendering
@@ -186,7 +186,7 @@ methods are given by the blue and green lines. Note how stable the Face Flow LR 
 particularly when compared to the Face Flow FR method. We believe this effectively
 demonstrates the positive effect enforcing soft temporal consistency can have.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Real Sequence}\label{subsec:experiments_real}
+\subsection{Real Sequence}\label{subsec:face_flow_experiments_real}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 For this experiment, we provide results on a real sequence consisting
 of 150 frames of a young woman watching a video. In this sequence, she reacts
@@ -211,7 +211,7 @@ FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \toprule
     \end{tabular}
     \caption{Run times \textit{per frame (in seconds)} for the 150 frame
              sequence shown in Figure~\ref{fig:real_examples}. Images are
-             $640\times480$. Performed on an Intel Xeon E5-1650 3.20GHz
+             $640\times480$. Performed on an Intel Xeon E5--1650 3.20GHz
              (32GB RAM). All times are approximate and averaged over multiple
              runs. EPICFlow times are dominated by
              DEEPMatching~\cite{weinzaepfel2013deepflow} ($~48$s).}
