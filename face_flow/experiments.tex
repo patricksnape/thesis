@@ -100,6 +100,25 @@ video examples of the sequences and further results.
     \resizebox{\textwidth}{!}{%
     \begin{tabular}{cccccc}
     Mean &  PC 1 & PC 2 & PC 3 & PC 4 & PC 5 \\
+    \multirow{2}{*}{\includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/mean}} &  \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/0_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/1_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/2_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/3_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/4_plus2} \\
+     & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/0_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/1_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/2_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/3_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/4_minus2}
+    \end{tabular}%
+    }
+    \caption{The PCA basis of facial deformation learnt from the 
+             3D LSFM~\cite{booth2016lsfm} model as described in 
+             \cref{subsec:face_flow_experiments_basis}. The top and bottoms rows
+             show the principals components for $\pm 2 \sigma$ respectively.}
+\label{fig:face_flow_3d_pca_basis}
+\end{figure}
+\setlength{\tabcolsep}{6pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\tabcolsep}{2pt}
+\begin{figure}
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{cccccc}
+    Mean &  PC 1 & PC 2 & PC 3 & PC 4 & PC 5 \\
     \multirow{2}{*}{\includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/mean}} &  \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/0_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/1_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/2_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/3_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/4_plus2} \\
      & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/0_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/1_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/2_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/3_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/4_minus2}
     \end{tabular}%
@@ -129,7 +148,8 @@ sequence and used this as the reference frame for the method of \citet{garg2013v
 After computing trajectories for each sequence,
 we constructed a reference frame for our deformation basis using the mean
 of the neutral images we selected previously. We then applied principal
-component analysis (PCA) to learn the linear deformation model as described in Section~\ref{subsec:learning_deformation}.
+component analysis (PCA) to learn the linear deformation model as described in 
+\cref{sec:face_flow_learning_deformation}.
 Experimentally, we found that $k=20$ principal components of
 non-rigid deformation accounts for $~95\%$ of the variance.
 We note that the BU4D-FE data shows frontal faces and thus our model does not capture out-of-plane

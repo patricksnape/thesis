@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Face Flow Representation}\label{sec:face_flow_method}
+\section{Recovering Dense 2D Correspondences: ``FaceFlow''}\label{sec:face_flow_method}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Let us assume that the input face video contains $F$ frames. Let $M\subset\R^2$
 be a 2D domain that corresponds to the region of a mean face in neutral expression
@@ -63,11 +63,11 @@ As a preprocessing step, a frame of the sequence which is as close as possible t
 a frontal pose and a neutral expression is selected as reference. This frame is
 warped to the template domain $M$ in order to match a mean face. This selection
 and warping estimation can be easily done automatically by fitting the face
-with an automatic facial alignment method~\cite{kazemi2014one,matthews2004active}. In this 
-case, we assume that there is a known correspondence between the sparse points
+with an automatic facial alignment method~\cite{kazemi2014one,matthews2004active}. 
+In this case, we assume that there is a known correspondence between the sparse points
 found by the alignment method and the reference frame of our basis. Once the
 sparse landmarks have been acquired, it is simple to warp the image into the
-reference frame using a warping function such as piecewise affine. This
+reference frame using a warping function such as a thin-plate spline. This
 procedure is identical to the one performed when building Active Appearance
 Models, with the exception of only being performed on a single template image.
 In short, this warped reference frame defines the template image 
@@ -109,7 +109,7 @@ of every point of the template over all frames:
              }^2  \, \ud \bx,
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In general, such an image data term could be grossly affected by artifacts in the 
+In general, such an image data term could be grossly affected by artefacts in the 
 image, such as illumination variation and external occlusions. Therefore, it is
 common to use a robust penaliser rather than the quadratic term shown in 
 \cref{eq:eimg}. However, we act on recent advancements in facial alignment 
@@ -148,30 +148,6 @@ execute in under a millisecond, and can provide landmark localisation errors
 of within $3$ pixels on average for extremely challenging unconstrained images.
 In this chapter, when we consider estimating landmarks, we use the method of 
 \citet{kazemi2014one} in conjunction with a robust face detector~\cite{zafeiriou2015survey}.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Learning the Deformation Basis}\label{subsec:learning_deformation}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Learning the deformation basis is a very challenging issue and most likely the reason
-why there is little research in building dense facial deformation models. However,
-inspired by the performance of recent optical methods, such as that of \citet{garg2013variational},
-we chose to build our basis using the output of optical flow methods. To realise this,
-we chose the optical flow method of \citet{garg2013variational}, augmented with
-an additional quadratic penalty involving automatically estimated sparse landmarks.
-This additional penalty was found to significantly improve the performance of 
-\cite{garg2013variational} in expressive sequences, such as wide openings of the mouth.
-
-We propose to learn a set of trajectories over a number of sequences, each with
-a differing reference frame. We are thus faced with the problem
-of achieving correspondence between these reference frames for the construction
-of the deformation basis. Given that each frame contains estimated sparse landmarks,
-we calculate the mean position of each landmark and define the area of spatial support
-for our deformation basis, $M$, to be the pixels that are situated inside the
-convex hull of the these positions. Once the reference frame is constructed,
-each set of trajectories is converted into endpoints for each frame, analogous
-to dense landmarks for the image, and sampled into the reference frame using
-a thin-plate splines warp parametrised by the automatically estimated landmarks.
-Finally, given that we have a set of dense landmarks in correspondence, we perform a 
-Procrustes alignment in order to normalise any scale issues that may be present.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Optimisation of the Proposed Energy}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -343,3 +319,212 @@ The closed form solution of \cref{E:RedRank} is given by~\cite{sondermann1986bes
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 The convergence of the proposed BCD algorithm is guaranteed since the objective function
 is differentiable and involves two blocks of variables~\cite{luo1992convergence}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Building a 2D Deformation Model}\label{sec:face_flow_learning_deformation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Learning the deformation basis is a very challenging issue and most likely the reason
+why there is little research in building \textit{dense} 2D facial deformation models.
+The primary difficulty in densifying the annotation sets available for faces
+is the ambiguity inherent in labelling sub-pixel locations. This is particularly
+challenging in low-texture areas such as the cheeks. For this reason, the 
+existing databases for face alignment~\cite{sagonas2013300,zhu2012face,%
+belhumeur2013localizing,le2012interactive} were all manually annotated with
+different sets of \textit{sparse} feature points. 
+Even the densest annotation set, that of HELEN~\cite{le2012interactive}, 
+was semi-automatically annotated due to the difficulty of semantically
+labelling only $194$ points. Therefore, it remains infeasible to manually
+annotate the density of fiducial points required in this chapter. Thus, we
+propose two methods of building a dense 2D facial deformation model based
+on automatic data generation: using the output of optical flow methods and
+rendering a 3D statistical model.
+
+\textbf{Optical Flow.}
+Inspired by the performance of recent optical methods on long, clean sequences,
+we propose to train a statistical model on the output of these methods. 
+Although computing these initial flows is costly, the learnt deformation model
+allows us to efficiently approximate these deformations on more challenging
+sequences. To realise this, we chose the optical flow method of
+\citet{garg2013variational}, augmented with an additional quadratic penalty
+to guide the flows towards automatically estimated sparse landmarks.
+This additional penalty was found to significantly improve the performance
+of~\cite{garg2013variational} in highly expressive sequences, such as those with 
+large openings of the mouth.
+
+We propose to learn a set of trajectories over a number of sequences, each with
+a differing reference frame. We are thus faced with the problem
+of achieving correspondence between these reference frames for the construction
+of the deformation basis. Given that each frame contains estimated sparse landmarks,
+we calculate the mean position of each landmark and define the area of spatial support
+for our deformation basis, $M$, to be the pixels that are situated inside the
+convex hull of these positions. Once the reference frame is constructed,
+each set of trajectories is converted into endpoints for each frame, analogous
+to dense landmarks for the image, and sampled into the reference frame using
+a thin-plate splines warp parametrised by the automatically estimated landmarks.
+Finally, given that we have a set of dense landmarks in correspondence, we perform a 
+Procrustes alignment in order to normalise any scale issues that may be present.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \hspace*{\fill}
+    \begin{subfigure}[b]{0.125\textheight}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/contour_snapping/original_3d_model_mean}
+        \caption{Mean}\label{subfig:face_flow_original_3d_mean}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.23\textheight}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/contour_snapping/cylindrically_unwrapped}
+        \caption{Cylindrically Unwrapped Mean}\label{subfig:face_flow_cylin_unwrap}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.135\textheight}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/contour_snapping/example_instance_high}
+        \caption{High Resolution}\label{subfig:face_flow_instance_high}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.13\textheight}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/contour_snapping/example_instance_low}
+        \caption{Low resolution}\label{subfig:face_flow_instance_low}
+    \end{subfigure}
+    \hspace*{\fill}
+    \caption{The model construction pipeline for the 2D deformation basis based
+             on the 3D statistical model. Top row shows both the cylindrically 
+             unwrapped 2D atlas and the original model mean in 3D. Bottom row
+             shows a high and low resolution re-sampled instance of the rendered
+             3D model.}
+\label{fig:face_flow_3d_model_instance}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textbf{3D Statistical Model.}
+Although the 2D deformation basis learnt from optical flow yields a plausible
+set of deformations for human faces, it does have a number of disadvantages.
+Firstly, computing optical flow in the presence of large out-of-plane rotations,
+such as the turning of a head, is a clear violation of the optical flow assumption
+of the trajectory of a visible pixel. Therefore, incorporating pose into the
+sequences makes computing the initial flows accurately a difficult process.
+Furthermore, even in the case where reasonable flow can be computed for a 
+sequence containing head rotations\footnote{As shown by \citet{garg2013dense}},
+computing correspondences between different sequences becomes challenging
+as the piecewise warping procedure above does not generalise well across large
+poses. This is in part due to the difficulty of estimating sparse landmarks
+in the presence of large poses and the artefacts caused by the piecewise warping
+procedure from pose back to neutral.
+To work around this, we propose to render an expressive 3D statistical model
+under various expressions and poses and use the 2D projected positions
+to describe our deformation basis. 
+
+The main difficulty with using a 3D statistical model, such as that of
+\citet{paysan20093d} or \citet{booth2016lsfm}, to construct a 2D
+deformation basis is how to deal with self occlusions. These are not present when
+building a model from optical flow as optical flow cannot model such 3D rotations.
+These self-occlusions are an issue as when the face rotates around the yaw axis 
+(left-right out-of-plane rotation) the far side of the face becomes occluded
+by the near side. Naively projecting the 3D points causes the points on the far
+side to become coincident with those on the nearside which will cause artefacts
+when sampling pixels for the reference frame. An example of this issue
+is given in \cref{fig:face_flow_pose_example} where it is shown that highly
+salient regions such as the eye may be duplicated. This is a challenge for 
+performing alignment as regions such as the eye provide strong texture cues and
+thus these artefacts will heavily bias the recovered correspondences. To combat
+this, we borrow from previous works that modify the projections to be more
+consistent with the occluding contour~\cite{Zhu:2015ur,zhu2015high,hassner2015effective}.
+Following \citet{zhu2015high} we assume the face to be approximately cylindrical and
+cylindrically unwrap the face to construct a 2D atlas. The cylindrical unwrapping
+of a point ${[x, y, z]}^T$ is given by the following mapping:
+%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+    \begin{aligned}
+        \tilde{x} &\leftarrow r \theta \\
+        \tilde{y} &\leftarrow y \\
+        \tilde{z} &\leftarrow d
+    \end{aligned}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%
+where $d = \sqrt{x^2 + y^2} - r$,
+$\theta = \arctan{\left(\frac{x}{z}\right)}$ and $r$ is the provided radius 
+specifying how wide the cyldinder is. Here we assume we discard the z
+coordinate in order to yield a 2D atlas.
+We then re-sample the mean mesh by rendering it into the area constructed by the
+cylindrical unwrapping. An example of a the cylindrically unwrapped atlas is given
+in \cref{subfig:face_flow_cylin_unwrap}. 
+This cylindrically unwrapped atlas has two functions: firstly it
+allows simple construction of a multi-scale model by interpolating the vertices 
+when they are rendered into the atlas. This is demonstrated by the high
+and low resolution figures given in 
+\cref{subfig:face_flow_instance_high,subfig:face_flow_instance_low}. Secondly,
+it allows a simple method of snapping any vertices that are occluded back
+onto the occluding contour. By first removing any in-plane rotation, the
+visibility mask can be used to trace occluded pixels back to their nearest
+non-occluded vertex position. For example, \cref{subfig:face_flow_snapped_contour}
+shows where all the occluded vertices of \cref{subfig:face_flow_occluded_vis_mask}
+are snapped to for the input image of \cref{subfig:face_flow_occluded_input}.
+Note that \cref{subfig:face_flow_snapped_contour} has been rotated back
+``upright''. The effect of this sampling can be seen in
+\cref{subfig:face_flow_snapped_sampling} where we can see that the snapped
+vertices are no longer coincident with the eye region. After the snapping of
+occluded pixels back to the contour, the in-plane rotation can be reapplied.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+    \centering
+    \hspace*{\fill}
+    \begin{subfigure}[b]{0.2\textheight}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/contour_snapping/posed_head}
+        \caption{Original Image~\cite{sagonas2013300}}\label{subfig:face_flow_occluded_input}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.2\textheight}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/contour_snapping/posed_visibility_mask}
+        \caption{Visibility Mask}\label{subfig:face_flow_occluded_vis_mask}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.2\textheight}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/contour_snapping/sampled_no_snapping}
+        \caption{Naive Sampling}\label{subfig:face_flow_occluded_naive}
+    \end{subfigure}
+    \hspace*{\fill}
+    \caption{An example of the effect the occluded points have on sampling the
+             reference texture for the input in
+             \cref{subfig:face_flow_occluded_input}. The visibility mask in
+             \cref{subfig:face_flow_occluded_vis_mask} shows the occluded
+             vertices as black and the naive sampling is shown in
+             \cref{subfig:face_flow_occluded_naive}. Note how the eye is
+             duplicated by the occluded points.}
+\label{fig:face_flow_pose_example}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Given this new cylindrically unwrapped mesh we propose to sample
+instances of the 3D statistical model, rotate them in 3D and then project them
+into 2D using a scaled orthographic projection. As discussed, some vertices
+will be occluded and these are snapped to the occluding contour. Finally, a
+barycentric coordinate mapping from the original mesh to the cylindrically
+unwrapped mesh is used in order to displace the mean vertices of the cylindrically
+unwrapped mesh according the instance of the 3D model. Many renderings of this
+kind are produced and from these 2D shapes we construct a 2D deformation basis
+that jointly describes pose, identity and expression.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+    \centering
+    \hspace*{\fill}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/contour_snapping/posed_snapped_contour}
+        \caption{Snapped Vertices}\label{subfig:face_flow_snapped_contour}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/contour_snapping/sampled_snapping}
+        \caption{Occluded Contour Sampled}\label{subfig:face_flow_snapped_sampling}
+    \end{subfigure}
+    \hspace*{\fill}
+    \caption{\cref{subfig:face_flow_snapped_contour} shows the vertices that
+             been snapped to occluding contours. Note this includes areas such
+             as the nose. \cref{subfig:face_flow_snapped_sampling} shows an
+             example of sampling the texture of
+             \cref{subfig:face_flow_occluded_input} with the occluding contour
+             snapped mesh.}
+\label{fig:face_flow_snapping_example}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

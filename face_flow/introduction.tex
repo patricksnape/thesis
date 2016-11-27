@@ -55,7 +55,7 @@ significant illumination changes, which cannot be disambiguated by temporal
 regularisation alone.
 Furthermore, the memory and runtime efficiency of all existing multi-frame optical 
 flow methods is limited by the fact that they have to estimate a very large number 
-of parameters, i.e.~a set of parameters for every pixel of the template.
+of parameters, \ie~a set of parameters for every pixel of the template.
 Specially designed parallelisable algorithms, such as primal-dual optimisation
 schemes~\cite{wedel2009improved,garg2013variational} 
 can be adopted. However, even with the recent advances in GPU hardware these
@@ -76,55 +76,62 @@ densely annotate sequences and the limited robustness of the optical flow techni
 \cite{decarlo2000optical}. Hence, the research community has focused on developing 
 statistical facial models built on a sparse set of landmarks~\cite{xiong2013supervised}, 
 which provide limited accuracy to the recognition of subtle expressions~\cite{li2013spontaneous}. 
-In this work, we build statistical models of dense facial flow by capitalising
-on the success of recent optical flow techniques applied to densely tracking 
-image sequences~\cite{garg2013variational}. Due to the use of a statistical 
-low-rank model, and in contrast to existing approaches, our method is able to deal with 
+In this work, we build two statistical models of dense facial flow. In the first,
+we capitalise on the success of recent optical flow techniques applied to
+densely tracking image sequences~\cite{garg2013variational} by building a
+statistical model from the output of~\cite{garg2013variational}. The second
+model construction method is to use a 3D statistical model and render it in
+order to learn a statistical model of the 2D projections.
+
+Due to the use of a statistical low-rank model, and in contrast to existing 
+approaches, our method is able to deal with 
 particularly challenging conditions such as severe occlusions of the face and strong 
 illumination changes. Furthermore, we exploit the even higher correlation 
 between face deformations in 
 a specific input sequence by imposing a low-rank prior on the coefficients of the 
 deformation basis. This acts as a data-specific regularisation term leading to 
 temporally consistent optical flow.
-We also incorporate a sparse landmark prior term to guide the flow estimation in sparse 
-point locations that are accurately predicted by a state-of-the-art face 
-alignment method~\cite{kazemi2014one}.
-Finally, we formulate the photometric cost by utilising a state-of-the-art dense 
-feature descriptor that offers robustness even with the usage of a simple quadratic 
-penaliser.
+We also incorporate a sparse landmark prior term to guide the flow estimation in
+sparse point locations that are accurately predicted by state-of-the-art face 
+alignment methods~\cite{kazemi2014one}.
+We formulate the photometric cost by utilising a state-of-the-art dense 
+feature descriptor that offers robustness even with the usage of a simple
+quadratic penaliser.
 Our proposed model-based problem formulation, in conjunction with the inverse 
-compositional strategy and low-rank matrix optimisation that we adopt, leads to a 
-highly efficient algorithm for calculating optical flow across a facial sequence.
+compositional strategy~\cite{baker2004lucas} and low-rank matrix optimisation
+that we adopt, leads to a highly efficient algorithm for calculating optical
+flow across a facial sequence.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Further Related Work}\label{subsec:face_flow_further_related_work}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 There is a very large body of work on facial alignment that largely revolves
 around the concept of identifying a set of sparse target landmarks within an
 image. The most relevant algorithm to our proposed method is that of the
-Active Appearance Model (AAM)~\cite{cootes2001active}, particularly the variation by
-\citet{matthews2004active} that relates AAMs to the 
+Active Appearance Model (AAM)~\cite{cootes2001active}, particularly the
+variation by \citet{matthews2004active} that relates AAMs to the 
 Lucas-Kanade~\cite{lucas1981iterative,baker2004lucas} optical flow literature. 
-However, our method does not incorporate an appearance model and relies on a single given template
-image and is thus closer in nature to the original Lucas-Kanade algorithm. 
+However, our method does not incorporate an appearance model and relies on a 
+single given template image and is thus closer in nature to the original 
+Lucas-Kanade algorithm. 
 Our algorithm also places a low-rank constraint on the shape model coefficients
 enforcing a form of temporal consistency, which has not been previously 
 considered.
 
 It is also important to note that, other than a couple of examples
-\cite{ramnath2008increasing,anderson2014using}, the AAM literature has focused on the
-recovery of sparse landmarks, not a dense motion field as in this work.
-Even in the cases of \citet{ramnath2008increasing,anderson2014using}, the warping of the
-input images is achieved via an interpolation method such as
+\cite{ramnath2008increasing,anderson2014using}, the AAM literature has focused
+on the recovery of sparse landmarks, not a dense motion field as in this work.
+Even in the cases of \citet{ramnath2008increasing,anderson2014using}, 
+the warping of the input images is achieved via an interpolation method such as
 piecewise affine or thin-plate splines. In this work, our warping
 method is derived directly from the deformation basis itself and thus recovers
 dense correspondences.
-As we show in Section~\ref{sec:face_flow_method}, the linear nature of our warp allows
-us to derive a very efficient optimisation strategy,
+As we show in Section~\ref{sec:face_flow_method}, the linear nature of our warp
+allows us to derive a very efficient optimisation strategy,
 based on the Inverse Compositional algorithm proposed by Baker and Matthews
 \cite{baker2004lucas}. 
 
 Finally, the work of \citet{kemelmacher2012collection}
 is relevant as it considers learning deformation fields between images of faces.
 However, \citet{kemelmacher2012collection} considers an optical flow method
-as a key component of the method and does not propose a novel optical formulation,
-in contrast to our proposed model-based algorithm.
+as a key component of the method and does not propose a novel optical
+formulation, in contrast to our proposed model-based algorithm.
