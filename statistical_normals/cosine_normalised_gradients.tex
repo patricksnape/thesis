@@ -63,40 +63,8 @@ utilising the cosine function as a robust dissimilarity measure. We then
 provide uses of the measure in the form of parametric SfS, 2.5D face
 alignment using depth data and volumetric 3D image alignment.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Cosine Similarity in 2D}\label{subsec:cosine_2d}
+\subsection{Cosine Similarity in 2D}\label{subsec:singl_img_cosine_2d}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%TODO: Fix figures
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure*}
-%     \centering
-%     \hspace*{\fill}
-%     \begin{subfigure}[t]{0.33\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{images/distributions/inner_product_tumour-crop}
-%         \caption{$\cos{\sigma}$ tumour area}\label{subfig:inner_product_tumour}
-%     \end{subfigure} \hfill
-%     \begin{subfigure}[t]{0.32\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{images/distributions/inner_product_all-crop}
-%         \caption{$\cos{\sigma}$ entire image}\label{subfig:inner_product_all}
-%     \end{subfigure} \hfill
-%     \begin{subfigure}[t]{0.33\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{images/distributions/inner_product_squared_tumour-crop}
-%         \caption{$\cos^{2}{\sigma}$ tumour area}\label{subfig:inner_product_squared_tumour}
-%     \end{subfigure}
-%     \hspace*{\fill}
-%     \caption{The distributions of $\cos{\sigma}$ and $\cos^2{\sigma}$ averaged
-%              over 10 subjects from the BraTS simulated images. The images were
-%              registered using a rigid transformation prior to computation and
-%              only the tumour areas were sampled. (a) shows the distribution of
-%              $\cos{\sigma}$ in the simulated tumour region. (b) shows the
-%              distribution of $\cos{\sigma}$ over the entire image. (c) shows the
-%              distribution of $\cos^2{\sigma}$ proposed
-%              in~\cite{haber2006intensity} in the simulated tumour region}
-% \label{fig:inner_product_distributions}
-% \end{figure*}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Assuming we are given two 2D images, denoted as $I_i, \; i \in \{1,2\}$, we
 define $G_{i,x} = \bb{F}_x \ast I_i$ and $G_{i,y} = \bb{F}_y \ast I_i$
 as the gradients obtained by convolving $I_i$ with differentiation approximation
@@ -160,7 +128,7 @@ described by a mixture model of the occluded and non-occluded regions. We desire
 that the distribution of the uncorrelated areas has an expectation of zero and
 thus will not affect the optimisation of the similarity measure.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Cosine Similarity in 2.5D and 3D}\label{subsec:cosine_3d}
+\subsection{Cosine Similarity in 2.5D and 3D}\label{subsec:singl_img_cosine_3d}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Measuring the angular distance between vectors in three dimensional spaces
 is more complex than in 2D, due to the extra degree of freedom. In the following
@@ -180,14 +148,14 @@ whereby the \textit{expectation of the measure over image areas that are
 uncorrelated is zero}.
 
 In this section we consider two forms of three dimensional
-data: 2.5D and 3D/volumetric. \textbf{2.5D data} is defined as a surface composed
+data: 2.5D and volumetric 3D. \textbf{2.5D data} is defined as a surface composed
 of a set of 3D coordinates, typically related by triangulation such that
 the surface is composed of a set of triangular facets. In contrast to 3D data,
 these 2.5D points are not a discretisation of the 3D space and thus there
 is no concept of a voxel. Typically, 2.5D data is produced via a projection
 of the 3D world with respect to a viewing plane. For example, depth data, as
 recovered from systems such as the Microsoft Kinect~\cite{zhang2012microsoft}
-represents 2.5D data with repspect to the Kinect sensor plane. Although any
+represents 2.5D data with respect to the Kinect sensor plane. Although any
 arbitrary mesh would be considered 2.5D under this definition, in this work
 we consider 2.5D data recovered from imaging devices such as the Kinect and thus
 there is an implicit connectivity between neighbouring points. This connectivity
@@ -236,8 +204,8 @@ normals always point ``outward'' towards the camera and away from the surface
 centre of mass.
 
 For 3D images, we make very similar
-assumptions to those made in \cref{subsec:cosine_2d} for 2D images.
-We simply extend the notation of \cref{subsec:cosine_2d} by including the
+assumptions to those made in \cref{subsec:singl_img_cosine_2d} for 2D images.
+We simply extend the notation of \cref{subsec:singl_img_cosine_2d} by including the
 gradient of the $z$-axis, denoted as $G_{i,z} = \bb{F}_z \ast I_i$.
 We also redefine the normalised gradient as
 $\bb{\tilde{g}}_{i}(k) = \frac{\bb{g}_{i}(k)}{\norm{\bb{g}_{i}(k)}}$
@@ -247,14 +215,42 @@ concatenating the $x$, $y$ and $z$ gradients together. Although the
 computation of spherical coordinates and the inner product are identical for
 both surface normals and 3D gradients, we disambiguate between the two and
 always denote surface normals with $\bb{n}$ and 3D gradients with $\bb{g}$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.32\textwidth}
+        \includegraphics[width=\textwidth]{statistical_normals/images/tumour_example_axial}
+    \end{subfigure}
+    \begin{subfigure}{0.32\textwidth}
+        \includegraphics[width=\textwidth]{statistical_normals/images/tumour_example_coronal}
+    \end{subfigure}
+    \begin{subfigure}{0.32\columnwidth}
+        \includegraphics[width=\textwidth]{statistical_normals/images/tumour_example_sagital}
+    \end{subfigure}
+    \caption{Example images of a T1-weighted brain containing a tumour area. 
+             The tumour areas are outlined in yellow in each image.
+             Left: Axial View. Middle: Coronal View. Right: Sagital View.}
+\label{fig:singl_img_tumour_examples}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In \cref{subsubsec:cosine_spherical} and
-\cref{subsubsec:cosine_inner_product} we describe two measures of angular
+In \cref{subsubsec:singl_img_cosine_spherical} and
+\cref{subsubsec:singl_img_cosine_inner_product} we describe two measures of angular
 difference between 3D orientations. We investigate the distribution of these
 angular measures when combined with the cosine function and motivate that they
 are both suitable for use as a similarity measure between real data.
+Unfortunately, whilst both the spherical coordinates and inner product kernels
+can be computed for a 2.5D image,
+there does not exist a gradient in the third dimension (z-dimension) and thus
+much of the mathematical analysis on the robustness of the 2.5D features does 
+not directly apply. However, in 
+\cref{subsec:singl_img_lk_2d} we show that although the more rigorous technical
+analysis of the robustness of the kernel spaces do not necessarily
+hold in 2.5D, the kernels can still be used to construct
+powerful feature descriptors. Therefore, for the rest of the section we consider
+only the case of 3D/volumetric images.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Spherical Coordinates}\label{subsubsec:cosine_spherical}
+\subsubsection{Spherical Coordinates}\label{subsubsec:singl_img_cosine_spherical}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
@@ -263,7 +259,7 @@ are both suitable for use as a similarity measure between real data.
     \caption{An illustration of the spherical coordinate system assumed in this
              work. $\theta \in [0, \pi]$ defines the elevation angle and
              $\phi \in [0, 2\pi]$ defines the azimuth angle.}
-\label{fig:spherical_coords_example}
+\label{fig:singl_img_spherical_coords_example}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In 2D, a natural parametrisation of the angle between the two gradient vectors
@@ -285,7 +281,7 @@ for the $i$th image, either volumetric or 2.5D, we can calculate the spherical a
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 An illustration of the spherical coordinate system, as used in this paper, is
-given in \cref{fig:spherical_coords_example}.
+given in \cref{fig:singl_img_spherical_coords_example}.
 
 Our proposal is to combine the spherical coordinates with the cosine function in
 order to provide a robust similarity measure. Similar to the 2D case, we
@@ -298,40 +294,98 @@ $\bb{p}$, the spherical coordinates form a similarity measure as follows:
     q = \sum_k \cos \left(\Delta \phi(k)[\bb{p}]\right) + \sum_k \cos \left(\Delta \theta(k)[\bb{p}]\right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \hspace*{\fill}
+    \begin{subfigure}[b]{0.46\columnwidth}
+    \includegraphics[width=\textwidth]{statistical_normals/images/distributions/delta_phi_tumour-crop}
+    \caption{}\label{subfig:singl_img_phi_tumour}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\columnwidth}
+    \includegraphics[width=\textwidth]{statistical_normals/images/distributions/delta_phi_all_laplacian-crop}
+    \caption{}\label{subfig:singl_img_phi_all}
+    \end{subfigure}
+    \hspace*{\fill}
+    \caption{The mean distribution of $\Delta \phi$ of the BraTS simulated images.
+             The images were registered using a
+             rigid transformation and only the tumour
+             areas were sampled. (a) the distribution of $\Delta \phi$
+             in the simulated tumour region. (b) the distribution of
+             $\Delta \phi$ over the entire image. It also shows the
+             Laplacian distribution that best fits the data.}
+\label{fig:singl_img_phi_distribution}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Experimentally, we verified that $\Delta \phi$ approximates a symmetric
-distribution for simulated tumour data taken from the Multimodal Brain Tumor
+distribution for simulated tumour data taken from the Multimodal Brain Tumour
 Image Segmentation (BraTS) challenge, as shown in
-\cref{fig:phi_distribution}. \cref{subfig:phi_tumour} shows the
+\cref{fig:singl_img_phi_distribution}. \cref{subfig:singl_img_phi_tumour} shows the
 distribution of $\Delta \phi$ between the tumour area circled in yellow in
-\cref{fig:tumour_examples} and a healthy brain. The images were registered
+\cref{fig:singl_img_tumour_examples} and a healthy brain. The images were registered
 using a rigid transformation before $\Delta \phi$ was computed.  The azimuth
-angle is analogous to the angle studied in~\cite{RefWorks:68} and follows the
-same uniform distribution, $\Delta \phi \sim U(0, 2\pi)$.
+angle is analogous to the angle studied in~\cite{tzimiropoulos2011robust} 
+and follows the same uniform distribution, $\Delta \phi \sim U(0, 2\pi)$.
 
 When the entire region of the rigidly registered brain images is considered, we
 find that the distribution of $\Delta \phi$ is clearly a mixture of two separate
 models, one for the occluded area and one for the rigidly registered area.
-\cref{subfig:phi_all} shows the distribution of $\Delta \phi$ calculated
+\cref{subfig:singl_img_phi_all} shows the distribution of $\Delta \phi$ calculated
 over the entire image region of each image and a Laplacian distribution that
 best fits the data. Thus, our experimental evidence suggests that the total
 distribution of $\Delta \phi$ over the entire image region is a mixture model
 between a uniform distribution and a Laplacian distribution with approximately
 zero mean.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Inner Product}\label{subsubsec:cosine_inner_product}
+\subsubsection{Inner Product}\label{subsubsec:singl_img_cosine_inner_product}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}
+    \centering
+    \hspace*{\fill}
+    \begin{subfigure}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{statistical_normals/images/distributions/inner_product_tumour-crop}
+        \caption{$\cos{\sigma}$ tumour area}\label{subfig:singl_img_inner_product_tumour}
+    \end{subfigure} \hfill
+    \begin{subfigure}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{statistical_normals/images/distributions/inner_product_all-crop}
+        \caption{$\cos{\sigma}$ entire image}\label{subfig:singl_img_inner_product_all}
+    \end{subfigure} \hfill
+    \begin{subfigure}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{statistical_normals/images/distributions/inner_product_squared_tumour-crop}
+        \caption{$\cos^{2}{\sigma}$ tumour area}\label{subfig:singl_img_inner_product_squared_tumour}
+    \end{subfigure}
+    \hspace*{\fill}
+    \caption{The distributions of $\cos{\sigma}$ and $\cos^2{\sigma}$ averaged
+             over 10 subjects from the BraTS simulated images. The images were
+             registered using a rigid transformation prior to computation and
+             only the tumour areas were sampled. (a) shows the distribution of
+             $\cos{\sigma}$ in the simulated tumour region. (b) shows the
+             distribution of $\cos{\sigma}$ over the entire image. (c) shows the
+             distribution of $\cos^2{\sigma}$ proposed
+             in~\cite{haber2006intensity} in the simulated tumour region}
+\label{fig:singl_img_inner_product_distributions}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 A more general angular measure between two vectors is the inner product. Unlike
 in~\cite{tzimiropoulos2012subspace,tzimiropoulos2011robust} or
-\cref{subsubsec:cosine_spherical}, the inner
+\cref{subsubsec:singl_img_cosine_spherical}, the inner
 product is a single angle and not the difference between two angles.
 Practically, the inner product measures the projection error between two vectors
 and is defined as:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}\label{eq:inner_product}
+\begin{equation}\label{eq:singl_img_inner_product}
     \cos{\sigma} = \bb{\tilde{g}}_{1}^{\top} \bb{\tilde{g}}_{2}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This can similarly be performed for 2.5D data by using the surface normals and
+thus substituting $\bb{n}$ for $\bb{g}$ in \cref{eq:singl_img_inner_product}.
+
 In~\cite{tzimiropoulos2012subspace,tzimiropoulos2010robust},
 the authors reasonably propose that the angle between the
 gradients of dissimilar images can take any value in $[0, 2\pi)$ with equal
@@ -341,18 +395,19 @@ Therefore, the distribution of inner products between two unrelated vectors can
 take the values $[-1, 1]$ with equal probability. Due to the expected range of
 inner product values, we would expect that $\cos{\sigma}$ follows a uniform
 distribution, $\cos{\sigma} \sim U(-1, 1)$. Note that this is a different
-assumption to that made in~\cite{RefWorks:68}, which assumes that the
+assumption to that made in~\cite{tzimiropoulos2011robust}, which assumes that the
 \textit{azimuth angle itself}, $\Delta \phi$, follows a uniform distribution.
 However, it is merely sufficient that the total sum of values from the
 dissimilar vectors is zero. Therefore, since $E\{U(-1, 1)\} = 0$, the inner
 product of normalised gradients satisfies our definition of being robust to
-outliers. In \cref{subfig:inner_product_tumour}, we show that this
-assumption holds for the simulated tumour data taken from the BraTS challenge.
+outliers. In \cref{subfig:singl_img_inner_product_tumour}, we show that this
+assumption holds for the simulated tumour data taken from the 
+BraTS\footnote{\url{http://www2.imm.dtu.dk/projects/BRATS2012/}} challenge.
 
 When the entire region of the rigidly registered brain images is considered, we
 find that the distribution of $\cos{\sigma}$ is clearly a mixture of two
 separate models, one for the occluded area and one for the rigidly registered
-area. \cref{subfig:inner_product_all} shows the distribution of
+area. \cref{subfig:singl_img_inner_product_all} shows the distribution of
 $\cos{\sigma}$ calculated over the entire image region. In this case, the
 distribution of the inner product appears to be a mixture model between a
 uniform distribution and a zero mean Laplacian distribution. However, due to the
@@ -360,40 +415,17 @@ ambiguity in the inner product in terms of orientation, the angle of the inner
 product is only defined in the range $[0, \pi]$ and thus only the positive tail
 of the Laplacian appears.
 
-In \cref{subfig:inner_product_squared_tumour} we also show the
+In \cref{subfig:singl_img_inner_product_squared_tumour} we also show the
 distribution of the similarity measure proposed by \citet{haber2006intensity}.
 In~\cite{haber2006intensity}, the authors propose the inner product as a
 similarity measure, which looks very similar to the measure we proposed in
-\cref{eq:inner_product}. However, \citet{haber2006intensity} maximise the square of the
+\cref{eq:singl_img_inner_product}. 
+However, \citet{haber2006intensity} maximise the square of the
 inner product using a least squares Gauss-Newton optimisation. As we have shown,
 the inner product is related to the cosine between the vectors.
 \citet{haber2006intensity} proposed the inner product squared as
 a similarity, which is equivalent to the \textit{square of the cosine}. As we
-can see in \cref{subfig:inner_product_squared_tumour}, the cosine squared
+can see in \cref{subfig:singl_img_inner_product_squared_tumour}, the cosine squared
 does not represent a symmetric distribution and therefore is not a robust
 similarity measure by our definition.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}
-%     \centering
-%     \hspace*{\fill}
-%     \begin{subfigure}[b]{0.46\columnwidth}
-%     \includegraphics[width=\textwidth]{images/distributions/delta_phi_tumour-crop}
-%     \caption{}\label{subfig:phi_tumour}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[b]{0.45\columnwidth}
-%     \includegraphics[width=\textwidth]{images/distributions/delta_phi_all_laplacian-crop}
-%     \caption{}\label{subfig:phi_all}
-%     \end{subfigure}
-%     \hspace*{\fill}
-%     \caption{The mean distribution of $\Delta \phi$ of the BraTS simulated images.
-%              The images were registered using a
-%              rigid transformation and only the tumour
-%              areas were sampled. (a) the distribution of $\Delta \phi$
-%              in the simulated tumour region. (b) the distribution of
-%              $\Delta \phi$ over the entire image. It also shows the
-%              Laplacian distribution that best fits the data.}
-% \label{fig:phi_distribution}
-% \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

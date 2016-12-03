@@ -102,7 +102,7 @@ of a Euclidean space to arbitrary dimensions. More specifically, a Hilbert
 space is a vector space possessing the structure of an inner
 product. Thus, by providing a kernel function that defines
 an inner product within a Hilbert space, we can perform component analysis in
-spaces where PCA would normally be infeasible.
+spaces where PCA would normally be incorrect.
 
 In this \namecref{ch:singl_imag}, we show the power of using KPCA to perform
 component analysis of normals. The difference between the proposed framework and
@@ -124,7 +124,13 @@ most commonly by the flag of the United Nations as depicted in
 \citet{smith2008facial} also investigated the use of
 Principal Geodesic Analysis (PGA)~\cite{fletcher2004principal,smith2008facial}
 for building statistical models of normals. In particular, PGA provides a
-principled way to correctly compute the mean of a Riemannian manifold. However,
+principled way to correctly compute the mean of a Riemannian manifold.
+A Riemannian manifold is a differentiable manifold that is locally similar
+enogh to a linear space to allow for calculus. Specifically, a Riemannian
+manifold defines an inner product on the tangent space such that distances
+in the tangent space are preserved locally on the manifold. 
+
+However,
 although the observation that computing distances between normals is non-trivial
 is correct, this does not actually prevent component analysis being computed
 directly on normals (\ie~without applying any transformation). By formulating
@@ -176,7 +182,7 @@ provide significant improvements in alignment. Given a statistical model
 of normals, we further investigate the properties of normals for rigid and
 deformable alignment within the Lucas-Kanade framework. Specifically, we
 investigate two separate modalities of data, \textbf{2.5D data} as is
-commonly supplied by depth cameras and \textbf{3D data} as is more common
+commonly supplied by depth cameras and \textbf{volumetric 3D data} as is more common
 in the medical imaging community. For 2.5D data, we propose to use normals both
 as a feature for Lucas-Kanade~\cite{lucas1981iterative} fitting,
 as in the work of \citet{antonakos2015feature}, and as a statistical
@@ -218,6 +224,8 @@ alignment method for 3D (volumetric) data.
 \input{statistical_normals/geometric_sfs/base}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{statistical_normals/lk/base}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{statistical_normals/summary}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

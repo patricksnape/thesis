@@ -29,7 +29,7 @@ $z(x, y)$ as a set of local surface normals $\bb{n}(x, y)$ projected on
 to the view plane. When reconstructing using component analysis, the normals
 have been concatenated into a column vector $\bb{x}$ as described in
 \cref{sec:subspace-analysis}.
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {
 \alglanguage{pseudocode}
 \begin{algorithm}[t]
@@ -47,3 +47,61 @@ have been concatenated into a column vector $\bb{x}$ as described in
     \end{algorithmic}
 \end{algorithm}
 }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{ % Commands
+\newcommand{\origimg}[1]{
+    \begin{subfigure}{0.11\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{statistical_normals/images/gsfs_results/photoface/#1.png}
+\label{fig:results-photoface-input-#1}
+    \end{subfigure}
+}
+\newcommand{\origimgtop}[2]{
+    \begin{subfigure}{0.11\textwidth}
+            \centering
+            \caption*{#2}
+            \includegraphics[width=\textwidth]{statistical_normals/images/gsfs_results/photoface/#1.png}
+\label{fig:results-photoface-input-#1}
+    \end{subfigure}
+}
+\newcommand{\sfsimgs}[2]{
+    \begin{subfigure}{0.11\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{statistical_normals/images/gsfs_results/photoface/#1_#2.png}
+\label{fig:results-photoface-#1-#2}
+    \end{subfigure}
+}
+\newcommand{\sfsimgstop}[3]{
+    \begin{subfigure}{0.11\textwidth}
+            \centering
+            \caption*{#2}
+            \includegraphics[width=\textwidth]{statistical_normals/images/gsfs_results/photoface/#1_#3.png}
+\label{fig:results-photoface-#1-#3}
+    \end{subfigure}
+}
+
+\newcommand{\sfsimgsalltop}[1]{
+    \origimgtop{#1}{Input Image}
+    \sfsimgstop{#1}{Ground Truth}{ground_truth}
+    \sfsimgstop{#1}{AEP}{aep}
+    \sfsimgstop{#1}{IP}{cosine}
+    \sfsimgstop{#1}{PGA}{pga}
+    \sfsimgstop{#1}{SPHERICAL}{spherical}
+    \sfsimgstop{#1}{SIRFS}{sirfs}
+}
+
+\newcommand{\sfsimgsall}[1]{
+    \origimg{#1}
+    \sfsimgs{#1}{ground_truth}
+    \sfsimgs{#1}{aep}
+    \sfsimgs{#1}{cosine}
+    \sfsimgs{#1}{pga}
+    \sfsimgs{#1}{spherical}
+    \sfsimgs{#1}{sirfs}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{statistical_normals/geometric_sfs/experiments}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
