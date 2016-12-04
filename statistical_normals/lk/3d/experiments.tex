@@ -1,19 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Experiments}\label{subsubsec:singl_img_3d_lk_experiments}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-We assessed the performance of our similarity measures within two separate
-experimental frameworks. For the LK experiments, we used data from the Visible
-Human project~\cite{RefWorks:81} and demonstrate the robustness of our proposed
-measures to both a simulated bias field and artificial occlusions.
-
-For the non-rigid registration experiments, we demonstrate the robustness of our
-similarity measures to intensity inhomogeneities in the form of a bias field as
-well as simulated pathologies. The pathologies are introduced in the form of
-simulated brain tumours provided by the BraTS MICCAI 2012
-challenge\footnote{\url{http://www2.imm.dtu.dk/projects/BRATS2012/}} image
-database. We also used MR brain images from the OASIS
-dataset~\cite{marcus2007open} and traumatic brain injury MR images from Turku
-University Hospital.
+We assessed the performance of our 3D similarity measures using data from the 
+Visible Human project~\cite{RefWorks:81}. We demonstrate the robustness of our
+proposed measures to both a simulated bias field and artificial occlusions. Our
+proposed similarities, unlike the state-of-the-art 2D algorithms that we
+extended into 3D, are shown to be effective in the presence of these gross
+outliers.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{Intensity Inhomogeneity Implementation}\label{subsubsec:bias_fields}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
