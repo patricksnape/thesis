@@ -69,8 +69,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this section, we describe the set of qualitative and quantitative experiments
 that we conducted in order to demonstrate the effectiveness of our proposed algorithm,
-Face Flow. In order to verify that our method is competitive with the state-of-the-art,
-we compared against the methods of
+``Face Flow''. We concentrate on two scenarios: firstly we measure the effectiveness
+of the basis learnt via optical flow and compare it's performance against
+a number of state-of-the-art optical methods. This is a fair comparison as our
+basis was also acquired from optical flow. Secondly, we investigate the use
+of our basis learnt using a 3D statistical model in computing correspondences
+for a sequence containing pose and expression. We use these required 2D correspondences
+and the prior correspondence of our model with the 3D basis in order to recover
+dense 3D shape for the sequence. We compare this shape to that recovered from
+a set of 68 sparse annotations, which is the standard methodology used for recovering
+shape using facial landmarks at the moment.
+
+In order to verify that our method is competitive with the state-of-the-art
+optical flow methods,
+we compared against the algorithms of
 \citet{garg2013variational} (denoted MFSF),
 \citet{revaud2015epicflow} (denoted EPICFlow),
 \citet{liu2011sift} (denoted SIFTFlow) and the large displacement
@@ -81,15 +93,20 @@ We denote these two methods Face Flow Low-Rank (LR) and Face Flow
 Full-Rank (FR). This self evaluation is particularly useful for demonstrating the importance
 and effectiveness of the low-rank constraint for multi-frame facial flow.
 
-To effectively evaluate Face Flow, we propose a novel ground truth dataset formed
+To quantitatively evaluate Face Flow, we propose a novel ground truth dataset formed
 from facial motion capture data~\cite{zhang2004spacetime}. The sequence that we
 evaluate must be in correspondence and ideally contain an interesting
 sequence of deformations. Performance capture data is ideal for this purpose, as
 it is necessarily in correspondence and often deals with actors portraying
 scripted, emotional content. We also evaluate face flow on a realistic sequence
 portraying a number of common issues in facial videos, including motion blur
-and occlusions. Please see the supplementary material for
-video examples of the sequences and further results.
+and occlusions.
+
+In order to improve the robustness of our algorithm, we adopt a pseudo coarse-to-fine
+strategy for basis construction and create three bases of increasing scale. This is also
+commonly employed within optical algorithms to improve robustness. 
+In all of the following experiments, the feature descriptor employed is the dense 
+SIFT~\cite{lowe2004distinctive} feature provided by VlFeat~\cite{vedaldi08vlfeat}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Practical Deformation Basis Construction}\label{subsec:face_flow_experiments_basis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -131,7 +148,7 @@ video examples of the sequences and further results.
 \end{figure}
 \setlength{\tabcolsep}{6pt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Our facial deformation basis is built by applying MFSF multi-frame optical flow method
+Our optical flow facial deformation basis is built by applying MFSF multi-frame optical flow method
 \footnote{Code publicly available at https://bitbucket.org/troussos/mfsf/} of \citet{garg2013variational} on
 the facial expression database BU4D~\cite{yin2008high}. We chose this database due
 to the large range of expression present and the fact that is captured at a high
@@ -153,18 +170,33 @@ component analysis (PCA) to learn the linear deformation model as described in
 Experimentally, we found that $k=20$ principal components of
 non-rigid deformation accounts for $~95\%$ of the variance.
 We note that the BU4D-FE data shows frontal faces and thus our model does not capture out-of-plane
-rotation. However, there is no practical reason that our PCA basis could not capture
-this kind of deformation.
+rotation. An illustration of the model is given in \cref{fig:face_flow_of_pca_basis}.
 
-In order to improve the robustness of our algorithm, we adopt a pseudo coarse-to-fine
-strategy for basis construction and create three bases of increasing scale. This is also
-commonly employed within optical algorithms to improve robustness. In all of the following experiments,
-the feature descriptor employed is the dense SIFT feature.
+Our 3D statistical model was constructed by rendering instances from a modified
+copy of the 3D morphable model provided by the 
+Large Scale Facial Model (LSFM)~\cite{booth2016lsfm}. Only
+the shape model was utilized in this work. We augmented this model by manually
+aligning it with the mean blendshape model provided by 
+FaceWarehouse~\cite{Cao:2014gy}. We then formed an additive linear model
+of facial shape which allowed is to simulate expressions from the neutral
+only data provided by the LSFM.\@ We then sampled 1000 instances
+of this model within 2 standard deviations of the mean for LSFM and within a 
+hand picked set of ranges for each blendshape. These blendshape values were
+chosen in order to generate plausible facial shapes. These instances were
+then rendered with 10 randomly generated 3D poses in the range $[-30, 30]$ for
+the pitch and $[-60, 60]$ for the yaw. As described in
+\cref{sec:face_flow_learning_deformation}, the occluded vertices were snapped
+to the occluding contour. Standard 2D statistical model building procedure
+was then followed and Procrustes analysis was performed and a PCA basis
+constructed. An illustration of the model is given in \cref{fig:face_flow_3d_pca_basis}.
+In these experiments, $~95\%$ of the variance is retained amounting to
+$25$ components.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Motion Capture Data}\label{subsec:face_flow_experiments_mocap}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this experiment, we use the performance capture dataset provided by \citet{zhang2004spacetime}
-to generate three novel ground truth sequences consisting of 280 frames. This ground truth is provided by rendering
+to generate three novel ground truth sequences consisting of 280 frames. 
+This ground truth is provided by rendering
 the sequence of meshes in a fixed pose, which yields both a texture and a set of vertices
 in the scene. These vertices can then be used in order simply calculate flow for the face
 throughout the image.
@@ -189,18 +221,18 @@ this initialisation was propagated across every frame in the sequence. The landm
 was otherwise not utilised in this experiment.
 
 To evaluate the performance of the methods, we computed the root mean squared
-error of the endpoints (RMSE), shown in Table~\ref{tbl:synthetic}. As expected
+error of the endpoints (RMSE), shown in \cref{tbl:synthetic}. As expected
 Face Flow does not outperform state-of-the-art methods in the original un-tampered
 sequence. However, in the more interesting case of the illumination variation
 and occlusion sequences, our Face Flow method with low-rank constraint (Face Flow LR),
 performs the best. We also note that the low-rank method of our technique significantly
 outperforms the full-rank version, particularly in the occluded sequence. An example
-set of endpoints is given in Figure~\ref{fig:synthetic_illum_examples}. Note how
+set of endpoints is given in \cref{fig:synthetic_illum_examples}. Note how
 the face deformation is well localised and unlikely to undergo any gross deformations
 due to being constrained by a statistical basis.
 
 Finally, to provide evidence as to the stability of our algorithm, and the effect
-of the low-rank constraint on the outcome of the sequence, we present Figure~\ref{fig:per_frame_error}.
+of the low-rank constraint on the outcome of the sequence, we present \cref{fig:per_frame_error}.
 This figure shows the mean per-frame endpoint error across the sequence. The Face Flow
 methods are given by the blue and green lines. Note how stable the Face Flow LR method is,
 particularly when compared to the Face Flow FR method. We believe this effectively
@@ -215,10 +247,10 @@ in her seat. This amounts to challenging variation in the sequence, including
 occlusions from her hand and motion blur from movement. In this sequence,
 we also provide evidence as to the benefit of incorporating the landmark constraint. The sequence was
 automatically landmarked using~\cite{kazemi2014one}, then our method was initialised with
-these landmarks for every frame. We also used the landmarks for the quadratic penalizer term.
-As Figure~\ref{fig:real_examples} shows, Face Flow LR performs very well in this sequence. In particular,
+these landmarks for every frame. We also used the landmarks for the quadratic penaliser term.
+As \cref{fig:real_examples} shows, Face Flow LR performs very well in this sequence. In particular,
 we note that our method is very robust to the presence of occlusions, aided by the sparse
-landmarks provided by~\cite{kazemi2014one}. We also provide Table~\ref{tbl:run_times}
+landmarks provided by~\cite{kazemi2014one}. We also provide \cref{tbl:run_times}
 which demonstrates that Face Flow is an order of magnitude more efficient than
 the other considered methods for this sequence.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -230,7 +262,7 @@ FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \toprule
 1.4   & 0.5   & 20   & 15   & $\sim$50 & 15       \\ \bottomrule
     \end{tabular}
     \caption{Run times \textit{per frame (in seconds)} for the 150 frame
-             sequence shown in Figure~\ref{fig:real_examples}. Images are
+             sequence shown in \cref{fig:real_examples}. Images are
              $640\times480$. Performed on an Intel Xeon E5--1650 3.20GHz
              (32GB RAM). All times are approximate and averaged over multiple
              runs. EPICFlow times are dominated by
@@ -300,4 +332,4 @@ SIFTF    & 2.65               & 5.15               & 4.89               & 11.81 
 \end{figure}
 \setlength{\tabcolsep}{6pt}
 \end{landscape}
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

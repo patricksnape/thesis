@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Recovering Dense 2D Correspondences: ``FaceFlow''}\label{sec:face_flow_method}
+\section{Recovering Dense 2D Correspondences: ``Face Flow''}\label{sec:face_flow_method}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Let us assume that the input face video contains $F$ frames. Let $M\subset\R^2$
 be a 2D domain that corresponds to the region of a mean face in neutral expression
@@ -323,7 +323,7 @@ is differentiable and involves two blocks of variables~\cite{luo1992convergence}
 \section{Building a 2D Deformation Model}\label{sec:face_flow_learning_deformation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Learning the deformation basis is a very challenging issue and most likely the reason
-why there is little research in building \textit{dense} 2D facial deformation models.
+why there is little existing research into building \textit{dense} 2D facial deformation models.
 The primary difficulty in densifying the annotation sets available for faces
 is the ambiguity inherent in labelling sub-pixel locations. This is particularly
 challenging in low-texture areas such as the cheeks. For this reason, the 
@@ -401,7 +401,7 @@ Although the 2D deformation basis learnt from optical flow yields a plausible
 set of deformations for human faces, it does have a number of disadvantages.
 Firstly, computing optical flow in the presence of large out-of-plane rotations,
 such as the turning of a head, is a clear violation of the optical flow assumption
-of the trajectory of a visible pixel. Therefore, incorporating pose into the
+that a pixel is visible between two frames. For this reason, incorporating pose into the
 sequences makes computing the initial flows accurately a difficult process.
 Furthermore, even in the case where reasonable flow can be computed for a 
 sequence containing head rotations\footnote{As shown by \citet{garg2013dense}},
@@ -409,7 +409,7 @@ computing correspondences between different sequences becomes challenging
 as the piecewise warping procedure above does not generalise well across large
 poses. This is in part due to the difficulty of estimating sparse landmarks
 in the presence of large poses and the artefacts caused by the piecewise warping
-procedure from pose back to neutral.
+procedure from non-frontal poses back to neutral.
 To work around this, we propose to render an expressive 3D statistical model
 under various expressions and poses and use the 2D projected positions
 to describe our deformation basis. 
@@ -435,9 +435,9 @@ of a point ${[x, y, z]}^T$ is given by the following mapping:
 %%%%%%%%%%%%%%%%%%%
 \begin{equation}
     \begin{aligned}
-        \tilde{x} &\leftarrow r \theta \\
-        \tilde{y} &\leftarrow y \\
-        \tilde{z} &\leftarrow d
+        \tilde{x} &\rightarrow r \theta \\
+        \tilde{y} &\rightarrow y \\
+        \tilde{z} &\rightarrow d
     \end{aligned}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
@@ -446,11 +446,12 @@ $\theta = \arctan{\left(\frac{x}{z}\right)}$ and $r$ is the provided radius
 specifying how wide the cyldinder is. Here we assume we discard the z
 coordinate in order to yield a 2D atlas.
 We then re-sample the mean mesh by rendering it into the area constructed by the
-cylindrical unwrapping. An example of a the cylindrically unwrapped atlas is given
+cylindrical unwrapping. An example of the cylindrically unwrapped atlas is given
 in \cref{subfig:face_flow_cylin_unwrap}. 
 This cylindrically unwrapped atlas has two functions: firstly it
 allows simple construction of a multi-scale model by interpolating the vertices 
-when they are rendered into the atlas. This is demonstrated by the high
+via rendering into the texture mapped region provided by the atlas. 
+This is demonstrated by the high
 and low resolution figures given in 
 \cref{subfig:face_flow_instance_high,subfig:face_flow_instance_low}. Secondly,
 it allows a simple method of snapping any vertices that are occluded back
@@ -460,10 +461,11 @@ non-occluded vertex position. For example, \cref{subfig:face_flow_snapped_contou
 shows where all the occluded vertices of \cref{subfig:face_flow_occluded_vis_mask}
 are snapped to for the input image of \cref{subfig:face_flow_occluded_input}.
 Note that \cref{subfig:face_flow_snapped_contour} has been rotated back
-``upright''. The effect of this sampling can be seen in
+``upright'' to remove the in-plane rotation. The effect of this sampling can be seen in
 \cref{subfig:face_flow_snapped_sampling} where we can see that the snapped
 vertices are no longer coincident with the eye region. After the snapping of
-occluded pixels back to the contour, the in-plane rotation can be reapplied.
+occluded pixels back to the contour, the in-plane rotation can be reapplied
+to recover the initial projection.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
     \centering
@@ -501,9 +503,10 @@ into 2D using a weak perspective projection. As discussed, some vertices
 will be occluded and these are snapped to the occluding contour. Finally, a
 barycentric coordinate mapping from the original mesh to the cylindrically
 unwrapped mesh is used in order to displace the mean vertices of the cylindrically
-unwrapped mesh according the instance of the 3D model. Many renderings of this
+unwrapped mesh according to the instance of the 3D model. Many renderings of this
 kind are produced and from these 2D shapes we construct a 2D deformation basis
-that jointly describes pose, identity and expression.
+that jointly describes pose, identity and expression. An example of such a basis
+is given by \cref{fig:face_flow_3d_pca_basis}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
     \centering
@@ -545,7 +548,8 @@ projection. That is, given a 3D point of the model $\bb{x} = {[x, y, z]}^T$ the
 where $s$ is a scalar denoting a uniform scaling,
 $\bb{\tilde{R}} = \left[\begin{smallmatrix} 1&0&0\\0&1&0 \end{smallmatrix}\right] \bb{R} \in \R^{2 \times 3}$
 is a truncated 3D rotation matrix, $\bb{R} \in \R^{3 \times 3}$ is a 3D rotation matrix,
-$\bb{t} \in \R^{2 \times 1}$ 
+$\bb{t} \in \R^{2 \times 1}$ is the 2D translation giving the projected vertices'
+positions in the image plane and
 $\tilde{\bb{x}} = {[x, y]}^T \in \R^{2 \times 1}$ is the 2D projected point. 
 Thus, a weak persective projection is akin to an orthographic projection where the scaling
 is described by the average depth of the object. In the case of a parametric 3D
@@ -560,14 +564,14 @@ point can be generated by the model in the following way:
 where $\bb{B} \in \R^{N \times p}$ is the statistical model of 3D non-rigid deformations
 and the syntax $\bb{B}_i \in \R^{3 \times p}$ denoes the $i$th vertex of the model which
 contains $N / 3$ vertices,
-$\bb{c} \in \R^{c \times 1}$ is the vector of $p$ coefficients,
+$\bb{c} \in \R^{c \times 1}$ is the vector of $p$ coefficients for the model,
 $\bb{m} \in \R^{N \times 1}$ is the model mean and $\bb{m}_i \in \R^{3 \times 1}$
 is the $i$th vertex of the mean.
 
 Given a set of $M$ 2D points that have a 1--1 correspondence with points in the
 statistical model, a non-linear optimisation can be performed in order to
-recover both the model parameters ($\bb{c}$) and the rigid projection parameters
-($\bb{R}, \bb{t}, s$). This optimisation takes the form:
+recover both the model parameters $\{\bb{c}\}$ and the rigid projection parameters
+$\{\bb{R}, \bb{t}, s\}$. This optimisation takes the form:
 %%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \argmin_{\bb{c}, \bb{R}, \bb{t}, s} \frac{1}{M} \sum_{i=1}^M \lVert \tilde{x}_i - s \left( \bb{\tilde{R}} \left(\bb{B}_i \bb{c} + \bb{m}_i\right) + \bb{t} \right) \rVert^2
@@ -577,11 +581,12 @@ The constraint that the rotation matrix, $\bb{R}$ must be orthogonal causes
 the optimisation to be non-linear. Although convex relaxations of this problem
 have been proposed~\cite{zhou20153d}, we perform the simpler method of
 initialising with the result of the alternating optimisation of solving for
-$\bb{R} and \bb{t}$ and then solving for $\bb{c}$ assuming the rigid parameters
+$\{\bb{R}, \bb{t}, s\}$ and then solving for $\bb{c}$ assuming the rigid parameters
 are fixed. The result of this is then fed to a non-linear optimiser and in practise
-the alternating optimisation is a good approximation for facial images.
+the alternating optimisation is a good initialisation strategy for the kinds
+of deformations and poses commonly seen in images of faces.
 
-Solving for the rigid pose is solved in a manner simialr to Tsai's camera
+The rigid pose is solved in a manner simialr to Tsai's camera
 calibration method~\cite{tsai1987versatile} with the assumption of a perfect
 pinhole camera. This is also simialr to the POS~\cite{dementhon1995model}
 method and both amount to solving a linear system. 
