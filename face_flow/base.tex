@@ -23,7 +23,9 @@ artefacts in the case of extreme expression or head pose. Therefore, it is
 desirable to be able to recover a more accurate set of dense correspondences 
 between the input images. \citet{KemelmacherShlizerman:2013iv} proposed to
 perform this alignment via optical flow~\cite{liu2009beyond} which provides
-per-pixel dense correspondence. However, optical flow makes a
+per-pixel dense correspondence. 
+
+Optical flow makes a
 strong core assumption, namely the ``brightness constancy'' assumption, which states
 that the intensity of a given pixel in the image should not change abruptly
 between two differing views of the object. This assumption is clearly
@@ -31,22 +33,26 @@ violated between images of different individuals which are guaranteed to
 have been captured under different illumination conditions. To aid in this,
 \citet{KemelmacherShlizerman:2013iv} employed
 Collection Flow~\cite{kemelmacher2012collection} which seeks to normalise
-lighting effects between images of differing people. However, 
+lighting effects between images of differing people. Unfortunately, 
 Collection Flow~\cite{kemelmacher2012collection} is unlikely to work in
 scenarios containing occlusions and more severe lighting conditions.
 Furthermore, the application of multiple optical flowm stages ensures that Collection
 Flow is very costly to compute. In fact, optical flow is most commonly performed
 on \textit{image sequences}, where the brightness constancy assumption is
-much less likely to be violated. In this chapter, we seek to improve the dense
+much less likely to be violated. 
+
+In this chapter, we seek to improve the dense
 correspondences recovered between facial images in order to recover a more
 accurate 3D surface. Given the difficulty in recovering an accurate pixel-wise
 correspondence for ``in-the-wild'' image collections, we concentrate on
 \textit{image sequences}. Image sequences of faces, or videos, are equally
 as prolific as still images and thus present a readily available source of
-input data. Furthermore, facial image sequences are likely to be constantly
+input data. Indeed, facial image sequences are likely to be constantly
 illuminated as many sources of video are recorded under controlled lighting
 conditions. This is ideal for optical flow methods as the brightness constancy
-assumption is maintained. However, unlike in the previous chapter, shading cues
+assumption is maintained. 
+
+Unlike in the previous chapter, shading cues
 no longer provide a method of recovering dense 3D surfaces. This is due
 to the lack of lighting variation which is required for shading based
 recovery methods. However, even given these 2D correspondences it is not
@@ -57,14 +63,14 @@ correspondences. Unfortunately, these methods do not scale well to the large num
 of correspondences being considered here. Only the work of \citet{garg2013dense}
 provides a method of computing NR-SfM on a large number of data points. Their 
 results are impressive and their use of a highly parralelizable primal
-dual algorithm yields an efficient NR-SfM algorithm. However, NR-SfM is still
+dual algorithm yields an efficient NR-SfM algorithm. NR-SfM is still
 a costly procedure and does not take advantage of the prior knowledge provided
 by the fact that the sequence contains a face. This knowledge can be leveraged
 by incoporating one of the many 3D facial models that are available\footnote{As
 discussed in \cref{sec:bg_db_capture}.}. Model based 3D recovery methods
 are capable of recovering highly plausible 3D facial surfaces due to being
-restricted to the output of a detailed 3D facial model. However, employing a 3D model
-reintroduces the problem of correspondences between the image and the 3D model.
+restricted to the output of a detailed 3D facial model. Employing a 3D model
+does reintroduce the problem of correspondences between the image and the 3D model.
 Traditionally, this has been solved by assuming a set of \textit{sparse}
 correspondences between the image and manually annotated points on the model.
 Given these correspondences the problem of recovering 3D facial shape becomes
@@ -81,7 +87,7 @@ annotating dense sets of facial features. Therefore, having a set of dense
 2D tracks across a sequence that are in correspondence with a 3D model is a
 highly desirable output.
 
-Therefore, in this chapter, we focus on the most difficult part of this 
+In this chapter, we focus on the most difficult part of this 
 problem: computing the dense 2D correspondences via a face specific
 optical flow methodology. Given the constraint
 that we only seek to estimate correspondences between frames of a human face,
