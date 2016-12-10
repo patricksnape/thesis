@@ -47,6 +47,10 @@
 \newcommand{\Lone}{\mathbf{L}^1}
 \newcommand{\Ltwo}{\mathbf{L}^2}
 
+\newcommand{\framerowboris}[3]{%
+\multirow{2}{*}{\includegraphics[valign=m,width=#2cm,height=#3cm]{face_flow/images/boris/#1}}   & \includegraphics[valign=m,width=#2cm,height=#3cm]{face_flow/images/boris/#1_initial} & \includegraphics[valign=m,width=#2cm,height=#3cm]{face_flow/images/boris/#1_single}     & \includegraphics[valign=m,width=#2cm,height=#3cm]{face_flow/images/boris/#1_single_3d_rasterize}     & \includegraphics[valign=m,width=#2cm,height=#3cm]{face_flow/images/boris/#1_single_3d_rendering}  \\
+                                                                                                &                                                                                      & \includegraphics[valign=m,width=#2cm,height=#3cm]{face_flow/images/boris/#1_projection} & \includegraphics[valign=m,width=#2cm,height=#3cm]{face_flow/images/boris/#1_projection_3d_rasterize} & \includegraphics[valign=m,width=#2cm,height=#3cm]{face_flow/images/boris/#1_projection_3d_rendering}
+}
 
 \newcommand{\framerowsynth}[2]{%
 \adjustbox{valign=m,vspace=1pt}{\includegraphics[width=2.8cm,height=3.1cm]{face_flow/images/synthetic/#1/#2_original}}                &

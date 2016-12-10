@@ -1,70 +1,4 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{landscape}
-% \thispagestyle{footeronly}
-% \setlength{\tabcolsep}{1pt}
-% \begin{figure}[t]
-%     \centering
-%     \begin{tabular}{ccccccccc}
-%            & Frame & Ground Truth & FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \vspace{-0.3cm}
-%         16 & \framerowsynth{nonoccluded}{16}   \\ \vspace{-0.3cm}
-%         54 & \framerowsynth{nonoccluded}{54}    \\ \vspace{-0.3cm}
-%         139 & \framerowsynth{nonoccluded}{139} \\
-%         233 & \framerowsynth{nonoccluded}{233}
-%     \end{tabular}
-%     \caption{Example endpoint results for the original synthetic sequence 
-%              without any outliers. Each row shows a different 
-%              frame of the 280 frame synthetic sequence (Frame 16, 54, 139 and 
-%              233 from top to bottom)}
-% \label{fig:synthetic_no_occl_examples}
-% \end{figure}
-% \setlength{\tabcolsep}{6pt}
-% \end{landscape}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{landscape}
-% \thispagestyle{footeronly}
-% \setlength{\tabcolsep}{1pt}
-% \begin{figure}[t]
-%     \centering
-%     \begin{tabular}{ccccccccc}
-%            & Frame & Ground Truth & FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \vspace{-0.3cm}
-%         16 & \framerowsynth{illumination}{16}    \\ \vspace{-0.3cm}
-%         54 & \framerowsynth{illumination}{54}    \\ \vspace{-0.3cm}
-%         139 & \framerowsynth{illumination}{139}  \\
-%         233 & \framerowsynth{illumination}{233}
-%     \end{tabular}
-%     \caption{Example endpoint results for the synthetic sequence including
-%              illumination variation. Each row shows a different frame of the
-%              280 frame synthetic sequence (Frame 16, 54, 139 and 233 from top
-%              to bottom)}
-% \label{fig:synthetic_illum_examples}
-% \end{figure}
-% \setlength{\tabcolsep}{6pt}
-% \end{landscape}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{landscape}
-% \thispagestyle{footeronly}
-% \setlength{\tabcolsep}{1pt}
-% \begin{figure}[t]
-%     \centering
-%     \begin{tabular}{ccccccccc}
-%            & Frame & Ground Truth & FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \vspace{-0.3cm}
-%         16 & \framerowsynth{illumination_occlusion}{16}    \\ \vspace{-0.3cm}
-%         54 & \framerowsynth{illumination_occlusion}{54}    \\ \vspace{-0.3cm}
-%         139 & \framerowsynth{illumination_occlusion}{139}  \\
-%         233 & \framerowsynth{illumination_occlusion}{233}
-%     \end{tabular}
-%     \caption{Example endpoint results for the synthetic sequence including
-%              illumination and occlusion variation. Each row shows a different 
-%              frame of the 280 frame synthetic sequence (Frame 16, 54, 139 and 
-%              233 from top to bottom)}
-% \label{fig:synthetic_illum_occl_examples}
-% \end{figure}
-% \setlength{\tabcolsep}{6pt}
-% \end{landscape}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiments}\label{sec:face_flow_experiments}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this section, we describe the set of qualitative and quantitative experiments
@@ -93,12 +27,13 @@ We denote these two methods Face Flow Low-Rank (LR) and Face Flow
 Full-Rank (FR). This self evaluation is particularly useful for demonstrating the importance
 and effectiveness of the low-rank constraint for multi-frame facial flow.
 
-To quantitatively evaluate Face Flow, we propose a novel ground truth dataset formed
+To quantitatively evaluate the optical flow model for Face Flow, 
+we propose a novel ground truth dataset formed
 from facial motion capture data~\cite{zhang2004spacetime}. The sequence that we
 evaluate must be in correspondence and ideally contain an interesting
 sequence of deformations. Performance capture data is ideal for this purpose, as
 it is necessarily in correspondence and often deals with actors portraying
-scripted, emotional content. We also evaluate face flow on a realistic sequence
+scripted, emotional content. We also evaluate Face Flow on a realistic sequence
 portraying a number of common issues in facial videos, including motion blur
 and occlusions.
 
@@ -159,7 +94,8 @@ takes a similar form to the landmark constraint proposed in this paper, and was
 found to improve the results considerably in sequences that displayed particularly
 expressive emotion, such as surprise.
 
-The BU4D database consists of 102 subjects displaying 6 canonical expression,
+The BU4D database~\cite{yin2008high} consists of 102 subjects displaying 
+6 canonical expression,
 from neutral to the apex of the emotion. We selected a neutral frame for every
 sequence and used this as the reference frame for the method of \citet{garg2013variational}.
 After computing trajectories for each sequence,
@@ -192,9 +128,29 @@ constructed. An illustration of the model is given in \cref{fig:face_flow_3d_pca
 In these experiments, $~95\%$ of the variance is retained amounting to
 $25$ components.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Motion Capture Data}\label{subsec:face_flow_experiments_mocap}
+\subsection{Optical Flow Basis: Motion Capture Data}\label{subsec:face_flow_experiments_mocap}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In this experiment, we use the performance capture dataset provided by \citet{zhang2004spacetime}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \begin{subfigure}{6in}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/synthetic/frame_error_5_flat}
+    \end{subfigure}  \\
+    \begin{subfigure}{6in}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/synthetic/frame_error_6_flat}
+    \end{subfigure}
+    \caption{The average endpoint error calculated for each frame of the mocap
+             sequence. Vertical axis is average endpoint error, horizontal is
+             frame number. Top row is the illumination sequence, bottom row is
+             illumination + occlusion.}
+\label{fig:face_flow_per_frame_error}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this experiment, we evaluated the performance of the optical flow basis
+using a synthetic ground truth sequence. We use the performance capture 
+dataset provided by \citet{zhang2004spacetime}
 to generate three novel ground truth sequences consisting of 280 frames. 
 This ground truth is provided by rendering
 the sequence of meshes in a fixed pose, which yields both a texture and a set of vertices
@@ -221,38 +177,25 @@ this initialisation was propagated across every frame in the sequence. The landm
 was otherwise not utilised in this experiment.
 
 To evaluate the performance of the methods, we computed the root mean squared
-error of the endpoints (RMSE), shown in \cref{tbl:synthetic}. As expected
+error of the endpoints (RMSE), shown in \cref{tbl:face_flow_synthetic}. As expected
 Face Flow does not outperform state-of-the-art methods in the original un-tampered
 sequence. However, in the more interesting case of the illumination variation
 and occlusion sequences, our Face Flow method with low-rank constraint (Face Flow LR),
 performs the best. We also note that the low-rank method of our technique significantly
-outperforms the full-rank version, particularly in the occluded sequence. An example
-set of endpoints is given in \cref{fig:synthetic_illum_examples}. Note how
+outperforms the full-rank version, particularly in the occluded sequence. 
+Example endpoints for the three considered scenarios are given in 
+\cref{fig:face_flow_synthetic_no_occl_examples,fig:face_flow_synthetic_illum_examples,%
+fig:face_flow_synthetic_illum_occl_examples}. Note how
 the face deformation is well localised and unlikely to undergo any gross deformations
 due to being constrained by a statistical basis.
 
 Finally, to provide evidence as to the stability of our algorithm, and the effect
-of the low-rank constraint on the outcome of the sequence, we present \cref{fig:per_frame_error}.
+of the low-rank constraint on the outcome of the sequence, we present 
+\cref{fig:face_flow_per_frame_error}.
 This figure shows the mean per-frame endpoint error across the sequence. The Face Flow
 methods are given by the blue and green lines. Note how stable the Face Flow LR method is,
 particularly when compared to the Face Flow FR method. We believe this effectively
 demonstrates the positive effect enforcing soft temporal consistency can have.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Real Sequence}\label{subsec:face_flow_experiments_real}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-For this experiment, we provide results on a real sequence consisting
-of 150 frames of a young woman watching a video. In this sequence, she reacts
-negatively and clearly presents discomfort by touching her face and shifting
-in her seat. This amounts to challenging variation in the sequence, including
-occlusions from her hand and motion blur from movement. In this sequence,
-we also provide evidence as to the benefit of incorporating the landmark constraint. The sequence was
-automatically landmarked using~\cite{kazemi2014one}, then our method was initialised with
-these landmarks for every frame. We also used the landmarks for the quadratic penaliser term.
-As \cref{fig:real_examples} shows, Face Flow LR performs very well in this sequence. In particular,
-we note that our method is very robust to the presence of occlusions, aided by the sparse
-landmarks provided by~\cite{kazemi2014one}. We also provide \cref{tbl:run_times}
-which demonstrates that Face Flow is an order of magnitude more efficient than
-the other considered methods for this sequence.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t]
     \centering
@@ -262,12 +205,12 @@ FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \toprule
 1.4   & 0.5   & 20   & 15   & $\sim$50 & 15       \\ \bottomrule
     \end{tabular}
     \caption{Run times \textit{per frame (in seconds)} for the 150 frame
-             sequence shown in \cref{fig:real_examples}. Images are
+             sequence shown in \cref{fig:face_flow_real_examples}. Images are
              $640\times480$. Performed on an Intel Xeon E5--1650 3.20GHz
              (32GB RAM). All times are approximate and averaged over multiple
              runs. EPICFlow times are dominated by
              DEEPMatching~\cite{weinzaepfel2013deepflow} ($~48$s).}
-\label{tbl:run_times}
+\label{tbl:face_flow_run_times}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -285,26 +228,74 @@ EPICFlow & 1.66               & 3.25               & 4.02               & 9.61  
 SIFTF    & 2.65               & 5.15               & 4.89               & 11.81              & 11.82              & 23.05              \\ \bottomrule
     \end{tabular}
     \caption{RMSE and 95\% average endpoint error for the synthetic data.}
-\label{tbl:synthetic}
+\label{tbl:face_flow_synthetic}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{landscape}
+\thispagestyle{footeronly}
+\setlength{\tabcolsep}{1pt}
 \begin{figure}[t]
     \centering
-    \begin{subfigure}{6in}
-        \centering
-        \includegraphics[width=\textwidth]{face_flow/images/synthetic/frame_error_5_flat}
-    \end{subfigure}  \\
-    \begin{subfigure}{6in}
-        \centering
-        \includegraphics[width=\textwidth]{face_flow/images/synthetic/frame_error_6_flat}
-    \end{subfigure}
-    \caption{The average endpoint error calculated for each frame of the mocap
-             sequence. Vertical axis is average endpoint error, horizontal is
-             frame number. Top row is the illumination sequence, bottom row is
-             illumination + occlusion.}
-\label{fig:per_frame_error}
+    \begin{tabular}{ccccccccc}
+           & Frame & Ground Truth & FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \vspace{-0.3cm}
+        16 & \framerowsynth{nonoccluded}{16}   \\ \vspace{-0.3cm}
+        54 & \framerowsynth{nonoccluded}{54}    \\ \vspace{-0.3cm}
+        139 & \framerowsynth{nonoccluded}{139} \\
+        233 & \framerowsynth{nonoccluded}{233}
+    \end{tabular}
+    \caption{Example endpoint results for the original synthetic sequence 
+             without any outliers. Each row shows a different 
+             frame of the 280 frame synthetic sequence (Frame 16, 54, 139 and 
+             233 from top to bottom)}
+\label{fig:face_flow_synthetic_no_occl_examples}
 \end{figure}
+\setlength{\tabcolsep}{6pt}
+\end{landscape}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{landscape}
+\thispagestyle{footeronly}
+\setlength{\tabcolsep}{1pt}
+\begin{figure}[t]
+    \centering
+    \begin{tabular}{ccccccccc}
+           & Frame & Ground Truth & FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \vspace{-0.3cm}
+        16 & \framerowsynth{illumination}{16}    \\ \vspace{-0.3cm}
+        54 & \framerowsynth{illumination}{54}    \\ \vspace{-0.3cm}
+        139 & \framerowsynth{illumination}{139}  \\
+        233 & \framerowsynth{illumination}{233}
+    \end{tabular}
+    \caption{Example endpoint results for the synthetic sequence including
+             illumination variation. Each row shows a different frame of the
+             280 frame synthetic sequence (Frame 16, 54, 139 and 233 from top
+             to bottom)}
+\label{fig:face_flow_synthetic_illum_examples}
+\end{figure}
+\setlength{\tabcolsep}{6pt}
+\end{landscape}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{landscape}
+\thispagestyle{footeronly}
+\setlength{\tabcolsep}{1pt}
+\begin{figure}[t]
+    \centering
+    \begin{tabular}{ccccccccc}
+           & Frame & Ground Truth & FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \vspace{-0.3cm}
+        16 & \framerowsynth{illumination_occlusion}{16}    \\ \vspace{-0.3cm}
+        54 & \framerowsynth{illumination_occlusion}{54}    \\ \vspace{-0.3cm}
+        139 & \framerowsynth{illumination_occlusion}{139}  \\
+        233 & \framerowsynth{illumination_occlusion}{233}
+    \end{tabular}
+    \caption{Example endpoint results for the synthetic sequence including
+             illumination and occlusion variation. Each row shows a different 
+             frame of the 280 frame synthetic sequence (Frame 16, 54, 139 and 
+             233 from top to bottom)}
+\label{fig:face_flow_synthetic_illum_occl_examples}
+\end{figure}
+\setlength{\tabcolsep}{6pt}
+\end{landscape}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{landscape}
@@ -328,8 +319,133 @@ SIFTF    & 2.65               & 5.15               & 4.89               & 11.81 
     \end{tabular}
     \caption{Results on real data. Here, we incorporate the landmark constraint
              and thus do not give results for Face Flow FR.}
-\label{fig:real_examples}
+\label{fig:face_flow_real_examples}
 \end{figure}
 \setlength{\tabcolsep}{6pt}
 \end{landscape}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Optical Flow Basis: ``In-the-wild'' Sequence}\label{subsec:face_flow_experiments_real}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this experiment, we evaluated the performance of the optical flow basis
+using a challenging ``in-the-wild'' sequence.
+The sequence consisting of 150 frames of a young woman reacting to a video. 
+She reacts negatively and clearly presents discomfort by touching her face and shifting
+in her seat. This amounts to challenging variation in the sequence, including
+occlusions from her hand and motion blur from movement. In this sequence,
+we also provide evidence as to the benefit of incorporating the landmark constraint. The sequence was
+automatically landmarked using~\cite{kazemi2014one}, then our method was initialised with
+these landmarks for every frame. We also used the landmarks for the quadratic penaliser term.
+As \cref{fig:face_flow_real_examples} shows, Face Flow LR performs very well in this sequence. 
+In particular, we note that our method is very robust to the presence of occlusions, 
+aided by the sparse landmarks provided by~\cite{kazemi2014one}. 
+We also provide \cref{tbl:face_flow_run_times}
+which demonstrates that Face Flow is an order of magnitude more efficient than
+the other considered methods for this sequence.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{3D Projected Basis: ``In-the-wild'' Sequence}\label{subsec:face_flow_experiments_boris}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \hspace*{\fill}
+    \begin{subfigure}[b]{0.163\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/boris/boris_template}
+        \caption*{Template Frame}
+    \end{subfigure}  \hfill
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/boris/boris_sampled_template_05}
+        \caption*{$0.5\times$ Highest Resolution}
+    \end{subfigure}  \hfill
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/boris/boris_sampled_template_07}
+        \caption*{$0.7\times$ Highest Resolution}
+    \end{subfigure}  \hfill
+    \begin{subfigure}[b]{0.23\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/boris/boris_sampled_template_10}
+        \caption*{Highest Resolution}
+    \end{subfigure}
+    \hspace*{\fill}
+    \caption{The template frame and the it's three scales built from the
+             ``in-the-wild'' sequence of Boris Johnson. From left to right
+             the templates increase in resolution, with the furthest right being
+             the highest resolution used for fitting, with a diagonal of
+             approximately 150 pixels.}
+\label{fig:face_flow_boris_references}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this experiment we qualitatively evaluate the performance of our basis
+built from the 3D statistical model. In particular, we provide results on
+an expressive sequence of the politician Boris Johnson giving a speech, taken
+from one of training videos of the 
+300-VW competition~\cite{Chrysos:2015gt,shen2015first}. This sequence consists
+of 100 frames and contains out-plane rotation and expressive speaking. We
+consider this a suitable sequence for evaluating the 3D projected model
+as it demonstrates the Face Flow can handle out-of-plane rotations when
+given a properly trained deformation basis. It also demonstrates the quality
+of the 3D reconstruction recovered in comparison to using only the sparse
+68 points provided by \citet{shen2015first}. Other than the change of deformation
+basis, all other parameters were maintained.
+
+To build the Face Flow template, the closest to neutral frame in the sequence 
+was chosen and warped by peforming the least squares fitting on the 68 
+points described in \cref{sec:face_flow_3d_recovery}. 
+\cref{fig:face_flow_boris_references} shows the 3 references frames from 
+the multi-scale Face Flow model. For qualitative comparison we compare the result
+of recovering the 3D statistical parameters from the dense points recovered by
+face flow from the sparse 68 points originally provided by the 300-VW competition.
+Similar to the experiment in \cref{subsec:face_flow_experiments_real}, we do
+utilize the sparse landmarks constraint with a weight of $0.05$. 
+\cref{fig:face_flow_boris_results} shows the results of the Face Flow recovery
+against only fitting the sparse 68 points. The dense 2D fitting column refers
+the result of Face Flow. In the case of the sparse results, the dense fitting
+refers to fitting the 68 sparse points of the 2D deformation basis. This
+rendering is provided in order to show the expressiveness of the 2D deformation
+basis with respect to manually annotated landmarks.
+
+In order to recover the 3D results, the non-linear problem described in
+\cref{sec:face_flow_3d_recovery} is solved. For Face Flow, this is solved densely
+on all of the points returned by Face Flow. For the sparse points, only the 68
+points are discovered. The furthest right column, which shows the 3D renderings,
+gives the clearest view of the results. It clearly shows that simply fitting
+the sparse points can cause the recovered 3D surface to resemble a caricature. 
+We also note that the results from Face Flow appear more consistent and more
+closely resemble the same individual, which we propose is likely due to the
+low-rank constraint constraining the output of the 2D deformations.
+Despite this low-rank constraint, the results still closely match the expression
+and appear more accurate than the fitting from the sparse points.
+However, the Face Flow fitting does have issues with fitting the boundaries of
+the face and often underestimates the extent of the cheek areas.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{c|cccc}
+        \toprule
+        Input Frame & Initialisation & Dense 2D Fitting & Rasterizion & Rendering \\ \midrule
+        \framerowboris{0}{3}{1.6}  \\ \midrule
+        \framerowboris{77}{3}{1.6} \\ \midrule
+        \framerowboris{94}{3}{1.6} \\
+        \bottomrule
+    \end{tabular}%
+    }
+    \caption{Results from the Boris Johnson sequence. Each row is a different
+             frame. The top inner row of each result row are from the dense
+             fitting of Face Flow. The bottom row is the result of solving 
+             the least squares problem on the 68 points shown in the input
+             frame column. The initialisation column refers to the lowest
+             resolution initialisation used for fitting Face flow. The dense 2D
+             fitting refers to the result of Face Flow and the result of fitting
+             the 68 points to the 2D deformation basis.}
+\label{fig:face_flow_boris_results}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+

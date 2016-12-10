@@ -67,14 +67,12 @@ each model seperately. They describe this as following a ``project-out''
 method~\cite{matthews2004active} and first solve for the shape, fixing the 
 intensity and then solving for the intensity with the recovered shape. 
 \citet{rara2010face} also employ a spherical harmonic basis but use
-Partial Least Squares (PLS) to recover the best shape parameters.
-
+Partial Least Squares (PLS) to recover the best shape parameters. Similarly,
 \citet{rara2011model} use principal component regression in order to map
 a set of known 2D landmarks to the parameters of a statistical 3D shape model.
-
 \citet{kouzani1998example} build a texture space model by rendering a set of
 textured 3D meshes into fixed poses. Each of the pose clusters is futher aligned
-via an image warping and a PCA subspace is constructed per cluster. A test image
+via 2D image warping and a PCA subspace is constructed per cluster. A test image
 is aligned via optical flow to the mean of the correct pose cluster and the PCA
 coefficients are obtained. The key assumption is that the PCA of texture and PCA
 of 3D shape can share the same coefficients despite being differing subspaces.
@@ -100,10 +98,9 @@ frame. Optical flow is used to correct the 2D landmarks and pose and blend shape
 optimisation are iterated to perform 3D tracking. Finally, the tracked
 blend shape is deformed by the optical flow estimates and a Shape-from-Shading
 refinement method~\cite{valgaerts2012lightweight} is used to include finer
-surface detail such as wrinkles.
-
-\citet{ferrari2015dictionary} used the method of
-\citet{xiong2013supervised} to provide sparse 2D landmarks and perform
+surface detail such as wrinkles. \citet{ferrari2015dictionary} used used
+2D alignment, in the form of the method of
+\citet{xiong2013supervised}, to perform
 an alternating ridge regression to solve for pose and the parameters of a sparse
 dictionary of dense 3D faces.
 %TODO: Shape-from-silhoette and shape-from-contours both fall in this section

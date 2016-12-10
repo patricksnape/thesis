@@ -382,7 +382,7 @@ the symmetric formulation of~\cite{yilmaz2002estimation}.
 \citet{smith2010estimating} also use a database of facial surfaces
 orthographically projected to form a statistical model of facial shape. They
 enforce ``model-based integrability'' by ensuring that normals recovered
-by the geometric SfS algorithm of \citet{worthington1999new,Smith:2007eb} lie
+by the geometric SfS algorithm of~\cite{worthington1999new,Smith:2007eb} lie
 in the span of the normals computed from statistical surface model. Furthermore,
 \citet{smith2010estimating} show that this framework allows the usage of
 more complex BRDFs such as the Phong~\cite{tuong1973illumination} model.
@@ -404,10 +404,10 @@ propose to augment the template geometry with a photometric consistency term
 stemming from spherical harmonics. This is similar in spirit to many of the
 methods shown in \cref{subsec:bg_capture} where the coarse output of stereo was
 augmented with photometric information. 
-In \citet{kemelmacher2011facereconstruction} directly optimize over the 3D
+\citet{kemelmacher2011facereconstruction} directly optimize over the 3D
 surface rather than the normals themselves in order to avoid integration of the
-normals as a secondary process. In \citet{kemelmacher2011facereconstruction}, 
-the 3D surface is parametrized as a height map and alignment between the input
+normals as a secondary process. The 3D surface
+is parametrized as a height map and alignment between the input
 image and the template mesh is performed via optical flow. This implies that the
 method is generally poor at recovering details from posed images as the
 alignment between the template and the image must be highly accurate. This work

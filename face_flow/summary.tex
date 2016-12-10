@@ -1,0 +1,37 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary and Conclusion}\label{sec:face_flow_conclusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this chapter we investigated the problem of recovering dense correspondences
+in 2D across a sequence images. These dense correspondences are essential
+for using model based priors for 3D recovery directly from images. We argue that
+the 2D correspondences are the most difficult component of this problem, 
+particularly if the method of 3D recovery is assumed to involve the fitting
+of a 3D statistical model to the 2D points. To this end, we propose a algorithm
+for computing dense correspondences across facial sequences that is inspired by
+optical flow methods. By assuming the prior of a facial sequence, it becomes
+possible to construct a 2D deformation basis that not only constrains the space
+of possible 2D deformations but also allows the use of an efficient Lucas-Kanade
+style algorithm. Furthermore, we assert a prior on the coefficients
+of the deformation basis that assumes that deformations across the sequence
+are smooth in the space of the coefficients.
+
+We proposed two methodologies for constructing this deformation basis: one
+from the output of carefully restricted optical flow methods and one by
+the rasterization of a 3D statistical model. However, our fitting algorithm,
+which we coin ``Face Flow'', is indepdenant of these models and we show that
+both models work well on challenging sequences. In particular, the model built
+from the 3D statistical model enables the recovery of 3D facial surfaces by 
+leveraging the correspondence that exists between every vertex in the 3D model
+and the dense deformation basis of Face Flow. Face Flow is also shown to be
+competitive with state-of-the-art optical flow methods, particularly in
+the presence of challenging illumination and occlusions.
+
+Although Face Flow was shown to perform strongly for ``in-the-wild'' sequences,
+it still treats the problem of 2D correspondence recovery and 3D shape recovery
+separately.  This is similar to the current state-of-the-art of dense non-rigid
+structure-from-motion~\cite{garg2013dense}. It would be interesting to
+extend this work to incorporate a 3D projection model and remove the need
+for the construction of the 2D deformation basis and subsequent 3D rigid pose
+recovery. However, formulating an efficient fitting algorithm is more challenging
+as the linearisation of the 3D motion model is far more complex than the linear
+model used in this chapter.
