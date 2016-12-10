@@ -91,8 +91,128 @@ challenging ``in-the-wild'' conditions under a variety of poses and expressions}
 it remains difficult to compare and contrast the current state-of-the-art.
 It is our firm belief that the contribution of a dataset for reasonable
 ground truth facial surfaces, and ideally known lighting conditions, would
-be of enormous benefit to the research community.
+be of enormous benefit to the research community. It is this lack of an existing
+ground truth ``in-the-wild'' dataset that caused our focus on qualitative
+results for ``in-the-wild'' inputs or synthetic data in order to construct 
+plausible datasets.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Statistical Models of Surface Normals}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Further Kernels.} In \cref{ch:singl_imag} we proposed to view the 
+construction of statistical models of surface normals as a Kernel-PCA problem.
+Although directional statistics, such as surface normals, are non-euclidean,
+Kernel-PCA provides a well defined method of performing component analysis
+between non-linear spaces under the assumption that an inner product, or kernel,
+may be performed. Although we derived two explicit Hilbert spaces for normals,
+we did not investigate any other common non-linear kernels such as radial
+basis functions or polynomial kernels. It may be particularly interesting
+to investigate basis functions for surface normals and their relation to
+the spherical harmonic bases used in the explicit Shape-from-Shading
+literature.
 
+\textbf{Extending Geometric Shape-from-Shading.} 
+The geometric Shape-from-Shading (GSFS) algorithm used in this work, as proposed
+by \citet{worthington1999new} and extended to use statistical models by
+\citet{smith2010estimating}, was shown to provide a solid foundation for
+single image surface recovery. However, in this work we made no effort to extend
+this algorithm. For example, in \citet{smith2008facial} the GSFS algorithm
+is extended to include robust statistics in order to account for pixels
+that violate the Lambertian assumption made by the GSFS algorithm. An interesting
+extension to this work would be to attempt to incorporate other constraints on
+the output of the model in order to guide the results. For example, there is
+always a trade-off between the high frequency detail expressed by the individual
+normals as described by the shading constraint and the smooth surface predicted
+by the statistical model. It would be interesting to investigate methods
+of balancing the contribution of the two terms. Similarly, it is common in
+``in-the-wild'' images for occlusions to be present. In this case, it would be
+optimal to allow the model to complete these areas and disregard the contribution
+from the shading constraints. This is also true of areas that grossly deviate
+from the Lambertian assumption. Although this is partly addressed in 
+\citet{smith2008facial}, hard occlusions such as hand-over-face gestures
+are not investigated.
+
+Given our lack of extension of the GSFS algorithm, we also suffer from the
+same drawbacks discussed in \citet{smith2010estimating} and 
+\citet{smith2008facial}, namely the constant albedo assumption, dependency
+on the viewpoint, requirement of known lighting directions and the 
+hard requirement of existing correspondences. Since
+we propose a simpler method of building statistical normal models, it remains
+further work to attempt to incorporate a varying albedo model into the GSFS
+algorithm. 
+
+\textbf{Alignment Using Normals.} In this work we provided evidence that
+statistical models of surface normals inherit the robust properties of other
+angular measures of similarity, such as the robust cosine metric
+proposed by \citet{tzimiropoulos2012subspace}. However, in the case of 2.5D
+data the normals were used simply as an image descriptor and used for
+alignment in a manner similar to \citet{antonakos2015feature}. Directly
+incorporating the 2.5D normals into the cost function is left as future work.
+In the case of 3D normals, although an explicit robust cost function was
+formulated, the use case of the work was not fully investigated. Currently
+there is very little work in using Lucas-Kanade for 3D alignment of medical
+images and we believe this is an interesting area of future work. Specifically
+this would require incorporating a more expressive motion model than the Affine
+model considered here. However, we do note that the inner product cost
+function proposed in \cref{subsubsec:lk-inner-product} was extended into
+the non-rigid case in the work of \citet{snape2016volumetric}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Robust Decomposition of Image Collections}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Ground Truth Data.} Given the specific goal of shape recovery from
+unconstrained collections of ``in-the-wild'' facial images, ground truth data
+does not exist. As previously mentioned, the contribution of a ground truth
+set of ``in-the-wild'' style images would be of great benefit to this chapter.
+It may also be possible to generate realistic synthetic data that simulates
+``in-the-wild'' images. Although this may be technically possible it remained
+out of scope for this work as photo-realistic rendering of human faces
+is a research topic in it's own right and there are few viable options available
+to non-commercial individuals.
+
+\textbf{Reliance on existing correspondences.} In this chapter we were interested
+in investigating the fidelity of our reconstructions given a coarse piecewise
+warping function. This was useful as the largest sets of facial images with
+known correspondences are the sparsely annotated images provided for 2D
+face alignment learning. Thus, the piecewise warping function enables
+computing coarse correspondences for these images that are invariant to pose,
+illumination and occlusions\footnote{Due to the fact that they are manually
+annotated by humans.}. However, attempting to jointly estimate the surface
+normals and the correspondences would be of great interest. This is further
+highlighted by the use of the low-rank constraint. Given that the low-rank
+constraint was shown to be beneficial it implies that there is a low-rank subspace
+that describes the facial shape. In theory, this would also apply to the
+correspondences. Therefore, it may be interesting to investigate low-rank
+alignment methods such as RAPS~\citet{sagonas2014raps} for attempting to
+jointly learn a constrained subspace and align the set of images.
+
+\textbf{Lack of 3D prior.} Although the aim of \cref{ch:imag_coll} was to 
+present a method that did \textit{not} require an explicit 3D prior, both
+\cref{ch:singl_imag} and \cref{ch:face_flow} demonstrate that modern 3D statistical
+models are both highly expressive and compact. Therefore, it would be
+interesting to incorporate a 3D prior on the recover in order further constrain
+the space of plausible facial shapes. In particular, it would be interesting
+to borrow from other template based methods 
+such as~\cite{kemelmacher2011facereconstruction} and seek to use the decomposition
+as a method of recovering person specific deformations from the underlying
+3D model. However, this problem is still plagued by that of correspondences
+between the image and the model whereby recovering 2D correspondences between
+totally unrelated ``in-the-wild'' images remains a challenging problem.
+
+\textbf{Further investigation into the form of the decomposition.}
+In \cref{ch:imag_coll} we proposed a robust matrix decomposition method and 
+presented it's application to 3D surface recovery. However, matrix decomposition
+methods have further uses in areas such as facial recognition. The general
+form of our decomposition allows for any data that can be decomposed into a number
+of discrete modes to be used. In fact, we hypothesise that allow we only
+considered two modes: lighting and shape, it may be possible to perform
+the decomposition across a number of Khatri-Rao products. This would then allow
+the decomposition of data containing many modes of variation such as expression,
+pose and illumination. Furthermore, the form of our decomposition would
+allow for the recovery of these modes without the requirement of a complete
+data tensor and is commonly required for multi-dimensional (tensor) decomposition
+techniques.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dense 2D Correspondences and Model Based 3D Recovery}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Final Words}
