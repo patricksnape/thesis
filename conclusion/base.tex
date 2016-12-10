@@ -213,7 +213,51 @@ techniques.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dense 2D Correspondences and Model Based 3D Recovery}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Ground Truth Data.} As previously discussed, the lack of a ground
+truth dataset of 3D facial shape makes it difficult to quantitatively evaluate
+facial surface recovery methods. Similarly, there has only recently emerged
+a large dataset of sparse 2D landmarks for sequences~\cite{shen2015first} and
+this dataset only contains 68 semi-automatically annotated landmarks. In this
+work, we were investigating dense landmark recovery, of which there are 
+currently no existing ground truth datasets. This is further complicated by
+the fact that computing these ground truth correspondences is very difficult.
+They cannot be manually annotated and thus another approximate method of
+capture must be used such as computational stereo. However, these commonly
+employed high-resolution capture methods do not perform well in the 
+``in-the-wild'' scenarios considered in this work.
 
+\textbf{Joint recovery of 2D alignment and 3D shape.}
+In this work, we focus on the challenging problem of recovering dense 2D
+correspondences across sequences. We demonstrate that 3D models can be used
+to construct viable 2D deformation models with the additional benefit that the
+correspondence between the 2D and 3D points allows for model-based
+reconstruction methods to be employed. However, the model-based reconstruction
+considered here is still a highly non-linear optimisation problem that may
+yield suboptimal results. Furthermore, solving this second problem is costly
+as the increase in the number of points causes the solving of the linear
+systems to be expensive. In fact, the solution to these linear systems puts a 
+limit on the density of the model as if the model is too dense it will become
+impossible to solve the problem due to reasonable memory constraints. Therefore,
+jointly solving this problem in the latent space of the 3D model would be
+preferable as the algorithm complexity is reduced and the relationship between the
+2D correspondences and 3D shape becomes fixed. However, introducing a 3D
+motion model into the Lucas-Kanade algorithm makes it complicated to linearise.
+For this reason, the best method to investigate would be to follow the recent
+works in discriminative methods for facial alignment and learn a 
+Supervised Descent~\cite{xiong2013supervised} style algorithm for 3D facial
+alignment. Preliminary work has been performed in this 
+area~\cite{thies2016face,Jourabloo:2015dw,Huber:2015bs,Jeni:2015ft,jo2015single}.
+
+\textbf{Further uses of the 2D deformation basis.} In this work we focused
+on the performance of our 2D alignment and it's application to model-based 3D
+surface recovery. However, we did not provide specific uses of our alignment.
+For example, sparse 2D facial landmarks are commonly employed in areas such as
+face recognition and facial affect prediction. Anywhere where 2D facial landmarks
+are currently considered as input features for inference may benefit from
+the increased density and fidelity of our dense 2D landmarks. In particular,
+it may help in areas such as Action Unit~\cite{ekman1977facial} prediction
+where the sparsity of the commonly considered 2D landmarks is insufficient
+to predict many of the more subtle action units.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Final Words}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
