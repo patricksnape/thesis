@@ -1,9 +1,113 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Conclusion}\label{ch:conclusions}
+\chapter{Summary and Conclusion}\label{ch:conclusions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\lipsum[1]
+\minitoc{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Thesis Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We have presented here our work on the problem of applying Computer Vision
+for recovering dense 3D facial surfaces from images. The larger area of
+3D recovery from images is arguably the most fundamental goal of Computer
+Vision. Thus, 3D facial surface recovery inherits many of the difficulties
+and ambiguities that are present in this problem. For this reason, the
+breadth of the applicable literature is large and there are many possible
+strategies for recovering 3D shape, much of which is determined by the constraints
+placed on the input data. Therefore, in this thesis we investigated three 
+distinct but complementary scenarios for dense 3D facial surface recovery.
+These scenarios are primarily determined by the type of input data provided
+for solving the problem. As discussed in \cref{ch:background} it can be loosely
+specified that 3D recovery relies on either constraints on the assumption of the
+image formation problem or prior knowledge on the correspondences of certain
+functions of the scene. One possible image formation assumption is to assume
+a particular interaction between the lighting present in the scene and it's
+interaction with the objects in the scene and the image capturing equipment.
+Using these cues is typically referred to as using shading constraints and
+it is these type of constraints that we focus on in this thesis. Complementary
+to this is the concept of correspondences within the scene. These correspondences
+are important to disambiguate properties of the scene and also to enforce priors
+on the formation of the scene. In this thesis, our strongest prior is that
+the images we are interested in contain faces. To this end we propose
+to use both shading and correspondence techniques for recovering 3D facial
+surfaces under the following three scenarios:
+
+
+\textbf{Single Image: Investigating statistical models of surface normals.}
+In the most challenging case, that of a single
+input image of a face, we propose to solve the problem by employing shading
+constraints. Shape-from-shading and it's related literature is one of the
+few methods capable of solving the single image shape recovery problem. However,
+Shape-from-shading alone is still incapable of recovering plausible facial shapes
+and therefore we proposed to incorporate a statistical model of facial surface
+normals. We show that these statistical models are useful not only for dense
+3D facial surface recovery, but also as a tool for gaining correspondences
+between the model and input data. We investigated two data sources: 2.5D
+depth data and volumetric 3D data in the form of medical images. We showed
+that a statistical model of surface normals provides a robust subspace that
+is unaffected by gross outliers in the input data and thus particularly suited
+to the alignment of images that contain occlusions.
+
+\textbf{Image Collections: Recovering dense 3D without an explicit 3D prior.}
+Here we relax the single image constraint and propose to use shading information
+to jointly recover surface normals from an unconstrained collection of images.
+Here we assumed that correspondences were provided for the input image but
+an explicit 3D shape prior was not. Our robust decomposition, inspired by
+uncalibrated photometric stereo~\cite{basri2007photometric}, was shown to
+be effective for ``in-the-wild'' images. These images contain a variety of 
+occlusions and lighting conditions that violate the underlying spherical
+harmonic image formation assumed. However, by incorporating a robust low-rank
+constraint on the decomposition we demonstrated that plausible 3D surfaces
+may still be recovered from ``in-the-wild'' images even in the presence
+of these outliers.
+
+\textbf{Image sequences: The problem of correspondences.}
+In the final chapter we note that although shading constraints provide an
+attractive method of 3D surface recovery, their practical reliance on
+priors in the form of statistical models asserts a strong constraint: the 
+existence of correspondences between the inputs and the model. Even when the
+model is constructed in a data driven manner, as in \cref{ch:imag_coll},
+these correspondences are still assumed to pre-exist. Therefore, we investigate
+how dense 2D correspondences may be recovered under the prior that the images
+contain a face. We construct a dense 2D deformation basis and show how this can
+be used to construct an efficient algorithm for dense 2D face alignment. 
+Furthermore, we focus on image sequences which are more challenging than the
+commonly investigated two-frame scenario assumed in the optical flow literature.
+To this end, we further extend our model based optical flow with a low-rank
+constraint that acts as a weak temporal regulariser and is experimentally shown
+to outperform state-of-the-art optical flow methods for challenging synthetic
+sequences. These 2D correspondences are also appropriate for 3D surface recovery
+under the assumption that the 2D landmarks are in correspondence with an
+existing 3D statistical model. Under this assumption we show that plausible
+3D shape may be recovered and that this shape appears more consistent than
+the shape recovered when using only sparse 2D correspondences.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Future Work}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\lipsum[1]
+Given the distinct scenarios investigated in this thesis, we consider
+the further work that might be undertaken per chapter separately. However,
+one specific area that all facial recovery methods stand to benefit from
+is that of ground truth data collection. Without the existence of a dataset
+for quantitatively evaluating 3D facial surface recovery \textit{under
+challenging ``in-the-wild'' conditions under a variety of poses and expressions}
+it remains difficult to compare and contrast the current state-of-the-art.
+It is our firm belief that the contribution of a dataset for reasonable
+ground truth facial surfaces, and ideally known lighting conditions, would
+be of enormous benefit to the research community.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Final Words}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The problem of 3D surface recover remains an extremely challenging one. Even
+when assuming that the object being recovered is only from a single class,
+such as faces, it is still difficult to recover accurate shape. This is in
+part due to the technical ambiguities present in the problem and in part
+due to the familiarity of humans with human faces. The recovered surfaces must
+be highly accurate to convince the viewer that they were indeed plausible
+reconstructions of an image. However, the work presented here has shown that
+we are approaching a point where it may be possible to recover useful facial
+surfaces in a variety of scenarios. We hope that work continues in these
+directions and that in the future facial surface recovery becomes a technology
+rather than a research problem.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\stopcontents[chapters]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

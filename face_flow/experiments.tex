@@ -178,7 +178,7 @@ was otherwise not utilised in this experiment.
 
 To evaluate the performance of the methods, we computed the root mean squared
 error of the endpoints (RMSE), shown in \cref{tbl:face_flow_synthetic}. As expected
-Face Flow does not outperform state-of-the-art methods in the original un-tampered
+Face Flow does not outperform state-of-the-art methods in the original untampered
 sequence. However, in the more interesting case of the illumination variation
 and occlusion sequences, our Face Flow method with low-rank constraint (Face Flow LR),
 performs the best. We also note that the low-rank method of our technique significantly
@@ -217,15 +217,15 @@ FF LR & FF FR & MFSF & LDOF & EPICFlow & SIFTFlow \\ \toprule
 \begin{table}
     \centering
     \begin{tabular}{lrrrrrr}
-                                                                                                                                       \toprule
-         & \multicolumn{2}{c}{Original}            & \multicolumn{2}{c}{Illum.}              & \multicolumn{2}{c}{Ilum.+Occ.}          \\
-         & {\scriptsize RMSE} & {\scriptsize AE95} & {\scriptsize RMSE} & {\scriptsize AE95} & {\scriptsize RMSE} & {\scriptsize AE95} \\ \toprule
-FF LR    & 2.95               & 5.52               & {\bf 3.56}         & {\bf 6.63}         & {\bf 4.48}         & {\bf 8.47}         \\
-FF FR    & 3.24               & 6.01               & 3.76               & 7.02               & 5.83               & 11.50              \\
-MFSF     & 1.73               & 3.20               & 6.33               & 13.68              & 8.25               & 17.30              \\
-LDOF     & {\bf 1.56}         & {\bf 2.79}         & 4.84               & 9.98               & 6.54               & 11.44              \\
-EPICFlow & 1.66               & 3.25               & 4.02               & 9.61               & 5.15               & 11.61              \\
-SIFTF    & 2.65               & 5.15               & 4.89               & 11.81              & 11.82              & 23.05              \\ \bottomrule
+                                                                                                                                               \toprule
+         & \multicolumn{2}{c}{Original}            & \multicolumn{2}{c}{Illumination}        & \multicolumn{2}{c}{Illumination + Occlusion} \\
+         & {\scriptsize RMSE} & {\scriptsize AE95} & {\scriptsize RMSE} & {\scriptsize AE95} & {\scriptsize RMSE} & {\scriptsize AE95}      \\ \toprule
+FF LR    & 2.95               & 5.52               & {\bf 3.56}         & {\bf 6.63}         & {\bf 4.48}         & {\bf 8.47}              \\
+FF FR    & 3.24               & 6.01               & 3.76               & 7.02               & 5.83               & 11.50                   \\
+MFSF     & 1.73               & 3.20               & 6.33               & 13.68              & 8.25               & 17.30                   \\
+LDOF     & {\bf 1.56}         & {\bf 2.79}         & 4.84               & 9.98               & 6.54               & 11.44                   \\
+EPICFlow & 1.66               & 3.25               & 4.02               & 9.61               & 5.15               & 11.61                   \\
+SIFTF    & 2.65               & 5.15               & 4.89               & 11.81              & 11.82              & 23.05                   \\ \bottomrule
     \end{tabular}
     \caption{RMSE and 95\% average endpoint error for the synthetic data.}
 \label{tbl:face_flow_synthetic}
@@ -392,7 +392,7 @@ of the 3D reconstruction recovered in comparison to using only the sparse
 basis, all other parameters were maintained.
 
 To build the Face Flow template, the closest to neutral frame in the sequence 
-was chosen and warped by peforming the least squares fitting on the 68 
+was chosen and warped by performing the least squares fitting on the 68 
 points described in \cref{sec:face_flow_3d_recovery}. 
 \cref{fig:face_flow_boris_references} shows the 3 references frames from 
 the multi-scale Face Flow model. For qualitative comparison we compare the result
@@ -444,8 +444,3 @@ the face and often underestimates the extent of the cheek areas.
 \label{fig:face_flow_boris_results}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
