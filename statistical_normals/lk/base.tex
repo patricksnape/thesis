@@ -20,8 +20,8 @@ where $I(\p)$ is a single column vector of concatenated pixels.
 \paragraph{Forward Additive LK Fitting}\label{subsubsec:lk-fa}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The original forward additive $\ltwo$ LK
-algorithm~\cite{RefWorks:71,RefWorks:10} seeks to minimise the sum of squared
-differences (SSD) between a given template image and an input image by
+algorithm~\cite{baker2004lucas,lucas1981iterative} seeks to minimise the sum of
+squared differences (SSD) between a given template image and an input image by
 minimising the sum of the squared pixel differences:
 %%%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:l2-lk-fa}
@@ -59,9 +59,9 @@ updating $\p \leftarrow \p + \Delta \p$ until convergence.
 \paragraph{ECC LK Fitting}\label{subsubsec:lk-ecc}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The enhanced correlation coefficient (ECC) measure, proposed by
-\citet{RefWorks:59}, seeks to be invariant to illumination differences
+\citet{evangelidis2008parametric}, seeks to be invariant to illumination differences
 between the input and template image. This is done by suppressing the magnitude
-of each pixel through normalisation. In~\cite{RefWorks:59}, they provide the
+of each pixel through normalisation. In~\cite{evangelidis2008parametric}, they provide the
 following cost function
 %%%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:ecc-lk-max}
@@ -76,7 +76,7 @@ Assuming a delta update as before and linearising in a similar manner to
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%
 where $\hat{T} = \frac{T(\zero)}{\norm{T(\zero)}}$.
-\citet{RefWorks:59} give a very comprehensive proof of
+\citet{evangelidis2008parametric} give a very comprehensive proof of
 the upper bound of \cref{eq:ecc-lk-linearised}, which yields the
 following solution for $\Delta \p$
 %%%%%%%%%%%%%%%%%%%%
@@ -89,7 +89,8 @@ where $\bb{Q}$ is an orthogonal projection operator on the Jacobian, $\J =
 \frac{\partial I(\p)}{\partial \p}$, defined as $\bb{Q} = \J {(\J^\top
 \J)}^{-1} \J^\top$.
 
-In fact, the $\Delta p$ update given in~\cite{RefWorks:59} is more complex than
+In fact, the $\Delta p$ update given in~\cite{evangelidis2008parametric} 
+is more complex than
 (\ref{eq:ecc-lk-gauss-newton-fa}), as it seeks to find an upper bound on the
 correlation between the two images. However, in the case where 
 (\ref{eq:ecc-lk-gauss-newton-fa}) does not apply, it is unlikely that the 
@@ -98,15 +99,15 @@ equation presented in (\ref{eq:ecc-lk-gauss-newton-fa}).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{Inverse Compositional LK}\label{subsubsec:lk-ic}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The inverse compositional algorithm, proposed by Baker and
-Matthews~\cite{RefWorks:74}, performs a compositional update of the warp and
+The inverse compositional algorithm, proposed by \citet{baker2004lucas}, 
+performs a compositional update of the warp and
 linearises over the template rather than the input image. Linearisation of the
 template image causes the gradient in the steepest descent images term to become
 fixed. The compositional update of the warp assumes linearisation of the term
 $\frac{\partial \mathcal{W}(\bb{x};\zero)}{\partial \p}$, which is also
 fixed. Therefore, the entire Jacobian term, and by extension the Hessian matrix,
 are also fixed. Similar to the $\ltwo$ SSD algorithm described in
-\cref{subsec:lk-fa}, we pose the objective function as:
+in the forward additive case, we pose the objective function as:
 %%%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:l2-lk-ic}
     \argmin_{\p} \norm{T(\Delta \p) - I(\p)}^2
@@ -146,7 +147,7 @@ compositional approach. The warp must belong to a family that forms a group, and
 the identity warp must exist in the set of possible warps. For more complex
 warps, such as piecewise affine and thin plate spline warping, approximations to
 the inverse compositional updates have been
-proposed~\cite{RefWorks:227,RefWorks:277}.
+proposed~\cite{matthews2004active,papandreou2008adaptive}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{statistical_normals/lk/2d/base}
 \input{statistical_normals/lk/3d/base}

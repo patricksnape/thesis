@@ -2,8 +2,9 @@
 \section{Geometric Shape-from-Shading With Kernels}\label{sec:singl_img_gsfs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Geometric Shape-from-Shading (GSFS) is the name given by 
-\citet{RefWorks:86,RefWorks:90} to their SfS algorithm for statistical 
-reconstruction of needle-maps. Although we have chosen to place all KPCA
+\cite{smith2006recovering,worthington1999new,smith2008facial} to their 
+SfS algorithm for statistical 
+reconstruction of surface normals. Although we have chosen to place all KPCA
 kernels within this algorithm, we would stress that this is merely to provide a
 practical demonstration of the power of the proposed kernel component analysis.
 The use of a statistical prior, however, does produce superior results when
@@ -11,7 +12,7 @@ compared to state-of-the-art SfS techniques that have no prior knowledge of
 object shape. A comparison of GSFS to a generic state-of-the-art SfS algorithm
 is given in \cref{subsec:sfs-compare}.
 
-GSFS extends the SfS algorithm given by \citet{RefWorks:252} to include a 
+GSFS extends the SfS algorithm given by \citet{worthington1999new} to include a 
 statistical prior on needle-maps. The algorithm
 is simple to compute and produces results that are visually appealing and
 guaranteed to represent the space of faces. They initialise the needle-map by
@@ -22,13 +23,13 @@ potentially off-cone reconstructed surface normal back onto the reflectance cone
 specified by the light direction and intensity of a given pixel. An overview of
 the algorithm is given in \cref{alg:gsfs}. We augment the original GSFS
 algorithm by replacing the statistical reconstruction step with each of the
-kernels detailed in \cref{sec:subspace-analysis}.
+kernels detailed in \cref{subsec:singl_img_ca}.
 
-In the case of SfS, we assume our input to be a needle-map describing a surface
-$z(x, y)$ as a set of local surface normals $\bb{n}(x, y)$ projected on
-to the view plane. When reconstructing using component analysis, the normals
+In the case of SfS, we assume our input to be a set of normal vectors describing
+a surface $z(x, y)$ as a set of local surface normals $\bb{n}(x, y)$ projected
+on to the view plane. When reconstructing using component analysis, the normals
 have been concatenated into a column vector $\bb{x}$ as described in
-\cref{sec:subspace-analysis}.
+\cref{subsec:singl_img_ca}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {
 \alglanguage{pseudocode}
@@ -39,7 +40,7 @@ have been concatenated into a column vector $\bb{x}$ as described in
     \begin{algorithmic}[1]
         \While{$\sum_{i,j} \arccos \left({\bb{n}(i, j)}' \cdot {\bb{n}(i, j)}'' \right) < \epsilon$}
             \State{}Calculate an initial estimate of the surface normals.
-            \State{}Project the needle-map into the feature space using one of the projection operators from Section~\ref{sec:subspace-analysis}: $\phi_{F}(\bb{x})$
+            \State{}Project the needle-map into the feature space using one of the projection operators from \cref{subsec:singl_img_ca}: $\phi_{F}(\bb{x})$
             \State{}Reconstruct the best fit feature space vector: $\bb{U}_{F} {\bb{U}_{F}}^T \phi_{F}(\bb{x})$.
             \State{}Use the inverse mapping to recreate a set of surface normals, ${x}' = {\phi_{F}}^{-1} \left( \bb{U}_{F} {\bb{U}_{F}}^T \phi_{F}(\bb{x}) \right)$, with individual normals ${\bb{n}(i, j)}'$
             \State{}Enforce hard-irradiance constraint on the reconstructed normals to find the on-cone surface normal, ${\bb{n}(i, j)}''$.

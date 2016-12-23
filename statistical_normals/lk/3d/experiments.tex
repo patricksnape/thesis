@@ -2,7 +2,8 @@
 \subsubsection{Experiments}\label{subsubsec:singl_img_3d_lk_experiments}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 We assessed the performance of our 3D similarity measures using data from the 
-Visible Human project~\cite{RefWorks:81}. We demonstrate the robustness of our
+Visible Human project~\cite{spitzer1996visiblehuman}. 
+We demonstrate the robustness of our
 proposed measures to both a simulated bias field and artificial occlusions. Our
 proposed similarities, unlike the state-of-the-art 2D algorithms that we
 extended into 3D, are shown to be effective in the presence of these gross
@@ -45,41 +46,14 @@ $\otimes$ is the voxelwise multiplication and $w(z)$ is given by
 \end{equation*}
 %%%%%%%%%%%%%%%%%%%%
 For all the simulations we use $\sigma = 0.15 \cdot (N_{z} - 1)$.
-\cref{fig:BiasExample} shows an example image with and without intensity
+\cref{fig:lk_biasfield_example} shows an example image with and without intensity
 inhomogeneities.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{3D Affine Registration Using LK}\label{subsubsec:lk_results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}
-    \centering
-    \begin{subfigure}{0.52\textwidth}
-        \includegraphics[width=\textwidth]{statistical_normals/lk/3d/images/NoCorruption_Smoothing_2-crop}
-        \caption{}\label{fig:lk_results_nocorruption}
-    \end{subfigure} \hspace*{-1cm}
-    \begin{subfigure}{0.52\textwidth}
-        \includegraphics[width=\textwidth]{statistical_normals/lk/3d/images/BiasField_Smoothing_2-crop}
-        \caption{}\label{fig:lk_results_biasfield}
-    \end{subfigure} \\
-    \begin{subfigure}{0.52\textwidth}
-        \includegraphics[width=\textwidth]{statistical_normals/lk/3d/images/Occlusion_Smoothing_2-crop}
-        \caption{}\label{fig:lk_results_occlusion}
-    \end{subfigure} \hspace*{-1cm}
-    \begin{subfigure}{0.52\textwidth}
-        \includegraphics[width=\textwidth]{statistical_normals/lk/3d/images/Occlusion_BiasField_Smoothing_2-crop}
-        \caption{}\label{fig:lk_results_occlusion_biasfield}
-    \end{subfigure}
-    \caption{Average frequency of convergence vs Point standard deviation for 
-             the Visible Human data set. (a) Simulated Bias Field (b) Occlusions
-             (c) Occlusions + Bias Field. CosineSquared: black-$\square$. ECC:\@
-             black-$\diamond$. GaborFourier: black-x. IC:\@ blue-x. IRLS:\@
-             blue-+. InnerProduct: red-*. Spherical: red-o}
-\label{fig:lk_results_corrupted}
-\end{figure*}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[h]
+\begin{figure}[t]
     \centering
     \begin{subfigure}{0.47\columnwidth}
         \includegraphics[width=\textwidth]{statistical_normals/lk/3d/images/occluded-example}
@@ -89,7 +63,8 @@ inhomogeneities.
         \includegraphics[width=\textwidth]{statistical_normals/lk/3d/images/biasfield-example}
         \caption{}\label{fig:lk_biasfield_example}
     \end{subfigure}
-    \caption{Examples of images from the Visible Human project~\cite{RefWorks:81} 
+    \caption{Examples of images from the Visible Human 
+             project~\cite{spitzer1996visiblehuman} 
              used in the LK experiments. (a) Artificially occluded image. The
              occlusion appears as the white square in the top right. (b) Image
              with simulated bias field.}
@@ -97,7 +72,8 @@ inhomogeneities.
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 For the LK experiments, the data used was from the Visible Human
-project~\cite{RefWorks:81}. This data has an image structure that differs from
+project~\cite{spitzer1996visiblehuman}. 
+This data has an image structure that differs from
 other common 3D image sources such as MR images. Each voxel in an image is
 formed from physical slices that were taken from the body of a cadaver.
 Therefore, the gradient information across the $x, y$ plane is incredibly rich
@@ -106,8 +82,10 @@ maintained as each image along the $z$-axis represents another slice acquired
 from the body.
 
 In all experiments an affine motion model was used and performance was measured
-within an extension of the evaluation framework proposed in~\cite{RefWorks:10}.
-We used the Oral section from the Visible Human data set~\cite{RefWorks:81} as
+within an extension of the evaluation framework proposed 
+in~\cite{tzimiropoulos2011robust}.
+We used the Oral section from the Visible Human data 
+set~\cite{spitzer1996visiblehuman} as
 the target image. We selected 10 different regions of interest and parametrised
 the regions as a set of points representing the bounding cube of the region.
 These points were then perturbed using Gaussian noise of standard deviation
@@ -127,10 +105,12 @@ To provide a competitive assessment of our similarity measures, we extended
 recent state-of-the-art 2D algorithms for use with 3D images. We concentrated on
 algorithms that aim to provide robustness against outliers, particularly in the
 form of intensity inhomogeneities. Therefore, we provide comparisons against the
-enhanced correlation coefficient (ECC)~\cite{RefWorks:59} and the Fourier LK
-algorithm with Gabor filter banks (GaborFourier)~\cite{RefWorks:73}. As a
+enhanced correlation coefficient (ECC)~\cite{evangelidis2008parametric} 
+and the Fourier LK
+algorithm with Gabor filter banks (GaborFourier)~\cite{lucey2013fourier}. As a
 baseline, we also compare against the standard LK algorithm and the iteratively
-re-weighted least squares algorithm (IRLS) also proposed by \citet{RefWorks:53}.
+re-weighted least squares algorithm (IRLS) also proposed by
+\citet{baker2005lk20yearsonpart5}.
 
 We also compare against the most related technique that utilises the cosine
 squared measure (CosineSquared)~\cite{haber2006intensity}. Our implementation of
@@ -162,7 +142,7 @@ of the images.
 In this subsection, we present three separate experiments: images with a
 simulated bias field, with an occlusion and with an occlusion and a simulated
 bias field. The bias field was generated as described in
-\cref{subsec:bias_fields} and an example is shown in
+\cref{subsubsec:bias_fields} and an example is shown in
 \cref{fig:lk_biasfield_example}. Occluded sections were created
 synthetically by randomly placing image sections taken from another random area
 of the body, and putting them into every slice of the 3D image, as shown in
@@ -172,7 +152,7 @@ of the body, and putting them into every slice of the 3D image, as shown in
 competitive with the state-of-the-art for bias field corruption. The LK and IRLS
 algorithms are not able to cope with the intensity variation caused by the bias
 field. GaborFourier copes reasonably well with this type of corruption due to
-the illumination invariant properties described in~\cite{RefWorks:73}. ECC
+the illumination invariant properties described in~\cite{lucey2013fourier}. ECC
 performs very well, which is unsurprising as the enhanced correlation
 coefficient performs a normalisation of the image pixels, which reduces the
 effect of the bias field. The CosineSquared algorithm performs well for smaller
@@ -195,3 +175,30 @@ demonstrates the power of our proposed similarity measure. Despite the large
 amount of outliers, our proposed measures are still able to perform accurate
 alignment with a higher success rate than any of the other algorithms
 considered.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}
+    \centering
+    \begin{subfigure}{0.52\textwidth}
+        \includegraphics[width=\textwidth]{statistical_normals/lk/3d/images/NoCorruption_Smoothing_2-crop}
+        \caption{}\label{fig:lk_results_nocorruption}
+    \end{subfigure} \hspace*{-1cm}
+    \begin{subfigure}{0.52\textwidth}
+        \includegraphics[width=\textwidth]{statistical_normals/lk/3d/images/BiasField_Smoothing_2-crop}
+        \caption{}\label{fig:lk_results_biasfield}
+    \end{subfigure} \\
+    \begin{subfigure}{0.52\textwidth}
+        \includegraphics[width=\textwidth]{statistical_normals/lk/3d/images/Occlusion_Smoothing_2-crop}
+        \caption{}\label{fig:lk_results_occlusion}
+    \end{subfigure} \hspace*{-1cm}
+    \begin{subfigure}{0.52\textwidth}
+        \includegraphics[width=\textwidth]{statistical_normals/lk/3d/images/Occlusion_BiasField_Smoothing_2-crop}
+        \caption{}\label{fig:lk_results_occlusion_biasfield}
+    \end{subfigure}
+    \caption{Average frequency of convergence vs Point standard deviation for 
+             the Visible Human data set. (a) Simulated Bias Field (b) Occlusions
+             (c) Occlusions + Bias Field. CosineSquared: black-$\square$. ECC:\@
+             black-$\diamond$. GaborFourier: black-x. IC:\@ blue-x. IRLS:\@
+             blue-+. InnerProduct: red-*. Spherical: red-o}
+\label{fig:lk_results_corrupted}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

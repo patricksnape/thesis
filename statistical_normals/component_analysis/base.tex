@@ -1,6 +1,45 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Component Analysis of Surface Normals}\label{subsec:singl_img_ca}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this section we describe our framework for computing statistical models of
+surface normals based on Kernel Principial Component Analysis (KPCA). This is
+motivated by the properties of normals described in the previous section.
+However, if we wish to perform subspace analysis on normals, we must consider
+the properties of normal spaces. A distribution of unit normals define a set of
+points that lie upon the surface of a spherical manifold. Therefore, the
+computation of distances between normals is a non-trivial task. In order to
+perform subspace analysis on manifolds we have to be able to compute non-linear
+relationships. Kernel Principal Component Analysis (KPCA), is a non-linear
+generalisation of the linear data analysis method Principal Component Analysis
+(PCA). KPCA is able to perform subspace analysis within arbitrary dimensional
+Hilbert spaces, including the subspace of normals. By providing a kernel
+function that defines an inner product within a Hilbert space, we can perform
+component analysis in spaces where PCA would normally be infeasible. In this
+section, we show the power of using KPCA to perform component analysis of
+normals. Here, instead of using off-the-shelf kernels such as RBF or polynomial
+kernels used in the majority of KPCA papers, we are interested only in kernels
+tailored to normals. By defining kernel functions on normals, we allow more
+robust component analysis to be computed. In particular, we propose a novel
+kernel based upon the angular difference between normals that is shown to be
+more robust than any existing descriptor of normals. We also investigate
+previous work on component analysis of normals, and incorporate it into our
+framework. As mentioned, we also incoporate the existing work of
+\citet{smith2006recovering} and \citet{smith2008facial} who proposed the
+Azimithal Equidistant Projection (AEP) and Principal Geodesic Analysis (PGA)
+respectively, for performing component analysis of surface normals. By
+projecting normals into tangent spaces, they show that linear component analysis
+can be performed directly on normals without violating the spherical manifold
+constraints applicable to normals. Smith and Hancock argue that projection of
+normals is a requirement for the component analysis of normals. However,
+although the observation that computing distances between normals is non-trivial
+is correct, this does not actually prevent component analysis directly on
+normals (i.e. without applying any transformation). By formulating the component
+analysis in terms of a kernel, it becomes obvious that component analysis can be
+performed directly on normals by defining the kernel as the Euclidean inner
+product. In the rest of the section we generalise AEP and PGA as kernels in our
+framework and provide a kernel for component analysis directly on normals
+without transformation.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{statistical_normals/component_analysis/kpca}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{statistical_normals/component_analysis/normal_kernels}

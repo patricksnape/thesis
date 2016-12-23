@@ -69,7 +69,7 @@ where $\bb{\hat{g}}_I(\p) = {\left[  \bb{\tilde{g}}_{I,x}(\p),
 \bb{\tilde{g}}_{T,z}(\zero), \bb{\tilde{g}}_{T,sz}(\zero)
 \right]}^{\top}$, the concatenated vectors of each normalised component.
 
-Similar to the derivation in \cref{subsec:lk-inner-product}, the Jacobian
+Similar to the derivation in \cref{subsubsec:lk-inner-product}, the Jacobian
 must be taken over each component and thus linearising around
 $\bb{\hat{g}}_I(\p)$ yields
 %%%%%%%%%%%%%%%%%%%%
@@ -79,7 +79,7 @@ $\bb{\hat{g}}_I(\p)$ yields
 %%%%%%%%%%%%%%%%%%%%
 where
 $\hat{\bb{J}}_{\bb{g}} = {\left[ \hat{\bb{J}}_{\bb{g},x}, \hat{\bb{J}}_{\bb{g},y}, \hat{\bb{J}}_{\bb{g},z}, \hat{\bb{J}}_{\bb{g},sz} \right]}^{\top}$. 
-Unlike in \cref{subsec:lk-inner-product}, the calculation of each 
+Unlike in \cref{subsubsec:lk-inner-product}, the calculation of each 
 Jacobian is not identical due to the different normalisation procedure taken 
 for each component. Given that we can split the partial derivative
 $\bb{J}_{\bb{g},x} = \bb{J}_x \odot \frac{\partial \bb{g}_{I,x}(\p)}{\partial \p}$, 
@@ -105,5 +105,5 @@ Now, given the definitions of the correct Jacobians per component, we can solve
 Given that the update in (\ref{eq:spher-ssd-gauss-newton}) is identical to that
 of (\ref{eq:l2-lk-gauss-newton-fa}), it would be trivial to formulate an inverse
 compositional form of this residual by following the steps described in
-\cref{subsec:lk-ic}.
+\cref{subsubsec:lk-ic}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
