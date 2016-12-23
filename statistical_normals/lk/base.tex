@@ -1,6 +1,25 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Lucas-Kanade Alignment for 2.5D and 3D Images}\label{sec:singl_imag_lk}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this section we seek to perform alignment on 2.5D and 3D images using
+normals as our feature representation. We build upon the 
+Lucas-Kanade~\cite{lucas1981iterative} literature as these algorithms provide
+a strong foundation for construction of parametric image alignment. We note that
+the cases of 2.5D and 3D data will be considered seperately and the derivation
+of the Lucas-Kanade algorithm in each case is slightly different. In the
+case of 2.5D data, such as that of FRGC~\cite{phillips2005overview}, we follow
+the methodology of \citet{antonakos2015feature} and use normals as an image
+``feature'' or ``descriptor'' and linearise it as though it were the image pixels.
+For 3D data, we take a more structured approach and present two fitting algorithms
+that explicitly linearise the 3D gradients, or normals, in a manner inspired
+by \citet{tzimiropoulos2011robust}. This was not possible in the case of 2.5D
+data as it is not possible to directly linearise the normals in 2D. 
+
+The remainder of this section will detail the Lucas-Kanade algorithm which will
+then be extended into both the 2.5D and 3D cases.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\paragraph{Lucas-Kanade Notation}\label{subsubsec:lk-notation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 When referring to the operations performed by the LK algorithm we will use the
 following notations. Warp functions
 $\mathcal{W}(\bb{x}_i;\p) = \left[\mathcal{W}_x(\bb{x}_i;\p), \mathcal{W}_y(\bb{x}_i;\p),\mathcal{W}_z(\bb{x}_i;\p) \right]$ 

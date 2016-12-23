@@ -1,5 +1,168 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{2D Lucas-Kanade Alignment of 2.5D Images}\label{subsec:singl_img_lk_2d}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+An AAM is defined by a shape, appearance and a motion model. The shape model is
+typically learnt by annotating $N$ fiducial points, $bb{s} = [x_1, y_1,
+\ldots, x_N, y_N]^T$ on each image in a set of training images. PCA is then
+applied to these points and the shape, $bb{s}$, can be expressed as a
+base shape $bb{s}_0$ plus a linear combination of $P$ shape vectors,
+$bb{s}_i$:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:aam-shape-model}
+    bb{s} = bb{s}_0 + \sum^P_{i=1} p_i bb{s}_i
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where $p_i$ are the shape coefficients. The appearance model is learnt by first
+warping each training image to the reference frame defined by $bb{s}_0$
+to yield a set of shape-free textures. Each image is warped using an appropriate
+non-rigid warping function such as piecewise affine \cite{cootes2001active} or thin
+plate splines \cite{papandreou2008adaptive}. PCA is applied to the shape-free textures to
+yield a set of $M$ appearance vectors. The appearance vectors are defined for
+each pixel inside $bb{s}_0$ when $\p = \zero$. Therefore, the
+appearance, $A_\lambda(\zero)$, can be expressed as a base appearance,
+$A_0(\zero)$, plus a linear combination of $M$ appearance vectors:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:aam-appearance-model}
+    A_{\blambda}(\zero) = A_0(\zero) + bb{A} \blambda
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where $bb{A} = [A_1(\zero), \ldots, A_M(\zero)]$, the matrix of
+concatenated appearance vectors, $\blambda = [\lambda_0, \ldots, \lambda_M]^T$,
+the vector of appearance parameters, and thus $bb{A} \blambda =
+\sum^M_{i=1} \lambda_i A_i(\zero)$. Given a test image, $I$, fitting an AAM
+entails estimating the parameters $\p = [p_0, \ldots, p_P]^T$ and $\blambda$.
+Formally, the AAM objective function is
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:aam-objective}
+    \argmin_{\p,\blambda} \norm{I(\p) - A_{\blambda}(\zero)}^2
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+A number of approaches have been proposed to minimise this objective function
+\cite{gross2005generic,matthews2004active,papandreou2008adaptive}, the most popular of
+which is the project-out inverse compositional algorithm (PIC)
+\cite{cootes2001active,amberg2009compositional} due to its efficiency. Although efficient, PIC
+is unable to perform well under unseen variation and therefore we have chosen to
+use the alternating simultaneous approach described in \cite{matthews2004active}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Simultaneous IC Algorithm}\label{subsec:aam-simultaneous}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The simultaneous algorithm \cite{gross2005generic} finds both the $\Delta \p$ and
+$\Delta \blambda$ updates simultaneously. This involves iteratively solving for
+$\Delta \p$ and $\Delta \blambda$ by linearising (\ref{eq:aam-objective}) such
+that
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:aam-simultaneous-linearise}
+    \argmin_{\Delta \p, \Delta \blambda} \norm{I(\p) - A_{\blambda}(\zero) - \frac{\partial A_{\blambda}(\zero)}{\partial \p} \Delta \p - bb{A} \blambda}^2
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Let $\Delta bb{q} = [{\Delta \p}^T, {\Delta \blambda}^T]^T$ be the
+concatenated vector of parameters. By performing a compositional update to the
+warp parameters and an additive update to the appearance parameters, $\Delta
+bb{q}$ can be found simultaneously via
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:aam-simultaneous-deltaq-update}
+    \Delta bb{q} = bb{H}_{bb{q}}^{-1} bb{J}_{bb{q}}^{T} \left[ I(\p) - A_{\blambda}(\zero) \right]
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where $bb{H}_{bb{q}} = bb{J}_{bb{q}}^{T}
+bb{J}_{bb{q}}$ and $bb{J}_{bb{q}} = \left[
+{\frac{\partial A_{\blambda}(\zero)}{\partial \p}}^T, bb{A} \right]$.
+Due to the additive update of the appearance parameters, $\blambda \leftarrow
+\blambda + \Delta \blambda$, and thus the dependence of
+$bb{J}_{bb{q}}$ on $\blambda$, the Jacobian and Hessian
+matrices must be recomputed at each step. Although this is much less efficient
+than the PIC algorithm, it has been shown to given excellent fitting performance
+in practise.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Alternating IC Algorithm}\label{subsec:aam-alternating}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The variation of the simultaneous inverse compositional algorithm proposed in
+\cite{matthews2004active} solves for the shape and appearance updates in an
+alternating manner, as
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+    \begin{aligned}\label{eq:aam-alternating}
+        \Delta \tilde{\p} &=       \argmin_{\Delta \p}       \norm{I(\p) - A_{\blambda}(\zero) - \frac{\partial A_{\blambda}(\zero)}{\partial \p} \Delta \p}^2_{bb{I} - bb{A} bb{A}^T} \\
+        \Delta \tilde{\blambda} &= \argmin_{\Delta \blambda} \norm{I(\p) - A_{\blambda}(\zero) - \frac{\partial A_{\blambda}(\zero)}{\partial \p} \Delta \tilde{\p} - bb{A} \Delta \blambda}^2
+    \end{aligned}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where $bb{I} - bb{A} bb{A}^T$ represents the
+projecting out of the appearance basis $bb{A}$ as described for the PIC
+algorithm in \cite{RefWorks:227}. The update of $\Delta \p$ is given by
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:aam-alternating-deltap-update}
+        \Delta \p = {\tilde{bb{H}}}^{-1} {\tilde{bb{J}}}^{T} \left[ I(\p) - A_0(\zero) \right]
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where ${\tilde{bb{H}}} = {\tilde{bb{J}}}^{T}
+\tilde{bb{J}}$ and $\tilde{bb{J}} = (bb{I} -
+bb{A} bb{A}^T) \left[ {\frac{\partial
+A_{\blambda}(\zero)}{\partial \p}}^T, bb{A} \right]^T$. Given the
+current estimate for the optimum, $\Delta \tilde{\p} = \Delta \p$, we can solve
+the second optimisation equation for $\Delta \blambda$, as
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:aam-alternating-deltalambda-update}
+        \Delta \blambda = bb{A}^T \left[ I(\p) - A_{\blambda}(\zero) - \frac{\partial A_{\blambda}(\zero)}{\partial \p} \Delta \tilde{\p} \right]
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+As for the simultaneous algorithm, the warp parameters are update with a
+compositional update and the appearance parameters are updated additively.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Normal Kernel Algorithm}\label{subsec:aam-normal-kernel}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The key difference between image alignment using LK and an AAM is the use of the
+statistical prior to handle unseen variation. Creating this prior for depth maps
+can be handled identically to creating a prior for image textures. However,
+depth maps, much like textures, are heavily affected by outliers. Specifically,
+outliers are defined as anything that the appearance model cannot reconstruct
+because (i) it was not seen in the training set, (ii) it does not belong in the
+space of faces (e.g. occlusions), (iii) it was excluded from the appearance
+bases as noise when reducing the number of principal components. However, as
+described in \cref{subsubsec:singl_img_ca_kpca}, we have proposed a set of
+kernels within a KPCA framework that enable component analysis on normals.
+Therefore, by using these robust kernels as the appearance priors in AAMs, a
+robust deformable fitting can be performed.
+
+Given a set of depth maps, we calculate the needle-maps and warp them to extract
+a set of shape-free needle-maps. By applying one of the projection operators,
+$\Phi(bb{x})$, from \cref{subsubsec:singl_img_ca_kpca}, we can
+redefine the appearance model as
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:aam-kernel-appearance-model}
+    A_{\blambda}^{\Phi}(\zero) = bb{A}^{\Phi} \blambda
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where $bb{A}^{\Phi} = [A_0^{\Phi}(\zero), \ldots, A_M^{\Phi}(\zero)]$
+is the matrix of concatenated appearance vectors gained from applying KPCA to
+the shape-free needle-maps. Notice that the first eigenvector of our appearance
+model represents the mean face. This is because, as described in
+Section~\ref{sec:kernel-pca-for-normals}, we do not perform a mean subtraction
+when computing the component analysis. This has the effect of slightly
+simplifying the AAM derivations such that the base appearance, $A_0(\zero)$,
+does not explicitly feature. For example, the updates in the alternating
+algorithm become:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+    \begin{aligned}\label{eq:aam-kernel-alternating-update}
+        \Delta \p       &= {bb{H}^{\Phi}}^{-1} {bb{J}^{\Phi}}^{T} I^{\Phi}(\p) \\
+        \Delta \blambda &= {bb{A}^{\Phi}}^T \left[ I^{\Phi}(\p) - A^{\Phi}_{\blambda}(\zero) - \frac{\partial A^{\Phi}_{\blambda}(\zero)}{\partial \p} \Delta \tilde{\p} \right]
+    \end{aligned}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation*}
+    \begin{aligned}
+        bb{J}^{\Phi} &= (bb{I} - bb{A}^{\Phi} {bb{A}^{\Phi}}^T) \left[ {\frac{\partial A^{\Phi}_{\blambda}(\zero)}{\partial \p}}^T, bb{A}^{\Phi} \right]^T \\
+        bb{H}^{\Phi} &= {bb{J}^{\Phi}}^{T} bb{J}^{\Phi}
+    \end{aligned}
+\end{equation*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+which only differs from the formulation given in \cref{subsec:aam-
+alternating} in assuming the use of kernel projected spaces and that the mean
+appearance is implicitly part of the appearance bases. The shape model is
+unchanged from the original AAM formulation.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{statistical_normals/lk/2d/experiments}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
