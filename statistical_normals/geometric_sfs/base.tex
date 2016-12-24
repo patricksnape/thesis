@@ -13,9 +13,9 @@ object shape. A comparison of GSFS to a generic state-of-the-art SfS algorithm
 is given in \cref{subsec:sfs-compare}.
 
 GSFS extends the SfS algorithm given by \citet{worthington1999new} to include a 
-statistical prior on needle-maps. The algorithm
+statistical prior on normals. The algorithm
 is simple to compute and produces results that are visually appealing and
-guaranteed to represent the space of faces. They initialise the needle-map by
+guaranteed to represent the space of faces. They initialise the normals by
 assuming global convexity, and then proceed to iterate by first reconstructing
 the normals using the PCA model and then enforcing the hard-irradiance
 constraint. The hard-irradiance constraint is enforced by rotating the
@@ -40,7 +40,7 @@ have been concatenated into a column vector $\bb{x}$ as described in
     \begin{algorithmic}[1]
         \While{$\sum_{i,j} \arccos \left({\bb{n}(i, j)}' \cdot {\bb{n}(i, j)}'' \right) < \epsilon$}
             \State{}Calculate an initial estimate of the surface normals.
-            \State{}Project the needle-map into the feature space using one of the projection operators from \cref{subsec:singl_img_ca}: $\phi_{F}(\bb{x})$
+            \State{}Project the normals into the feature space using one of the projection operators from \cref{subsec:singl_img_ca}: $\phi_{F}(\bb{x})$
             \State{}Reconstruct the best fit feature space vector: $\bb{U}_{F} {\bb{U}_{F}}^T \phi_{F}(\bb{x})$.
             \State{}Use the inverse mapping to recreate a set of surface normals, ${x}' = {\phi_{F}}^{-1} \left( \bb{U}_{F} {\bb{U}_{F}}^T \phi_{F}(\bb{x}) \right)$, with individual normals ${\bb{n}(i, j)}'$
             \State{}Enforce hard-irradiance constraint on the reconstructed normals to find the on-cone surface normal, ${\bb{n}(i, j)}''$.
@@ -52,14 +52,14 @@ have been concatenated into a column vector $\bb{x}$ as described in
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 { % Commands
 \newcommand{\origimg}[1]{
-    \begin{subfigure}{0.11\textwidth}
+    \begin{subfigure}[b]{0.11\textwidth}
             \centering
             \includegraphics[width=\textwidth]{statistical_normals/images/gsfs_results/photoface/#1.png}
 \label{fig:results-photoface-input-#1}
     \end{subfigure}
 }
 \newcommand{\origimgtop}[2]{
-    \begin{subfigure}{0.11\textwidth}
+    \begin{subfigure}[t]{0.11\textwidth}
             \centering
             \caption*{#2}
             \includegraphics[width=\textwidth]{statistical_normals/images/gsfs_results/photoface/#1.png}
@@ -67,14 +67,14 @@ have been concatenated into a column vector $\bb{x}$ as described in
     \end{subfigure}
 }
 \newcommand{\sfsimgs}[2]{
-    \begin{subfigure}{0.11\textwidth}
+    \begin{subfigure}[b]{0.11\textwidth}
             \centering
             \includegraphics[width=\textwidth]{statistical_normals/images/gsfs_results/photoface/#1_#2.png}
 \label{fig:results-photoface-#1-#2}
     \end{subfigure}
 }
 \newcommand{\sfsimgstop}[3]{
-    \begin{subfigure}{0.11\textwidth}
+    \begin{subfigure}[t]{0.11\textwidth}
             \centering
             \caption*{#2}
             \includegraphics[width=\textwidth]{statistical_normals/images/gsfs_results/photoface/#1_#3.png}
@@ -84,11 +84,11 @@ have been concatenated into a column vector $\bb{x}$ as described in
 
 \newcommand{\sfsimgsalltop}[1]{
     \origimgtop{#1}{Input Image}
-    \sfsimgstop{#1}{Ground Truth}{ground_truth}
+    \sfsimgstop{#1}{GT}{ground_truth}
     \sfsimgstop{#1}{AEP}{aep}
     \sfsimgstop{#1}{IP}{cosine}
     \sfsimgstop{#1}{PGA}{pga}
-    \sfsimgstop{#1}{SPHERICAL}{spherical}
+    \sfsimgstop{#1}{SPHER}{spherical}
     \sfsimgstop{#1}{SIRFS}{sirfs}
 }
 
