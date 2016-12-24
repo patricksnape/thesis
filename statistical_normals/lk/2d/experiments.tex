@@ -13,16 +13,16 @@ warping.
 \textbf{Affine Lucas-Kanade Experiments.} In these experiments we use data
 from the Bosphorus~\cite{Savran:2008gg} database we provides depth images
 of 105 subjects under various expressions and occlusions. Given the pre-cropped
-neature of these input images we do not perform any pre-processing on the
-images other than a similarity alignment between the eye and mouth landamrks to
-ensure that the input images all have the same size. We also center the depth
+nature of these input images we do not perform any pre-processing on the
+images other than a similarity alignment between the eye and mouth landmarks to
+ensure that the input images all have the same size. We also centre the depth
 values to mitigate any scaling issues. In all experiments we used the 
 Inverse Compositional algorithm with an Affine motion model.
 We defined the template to be a padded
 bounding box around the salient regions of the faces, namely the eyes, nose and
 mouth. An example template is given in \cref{fig:single_img_2d_lk_examples}.
 The Bosphorus dataset is particularly interesting as it contains a number of
-images displaying occlusions. This allows us to emprically verify our assumption
+images displaying occlusions. This allows us to empirically verify our assumption
 that normals represent a more robust feature descriptor than depth values alone.
 An example occluded image is given in
 \cref{subfig:singl_img_depth_2d_lk_template_occluded}.
@@ -33,7 +33,7 @@ for each subject is chosen as the template and 10 random affine perturbations
 of this initial bounding box ($\sigma = 0.04$) are generated for each image 
 of a given subject.
 \cref{fig:single_img_2d_lk_results} shows the results of this experiment in
-the form of a cumulative error disitribution (CED) graph which presents
+the form of a cumulative error distribution (CED) graph which presents
 the euclidean error of the bounding box corners normalised by the
 average edge length of the ground truth bounding box.
 \cref{subfig:singl_img_depth_lk_results_all} shows the cumulative results for
@@ -42,7 +42,7 @@ feature descriptors outperform depth data by a comfortable margin. However,
 to further demonstrate the effect of the normal descriptors in the case of
 occlusions we provide \cref{subfig:singl_img_depth_lk_results_dirty} which
 shows the results on the subset of images containing occlusions. Note that
-the performance of the depth alignment is signifcantly degraded by presence
+the performance of the depth alignment is significantly degraded by presence
 of occlusions in the target image. In contrast, our proposed normal descriptors
 provide strong alignment characteristics even in the presence of these
 severe occlusions.
