@@ -50,6 +50,31 @@ $\tilde{n_z} = \frac{n_z}{\sqrt{n_x^2 + n_y^2 + n_z^2}}$.
 This normalisation of each component is done to suppress any magnitude
 contribution from orientation.
 
+\textbf{Applicability of the AEP and PGA kernel to parametric image alignment.}
+Although it is simple to define our proposed kernels as descriptors suitable
+for parametric image alignment, this is not the case for the
+AEP~\cite{smith2006recovering} and PGA~\cite{smith2008facial} projection
+operations. Firstly, we note that both the AEP and PGA operators are identical
+in their mapping function with the primary difference being in the computation
+of the per-pixel mean estimate required for computing the tangent plane. This
+is in contrast to our proposed kernels which are independent per-pixel. This
+reliance on a mean estimate for computing the differences is precisely what
+makes these operations unsuitable for alignment. In the case of template based
+Lucas-Kanade it is unclear where the estimate of the mean should computed as 
+only a single image is provided as a template and therefore a mean cannot
+be computed. Furthermore, even if a mean is constructed from a training set
+consisting of a single individual, it is highly likely that the deviation
+from this mean face for a given input image will be very close this mean. This
+means that the distance from the neutral template image and the likely neutral
+mean will be extremely small. In fact, in the worst case where the neutral does
+not deviate from the mean neutral face at all the template image in ``feature''
+space would be completely zero. This is because there is zero distance in
+the tangent plane between the mean estimate and the template. Furthermore,
+since the tangent projection already measures a distance, this means that
+the similarity between the template and the current estimate is not well
+described by the feature. For these reasons, we do not consider the AEP or PGA
+kernels in the following parametric alignment investigation.
+
 As discussed, we also propose to use the AAM extension of the classical 
 Affine Lucas-Kanade algorithm as proposed by \citet{matthews2004active}.
 Therefore, the remainder of the section describes how to construct an AAM
