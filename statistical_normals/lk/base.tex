@@ -10,31 +10,61 @@ of the Lucas-Kanade algorithm in each case is slightly different. In the
 case of 2.5D data, such as that of FRGC~\cite{phillips2005overview}, we follow
 the methodology of \citet{antonakos2015feature} and use normals as an image
 ``feature'' or ``descriptor'' and linearise it as though it were the image pixels.
+We also utilize the proposed KPCA framework for normals in order to use normals
+to perform parametric image alignment with an appearance model as described
+in the Active Appearance Model (AAM)~\cite{cootes2001active} literature. We
+utilize the AAM formulation described by \citet{matthews2004active} which
+demonstrates that AAMs can be seen as an extension of the classical Lucas-Kanade
+algorithm to include a statistical model of appearance. These statistical models
+are most commonly constructed using PCA and therefore our proposed KPCA
+framework is crucial to the construction of statistical appearance models for
+parametric alignment using surface normals. To this end, we describe how
+normals can be used for 2D alignment using 2.5D data in the case of the
+classical Affine Lucas-Kanade alignment and it's extension as AAMs using a 
+KPCA appearance model.
+
 For 3D data, we take a more structured approach and present two fitting algorithms
 that explicitly linearise the 3D gradients, or normals, in a manner inspired
 by \citet{tzimiropoulos2011robust}. This was not possible in the case of 2.5D
-data as it is not possible to directly linearise the normals in 2D. 
+data as it is not possible to directly linearise the normals in 2D.
 
-The remainder of this section will detail the Lucas-Kanade algorithm which will
-then be extended into both the 2.5D and 3D cases.
+The remainder of this section will detail the traditional Affine Lucas-Kanade
+algorithm which we use for both 2.5D and 3D alignment. Therefore, we begin by
+discussing the generic construction of the Lucas-Kanade algorithm which is
+agnostic to the coordinate system.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{Lucas-Kanade Notation}\label{subsubsec:lk-notation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 When referring to the operations performed by the LK algorithm we will use the
-following notations. Warp functions
+following notations. Images are denoted by unbolded capital letters such as
+$I$ and $T$. Indexing the image $I$ by a discretized coordinate is
+denoted $I(x, y) = c$ where $c$ would be a greyscale value in this case. We
+further define a linear index $k$ into the vectorized image such that $I(k)$ 
+implies the $k = x * height + y$ pixel coordinate. 
+This allows for simpler indexing of the vectorised image.
+Warp functions that describe how to sample a sub-pixel coordinate
+vector from an image are denoted by
 $\mathcal{W}(\bb{x}_i;\p) = \left[\mathcal{W}_x(\bb{x}_i;\p), \mathcal{W}_y(\bb{x}_i;\p),\mathcal{W}_z(\bb{x}_i;\p) \right]$ 
-express the warping of the $i$th 3D
-coordinate vector $\bb{x}_i = {[x_i, y_i, z_i]}^{\top}$ by a set of parameters
+and express the warping of the $i$th coordinate vector,
+$\bb{x}_i = {[x_i, y_i, z_i]}^{\top}$ for a 3D coordinate and 
+$\bb{x}_i = {[x_i, y_i]}^{\top}$ for a 2D coordinate, by a set of parameters
 $\p = {\left[p_1, \ldots, p_n\right]}^{\top}$, where $n$ is the number of warp
-parameters. We extend the previously defined linear index $k$ in to a coordinate
-vector, $\bb{x} = \left[ x_1, y_1, z_1, \ldots, x_D, y_D, z_D \right]$ that
+parameters. We define the vectorized set of singe coordinate vectors as
+$\bb{x} = \left[ x_1, y_1, z_1, \ldots, x_D, y_D, z_D \right]$ that
 represents the concatenated vector of coordinates, of length $D$, which allows
 the definition of a single warp for an entire image,
-$\mathcal{W}(\bb{x};\p) = \left[\right. \mathcal{W}_x(\bb{x}_1;\p), \mathcal{W}_y(\bb{x}_1;\p), \mathcal{W}_z(\bb{x}_1;\p),$ \\* $\ldots,$ $\mathcal{W}_x(\bb{x}_D;\p), \mathcal{W}_y(\bb{x}_D;\p), \mathcal{W}_z(\bb{x}_D;\p) \left.\right]$.
+$\mathcal{W}(\bb{x};\p) = \left[\right. \mathcal{W}_x(\bb{x}_1;\p), \mathcal{W}_y(\bb{x}_1;\p), \mathcal{W}_z(\bb{x}_1;\p),\ldots,\mathcal{W}_x(\bb{x}_D;\p), \mathcal{W}_y(\bb{x}_D;\p), \mathcal{W}_z(\bb{x}_D;\p) \left.\right]$.
 We assume that the identity warp is found when $\p = \zero$, which implies that
 $\mathcal{W}(\bb{x};\zero) = \bb{x}$. We abuse notation and define the
 warping of an image $I$ by parameter vector $\p$ as $I(\p) = I(\mathcal{W}(\bb{x};\p))$,
-where $I(\p)$ is a single column vector of concatenated pixels.
+where $I(\p)$ is a single column vector of concatenated pixels. For example,
+$I(\zero) = {[c_1, \ldots, c_D]}^T \in \R^{D \times 1}$ denotes the 
+sampling of the image using the
+identity warp and therefore each pixel in a grayscale image, $c_i$, are returned
+as a concatenated vector. Following the definition of
+\citet{antonakos2015feature}, we extend this sampling to a multi-channel image
+and so the sampling of an $C$ channel image is defined by 
+$I(\zero) = {[c^1_1, \ldots, c^C_1, \ldots, c^1_D, \ldots, c^C_D]}^T \in \R^{(CD) \times 1}$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{Forward Additive LK Fitting}\label{subsubsec:lk-fa}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
