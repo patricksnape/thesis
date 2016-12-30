@@ -8,8 +8,8 @@
 % Need to load bibligraphy - but not print it - in order to use bibentry
 \nobibliography*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagenumbering{arabic}
 \thispagestyle{empty}
-\pagenumbering{gobble}
 
 \title{
 	\LARGE
@@ -23,9 +23,7 @@
 \normallinespacing{}
 \maketitle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\thispagestyle{empty}
 \doublespacing{}
-\pagenumbering{gobble}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{copyright/copyright}
 \cleardoublepage{}
@@ -33,15 +31,15 @@
 \input{abstract/abstract}
 \cleardoublepage{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{acknowledgements/acknowledgements}
+% \input{acknowledgements/acknowledgements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \body{}
-% \input{introduction/base}
-% \input{background/base}
+\input{introduction/base}
+\input{background/base}
 \input{statistical_normals/base}
-% \input{collection_ps/base}
-% \input{face_flow/base}
-% \input{conclusion/base}
+\input{collection_ps/base}
+\input{face_flow/base}
+\input{conclusion/base}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setlength{\bibsep}{0pt plus 0.3ex}
 \addcontentsline{toc}{chapter}{Bibliography}
