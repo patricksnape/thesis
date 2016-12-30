@@ -27,7 +27,7 @@ and focus on works intended specifically for facial surface recovery.
 % GavabDB 61 individuals, 427 images, multi pose, static, 3 expressions
 % FRAV3D 106 subjects,  MINOLTA VIVID-700, multi-pose, static
 % Basel 200 scans, neutral, ABW-3D structured light scanner
-% BJUT-3D, cyberware
+% BJUT-3D, Cyberware
 % EURECOM Kinect, 52 people * 18 image, multi poses, expressions, static
 % XM2VTS stereo, 25 subjects, neutral,
 % Texas 3DFRD 1149 pairs of facial color and range images of 105 adult human subjects,
@@ -99,10 +99,10 @@ majority of existing databases were produced in the last decade. The quality
 of these facial models has also increased substantially, which is demonstrated
 in \cref{fig:db_examples}.
 
-The CANDIDE~\cite{Rydfalk:1987tg,Ahlberg:1998uk} models were parametrizable
+The CANDIDE~\cite{Rydfalk:1987tg,Ahlberg:1998uk} models were parameterizable
 wireframe models that contained a low number of vertices (75--95) and were
 designed to be controlled according to pre-defined Action Units. The CANDIDE
-model was not captured from real data and thus had limited uses for modelling
+model was not captured from real data and thus had limited uses for modeling
 identity. Early attempts at recording facial databases focused on the use
 of laser scanning technology~\cite{cyberware,minolta} or structured light. For
 example, the early work of \citet{beumier2001face} used an internally developed
@@ -147,7 +147,7 @@ for the Texas 3DFRD~\cite{gupta2010anthropometric} database. The most common
 commercial systems for capturing high-quality 4D (3D video) data employ passive
 stereo methods. For example, the commercial
 system of \citet{di4d} is capable of capturing high resolution images and
-converting them into 3D meshes at 60 frames per second (fps).
+converting them into 3D meshes at 60 frames per second (FPS).
 The Di4D~\cite{di4d} scanning system
 has been used for the only publicly available 4D databases of BU4D-
 FE~\cite{yin2008high} and BP4D-Spontaneous~\cite{Zhang:2014id}. BP4D-Spontaneous
@@ -236,11 +236,11 @@ is widely applicable and has seen applications in
 films~\cite{borshukov2005universal}, video games~\cite{vonderPahlen:2014kg},
 virtual makeup systems~\cite{scherbaum2011computer} and
 animatronics~\cite{jung2011believable}. The recovery of these mesoscopic details
-requires careful modelling of the interaction between human skin and light. To
+requires careful modeling of the interaction between human skin and light. To
 this end, many works focus solely on these reflectance characteristics and seek
 to provide highly realistic parametric reflectance functions for skin. In this
 review, we are only interested in methods that recover realistic 3D shape and
-thus do not consider works that focus solely on reflectance function modelling.
+thus do not consider works that focus solely on reflectance function modeling.
 For more information about these methods the interested reader should consult
 the recent survey on facial appearance capture by \citet{Klehm:2015jb}.
 
@@ -360,7 +360,7 @@ The highest quality result presented by \citet{Beeler:2010dg} comes from a seven
 camera studio setup where per-pixel correspondences and disparity map refinement
 is computed in a coarse-to-fine manner. Further constraints are imposed that are
 face specific including a smoothness constraint when computing correspondences
-and a second-order anisoptropic surface consistency term that reduces smoothing
+and a second-order anisotropic surface consistency term that reduces smoothing
 across depth discontinuities in the disparity maps. Finally, mesoscopic details
 are transferred into the mesh via a photometrically consistent surface
 refinement procedure. Although the recovered details are not metrically correct,
@@ -379,9 +379,9 @@ detail is utilized for stereo matching and the seven overlapping regions are
 then merged to recover a single high quality mesh. The remainder of the work
 focuses on recovering a topologically consistent mesh throughout the sequence by
 applying optical flow and drift correction methods. The output is a performance
-capture sequence at 30 fps with a high resolution mesh and texture map
+capture sequence at 30 FPS with a high resolution mesh and texture map
 with consistent topology across the sequence.
-\citet{wu2011high} apropose to augment a standard passive stereo result with
+\citet{wu2011high} propose to augment a standard passive stereo result with
 a term to enforce photometric consistency. However, they optimise in the space
 of the image gradients rather than directly perturbing the surface by the
 recovered spherical harmonic orientations, as is done
@@ -425,7 +425,7 @@ favour of a calibrated light projector. When a known lighting pattern, even as
 simple as a grid~\cite{will1971grid}, is projected onto the scene it becomes
 possible to estimate the surface by measuring the distortion of the light by the
 surface. For example, the work of \citet{garcia2001low} provided a method
-for full 3D surface recovery by performing strucuted light across multiple
+for full 3D surface recovery by performing structured light across multiple
 head poses and then merging them into a final result.
 Structured lights is particularly effective for real-time
 acquisition~\cite{rusinkiewicz2002real} and more recently was used by the
@@ -480,7 +480,7 @@ many lights generally arrayed in a ``light-stage''. One of the earliest works
 using a light-stage for facial capture was the work of
 \citet{debevec2000acquiring}, which focused on extrapolating a reflectance
 field from a human face. Here, two cameras record the subject and a spotlight
-suspended 1.5 metres away from the subject is revolved at approximately 25 rpm,
+suspended 1.5 metres away from the subject is revolved at approximately 25 RPM,
 producing around 2048 output images. Both subsurface (diffuse) and specular data
 were recovered using chromaticity analysis and the specular component was
 utilized to allow relighting from novel viewpoints. This work focused on the
@@ -634,6 +634,6 @@ to recover a base set of person specific meshes. A uniformly lit
 sequence is then captured in stereo and a ``performance flow graph'' is
 computed whereby optical flow is calculated between every pair of frames.
 An optimisation procedure is proposed to perform 3D tracking between the
-static scans and the performance capture is parametrized between the given
+static scans and the performance capture is parameterized between the given
 static 3D scans a single artist rigged neutral mesh.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
