@@ -45,7 +45,7 @@ as
 \begin{equation*}
 \begin{alignedat}{2}
 	&\argmin_{\bb{W}} \quad &&\lVert \bb{X} - \bb{W} \bb{W}^T \bb{X} \rVert^2 \\
-	&\quad \, \st      &&\bb{W} \bb{W}^T = \bb{I}_p
+	&\quad \, \st      &&\bb{W}^T \bb{W} = \bb{I}_p
 \end{alignedat}
 \end{equation*}
 %%%%%%%%%%%%%%%%%%%
@@ -59,7 +59,8 @@ mean is an important requirement for correctly recovering principal components.
 For normals, the computation of a correct mean
 is complicated by the constraint that the mean normal must also lie on the
 manifold of the unit 2-sphere. Unfortunately, a linear combination of unit
-vectors is not guaranteed to yield a unit vector. Given the embedding of normals
+vectors is not guaranteed to yield a unit vector. 
+Therefore, given the embedding of normals
 in the 2-sphere manifold, the correct metric for normals is not the Euclidean
 distance. This is illustrated in
 \cref{fig:singl_img_norm_normal_distance}, which clearly shows that the Euclidean
@@ -71,7 +72,7 @@ vectors lying on the surface of a sphere.
 	\begin{minipage}[t]{.45\textwidth}
 	    \centering
 		\includegraphics[width=0.9\textwidth]{statistical_normals/images/normal_distance}
-		\captionof{figure}{The two arrow-header vectors represents normals
+		\captionof{figure}{The two arrow-headed vectors represents normals
 		                   embedded on the surface of the unit sphere. The red
 		                   line is the Euclidean distance, which underestimates
 		                   the true distance. The green arc is the metrically
@@ -91,8 +92,9 @@ vectors lying on the surface of a sphere.
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Thus, any component analysis method that is to be performed on directional data
-must be able to account for non-Euclidean distances and the manifold constraints
-on the data mean. One method of computing component analysis on data that is
+must be able to account for both non-Euclidean distance computation 
+and the manifold constraints on the data mean. 
+One method of computing component analysis on data that is
 not related linearly and thus where Euclidean distances do not hold is
 Kernel Principal Component Analysis (KPCA)~\cite{scholkopf1998nonlinear}.
 KPCA is a non-linear generalisation of PCA that allows the computation
@@ -126,7 +128,7 @@ Principal Geodesic Analysis (PGA)~\cite{fletcher2004principal,smith2008facial}
 for building statistical models of normals. In particular, PGA provides a
 principled way to correctly compute the mean of a Riemannian manifold.
 A Riemannian manifold is a differentiable manifold that is locally similar
-enogh to a linear space to allow for calculus. Specifically, a Riemannian
+enough to a linear space to allow for calculus. Specifically, a Riemannian
 manifold defines an inner product on the tangent space such that distances
 in the tangent space are preserved locally on the manifold. 
 
@@ -187,7 +189,7 @@ in the medical imaging community. For 2.5D data, we propose to use normals both
 as a feature for Lucas-Kanade~\cite{lucas1981iterative} fitting,
 as in the work of \citet{antonakos2015feature}, and as a statistical
 appearance model for Active Appearance Model~\cite{cootes2001active} alignment.
-For 3D data (or volumetric), we provide two novel
+For 3D data (or volumetric data), we provide two novel
 inverse compositional alignment~\cite{baker2004lucas} algorithms for robustly
 aligning data that contains gross outliers such as occlusions.
 
@@ -205,7 +207,7 @@ the geometric SfS method of \citet{worthington1999new} in a similar manner to
 \citet{smith2006recovering}.
 \cref{sec:singl_imag_lk} demonstrates how surface
 normals can be utilized for alignment within Lucas-Kanade style
-algorithms~\cite{lucas1981iterative}. Two modalities of data are considered,
+algorithms~\cite{lucas1981iterative}.
 \cref{subsec:singl_img_lk_2d} demonstrates how a statistical model of normals
 can be utilized to align 2.5D depth data by building an appearance model of
 surface normals for use in an Active Appearance Model~\cite{cootes2001active}.

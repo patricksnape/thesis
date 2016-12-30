@@ -5,7 +5,7 @@ In this chapter we investigated the power of creating statistical models
 of surface normals. The creation of these statistical models is complicated
 by the non-euclidean nature of directional data such as surface normals.
 Therefore, we proposed to formulate statistical model building of normals
-as a Kernel-PCA problem as proposed two kernels for computing these non-linear
+as a Kernel-PCA problem and proposed two kernels for computing these non-linear
 models. We also incoporated existing work on using surface normals in 
 statistical models and show the 
 Azimuthal Equidistant Projection (AEP)~\cite{smith2006recovering} and
@@ -27,11 +27,11 @@ on simulated outliers on data from the
 Visible Human project~\cite{spitzer1996visiblehuman}.
 
 However, despite the robust properties of normals and the promising results
-on building statistical models of normals, building these models is still
-quite restrictive. The main restriction is the fact that the data used
+when building statistical models of normals, building these models is still
+restrictive. The main restriction is the fact that the data used
 for constructing the models all comes from carefully constructed datasets
-that do not model the ``in-the-wild'' conditions we wish to recover shape
-from. Furthermore, SfS still requires the estimation of the single point light 
+that do not model the ``in-the-wild'' conditions from which we wish to recover 
+a shape. Furthermore, SfS still requires the estimation of the single point light 
 source illuminating the image, which is a coarse and unrealistic lighting
 model for ``in-the-wild'' images. Therefore, in the next chapter we investigate
 how shading constraints can be used to build statistical models of shape
@@ -39,4 +39,4 @@ directly from the data without any shape priors whatsoever. This is achieved
 through the adoption of a more realistic lighting model called Spherical
 Harmonic illumination. To this end, we describe how Spherical Harmonic illumination
 bases can be constructed robustly directly from ``in-the-wild'' images
-without shape priors.
+without the introduction of an explicit 3D shape prior.

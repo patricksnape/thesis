@@ -11,7 +11,7 @@ cases we warp the depth values and then compute the normals after the
 warping.
 
 \textbf{Affine Lucas-Kanade Experiments.} In these experiments we use data
-from the Bosphorus~\cite{Savran:2008gg} database we provides depth images
+from the Bosphorus~\cite{Savran:2008gg} database which provides depth images
 of 105 subjects under various expressions and occlusions. Given the pre-cropped
 nature of these input images we do not perform any pre-processing on the
 images other than a similarity alignment between the eye and mouth landmarks to
@@ -37,7 +37,7 @@ the form of a cumulative error distribution (CED) graph which presents
 the euclidean error of the bounding box corners normalised by the
 average edge length of the ground truth bounding box.
 \cref{subfig:singl_img_depth_lk_results_all} shows the cumulative results for
-the all of the considered subjects. Here we note that both of our proposed
+all of the considered subjects. Here we note that both of our proposed
 feature descriptors outperform depth data by a comfortable margin. However,
 to further demonstrate the effect of the normal descriptors in the case of
 occlusions we provide \cref{subfig:singl_img_depth_lk_results_dirty} which
@@ -74,11 +74,11 @@ severe occlusions.
     \centering
     \hspace*{\fill}
     \begin{subfigure}[b]{0.49\textwidth}
-    	\includegraphics[width=\textwidth]{statistical_normals/images/lk2d/lk_first_5_bosphorus.pdf}
+    	\includegraphics[width=\textwidth]{statistical_normals/images/lk2d/lk_first_5_bosphorus}
     	\caption{All}\label{subfig:singl_img_depth_lk_results_all}
     \end{subfigure} \hfill
     \begin{subfigure}[b]{0.49\textwidth}
-    	\includegraphics[width=\textwidth]{statistical_normals/images/lk2d/lk_first_5_bosphorus_dirty.pdf}
+    	\includegraphics[width=\textwidth]{statistical_normals/images/lk2d/lk_first_5_bosphorus_dirty}
     	\caption{Occluded Only}\label{subfig:singl_img_depth_lk_results_dirty}
     \end{subfigure}
     \hspace*{\fill}
@@ -95,7 +95,7 @@ of our AAM models where the appearance models were constructed using the KPCA
 kernels described in \cref{subsubsec:singl_img_ca_kpca}. We used images from
 the FRGC v2~\cite{phillips2005overview} dataset and the 68-point landmark
 annotations provided by \citet{sagonas2013semi}. We split the data into
-a training set and a testing set to ensure that the our appearance models
+a training set and a testing set to ensure that our appearance models
 were capable of generalising to unseen individuals. Our training set, used
 for construction of both the statistical shape model of 68 points and the
 appearance models was constructed using a random sampling of 1000 images
@@ -152,7 +152,7 @@ very challenging as is the case in the first row.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.7\textwidth]{statistical_normals/images/lk2d/aam_fgrc_500_random.pdf}
+    \includegraphics[width=0.7\textwidth]{statistical_normals/images/lk2d/aam_fgrc_500_random}
     \caption{Cumulative Error Distribution (CED) graph for fitting the AAM
              models on 500 random samples from the Spring 2004 subset of the
              FRGC v2~\cite{phillips2005overview} data. The models were trained

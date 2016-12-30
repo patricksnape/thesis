@@ -170,7 +170,7 @@ alternating manner, as
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 where $\bb{I} - \bb{A} \bb{A}^T$ represents the
 projecting out of the appearance basis $\bb{A}$ as described for the PIC
-algorithm in \cite{RefWorks:227}. The update of $\Delta \p$ is given by
+algorithm in \cite{matthews2004active}. The update of $\Delta \p$ is given by
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:aam-alternating-deltap-update}
         \Delta \p = {\tilde{\bb{H}}}^{-1} {\tilde{\bb{J}}}^{T} \left[ I(\p) - A_0(\zero) \right]
@@ -205,8 +205,8 @@ kernels within a KPCA framework that enable component analysis on normals.
 Therefore, by using these robust kernels as the appearance priors in AAMs, a
 robust deformable fitting can be performed.
 
-Given a set of depth maps, we calculate the needle-maps and warp them to extract
-a set of shape-free needle-maps. By applying one of the projection operators,
+Given a set of depth maps, we calculate the normals and warp them to extract
+a set of shape-free normals. By applying one of the projection operators,
 $\Phi(\bb{x})$, from \cref{subsubsec:singl_img_ca_kpca}, we can
 redefine the appearance model as
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -216,9 +216,9 @@ redefine the appearance model as
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 where $\bb{A}^{\Phi} = [A_0^{\Phi}(\zero), \ldots, A_M^{\Phi}(\zero)]$
 is the matrix of concatenated appearance vectors gained from applying KPCA to
-the shape-free needle-maps. Notice that the first eigenvector of our appearance
+the shape-free normals. Notice that the first eigenvector of our appearance
 model represents the mean face. This is because, as described in
-\cref{sec:kernel-pca-for-normals}, we do not perform a mean subtraction
+\cref{subsubsec:singl_img_ca_kpca}, we do not perform a mean subtraction
 when computing the component analysis. This has the effect of slightly
 simplifying the AAM derivations such that the base appearance, $A_0(\zero)$,
 does not explicitly feature. For example, the updates in the alternating

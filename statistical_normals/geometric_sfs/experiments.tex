@@ -112,7 +112,7 @@ Images from the Photoface Database~\cite{zafeiriou2013photoface} were used to pr
 ground truth model. We used the photometric stereo algorithm presented by 
 \citet{barsky2003foursource} in order to reconstruct a set of normals. 
 We consider the normals computed by photometric stereo as ground truth due to 
-their relative accuracy over SFS@.
+their relative accuracy over SFS\@.
 
 Seven people from the data-set were chosen at random. The four images of each 
 person were manually aligned and photometric stereo was performed to produce a
@@ -124,12 +124,12 @@ was generated according to the KPCA framework described
 building a model from the FRGC v2 dataset~\cite{phillips2005overview}.
 
 The model was built from the Spring 2003 subset of the FRGC database after 
-applying some simple pre-processing in the form of hole filling and a median 
-filter. A set of normals were created from the depthmap. Each image in the FRGC 
+applying some simple pre-processing in the form of applying a $5 \times 5$ median 
+filter. Each image in the FRGC 
 database was manually annotated with 68 points, as were the images from the 
 Photoface database. We performed a thin-plate spline warp to each depth image 
 of the FRGC database into the reference space defined 
-by the Photoface image landmarks and then computed the noramls. 
+by the Photoface image landmarks and then computed the normals.
 Due to the different reference spaces, a 
 separate set of warped normals was built for each input image. Statistical 
 models were then created from the warped normals according to the kernels 

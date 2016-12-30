@@ -86,7 +86,7 @@ Given the normalised gradients, it is simple to parametrise them within a polar
 coordinate system with radius $r_i(k) = \lVert \bb{\tilde{g}}_{i}(k) \rVert = 1$,
 orientation $\phi_i(k) = \arctan{\frac{\tilde{g}_{i,y}(k)}{\tilde{g}_{i,x}(k)}}$
 and pole at the origin.
-Given orientations from two dissimilar images, it is reasonable to assume that
+Given orientations from two dissimilar images, it is reasonable to assume that the
 difference between the orientations, $\Delta \phi(k) = \phi_1(k) - \phi_2(k)$,
 can take any angle between $[0, 2\pi)$. Intuitively, this implies that selecting
 two pixels from dissimilar images is unlikely to yield any correlation between
@@ -131,7 +131,7 @@ thus will not affect the optimisation of the similarity measure.
 \subsection{Cosine Similarity in 2.5D and 3D}\label{subsec:singl_img_cosine_3d}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Measuring the angular distance between vectors in three dimensional spaces
-is more complex than in 2D, due to the extra degree of freedom. In the following
+is more complex than in 2D, due to the extra degree of freedom. In this
 section, we describe two different measures that can be used to calculate
 similarities between vectors within 3D spaces, the spherical coordinates and the
 inner product. In the previous section, we described in detail how properties of
@@ -237,8 +237,8 @@ always denote surface normals with $\bb{n}$ and 3D gradients with $\bb{g}$.
 In \cref{subsubsec:singl_img_cosine_spherical} and
 \cref{subsubsec:singl_img_cosine_inner_product} we describe two measures of angular
 difference between 3D orientations. We investigate the distribution of these
-angular measures when combined with the cosine function and motivate that they
-are both suitable for use as a similarity measure between real data.
+angular measures when combined with the cosine function and thuss that they
+are both suitable for use as a similarity measure for practical real-world data.
 Unfortunately, whilst both the spherical coordinates and inner product kernels
 can be computed for a 2.5D image,
 there does not exist a gradient in the third dimension (z-dimension) and thus
@@ -287,7 +287,7 @@ Our proposal is to combine the spherical coordinates with the cosine function in
 order to provide a robust similarity measure. Similar to the 2D case, we
 propose the cosine of azimuth differences, $\Delta \phi = \phi_1 - \phi_2$, and
 the cosine of elevation differences, $\Delta \theta = \theta_1 - \theta_2$, as a
-combined similarity measures. Given a 3D image warping function with parameters
+combined similarity measure. Given a 3D image warping function with parameters
 $\bb{p}$, the spherical coordinates form a similarity measure as follows:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:spherical_similarity_measure}
@@ -413,7 +413,7 @@ distribution of the inner product appears to be a mixture model between a
 uniform distribution and a zero mean Laplacian distribution. However, due to the
 ambiguity in the inner product in terms of orientation, the angle of the inner
 product is only defined in the range $[0, \pi]$ and thus only the positive tail
-of the Laplacian appears.
+of the Laplacian is visible.
 
 In \cref{subfig:singl_img_inner_product_squared_tumour} we also show the
 distribution of the similarity measure proposed by \citet{haber2006intensity}.

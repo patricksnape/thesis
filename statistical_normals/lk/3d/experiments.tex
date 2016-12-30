@@ -46,7 +46,7 @@ $\otimes$ is the voxelwise multiplication and $w(z)$ is given by
 \end{equation*}
 %%%%%%%%%%%%%%%%%%%%
 For all the simulations we use $\sigma = 0.15 \cdot (N_{z} - 1)$.
-\cref{fig:lk_biasfield_example} shows an example image with and without intensity
+\cref{fig:lk_biasfield_example} shows an example image with intensity
 inhomogeneities.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -77,7 +77,7 @@ This data has an image structure that differs froms
 other common 3D image sources such as MR images. Each voxel in an image is
 formed from physical slices that were taken from the body of a cadaver.
 Therefore, the gradient information across the $x, y$ plane is incredibly rich
-as it represents a true 2D-image. However, the 3D nature of the data is still
+as it represents a true 2D image. However, the 3D nature of the data is still
 maintained as each image along the $z$-axis represents another slice acquired
 from the body.
 
@@ -139,8 +139,8 @@ of the images.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{Experiments With Corruption}\label{subsec:lk_results_corrupted}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In this subsection, we present three separate experiments: images with a
-simulated bias field, with an occlusion and with an occlusion and a simulated
+In this subsection, we present three separate experiments: i) images with a
+simulated bias field, ii) with an occlusion and with an occlusion and iii) a simulated
 bias field. The bias field was generated as described in
 \cref{subsubsec:bias_fields} and an example is shown in
 \cref{fig:lk_biasfield_example}. Occluded sections were created
