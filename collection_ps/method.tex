@@ -68,7 +68,7 @@ and each of the $n$ columns represents a vectorised image of the object with $d$
 total pixels, $\bb{N} \in \bb{R}^{d \times 3}$ contains the normal at
 every pixel and $\tilde{\bb{L}} \in \bb{R}^{3 \times n}$ is the matrix
 of lighting vectors per image. Assuming accurate light vectors and no shadowing
-artefacts, this problem is trivially solved as a linear least squares problem.
+artifacts, this problem is trivially solved as a linear least squares problem.
 Photometric stereo has been shown to provide accurate facial reconstructions
 despite faces not representing true Lambertian objects. For example, there are
 many publicly available facial PS datasets that are discussed in
@@ -207,7 +207,7 @@ where $\bb{M}_{[t]} = \bb{B}_{[t]} (\bb{L}_{[t]} \ast \bb{C}_{[t]})$ is introduc
 for brevity of the equation and the SVT is defined as
 $D_{\tau}(\bb{Q}) = \bb{U} \bb{S}_{\tau} \bb{V}^T$ for any matrix $\bb{Q}$ with SVD:\@
 $\bb{Q} = \bb{U} \bb{S} \bb{V}^T$. 
-Subp-roblem~\eqref{eq:text_E_update} has a unique solution that is obtained via 
+Sub-problem~\eqref{eq:text_E_update} has a unique solution that is obtained via 
 the element-wise shrinkage operator~\cite{candes2011robust}. The shrinkage operator 
 is defined as $\mathcal{S}_{\tau}[q]=\mbox{sgn}(q) \: \max(|q|-\tau, 0)$. 
 Therefore, the solution of~\eqref{eq:text_E_update} is

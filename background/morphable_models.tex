@@ -4,8 +4,8 @@
 The term 3D Morphable Models (3DMMs) was first proposed by
 \citet{volker1999morphable} to describe a 3D reconstruction based on inverse
 rendering methods. These methods are described as ``analysis-by-synthesis''
-methods in that they attempt to model the input image by synthesizing a new
-image using the model and a rendering pipeline. Most commonly, this synthesized
+methods in that they attempt to model the input image by synthesising a new
+image using the model and a rendering pipeline. Most commonly, this synthesised
 image is then compared with the input image and the image reconstruction error
 is minimised. In~\cite{volker1999morphable}, \printauthor{volker1999morphable}
 model the face through two statistical models which are built using
@@ -19,13 +19,13 @@ An instance of the models can be generated as follows
 %%%%%%%%%%%%%%%%%%%
 where
 $\bb{s} = {[x_1, y_1, z_1, \ldots, x_m, y_m, z_m]}^T \in \R^{3m \times 1}$ is
-a vectorized instance of the $m$ vertex 3D shape model,
+a vectorised instance of the $m$ vertex 3D shape model,
 $\bb{\bar{s}} \in \R^{3m \times 1}$ is a mean 3D face shape,
 $\bb{S} \in \R^{3m \times p}$ are the orthogonal PCA shape eigenvectors and
 $\bb{\alpha} \in \R^{p \times 1}$ are the coefficients describing the unique
 linear combination of eigenvectors. Similarly,
 $\bb{t} = {[t_1, \ldots, t_d]}^T \in \R^{d \times 1}$ is
-a vectorized instance of the $d = w \times h$ pixel texture image,
+a vectorised instance of the $d = w \times h$ pixel texture image,
 $\bb{\bar{t}} \in \R^{d \times 1}$ is a mean texture,
 $\bb{T} \in \R^{d \times q}$ are the PCA texture eigenvectors and
 $\bb{\beta} \in \R^{q \times 1}$ are the coefficients.
@@ -40,7 +40,7 @@ analysis-by-synthesis method for 3D face recovery. When referring to
 the statistical models we will simply refer to them as statistical models and
 we reserve the phrase ``morphable models'' or 3DMMs solely for the
 analysis-by-synthesis algorithms. In order to recover 3D shape from an image,
-the objective minimized is the error between the synthesized image of the
+the objective minimised is the error between the synthesised image of the
 3DMM and the input image. Thus, 3DMMs must explicitly model the rendering
 method and require both synthetic camera parameters and a parametric model
 of lighting. In~\cite{volker1999morphable},
@@ -83,13 +83,13 @@ often looks visually convincing. Thus 3DMMs have been a popular area of
 research despite their shortcomings.
 \cite{atick1996statistical} proposed one of the earliest analysis-by-synthesis
 methods for facial shape recovery. They compute PCA on a set of
-Cyberware~\cite{cyberware} scanned heads that are parametrized using
+Cyberware~\cite{cyberware} scanned heads that are parameterised using
 cylindrical coordinates. They then pose shape recovery as the problem
-of recovering the PCA coefficients for a given input image by minimizing
+of recovering the PCA coefficients for a given input image by minimising
 the least squares error between the basis rendered orthographically
 using a Lambertian BRDF (with assumed known light and uniform albedo)
 and the input image. This work was inspired by the Eigenfaces work of
-\citet{Sirovich:1987te} but utilized 3D data rather than images. To solve
+\citet{Sirovich:1987te} but utilised 3D data rather than images. To solve
 the least squares problem a linearisation is performed via a Taylor series 
 expansion and conjugate gradient descent is applied.
 %TODO: Check Smith's work and see if there is more stuff

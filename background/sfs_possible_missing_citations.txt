@@ -21,7 +21,7 @@ Intelligence, vol. 28, no. 3, pp. 351-363, Mar. 2006.
 
 S.K. Zhou, G. Aggarwal, R. Chellappa, and D.W. Jacobs,
 “Appearance Characterization of Linear Lambertian Objects,
-Generalized Photometric Stereo, and Illumination-Invariant Face
+generalised Photometric Stereo, and Illumination-Invariant Face
 Recognition,” IEEE Trans. Pattern Analysis and Machine Intelligence,
 vol. 29, no. 2, pp. 230-245, Feb. 2007.
 

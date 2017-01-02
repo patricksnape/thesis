@@ -5,15 +5,15 @@ In this section we seek to perform alignment on 2.5D and 3D images using
 normals as our feature representation. We build upon the 
 Lucas-Kanade~\cite{lucas1981iterative} literature as these algorithms provide
 a strong foundation for construction of parametric image alignment methods. We note that
-the cases of 2.5D and 3D data will be considered seperately and the derivation
+the cases of 2.5D and 3D data will be considered separately and the derivation
 of the Lucas-Kanade algorithm in each case is slightly different. In the
 case of 2.5D data, such as that of FRGC~\cite{phillips2005overview}, we follow
 the methodology of \citet{antonakos2015feature} and use normals as an image
 ``feature'' or ``descriptor'' and linearise it as though it were the image pixels.
-We also utilize the proposed KPCA framework for normals in order to use normals
+We also utilise the proposed KPCA framework for normals in order to use normals
 to perform parametric image alignment with an appearance model as described
 in the Active Appearance Model (AAM)~\cite{cootes2001active} literature. We
-utilize the AAM formulation described by \citet{matthews2004active} which
+utilise the AAM formulation described by \citet{matthews2004active} which
 demonstrates that AAMs can be seen as an extension of the classical Lucas-Kanade
 algorithm to include a statistical model of appearance. These statistical models
 are most commonly constructed using PCA and therefore our proposed KPCA
@@ -37,9 +37,9 @@ agnostic to the coordinate system.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 When referring to the operations performed by the LK algorithm we will use the
 following notations. Images are denoted by unbolded capital letters such as
-$I$ and $T$. Indexing the image $I$ by a discretized coordinate is
-denoted $I(x, y) = c$ where $c$ would be a greyscale value in this case. We
-further define a linear index $k$ into the vectorized image such that $I(k)$ 
+$I$ and $T$. Indexing the image $I$ by a discretised coordinate is
+denoted $I(x, y) = c$ where $c$ would be a grayscale value in this case. We
+further define a linear index $k$ into the vectorised image such that $I(k)$ 
 implies the $k = x * height + y$ pixel coordinate. 
 This allows for simpler indexing of the vectorised image.
 Warp functions that describe how to sample a sub-pixel coordinate
@@ -49,7 +49,7 @@ and express the warping of the $i$th coordinate vector,
 $\bb{x}_i = {[x_i, y_i, z_i]}^{\top}$ for a 3D coordinate and 
 $\bb{x}_i = {[x_i, y_i]}^{\top}$ for a 2D coordinate, by a set of parameters
 $\p = {\left[p_1, \ldots, p_n\right]}^{\top}$, where $n$ is the number of warp
-parameters. We define the vectorized set of singe coordinate vectors as
+parameters. We define the vectorised set of singe coordinate vectors as
 $\bb{x} = \left[ x_1, y_1, z_1, \ldots, x_D, y_D, z_D \right]$ that
 represents the concatenated vector of coordinates, of length $D$, which allows
 the definition of a single warp for an entire image,

@@ -99,10 +99,10 @@ majority of existing databases were produced in the last decade. The quality
 of these facial models has also increased substantially, which is demonstrated
 in \cref{fig:db_examples}.
 
-The CANDIDE~\cite{Rydfalk:1987tg,Ahlberg:1998uk} models were parameterizable
+The CANDIDE~\cite{Rydfalk:1987tg,Ahlberg:1998uk} models were parameterisable
 wireframe models that contained a low number of vertices (75--95) and were
 designed to be controlled according to pre-defined Action Units. The CANDIDE
-model was not captured from real data and thus had limited uses for modeling
+model was not captured from real data and thus had limited uses for modelling
 identity. Early attempts at recording facial databases focused on the use
 of laser scanning technology~\cite{cyberware,minolta} or structured light. For
 example, the early work of \citet{beumier2001face} used an internally developed
@@ -110,7 +110,7 @@ structured light system to provide low quality neutral face scans. Structured
 light was also used for the Bosphorus~\cite{Savran:2008gg}
 and UoY~\cite{heseltine2008three} databases. One of the most commonly used
 parametric 3D models is that of the Basel 3D Morphable Model
-(3DMM)~\cite{paysan20093d} which also utilized a custom structured light
+(3DMM)~\cite{paysan20093d} which also utilised a custom structured light
 scanner called the ABW-3D scanner. The introduction of the consumer aimed
 Kinect by Microsoft~\cite{zhang2012microsoft} ensured that structured light
 technology was extremely cheap to acquire and thus the BIWI Head
@@ -236,7 +236,7 @@ is widely applicable and has seen applications in
 films~\cite{borshukov2005universal}, video games~\cite{vonderPahlen:2014kg},
 virtual makeup systems~\cite{scherbaum2011computer} and
 animatronics~\cite{jung2011believable}. The recovery of these mesoscopic details
-requires careful modeling of the interaction between human skin and light. To
+requires careful modelling of the interaction between human skin and light. To
 this end, many works focus solely on these reflectance characteristics and seek
 to provide highly realistic parametric reflectance functions for skin. In this
 review, we are only interested in methods that recover realistic 3D shape and
@@ -375,7 +375,7 @@ focuses on the concept that modern cameras are capable of capturing such high
 detail that stereo-matching is greatly simplified. Fourteen stereo cameras, in
 seven pairs, are focused on seven overlapping facial regions, allowing the
 capture of high frequency facial detail such as pores. This high frequency
-detail is utilized for stereo matching and the seven overlapping regions are
+detail is utilised for stereo matching and the seven overlapping regions are
 then merged to recover a single high quality mesh. The remainder of the work
 focuses on recovering a topologically consistent mesh throughout the sequence by
 applying optical flow and drift correction methods. The output is a performance
@@ -449,12 +449,12 @@ enabled up to 120 fps capture and reconstruction. The reconstruction is computed
 rapidly via a novel three-step sinusoidal phase shifting algorithm.
 \citet{zhang2006high} proceed to non-rigidly align a generic model to the output
 meshes in order to achieve a topologically consistent sequence.
-\citet{weise2007fast} also utilize a projected light pattern, but in contrast to
+\citet{weise2007fast} also utilise a projected light pattern, but in contrast to
 \citet{zhang2006high}, the projector is calibrated with respect to two stereo
 cameras and so extra constraints are imposed on stereo matching. This has the
 advantage that the structured lighting constraints complement the stereo
 matching, but due to the phase shifted structure of the lighting patterns three
-consecutive images are required for 3D recovery. Thus, motion artefacts become
+consecutive images are required for 3D recovery. Thus, motion artifacts become
 evident in a dynamic scene. To mitigate this, \citet{weise2007fast} propose a
 motion compensation scheme involving estimating the phase error cause by motion.
 
@@ -483,7 +483,7 @@ field from a human face. Here, two cameras record the subject and a spotlight
 suspended 1.5 metres away from the subject is revolved at approximately 25 RPM,
 producing around 2048 output images. Both subsurface (diffuse) and specular data
 were recovered using chromaticity analysis and the specular component was
-utilized to allow relighting from novel viewpoints. This work focused on the
+utilised to allow relighting from novel viewpoints. This work focused on the
 recovery of reflectance information for image relighting and required
 approximately one minute for capture, making it impractical for dynamic use.
 \citet{weyrich2006analysis} provided a more
@@ -503,12 +503,12 @@ efficiency of their method with data capture using an
 active stereo method~\cite{zhang2003spacetime,davis2005spacetime} which is
 augmented with surface normals recovered from time-multiplexed photometric
 stereo.
-\citet{wenger2005performance} utilized a light-stage in order to capture
+\citet{wenger2005performance} utilised a light-stage in order to capture
 short performances. A high speed camera and time multiplexed illumination was
-utilized to capture many images. They also experimented with different
+utilised to capture many images. They also experimented with different
 illumination bases to attempt to improve the lighting of the subject
 under such short exposures. Diffuse normals are recovered with PS and
-reflectance mapping~\cite{miller1984illumination} is utilized for facial
+reflectance mapping~\cite{miller1984illumination} is utilised for facial
 relighting.
 \citet{malzbender2006surface} also propose PS for dynamic
 capture and provide a hardware set up that enables real-time capture
@@ -520,7 +520,7 @@ Only four spherical gradient illumination patterns are required to allow
 normal estimation from arbitrary viewpoints. A light-stage consisting of 156
 LED lights and a single camera are used to construct the 4 illumination
 patterns. The primary novelty, other than arbitrary viewpoint synthesis, is
-the simple separation of diffuse and specular normals by polarization of the
+the simple separation of diffuse and specular normals by polarisation of the
 gradients. Due to the lower number of lighting configurations required,
 \citet{ma2007rapid} do not require a high speed camera.
 \citet{wilson2010temporal} extend the work of \citet{ma2007rapid} to
@@ -545,10 +545,10 @@ They also propose a maximum likelihood estimate of the output shape
 that fuses the coarse geometry estimate from stereo with photometric normals
 to provide a unified method for recovering stereo fused with normals.
 \citet{ghosh2011multiview} note that although \citet{fyffe2011comprehensive}
-performed multi-view reconstruction, there were unable to apply polarization
+performed multi-view reconstruction, there were unable to apply polarisation
 in order to recover diffuse and specular normals. Therefore,
 \citet{ghosh2011multiview} propose a new set of spherical gradient
-illumination patterns that allow view independent polarization
+illumination patterns that allow view independent polarisation
 for viewpoints that lie along the yaw plane (profile-to-profile). Like
 \citet{fyffe2011comprehensive}, they perform geometry recover jointly
 on the stereo and normals estimates, however, they do not merge the multiple
@@ -595,12 +595,12 @@ Furthermore, it may also be desirable to recover a facial surface with
 consistent topology across all frames. Whilst this may be handled during
 post-processing of the capture, it is often more accurate to enforce
 the consistent topology during geometry recovery. \citet{bickel2007multi}
-utilize painted face markers for sparse motion capture recording. A dense
+utilise painted face markers for sparse motion capture recording. A dense
 generic facial template is then deformed using the motion capture displacements
-and wrinkles are synthesized from the texture information to recover
+and wrinkles are synthesised from the texture information to recover
 ``medium-scale'' details. \citet{popa2010globally} record a sequence by
 employing the method of \citet{bradley2010high}. A hierarchical sequence
-is then built by pairing consecutively longer subsequences together. Sparse
+is then built by pairing consecutively longer sub-sequences together. Sparse
 optical flow is employed as a set of soft correspondences and a patch-based
 optimisation method is employed to build a single topologically consistent
 mesh. \citet{Beeler:2011ey} extend their earlier work~\cite{Beeler:2010dg}
@@ -622,18 +622,18 @@ shading related features. A consistent topology is recovered using
 a on-sequential spanning tree. However, uniform white make-up must be applied
 to the actors face in order to allow multi-spectral calibration. Similarly,
 \citet{Gotardo:2015vo} propose a hybrid method that attempts to iteratively
-recover a high quality performance capture result by utilizing both
+recover a high quality performance capture result by utilising both
 passive stereo and multi-spectral PS information. They perform
 correspondence recovery over small windows and geometry information is thus
 recovered using stereo. This coarse geometry is refined using multi-spectral PS
-and then illumination normalised albedo maps are synthesized using the surface
-normal information. These albedo images are then re-utilized for optical flow
+and then illumination normalised albedo maps are synthesised using the surface
+normal information. These albedo images are then re-utilised for optical flow
 computation to iteratively improve the initial stereo recovery.
 \citet{Fyffe:2014hc} employ the capturing system of \citet{ghosh2011multiview}
 to recover a base set of person specific meshes. A uniformly lit
 sequence is then captured in stereo and a ``performance flow graph'' is
 computed whereby optical flow is calculated between every pair of frames.
 An optimisation procedure is proposed to perform 3D tracking between the
-static scans and the performance capture is parameterized between the given
+static scans and the performance capture is parameterised between the given
 static 3D scans a single artist rigged neutral mesh.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -48,7 +48,7 @@ insufficient to disambiguate shape. For example, the well known bas-relief
 ambiguity~\cite{belhumeur1999bas} is demonstrated for a facial mesh in
 \cref{fig:bg_sfs_bas_relief}. The bas-relief ambiguity states that for an object
 imaged under orthographic projection that exhibits Lambertian reflectance, there
-exists a family of transformations (generalized bas-relief transformations) for
+exists a family of transformations (generalised bas-relief transformations) for
 which the images produced will be identical. In fact, more generally there
 exists an infinite number of ways to describe any image given only shading
 information through different arrangements of surfaces, lightings and
@@ -173,7 +173,7 @@ An illustration of the general BRDF is given in \cref{fig:bg_sfs_brdf_example}.
 		\caption*{Lambertian BRDF}
 	\end{subfigure}
 	\caption{The left image shows the general radiance equation for a generic
-	         BRDF that is parametrized by the irradiance $(\theta_i, \phi_i)$
+	         BRDF that is parameterised by the irradiance $(\theta_i, \phi_i)$
 	         and radiance $(\theta_r, \theta_r)$ reflecting from the surface.
 	         The right image shows the Lambertian BRDF assuming unit light
 	         intensity. Note that the Lambertian BRDF is independent of
@@ -220,7 +220,7 @@ form of the Lambertian BRDF is
 $L_{\operatorname{lambert}} = \rho_{\smallsub{d}} \max(\bb{n}^T \bb{s}, 0)$.
 For completeness, is it worthwhile noting that the image irradiance, formed
 through the interaction of the scene radiance and the optic lens, is not
-the final measured pixel intensity value commonly utilized on Computer Vision.
+the final measured pixel intensity value commonly utilised on Computer Vision.
 The final measured pixel intensity is a function of the image irradiance
 and a non-linear function commonly referred to as the
 \textit{camera response function}. The camera response function models a number
@@ -312,7 +312,7 @@ of the assumptions will only further serve to degrade the recovered shape.
 Although surface normals
 are a parametrisation of an objects shape, in this thesis we are most
 interested in the recovered 3D coordinates. In the case of SfS, this can be
-realized as a height map (or depth map) of $z$-coordinates that protrude
+realised as a height map (or depth map) of $z$-coordinates that protrude
 from the image plane. Given the $\{p, q\}$ gradient field parametrisation, the
 height map may be recovered via integration of the gradient field. However,
 due to noise in the gradient field recovery, the gradient field will not be
@@ -352,7 +352,7 @@ The current state-of-the-art in SfS is the generic method of
 \citet{barron2015shape}, called
 Shape, Illumination and Reflectance from Shading (SIRFS). The SIRFS method is
 described as a generalisation of the modern ``intrinsic image'' algorithm in
-which shading is parametrized in terms shape and illumination.
+which shading is parameterised in terms shape and illumination.
 \citet{barron2015shape} seek to recover the most likely explanation, in a
 statistical sense, by imposing a set of very general priors around smoothness
 and colour composition on the input image. Although this is a state-of-the-art
@@ -365,7 +365,7 @@ shape by providing an initial estimate of the 3D face shape
 using~\cite{Yang:2011gj}. \citet{li2014intrinsic} show superior results to the
 original SIRFS, particular for surface normal recovery.
 \citet{atick1996statistical} propose an analysis-by-synthesis method
-for minimizing the reconstruction error between a statistical model of facial
+for minimising the reconstruction error between a statistical model of facial
 surface based on depth images rendered using a Lambertian BRDF and the input
 image. Although this is termed as SfS, we classify it as analysis-by-synthesis
 and discuss it in further detail in \cref{sec:bg_3dmm}.
@@ -391,33 +391,33 @@ illumination, their primary results focus on the case when the illumination
 is coincident with the viewing angle.
 \citet{biswas2009robust} concentrate on robust albedo estimation, though they
 demonstrate the accuracy of their albedo estimation by performing SfS using the
-method of \citet{ping1994shape}. In particular, they utilize a mean shape as the
+method of \citet{ping1994shape}. In particular, they utilise a mean shape as the
 initial shape estimate and thus produce a robust estimate of the albedo using a
 Linear Minimum Mean Square Error Estimator (LMMSE). They proceed to normalise
 the image using the albedo estimate and then transform the normalised image to
 appear lit by the initial illumination direction estimate. Finally, SfS is
 performed on the transformed image, which they showed was much more accurate
 than performing SfS on the initial input image.
-\citet{kemelmacher2011facereconstruction} also utilize a template shape, but
+\citet{kemelmacher2011facereconstruction} also utilise a template shape, but
 rather than simply initialising a SfS algorithm with this shape, the authors
 propose to augment the template geometry with a photometric consistency term
 stemming from spherical harmonics. This is similar in spirit to many of the
 methods shown in \cref{subsec:bg_capture} where the coarse output of stereo was
 augmented with photometric information. 
-\citet{kemelmacher2011facereconstruction} directly optimize over the 3D
+\citet{kemelmacher2011facereconstruction} directly optimise over the 3D
 surface rather than the normals themselves in order to avoid integration of the
 normals as a secondary process. The 3D surface
-is parametrized as a height map and alignment between the input
+is parameterised as a height map and alignment between the input
 image and the template mesh is performed via optical flow. This implies that the
 method is generally poor at recovering details from posed images as the
 alignment between the template and the image must be highly accurate. This work
-was also utilized in~\cite{kemelmacher2008mooney} for the recovery of shape
+was also utilised in~\cite{kemelmacher2008mooney} for the recovery of shape
 using binary images (dubbed ``Mooney-images'') where the authors show that, with
 some consideration, a template mesh may also be deformed to recovery reasonable
 facial shape from textureless images.
 \citet{roth2015unconstrained} extend the work of~\cite{kemelmacher2011facereconstruction}
-by proposing to use a 3D mesh parametrized by vertices rather than as a height
-map. 2D facial landmarks are utilized to recover the initial mesh alignment with
+by proposing to use a 3D mesh parameterised by vertices rather than as a height
+map. 2D facial landmarks are utilised to recover the initial mesh alignment with
 the input image and a novel Laplace mesh editing method is used to deform the
 template mesh to the photometric normals predicted from the image.
 \citet{Suwajanakorn:2014bl} also perturb a template mesh using a photometric
@@ -456,7 +456,7 @@ constructed and at testing time the model with the lowest standard
 deviation is chosen to produce the final result. The images are aligned
 with an affine alignment using the eye centres and the normals are integrated
 using \citet{frankot1988method}.
-\cite{minsik2011fast} utilize a tensor decomposition method based on the
+\cite{minsik2011fast} utilise a tensor decomposition method based on the
 2nd order spherical harmonic basis. They compute spherical harmonic
 images directly from the surface normals and perform
 N-Mode~\cite{vasilescu2003multilinear} on the images of all subjects

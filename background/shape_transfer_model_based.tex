@@ -50,12 +50,12 @@ coefficients.
 texture and shape model of 2D AAMs~\cite{cootes2001active} and couple image
 intensity and surface height representations. They investigate three surface
 height representations including the surface derivatives, the surface height
-and a fourier basis of the surface derivatives. The coupled model is created
+and a Fourier basis of the surface derivatives. The coupled model is created
 by constructing PCA models for both intensity and shape inputs and then
 further constructing a joint PCA on the coefficients of the intensity and shape
 PCA models. At test time, the best fit coefficients for the joint model are
 constructed by minimising the difference between the coefficients of
-the input image, found by projecting the input iamge against the intensity PCA
+the input image, found by projecting the input image against the intensity PCA
 basis, and the best reconstruction from the joint model. This is a simple
 least squares problem that assumes that the input image is aligned
 with the intensity PCA basis. \citet{ahmed2007new} extend this work to
@@ -63,7 +63,7 @@ include a spherical harmonic basis to represent shape. This enables
 the recovery of the albedo and thus illumination conditions are also
 recovered. Similarly, \citet{rara2009model} minimise the error between
 an intensity and shape model using spherical harmonic basis, but solve for 
-each model seperately. They describe this as following a ``project-out'' 
+each model separately. They describe this as following a ``project-out'' 
 method~\cite{matthews2004active} and first solve for the shape, fixing the 
 intensity and then solving for the intensity with the recovered shape. 
 \citet{rara2010face} also employ a spherical harmonic basis but use
@@ -71,7 +71,7 @@ Partial Least Squares (PLS) to recover the best shape parameters. Similarly,
 \citet{rara2011model} use principal component regression in order to map
 a set of known 2D landmarks to the parameters of a statistical 3D shape model.
 \citet{kouzani1998example} build a texture space model by rendering a set of
-textured 3D meshes into fixed poses. Each of the pose clusters is futher aligned
+textured 3D meshes into fixed poses. Each of the pose clusters is further aligned
 via 2D image warping and a PCA subspace is constructed per cluster. A test image
 is aligned via optical flow to the mean of the correct pose cluster and the PCA
 coefficients are obtained. The key assumption is that the PCA of texture and PCA
@@ -116,7 +116,7 @@ reconstruction of an input model for an input image. Unlike purely model
 driven methods, alignment algorithms assume that the initialisation will not be
 perfect and thus attempt to deform the model in some manner in order to best
 replicate some feature of the input image. Unlike 3DMMs, alignment methods
-do not necessarily try to synthesize the image, but instead focus on learning
+do not necessarily try to synthesise the image, but instead focus on learning
 relationships between some feature of the image and the model.
 
 \citet{terzopoulos1993analysis} build a physics based synthetic tissue model
@@ -130,7 +130,7 @@ are used to initialise the face model onto a frontal face and then optical
 flow is performed. The displacements recovered by optical flow from a
 neutral pose are then fed into an optimisation that deforms the mesh according
 to the physically based muscle model.
-\citet{jebara1997parametrized} track the 3D motion of a face using a generic
+\citet{jebara1997parameterised} track the 3D motion of a face using a generic
 dense 3D face mesh and a modified rigid Structure-from-Motion algorithm
 to recover the head pose. Symmetric frontalisation is performed on the face
 within the image and an Extended Kalman Filter (EKF) is used to perform motion
@@ -206,7 +206,7 @@ SIFT~\cite{lowe2004distinctive} as input to an inverse compositional alignment
 algorithm~\cite{baker2004lucas} evaluated for face tracking. The SIFT features
 are required to be distant from one another and matched features must be close
 between frames.
-\citet{Wang:2011kr} propose a one-shot optimization approach to simultaneously
+\citet{Wang:2011kr} propose a one-shot optimisation approach to simultaneously
 estimate the sparse 3D landmarks, the corresponding 2D projections and their
 visibility states without requiring explicit estimation of the camera
 parameters. A higher order Markov Random Field (MRF) is used to encode the

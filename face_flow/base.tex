@@ -19,7 +19,7 @@ to perform the decomposition and recover a dense representation of shape, it
 is necessary to recover dense correspondences between all of the input images. 
 This was achieved by employing a piecewise constant warping function. Unfortunately, a
 piecewise warping function only recovers coarse correspondences and may produce
-artefacts in the case of extreme expression or head pose. Therefore, it is
+artifacts in the case of extreme expression or head pose. Therefore, it is
 desirable to be able to recover a more accurate set of dense correspondences 
 between the input images. \citet{KemelmacherShlizerman:2013iv} proposed to
 perform this alignment via optical flow~\cite{liu2009beyond} which provides
@@ -36,7 +36,7 @@ Collection Flow~\cite{kemelmacher2012collection} which seeks to normalise
 lighting effects between images of differing people. Unfortunately, 
 Collection Flow~\cite{kemelmacher2012collection} is unlikely to work in
 scenarios containing occlusions and more severe lighting conditions.
-Furthermore, the application of multiple optical flowm stages ensures that Collection
+Furthermore, the application of multiple optical flow stages ensures that Collection
 Flow is very costly to compute. In fact, optical flow is most commonly performed
 on \textit{image sequences}, where the brightness constancy assumption is
 much less likely to be violated. 
@@ -62,11 +62,11 @@ recover the 3D rigid motion and a non-rigid deformation basis for the given
 correspondences. Unfortunately, these methods do not scale well to the large number
 of correspondences being considered here. Only the work of \citet{garg2013dense}
 provides a method of computing NR-SfM on a large number of data points. Their 
-results are impressive and their use of a highly parralelizable primal
+results are impressive and their use of a highly parallelisable primal
 dual algorithm yields an efficient NR-SfM algorithm. NR-SfM is still
 a costly procedure and does not take advantage of the prior knowledge provided
 by the fact that the sequence contains a face. This knowledge can be leveraged
-by incoporating one of the many 3D facial models that are available\footnote{As
+by incorporating one of the many 3D facial models that are available\footnote{As
 discussed in \cref{sec:bg_db_capture}.}. Model based 3D recovery methods
 are capable of recovering highly plausible 3D facial surfaces due to being
 restricted to the output of a detailed 3D facial model. Employing a 3D model
