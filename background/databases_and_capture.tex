@@ -75,7 +75,7 @@ Photoface                   &\cite{zafeiriou2013photoface}  & 2013              
 FaceWarehouse               &\cite{Cao:2014gy}              & \multirow{3}{*}{2014} & 150         & 3000        & $\cm$       & ---   & MO/D   \\
 BP4D-Spontaneous            &\cite{Zhang:2014id}            &                       & 41          & Many        & $\cm$       & $\cm$ & 4D M   \\
 EURECOM                     &\cite{min2014kinectfacedb}     &                       & 52          & 936         & $\cm$       & $\cm$ & D      \\ \midrule
-SURREY                      &\cite{Huber:F5Dca9zy}          & \multirow{2}{*}{2016} & 169         & 169         &             & ---   & MO     \\ 
+SURREY                      &\cite{Huber:F5Dca9zy}          & \multirow{2}{*}{2016} & 169         & 169         &             & ---   & MO     \\
 LSFM                        &\cite{booth2016lsfm}           &                       & 10000       & 200         &             & ---   & MO     \\ \bottomrule
 \end{tabular}%
 }
@@ -220,8 +220,9 @@ specular normals.
 	         Minolta~\cite{minolta} laser scanning system,
 	         \lsubref{fig:db_examples_biwi} by the
 	         Microsoft Kinect~\cite{zhang2012microsoft} and
-	         \lsubref{fig:db_examples_ict} by a passive stereo
-	         light stage~\cite{debevec2000acquiring}.}
+	         \lsubref{fig:db_examples_ict} by the active illumination method
+	         described in~\cite{debevec2000acquiring}
+	         (medium-scale geometry shown).}
 \label{fig:db_examples}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -275,7 +276,7 @@ shape recovery.
                       & \printauthor{wenger2005performance}    &~\cite{wenger2005performance}    &       &                 &       & $\cm$   &       &       \\ \midrule
 \multirow{2}{*}{2006} & \printauthor{weyrich2006analysis}      &~\cite{weyrich2006analysis}      &       &                 & $\cm$ & $\cm$   &       &       \\
                       & \printauthor{zhang2006high}            &~\cite{zhang2006high}            &       &                 & $\cm$ &         &       &       \\ \midrule
-\multirow{4}{*}{2007} & \printauthor{ma2007rapid}              &~\cite{ma2007rapid}              &       &                 &       & $\cm^*$ &       &       \\
+\multirow{4}{*}{2007} & \printauthor{ma2007rapid}              &~\cite{ma2007rapid}              &       &                 &       & $\cm^*$ &       & $\cm$ \\
                       & \printauthor{bickel2007multi}          &~\cite{bickel2007multi}          &       & $\cm^{\dagger}$ &       &         &       & $\cm$ \\
                       & \printauthor{weise2007fast}            &~\cite{weise2007fast}            & $\cm$ &                 & $\cm$ &         &       &       \\
                       & \printauthor{alexander2009digital}     &~\cite{alexander2009digital}     &       & $\cm$           &       & $\cm^*$ &       &       \\ \midrule
@@ -283,7 +284,7 @@ shape recovery.
 \multirow{3}{*}{2010} & \printauthor{Beeler:2010dg}            &~\cite{Beeler:2010dg}            & $\cm$ &                 &       &         &       &       \\
                       & \printauthor{bradley2010high}          &~\cite{bradley2010high}          & $\cm$ &                 &       &         &       &       \\
                       & \printauthor{popa2010globally}         &~\cite{popa2010globally}         & $\cm$ &                 &       &         &       & $\cm$ \\
-                      & \printauthor{wilson2010temporal}       &~\cite{wilson2010temporal}       &       &                 &       & $\cm^*$ &       &       \\ \midrule
+                      & \printauthor{wilson2010temporal}       &~\cite{wilson2010temporal}       &       &                 &       & $\cm^*$ &       & $\cm$ \\ \midrule
 \multirow{3}{*}{2011} & \printauthor{fyffe2011comprehensive}   &~\cite{fyffe2011comprehensive}   & $\cm$ &                 &       & $\cm^*$ &       &       \\
                       & \printauthor{wu2011high}               &~\cite{wu2011high}               & $\cm$ &                 &       &         &       &       \\
                       & \printauthor{Beeler:2011ey}            &~\cite{Beeler:2011ey}            & $\cm$ &                 &       &         &       & $\cm$ \\
@@ -293,8 +294,8 @@ shape recovery.
                       & \printauthor{klaudiny2012high}         &~\cite{klaudiny2012high}         & $\cm$ &                 &       &         & $\cm$ & $\cm$ \\ \midrule
 \multirow{2}{*}{2014} & \printauthor{vonderPahlen:2014kg}      &~\cite{vonderPahlen:2014kg}      &       &                 &       & $\cm^*$ &       &       \\
                       & \printauthor{Fyffe:2014hc}             &~\cite{Fyffe:2014hc}             &       &                 &       & $\cm$   & $\cm$ &       \\ \midrule
-\multirow{2}{*}{2015} & \printauthor{Gotardo:2015vo}           &~\cite{Gotardo:2015vo}           & $\cm$ &                 &       &         & $\cm$ & $\cm$ \\
-                      & \printauthor{graham2015near}           &~\cite{graham2015near}           & $\cm$ &                 &       & $\cm$   &       &       \\ \bottomrule
+2015                  & \printauthor{Gotardo:2015vo}           &~\cite{Gotardo:2015vo}           & $\cm$ &                 &       &         & $\cm$ & $\cm$ \\
+2016                  & \printauthor{fyffe2016near}            &~\cite{fyffe2016near}            & $\cm$ &                 &       & $\cm$   &       &       \\ \bottomrule
 \end{tabular}
 \caption{A timeline of facial capture methods. P-S denotes Passive Stereo,
          A-S is Active Stereo, SL is Structured Light, TM-PS is Time-multiplexed
@@ -553,7 +554,7 @@ for viewpoints that lie along the yaw plane (profile-to-profile). Like
 \citet{fyffe2011comprehensive}, they perform geometry recover jointly
 on the stereo and normals estimates, however, they do not merge the multiple
 views and instead recover a single displacement map. Most recently,
-\citet{graham2015near} have proposed a fast capture method involving 24 cameras
+\citet{fyffe2016near} have proposed a fast capture method involving 24 cameras
 and six ring lights where each flash is fired sequentially with a subset
 of the cameras. Thus, 24 specular reflection angles are recovered which
 enables chromaticity separation of the diffuse and specular normals. Passive
