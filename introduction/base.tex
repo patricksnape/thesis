@@ -54,15 +54,15 @@ number of fields including entertainment, medicine and psychology.
 	\resizebox{\textwidth}{!}{%
 		\begin{tabular}{clccl}
 		\toprule
-		\multicolumn{1}{c}{Classification}                  & \multicolumn{1}{c}{Method}                                                   & \# Images & Other Input                                                                       & \multicolumn{1}{c}{Output} \\ \midrule
-		\multirow{4}{*}[-0.7cm]{Image Formation}            & Shape-from-Shading                                                           & $1$       & \begin{tabular}[c]{@{}c@{}}Reflectance Model, \\ Lighting Directions\end{tabular} & Surface Normals            \\ \cmidrule(l){3-5}
-		                                                    & \begin{tabular}[c]{@{}l@{}} (Un) Calibrated \\ Photometric Stereo\end{tabular} & $\geq 3$  & \begin{tabular}[c]{@{}c@{}}Lighting Directions \\ (If Calibrated)\end{tabular}  & Surface Normals            \\ \cmidrule(l){3-5}
-		                                                    & Shape-from-Contour                                                           & $1$       & Object Contour                                                                    & Coarse Surface Normals     \\ \cmidrule(l){3-5}
-		                                                    & Analysis-by-Synthesis                                                        & $1$       & 3D Model                                                                          & 3D Shape                   \\ \midrule
-		\multirow{2}{*}{Photogrammetry}                     & Multi-View Stereo                                                            & $k$       & Camera Extrinsics                                                                 & 3D Shape                   \\ \cmidrule(l){3-5}
-		                                                    & Structure-from-Motion                                                        & $k$       & Corresponding Points                                                              & 3D Shape                   \\ \midrule
-		\multirow{2}{*}{Other}                              & Shape Transfer                                                               & $1$       & 3D Model                                                                          & 3D or 2.5D Shape           \\
-		                                                    & Alignment                                                                    & $1$       & 3D Model                                                                          & 3D Shape                   \\ \bottomrule
+		\multicolumn{1}{c}{Classification}                  & \multicolumn{1}{c}{Method}                                                   & \# Images & Other Input                                                                       & \multicolumn{1}{c}{Output}   \\ \midrule
+		\multirow{4}{*}[-0.7cm]{Image Formation}            & Shape-from-Shading                                                           & $1$       & \begin{tabular}[c]{@{}c@{}}Reflectance Model, \\ Lighting Directions\end{tabular} & Surface Normals or Depth Map \\ \cmidrule(l){3-5}
+		                                                    & \begin{tabular}[c]{@{}l@{}} (Un) Calibrated \\ Photometric Stereo\end{tabular} & $\geq 3$  & \begin{tabular}[c]{@{}c@{}}Lighting Directions \\ (If Calibrated)\end{tabular}  & Surface Normals or Depth Map \\ \cmidrule(l){3-5}
+		                                                    & Shape-from-Contour                                                           & $1$       & Object Contour                                                                    & Coarse Surface Normals       \\ \cmidrule(l){3-5}
+		                                                    & Analysis-by-Synthesis                                                        & $1$       & 3D Model                                                                          & 3D Shape                     \\ \midrule
+		\multirow{2}{*}{Photogrammetry}                     & Multi-View Stereo                                                            & $k$       & Camera Extrinsics                                                                 & 3D Shape                     \\ \cmidrule(l){3-5}
+		                                                    & Structure-from-Motion                                                        & $k$       & Corresponding Points                                                              & 3D Shape                     \\ \midrule
+		\multirow{2}{*}{Other}                              & Shape Transfer                                                               & $1$       & 3D Model                                                                          & 3D or 2.5D Shape             \\
+		                                                    & Alignment                                                                    & $1$       & 3D Model                                                                          & 3D Shape                     \\ \bottomrule
 		\end{tabular}
 	}
 	\caption{A summary of methods for recovering 3D shape from images. The two
@@ -134,8 +134,8 @@ methods it is also important to consider the problem of correspondence.
 In this thesis, we are interested in tackling the problem of 3D facial shape
 recovery in challenging ``in-the-wild'' conditions. This is in contrast
 to many works, such as the 3DMM, that focus on the recovery of facial shape
-under ideal conditions (uniform frontal illumination, frontal face,
-no expression, young Caucasian subject). As previously mentioned and summarised
+under ideal conditions (near-frontal face, no expression, young Caucasian subject).
+As previously mentioned and summarised
 in \cref{tbl:3d_recovery_methods}, there are
 a number of scenarios that may be considered in order to recover shape from
 images. Given the breadth of possible scenarios, we have categorised them into
