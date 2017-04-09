@@ -49,14 +49,14 @@ the objects surface normals:
    \end{aligned}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
-where $\bb{n}_{i}(x, y)$ denotes the $i$th component of the normal vector. 
-This is a particularly useful result as recovering the first order SH means 
+where $\bb{n}_{i}(x, y)$ denotes the $i$th component of the normal vector.
+This is a particularly useful result as recovering the first order SH means
 directly recovering a representation of shape for an object.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Uncalibrated Photometric Stereo}\label{subsec:imag_coll_uncalibrated_ps}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Classical PS seeks to recover the normals of a convex
-object given a number of images under known different lighting conditions. 
+object given a number of images under known different lighting conditions.
 Traditionally, the following decomposition is performed
 %%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:general_ps}
@@ -78,7 +78,7 @@ If the lighting vectors are inaccurate or unknown, then PS is said to be
 uncalibrated. \citet{basri2007photometric} showed that $\bb{X}$ can
 be decomposed via a rank constrained singular value decomposition (SVD) to
 recover the SH bases and the lighting coefficients in the uncalibrated setting.
-First order SH are recovered by a rank 4 SVD and are accurate up to a $4 \times 4$ 
+First order SH are recovered by a rank 4 SVD and are accurate up to a $4 \times 4$
 generalised Lorentz transformation. By enforcing constraints such as the
 integrability constraint~\cite{frankot1988method}, the first order SH, and thus the
 normals, can be recovered up to a generalised bas relief ambiguity (GBR).
@@ -88,14 +88,14 @@ Formally, uncalibrated PS looks to recover
     \bb{X} = \bb{B} \bb{L},
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
-where $\bb{X}$ is as before, $\bb{B} \in \bb{R}^{d \times 4}$ 
+where $\bb{X}$ is as before, $\bb{B} \in \bb{R}^{d \times 4}$
 contains the first order SH basis images and
-$\bb{L} \in \bb{R}^{4 \times n}$ is the matrix of lighting coefficients. 
+$\bb{L} \in \bb{R}^{4 \times n}$ is the matrix of lighting coefficients.
 As previously mentioned, the solution to this problem is found by performing an
 SVD,
 $\bb{X} =\nobreak \bb{U} \bb{\Sigma} \bb{V}^T$, $\bb{B} = \bb{U} \sqrt{\bb{\Sigma}}$
-and $\bb{L} = \sqrt{\bb{\Sigma}} \bb{V}^T$. 
-U-PS is useful as it is not always possible to recover accurate 
+and $\bb{L} = \sqrt{\bb{\Sigma}} \bb{V}^T$.
+U-PS is useful as it is not always possible to recover accurate
 lighting estimations for every image.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Class Specific Uncalibrated Photometric Stereo}\label{subsec:imag_coll_class_uncalibrated_ps}
@@ -103,7 +103,7 @@ lighting estimations for every image.
 A generalisation of the U-PS problem for a specific class involves
 recovering a joint basis of deformation and illumination. In the case of SH for
 faces, this means attempting to separate the identity and deformation of the
-individual from the spherical harmonic representation of their face. 
+individual from the spherical harmonic representation of their face.
 This problem is a classic example of a bilinear
 decomposition problem and has been previously studied for use in 3D surface
 recovery~\cite{zhou2007appearance,minsik2014realtime,minsik2011fast,%
@@ -141,7 +141,7 @@ A tensor representation is useful, however, for illustrating how to recover the
 $d \times 4$ first order SH for an individual, given their coefficients vector
 $\bb{c}_i \in \bb{R}^{k \times 1}$. We reshape the basis matrix
 $\bb{B}$ as a tensor which we denote $\bb{S} \in \bb{R}^{d \times k
-\times 4}$. The tensor product along the second mode, $\bb{S} \times_2 \bb{c}_i$, 
+\times 4}$. The tensor product along the second mode, $\bb{S} \times_2 \bb{c}_i$,
 recovers the person specific shape of the $i$th column of
 $\bb{X}$. To recover $\bb{B}$ from $\bb{S}$, we perform
 matricisation of $\bb{S}$ along the first mode, denoted $\bb{S}_{(1)}$,
@@ -185,7 +185,7 @@ is, to minimise the following augmented Lagrangian function:
     \end{aligned}\label{eq:augmented_lagrangian}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
-with respect to $\bb{B}^T \bb{B} = \bb{I}$. Let $t$ denote the iteration index. 
+with respect to $\bb{B}^T \bb{B} = \bb{I}$. Let $t$ denote the iteration index.
 Given $\bb{A}_{[t]}$, $\bb{E}_{[t]}$, $\bb{B}_{[t]}$, $\bb{C}_{[t]}$, $\bb{L}_{[t]}$, $\bb{Y}_{[t]}$
 and $\mu_{[t]}$, the iteration of ADM for \cref{eq:robust_sh_problem} reads:
 %%%%%%%%%%%%%%%%%%%
@@ -203,13 +203,13 @@ singular value thresholding (SVT)~\cite{cai2010singular} operator as:
     \bb{A}_{[t+1]} = D_{\mu_{[t]}^{-1}} \left[ \bb{M}_{[t]}  - \bb{A}_{[t]} + \bb{X} - \bb{E}_{[t]} + \frac{\bb{Y}_{[t]}}{\mu_{[t]}} \right],
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
-where $\bb{M}_{[t]} = \bb{B}_{[t]} (\bb{L}_{[t]} \ast \bb{C}_{[t]})$ is introduced 
+where $\bb{M}_{[t]} = \bb{B}_{[t]} (\bb{L}_{[t]} \ast \bb{C}_{[t]})$ is introduced
 for brevity of the equation and the SVT is defined as
 $D_{\tau}(\bb{Q}) = \bb{U} \bb{S}_{\tau} \bb{V}^T$ for any matrix $\bb{Q}$ with SVD:\@
-$\bb{Q} = \bb{U} \bb{S} \bb{V}^T$. 
-Sub-problem~\eqref{eq:text_E_update} has a unique solution that is obtained via 
-the element-wise shrinkage operator~\cite{candes2011robust}. The shrinkage operator 
-is defined as $\mathcal{S}_{\tau}[q]=\mbox{sgn}(q) \: \max(|q|-\tau, 0)$. 
+$\bb{Q} = \bb{U} \bb{S} \bb{V}^T$.
+Sub-problem~\eqref{eq:text_E_update} has a unique solution that is obtained via
+the element-wise shrinkage operator~\cite{candes2011robust}. The shrinkage operator
+is defined as $\mathcal{S}_{\tau}[q]=\mbox{sgn}(q) \: \max(|q|-\tau, 0)$.
 Therefore, the solution of~\eqref{eq:text_E_update} is
 %%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:text_E_shrinkage}
@@ -218,18 +218,18 @@ Therefore, the solution of~\eqref{eq:text_E_update} is
 %%%%%%%%%%%%%%%%%%%
 { % Courtesy of the wonderful 4G!
 %%%%%%%%%%%%%%%%%%%
-\def\t#1{{\bb{#1}_{[t]}}}
-\def\tp#1{{\bb{#1}_{[t+1]}}}
+\newcommand{\tsub}[1]{{\bb{#1}_{[t]}}}
+\newcommand{\tpsub}[1]{{\bb{#1}_{[t+1]}}}
 %%%%%%%%%%%%%%%%%%%
 \noindent Sub-problem~\eqref{eq:text_B_update} is a reduced rank Procrustes
 Rotation problem~\cite{zou2006sparse}. Its solution is given by
 $\bb{B}_{[t]} = \bb{U} \bb{V}^{\top}$ with
 %%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:text_B_update2}
-    \tp A {\left(\t L \ast \t C\right)}^{\top} = \bb{U} \bb{\Sigma} \bb{V^{\top}},
-\end{equation} 
+    \tpsub{A} {\left(\tsub{L} \ast \tsub{C}\right)}^{\top} = \bb{U} \bb{\Sigma} \bb{V^{\top}},
+\end{equation}
 %%%%%%%%%%%%%%%%%%%
-being the SVD of $\tp A {\left(\t L \ast \t C\right)}^{\top}$. However, due the
+being the SVD of $\tpsub{A} {\left(\tsub{L} \ast \tsub{C}\right)}^{\top}$. However, due the
 unitary invariance of the Frobenius norm, Equation~\ref{eq:text_LC_update}
 becomes
 %%%%%%%%%%%%%%%%%%%
@@ -237,26 +237,26 @@ becomes
     \argmin_{\bb{L}_{[t+1]}, \bb{C}_{[t+1]}} \lVert \bb{B}_{[t+1]}^T\bb{A}_{[t+1]} - \bb{L}_{[t]} \ast \bb{C}_{[t]} \rVert_{F}^{2}.
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
-Sub-problem~(\ref{eq:text_LC_update},~\ref{eq:text_LC_update2}) is a least 
-squares factorisation of a Khatri-Rao product~\cite{roemer2010tensor}, which is 
+Sub-problem~(\ref{eq:text_LC_update},~\ref{eq:text_LC_update2}) is a least
+squares factorisation of a Khatri-Rao product~\cite{roemer2010tensor}, which is
 solved as follows:
-Let $\bb{Q} = \tp B^{\top} \tp A, \bb{L} = \t L, \text{and} \; \bb{C} = \t C$. 
-Furthermore, let $\bb{q}_i, \bb{l}_i, \text{and} \; \bb{c}_i$ be the $i_{th}$ 
-columns of 
-matrices $\bb{Q}, \bb{L}, \text{and} \; \bb{C}$, respectively. 
-Clearly $\bb{q}_i = \bb{l}_i \oplus \bb{c}_i$, where $\oplus$ denotes the Kronecker 
-product. For each column of $\bb{Q}$: Reshape $\bb{q}_i$ into a 
-matrix $\tilde{\bb{Q}}_i \in \bb{R}^{4 \times k}$ 
-such that 
-$\text{vec}\left(\tilde{\bb{Q}}_i\right) = \bb{q}_i$. 
+Let $\bb{Q} = \tpsub{B^{\top}} \tpsub{A}, \bb{L} = \tsub{L}, \text{and} \; \bb{C} = \tsub{C}$.
+Furthermore, let $\bb{q}_i, \bb{l}_i, \text{and} \; \bb{c}_i$ be the $i_{th}$
+columns of
+matrices $\bb{Q}, \bb{L}, \text{and} \; \bb{C}$, respectively.
+Clearly $\bb{q}_i = \bb{l}_i \oplus \bb{c}_i$, where $\oplus$ denotes the Kronecker
+product. For each column of $\bb{Q}$: Reshape $\bb{q}_i$ into a
+matrix $\tilde{\bb{Q}}_i \in \bb{R}^{4 \times k}$
+such that
+$\text{vec}\left(\tilde{\bb{Q}}_i\right) = \bb{q}_i$.
 Obviously, $\tilde{\bb{Q}}_i = \bb{c}_i \cdot {\bb{l}_i}^{\top}$ is a rank-one matrix.
 Compute the SVD of
-$\tilde{\bb{Q}}_i$ as $\tilde{\bb{Q}}_i = \bb{U}_i \bb{\Sigma}_i {\bb{V}_i}^{\top}$. 
+$\tilde{\bb{Q}}_i$ as $\tilde{\bb{Q}}_i = \bb{U}_i \bb{\Sigma}_i {\bb{V}_i}^{\top}$.
 The best rank-one approximation of $\tilde{\bb{Q}}_i$ is obtained by truncating the SVD as:
 $\bb{l}_i = \bb{u}_i \sqrt{\sigma_1}$ and $\bb{c}_i = \sqrt{\sigma_1} \bb{v}_i$,
 where $\bb{u}_i$ and $\bb{v}_i$ are the first column vectors of $\bb{U}_i$
 and $\bb{V}_i$, respectively, and $\sigma_1$ is the largest singular value.
-The ADM for solving~\eqref{eq:robust_sh_problem} is outlined in 
+The ADM for solving~\eqref{eq:robust_sh_problem} is outlined in
 \cref{alg:imag_coll_adm_solution}.
 }
 
@@ -281,7 +281,7 @@ Firstly, recent facial alignment algorithms such as those by
 of sparse facial features in the order of a single millisecond. In contrast, the
 optical flow method cited in \citet{KemelmacherShlizerman:2013iv} takes multiple
 seconds even for a small image. This means that our training time is drastically
-reduced in comparison to \citet{KemelmacherShlizerman:2013iv}. 
+reduced in comparison to \citet{KemelmacherShlizerman:2013iv}.
 Ideally, our technique would be able to scale
 to the magnitude of thousands of images, whereas the alignment of
 \citet{KemelmacherShlizerman:2013iv} would quickly become infeasible as the
@@ -302,7 +302,7 @@ space of the AAM and our subspace is the same.
     \includegraphics[width=3.8cm,height=3.8cm,trim = 0cm -1cm 0cm 0cm]{collection_ps/images/example_warped_shape}
     \caption{{\bf Example of the low rank effect on warped pose}. From left to
              right: initial input image, input image after warping,
-             warped image after the low rank constraint, 
+             warped image after the low rank constraint,
              recovered depth from warped image.}
 \label{fig:imag_coll_low_rank_warping}
 \end{figure*}
@@ -318,7 +318,7 @@ decomposition of the basis helps correct these large global errors so that the
 shape subspace can be successfully recovered. Secondly, our technique does not
 contain a number of sub-clusters that can be used to warp expression onto our
 model. However, by using a large number of images that contain expression we
-directly include expression within our subspace. 
+directly include expression within our subspace.
 In \citet{KemelmacherShlizerman:2013iv}, the
 recovered subspace will necessarily be devoid of expression as the global
 reference shape is neutral. This means that the subspace recovered by
