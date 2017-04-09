@@ -19,7 +19,19 @@ well studied in areas such as Structure-from-Motion where it has been
 employed for large-scale reconstruction of urban scenes~\cite{agarwal2009building,torr1998robust}.
 However, dense shape recovery is a much more difficult problem as the
 complexity scales with the number of elements in the predicted
-shape. In this thesis we consider only the problem of dense 3D shape recovery.
+shape. In contrast to sparse shape recovery, dense shape recovery generally
+attempts to estimate the geometry for every pixel that is present within
+the input image. This is a far more challenging problem than the sparse case
+as it requires a more detailed understanding of the scene. One common method
+for achieving detailed scene understanding is to match areas of an image with
+areas of a known model of a scene. This is highly effective for sparse shape
+recovery as it is generally possible to find salient regions that can be
+matched precisely. However, this is not very effective for dense shape recovery
+as the cost of this matching may be prohibitive. Furthermore, most objects have
+smooth textureless regions where any attempt at correspondence becomes highly
+ambiguous. For these reasons, dense shape recovery is widely regarded as a more
+challenging problem than sparse shape recovery. In this thesis we
+consider only the problem of dense 3D shape recovery.
 
 In contrast to the general case, the recovery of dense 3D
 facial shape has been highly successful. Human faces have a number of qualities
