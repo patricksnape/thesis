@@ -3,15 +3,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this chapter we investigated the power of creating statistical models
 of surface normals. The creation of these statistical models is complicated
-by the non-euclidean nature of directional data such as surface normals.
+by the non-Euclidean nature of directional data such as surface normals.
 Therefore, we proposed to formulate statistical model building of normals
 as a Kernel-PCA problem and proposed two kernels for computing these non-linear
-models. We also incorporated existing work on using surface normals in 
-statistical models and show the 
+models. We also incorporated existing work on using surface normals in
+statistical models and show the
 Azimuthal Equidistant Projection (AEP)~\cite{smith2006recovering} and
-Principal Geodesic Analysis (PCA)~\cite{smith2008facial} can be cast as 
-kernels in our Kernel-PCA framework. We extend the geometric 
-Shape-from-Shading (SfS) of \citet{smith2006recovering} and show that our 
+Principal Geodesic Analysis (PCA)~\cite{smith2008facial} can be cast as
+kernels in our Kernel-PCA framework. We extend the geometric
+Shape-from-Shading (SfS) of \citet{smith2006recovering} and show that our
 Kernel-PCA framework naturally augments the geometric SfS algorithm. We also
 provide the first ``in-the-wild'' results using this SfS algorithm and show
 that model-based SfS algorithms are capable of recovering plausible high-frequency
@@ -23,15 +23,15 @@ algorithms. We investigated the alignment of both 2.5D depth data and volumetric
 3D data. In particular, we empirically showed that 3D gradients, which are
 analogous to normals in 3D, can be used to construct an alignment algorithm
 that is robust to gross outliers. We experimentally verified these claims
-on simulated outliers on data from the 
+on simulated outliers on data from the
 Visible Human project~\cite{spitzer1996visiblehuman}.
 
 However, despite the robust properties of normals and the promising results
 when building statistical models of normals, building these models is still
 restrictive. The main restriction is the fact that the data used
 for constructing the models all comes from carefully constructed datasets
-that do not model the ``in-the-wild'' conditions from which we wish to recover 
-a shape. Furthermore, SfS still requires the estimation of the single point light 
+that do not model the ``in-the-wild'' conditions from which we wish to recover
+a shape. Furthermore, SfS still requires the estimation of the single point light
 source illuminating the image, which is a coarse and unrealistic lighting
 model for ``in-the-wild'' images. Therefore, in the next chapter we investigate
 how shading constraints can be used to build statistical models of shape

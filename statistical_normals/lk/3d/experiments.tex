@@ -1,8 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Experiments}\label{subsubsec:singl_img_3d_lk_experiments}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-We assessed the performance of our 3D similarity measures using data from the 
-Visible Human project~\cite{spitzer1996visiblehuman}. 
+We assessed the performance of our 3D similarity measures using data from the
+Visible Human project~\cite{spitzer1996visiblehuman}.
 We demonstrate the robustness of our
 proposed measures to both a simulated bias field and artificial occlusions. Our
 proposed similarities, unlike the state-of-the-art 2D algorithms that we
@@ -33,7 +33,7 @@ according to
 %%%%%%%%%%%%%%%%%%%%
 \begin{equation*}
     \begin{array}{c}
-        I(\cdot,\cdot,z) = R\left(w(z) \otimes \|S(\cdot,\cdot,z)\| \otimes M(\cdot,\cdot,z)\right), \\ \\ z \in [1, N_{Z}],
+        I(\cdot,\cdot,z) = R\left(w(z) \odot \|S(\cdot,\cdot,z)\| \odot M(\cdot,\cdot,z)\right), \\ \\ z \in [1, N_{Z}],
     \end{array}
 \end{equation*}
 %%%%%%%%%%%%%%%%%%%%
@@ -63,8 +63,8 @@ inhomogeneities.
         \includegraphics[width=\textwidth]{statistical_normals/lk/3d/images/biasfield-example}
         \caption{}\label{fig:lk_biasfield_example}
     \end{subfigure}
-    \caption{Examples of images from the Visible Human 
-             project~\cite{spitzer1996visiblehuman} 
+    \caption{Examples of images from the Visible Human
+             project~\cite{spitzer1996visiblehuman}
              used in the LK experiments. (a) Artificially occluded image. The
              occlusion appears as the white square in the top right. (b) Image
              with simulated bias field.}
@@ -72,7 +72,7 @@ inhomogeneities.
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 For the LK experiments, the data used was from the Visible Human
-project~\cite{spitzer1996visiblehuman}. 
+project~\cite{spitzer1996visiblehuman}.
 This data has an image structure that differs from
 other common 3D image sources such as MR images. Each voxel in an image is
 formed from physical slices that were taken from the body of a cadaver.
@@ -82,9 +82,9 @@ maintained as each image along the $z$-axis represents another slice acquired
 from the body.
 
 In all experiments an affine motion model was used and performance was measured
-within an extension of the evaluation framework proposed 
+within an extension of the evaluation framework proposed
 in~\cite{tzimiropoulos2011robust}.
-We used the Oral section from the Visible Human data 
+We used the Oral section from the Visible Human data
 set~\cite{spitzer1996visiblehuman} as
 the target image. We selected 10 different regions of interest and parametrised
 the regions as a set of points representing the bounding cube of the region.
@@ -105,7 +105,7 @@ To provide a competitive assessment of our similarity measures, we extended
 recent state-of-the-art 2D algorithms for use with 3D images. We concentrated on
 algorithms that aim to provide robustness against outliers, particularly in the
 form of intensity inhomogeneities. Therefore, we provide comparisons against the
-enhanced correlation coefficient (ECC)~\cite{evangelidis2008parametric} 
+enhanced correlation coefficient (ECC)~\cite{evangelidis2008parametric}
 and the Fourier LK
 algorithm with Gabor filter banks (GaborFourier)~\cite{lucey2013fourier}. As a
 baseline, we also compare against the standard LK algorithm and the iteratively
@@ -194,9 +194,13 @@ considered.
         \includegraphics[width=\textwidth]{statistical_normals/lk/3d/images/Occlusion_BiasField_Smoothing_2-crop}
         \caption{}\label{fig:lk_results_occlusion_biasfield}
     \end{subfigure}
-    \caption{Average frequency of convergence vs Point standard deviation for 
-             the Visible Human data set. (a) Simulated Bias Field (b) Occlusions
-             (c) Occlusions + Bias Field. CosineSquared: black-$\square$. ECC:\@
+    \caption{Average frequency of convergence vs Point standard deviation for
+             the Visible Human data set.
+             (\labelcref{fig:lk_results_nocorruption}) No Corruption
+             (\labelcref{fig:lk_results_biasfield}) Simulated Bias Field
+             (\labelcref{fig:lk_results_occlusion}) Occlusions
+             (\labelcref{fig:lk_results_occlusion_biasfield}) Occlusions + Bias Field.
+             CosineSquared: black-$\square$. ECC:\@
              black-$\diamond$. GaborFourier: black-x. IC:\@ blue-x. IRLS:\@
              blue-+. InnerProduct: red-*. Spherical: red-o}
 \label{fig:lk_results_corrupted}

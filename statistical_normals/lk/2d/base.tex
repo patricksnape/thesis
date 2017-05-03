@@ -18,8 +18,8 @@ the vector valued SSD error described in the previous section simply
 becomes the concatenation of all of the channels of the multi-channel
 ``feature image''. Specifically, in the case of normals, we would assume
 that the input image $I$ becomes $f(I)$ where
-$f(I) = {[n^x_1, n^y_1, n^z_1, \ldots, n^x_D, n^y_D, n^z_D]}^T$ is defined as 
-the feature extraction function that computes the surface normals from the 
+$f(I) = {[n^x_1, n^y_1, n^z_1, \ldots, n^x_D, n^y_D, n^z_D]}^T$ is defined as
+the feature extraction function that computes the surface normals from the
 image. Given that no statistical model of appearance is employed in Affine
 Lucas-Kanade, using the normals directly as feature is equivalent to
 the inner product kernel described in \cref{subsubsec:sing_img_ip_kernel}.
@@ -46,7 +46,7 @@ where
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 and $\tilde{n_x} = \frac{n_x}{\sqrt{n_x^2 + n_y^2}}$,
 $\tilde{n_y} = \frac{n_y}{\sqrt{n_x^2 + n_y^2}}$,
-$\tilde{n_z} = \frac{n_z}{\sqrt{n_x^2 + n_y^2 + n_z^2}}$. 
+$\tilde{n_z} = \frac{n_z}{\sqrt{n_x^2 + n_y^2 + n_z^2}}$.
 This normalisation of each component is done to suppress any magnitude
 contribution from orientation.
 
@@ -60,11 +60,11 @@ of the per-pixel mean estimate required for computing the tangent plane. This
 is in contrast to our proposed kernels which are independent per-pixel. This
 reliance on a mean estimate for computing the differences is precisely what
 makes these operations unsuitable for alignment. In the case of template based
-Lucas-Kanade it is unclear where the estimate of the mean should computed as 
+Lucas-Kanade it is unclear where the estimate of the mean should computed as
 only a single image is provided as a template and therefore a mean cannot
 be computed. Furthermore, even if a mean is constructed from a training set
 consisting of a single individual, it is highly likely that the deviation
-from this mean face for a given input image will be very close this mean. This
+from this mean face for a given input image will be very close to this mean. This
 means that the distance from the neutral template image and the likely neutral
 mean will be extremely small. In fact, in the worst case where the neutral does
 not deviate from the mean neutral face at all the template image in ``feature''
@@ -75,7 +75,7 @@ the similarity between the template and the current estimate is not well
 described by the feature. For these reasons, we do not consider the AEP or PGA
 kernels in the following parametric alignment investigation.
 
-As discussed, we also propose to use the AAM extension of the classical 
+As discussed, we also propose to use the AAM extension of the classical
 Affine Lucas-Kanade algorithm as proposed by \citet{matthews2004active}.
 Therefore, the remainder of the section describes how to construct an AAM
 using a multi-channel image.
@@ -231,7 +231,7 @@ algorithm become:
     \end{aligned}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-where 
+where
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{equation*}
     \begin{aligned}

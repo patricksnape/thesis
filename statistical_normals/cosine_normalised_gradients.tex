@@ -103,13 +103,13 @@ contribution of uncorrelated areas to any cost function will be zero, meaning
 the uncorrelated areas do not affect the result of the registration.
 
 Formally, we assume $\Delta \phi(k)$ is a stationary random process $y(t)$ with
-index $t \triangleq k \in \mathcal{R}^2$, where $\forall t \sim U(0, 2\pi)$. We
+index $t \triangleq k \in \R^2$, where $\forall t \sim U(0, 2\pi)$. We
 define the random process $z(t) = \cos{y(t)}$ and thus $\forall t$ random
 variable $Z = z(t)$ has mean value $E\{Z\} = 0$. In fact, by assuming mean
 ergodicity, we find that
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:cosine_integral}
-    E\{Z\} \propto \int z(t) dt \equiv \int_{\mathcal{R}^2} \cos[\Delta \phi(k)] \; dk = 0
+    E\{Z\} \propto \int z(t) dt \equiv \int_{\R^2} \cos[\Delta \phi(k)] \; dk = 0
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 This is an important property for a similarity measure to be robust against
@@ -227,7 +227,7 @@ always denote surface normals with $\bb{n}$ and 3D gradients with $\bb{g}$.
     \begin{subfigure}{0.32\columnwidth}
         \includegraphics[width=\textwidth]{statistical_normals/images/tumour_example_sagital}
     \end{subfigure}
-    \caption{Example images of a T1-weighted brain containing a tumour area. 
+    \caption{Example images of a T1-weighted brain containing a tumour area.
              The tumour areas are outlined in yellow in each image.
              Left: Axial View. Middle: Coronal View. Right: Sagital View.}
 \label{fig:singl_img_tumour_examples}
@@ -242,8 +242,8 @@ are both suitable for use as a similarity measure for practical real-world data.
 Unfortunately, whilst both the spherical coordinates and inner product kernels
 can be computed for a 2.5D image,
 there does not exist a gradient in the third dimension (z-dimension) and thus
-much of the mathematical analysis on the robustness of the 2.5D features does 
-not directly apply. However, in 
+much of the mathematical analysis on the robustness of the 2.5D features does
+not directly apply. However, in
 \cref{subsec:singl_img_lk_2d} we show that although the more rigorous technical
 analysis of the robustness of the kernel spaces do not necessarily
 hold in 2.5D, the kernels can still be used to construct
@@ -326,7 +326,7 @@ Image Segmentation (BraTS) challenge, as shown in
 distribution of $\Delta \phi$ between the tumour area circled in yellow in
 \cref{fig:singl_img_tumour_examples} and a healthy brain. The images were registered
 using a rigid transformation before $\Delta \phi$ was computed.  The azimuth
-angle is analogous to the angle studied in~\cite{tzimiropoulos2011robust} 
+angle is analogous to the angle studied in~\cite{tzimiropoulos2011robust}
 and follows the same uniform distribution, $\Delta \phi \sim U(0, 2\pi)$.
 
 When the entire region of the rigidly registered brain images is considered, we
@@ -401,7 +401,7 @@ However, it is merely sufficient that the total sum of values from the
 dissimilar vectors is zero. Therefore, since $E\{U(-1, 1)\} = 0$, the inner
 product of normalised gradients satisfies our definition of being robust to
 outliers. In \cref{subfig:singl_img_inner_product_tumour}, we show that this
-assumption holds for the simulated tumour data taken from the 
+assumption holds for the simulated tumour data taken from the
 BraTS\footnote{\url{http://www2.imm.dtu.dk/projects/BRATS2012/}} challenge.
 
 When the entire region of the rigidly registered brain images is considered, we
@@ -419,7 +419,7 @@ In \cref{subfig:singl_img_inner_product_squared_tumour} we also show the
 distribution of the similarity measure proposed by \citet{haber2006intensity}.
 In~\cite{haber2006intensity}, the authors propose the inner product as a
 similarity measure, which looks very similar to the measure we proposed in
-\cref{eq:singl_img_inner_product}. 
+\cref{eq:singl_img_inner_product}.
 However, \citet{haber2006intensity} maximise the square of the
 inner product using a least squares Gauss-Newton optimisation. As we have shown,
 the inner product is related to the cosine between the vectors.

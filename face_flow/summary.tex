@@ -4,9 +4,9 @@
 In this chapter we investigated the problem of recovering dense correspondences
 in 2D across a sequence images. These dense correspondences are essential
 for using model based priors for 3D recovery directly from images. We argue that
-the 2D correspondences are the most difficult component of this problem, 
+the 2D correspondences are the most difficult component of this problem,
 particularly if the method of 3D recovery is assumed to involve the fitting
-of a 3D statistical model to the 2D points. To this end, we propose a algorithm
+of a 3D statistical model to the 2D points. To this end, we propose an algorithm
 for computing dense correspondences across facial sequences that is inspired by
 optical flow methods. By assuming the prior of a facial sequence, it becomes
 possible to construct a 2D deformation basis that not only constrains the space
@@ -20,7 +20,7 @@ from the output of carefully restricted optical flow methods and one by
 the rasterisation of a 3D statistical model. However, our fitting algorithm,
 which we coin ``Face Flow'', is independent of these models and we show that
 both models work well on challenging sequences. In particular, the model built
-from the 3D statistical model enables the recovery of 3D facial surfaces by 
+from the 3D statistical model enables the recovery of 3D facial surfaces by
 leveraging the correspondence that exists between every vertex in the 3D model
 and the dense deformation basis of Face Flow. Face Flow is also shown to be
 competitive with state-of-the-art optical flow methods, particularly in

@@ -7,7 +7,7 @@ In the previous chapter, we considered the problem of recovering a dense
 representation of 3D shape from a single image. Given the inherent
 ambiguity of this problem, we chose to investigate how shading could be used as
 a cue to recover this shape. Our result provided an estimate of the surface
-normal of the underlying surface for each area visible on the face. 
+normal of the underlying surface for each area visible on the face.
 However, shading constraints alone are not
 sufficient for recovering a set of consistent normals and so we introduced
 a statistical model of facial surface normals in order to further constrain
@@ -31,7 +31,7 @@ the other images being considered. This pixel-wise correspondence is necessary
 as it allows us to construct a single generic model of illumination for human
 faces.
 
-If we assume that the correspondence problem has been rectified previously, 
+If we assume that the correspondence problem has been rectified previously,
 the known illumination constraint can be relaxed by performing
 Uncalibrated Photometric Stereo (U-PS)~\cite{hayakawa1994photometric,%
 basri2007photometric} which performs remarkably well for
@@ -57,10 +57,10 @@ facial surface for each face of an unfiltered image collection containing
 many different individuals under unknown lighting.
 Specifically, we look to borrow from ideas seen within the Photometric Stereo
 literature in order to recover shape from objects under unconstrained settings
-using only images. We seek to recover this shapes without the use of an explicit 
+using only images. We seek to recover these shapes without the use of an explicit
 3D prior. Typically, these types of unconstrained
-photo collections are called ``in-the-wild'' images. We seek to construct our 
-models in an automatic manner, without manual feature point placement or 
+photo collections are called ``in-the-wild'' images. We seek to construct our
+models in an automatic manner, without manual feature point placement or
 careful selection of the input images.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}
@@ -80,7 +80,7 @@ careful selection of the input images.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In particular, we recover the shape of the object by exploiting the
-similarity within the object \textit{class}. 
+similarity within the object \textit{class}.
 In the case of faces, there are millions of
 available images that can be utilised to build ``in-the-wild'' models. These images
 were captured under a large variety of illumination conditions which can be
@@ -138,16 +138,16 @@ Although a challenging scenario, previous works have considered the recovery
 of facial shape from unconstrained image collections.
 Typically, this involves
 solving some form of Uncalibrated Photometric Stereo problem
-\cite{basri2007photometric,papadhimitri2014closed,papadhimitri2014closed}. 
-However, traditional U-PS techniques still assume that images of a single object are 
+\cite{basri2007photometric,papadhimitri2014closed,papadhimitri2014closed}.
+However, traditional U-PS techniques still assume that images of a single object are
 provided by a photometric stereo system under explicit yet unknown directed lighting.
 The relaxation of the U-PS problem to a class of
 objects further increases the ambiguity inherent within the problem.
-Specifically, it is now necessary to separate the illumination variation 
-from the identity and deformation between the objects. 
+Specifically, it is now necessary to separate the illumination variation
+from the identity and deformation between the objects.
 This problem has been approached for both shape recovery and
 facial recognition purposes
-\cite{lee2005bilinear,lee2005estimation,minsik2014realtime,minsik2013robust,zhou2007appearance}. 
+\cite{lee2005bilinear,lee2005estimation,minsik2014realtime,minsik2013robust,zhou2007appearance}.
 \citet{lee2005bilinear,lee2005estimation} recover facial shape by separating illumination
 from identity in a manner that is similar to 3DMMs.
 \citet{minsik2014realtime,minsik2013robust} separate the appearance and identity
@@ -163,10 +163,10 @@ on building person-specific models from Internet photos~\cite{kemelmacher2011fac
 which concentrates on creating clusters of individuals that are portraying
 the same emotion. Semantic queries such as ``smiling baby'' were used in order
 to collect sets of images, called clusters, that contain different individuals
-with the same semantic expression (all babies, all smiling). 
+with the same semantic expression (all babies, all smiling).
 Within a cluster, the method of
 \citet{kemelmacher2012collection} is used to align all of the faces to a
-per-cluster average face. Given a number of these clusters, for example 
+per-cluster average face. Given a number of these clusters, for example
 ``smiling baby'', ``crying baby'', ``smiling adult'', the per-cluster averages
 are aligned to a global average that allows transfer of expression and
 semantic meaning between clusters. \citet{KemelmacherShlizerman:2013iv} also

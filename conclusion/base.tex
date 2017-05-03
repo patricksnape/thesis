@@ -12,7 +12,7 @@ Vision. Thus, 3D facial surface recovery inherits many of the difficulties
 and ambiguities that are present in this problem. For this reason, the
 breadth of the applicable literature is large and there are many possible
 strategies for recovering 3D shape, much of which is determined by the constraints
-placed on the input data. Therefore, in this thesis we investigated three 
+placed on the input data. Therefore, in this thesis we investigated three
 distinct but complementary scenarios for dense 3D facial surface recovery.
 These scenarios are primarily determined by the type of input data provided
 for solving the problem. As discussed in \cref{ch:background} it can be loosely
@@ -51,7 +51,7 @@ to jointly recover surface normals from an unconstrained collection of images.
 Here we assumed that correspondences were provided for the input image but
 an explicit 3D shape prior was not. Our robust decomposition, inspired by
 uncalibrated photometric stereo~\cite{basri2007photometric}, was shown to
-be effective for ``in-the-wild'' images. These images contain a variety of 
+be effective for ``in-the-wild'' images. These images contain a variety of
 occlusions and lighting conditions that violate the underlying spherical
 harmonic image formation assumed. However, by incorporating a robust low-rank
 constraint on the decomposition we demonstrated that plausible 3D surfaces
@@ -61,13 +61,13 @@ of these outliers.
 \textbf{Image sequences: The problem of correspondences.}
 In the final chapter we note that although shading constraints provide an
 attractive method of 3D surface recovery, their practical reliance on
-priors in the form of statistical models asserts a strong constraint: the 
+priors in the form of statistical models asserts a strong constraint: the
 existence of correspondences between the inputs and the model. Even when the
 model is constructed in a data driven manner, as in \cref{ch:imag_coll},
 these correspondences are still assumed to pre-exist. Therefore, we investigate
 how dense 2D correspondences may be recovered under the prior that the images
 contain a face. We construct a dense 2D deformation basis and show how this can
-be used to construct an efficient algorithm for dense 2D face alignment. 
+be used to construct an efficient algorithm for dense 2D face alignment.
 Furthermore, we focus on image sequences which are more challenging than the
 commonly investigated two-frame scenario assumed in the optical flow literature.
 To this end, we further extend our model based optical flow with a low-rank
@@ -92,14 +92,14 @@ It is our firm belief that the contribution of a dataset for reasonable
 ground truth facial surfaces, and ideally known lighting conditions, would
 be of enormous benefit to the research community. It is this lack of an existing
 ground truth ``in-the-wild'' dataset that caused our focus on qualitative
-results for ``in-the-wild'' inputs or synthetic data in order to construct 
+results for ``in-the-wild'' inputs or synthetic data in order to construct
 plausible datasets.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Statistical Models of Surface Normals}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\textbf{Further Kernels.} In \cref{ch:singl_imag} we proposed to view the 
+\textbf{Further Kernels.} In \cref{ch:singl_imag} we proposed to view the
 construction of statistical models of surface normals as a Kernel-PCA problem.
-Although directional statistics, such as surface normals, are non-euclidean,
+Although directional statistics, such as surface normals, are non-Euclidean,
 Kernel-PCA provides a well defined method of performing component analysis
 between non-linear spaces under the assumption that an inner product, or kernel,
 may be performed. Although we derived two explicit Hilbert spaces for normals,
@@ -109,7 +109,7 @@ to investigate basis functions for surface normals and their relation to
 the spherical harmonic bases used in the explicit Shape-from-Shading
 literature.
 
-\textbf{Extending Geometric Shape-from-Shading.} 
+\textbf{Extending Geometric Shape-from-Shading.}
 The geometric Shape-from-Shading (GSFS) algorithm used in this work, as proposed
 by \citet{worthington1999new} and extended to use statistical models by
 \citet{smith2010estimating}, was shown to provide a solid foundation for
@@ -126,18 +126,18 @@ of balancing the contribution of the two terms. Similarly, it is common in
 ``in-the-wild'' images for occlusions to be present. In this case, it would be
 optimal to allow the model to complete these areas and disregard the contribution
 from the shading constraints. This is also true of areas that grossly deviate
-from the Lambertian assumption. Although this is partly addressed in 
+from the Lambertian assumption. Although this is partly addressed in
 \citet{smith2008facial}, hard occlusions such as hand-over-face gestures
 are not investigated.
 
 Given our lack of extension of the GSFS algorithm, we also suffer from the
-same drawbacks discussed in \citet{smith2010estimating} and 
+same drawbacks discussed in \citet{smith2010estimating} and
 \citet{smith2008facial}, namely the constant albedo assumption, dependency
-on the viewpoint, requirement of known lighting directions and the 
+on the viewpoint, requirement of known lighting directions and the
 hard requirement of existing correspondences. Since
 we propose a simpler method of building statistical normal models, it remains
 further work to attempt to incorporate a varying albedo model into the GSFS
-algorithm. 
+algorithm.
 
 \textbf{Alignment Using Normals.} In this work we provided evidence that
 statistical models of surface normals inherit the robust properties of other
@@ -183,13 +183,13 @@ correspondences. Therefore, it may be interesting to investigate low-rank
 alignment methods such as RAPS~\citet{sagonas2014raps} for attempting to
 jointly learn a constrained subspace and align the set of images.
 
-\textbf{Lack of 3D prior.} Although the aim of \cref{ch:imag_coll} was to 
+\textbf{Lack of 3D prior.} Although the aim of \cref{ch:imag_coll} was to
 present a method that did \textit{not} require an explicit 3D prior, both
 \cref{ch:singl_imag} and \cref{ch:face_flow} demonstrate that modern 3D statistical
 models are both highly expressive and compact. Therefore, it would be
-interesting to incorporate a 3D prior on the recover in order further constrain
+interesting to incorporate a 3D prior on the recovery in order further constrain
 the space of plausible facial shapes. In particular, it would be interesting
-to borrow from other template based methods 
+to borrow from other template based methods
 such as~\cite{kemelmacher2011facereconstruction} and seek to use the decomposition
 as a method of recovering person specific deformations from the underlying
 3D model. However, this problem is still plagued by that of correspondences
@@ -197,7 +197,7 @@ between the image and the model whereby recovering 2D correspondences between
 totally unrelated ``in-the-wild'' images remains a challenging problem.
 
 \textbf{Further investigation into the form of the decomposition.}
-In \cref{ch:imag_coll} we proposed a robust matrix decomposition method and 
+In \cref{ch:imag_coll} we proposed a robust matrix decomposition method and
 presented it's application to 3D surface recovery. However, matrix decomposition
 methods have further uses in areas such as facial recognition. The general
 form of our decomposition allows for any data that can be decomposed into a number
@@ -217,12 +217,12 @@ truth dataset of 3D facial shape makes it difficult to quantitatively evaluate
 facial surface recovery methods. Similarly, there has only recently emerged
 a large dataset of sparse 2D landmarks for sequences~\cite{shen2015first} and
 this dataset only contains 68 semi-automatically annotated landmarks. In this
-work, we were investigating dense landmark recovery, of which there are 
+work, we were investigating dense landmark recovery, of which there are
 currently no existing ground truth datasets. This is further complicated by
 the fact that computing these ground truth correspondences is very difficult.
 They cannot be manually annotated and thus another approximate method of
 capture must be used such as computational stereo. However, these commonly
-employed high-resolution capture methods do not perform well in the 
+employed high-resolution capture methods do not perform well in the
 ``in-the-wild'' scenarios considered in this work.
 
 \textbf{Joint recovery of 2D alignment and 3D shape.}
@@ -234,7 +234,7 @@ reconstruction methods to be employed. However, the model-based reconstruction
 considered here is still a highly non-linear optimisation problem that may
 yield suboptimal results. Furthermore, solving this second problem is costly
 as the increase in the number of points causes the solving of the linear
-systems to be expensive. In fact, the solution to these linear systems puts a 
+systems to be expensive. In fact, the solution to these linear systems puts a
 limit on the density of the model as if the model is too dense it will become
 impossible to solve the problem due to reasonable memory constraints. Therefore,
 jointly solving this problem in the latent space of the 3D model would be
@@ -242,9 +242,9 @@ preferable as the algorithm complexity is reduced and the relationship between t
 2D correspondences and 3D shape becomes fixed. However, introducing a 3D
 motion model into the Lucas-Kanade algorithm makes it complicated to linearise.
 For this reason, the best method to investigate would be to follow the recent
-works in discriminative methods for facial alignment and learn a 
+works in discriminative methods for facial alignment and learn a
 Supervised Descent~\cite{xiong2013supervised} style algorithm for 3D facial
-alignment. Preliminary work has been performed in this 
+alignment. Preliminary work has been performed in this
 area~\cite{thies2016face,Jourabloo:2015dw,Huber:2015bs,Jeni:2015ft,jo2015single}.
 
 \textbf{Further uses of the 2D deformation basis.} In this work we focused
@@ -260,7 +260,7 @@ to predict many of the more subtle action units.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Final Words}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The problem of 3D surface recover remains an extremely challenging one. Even
+The problem of 3D surface recovery remains an extremely challenging one. Even
 when assuming that the object being recovered is only from a single class,
 such as faces, it is still difficult to recover accurate shape. This is in
 part due to the technical ambiguities present in the problem and in part
