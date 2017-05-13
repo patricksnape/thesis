@@ -90,8 +90,20 @@ the least squares error between the basis rendered orthographically
 using a Lambertian BRDF (with assumed known light and uniform albedo)
 and the input image. This work was inspired by the Eigenfaces work of
 \citet{Sirovich:1987te} but utilised 3D data rather than images. To solve
-the least squares problem a linearisation is performed via a Taylor series 
+the least squares problem a linearisation is performed via a Taylor series
 expansion and conjugate gradient descent is applied.
+
+Morphable Models may also be coupled with other cues, such a shading,
+in order to improve the performance of the recovered shape.
+\citet{patel2012driving} proposed the first method to couple 3DMMs with shading
+cues in order to improve the model fitting performance.
+In particular, \citet{patel2012driving} perform an iterative fitting of a
+single input image by minimising the distance between the normal predicted
+by the 3DMM staistical model and those of the SfS objective function
+estimated from the image. In other words, these 3DMM normals are constrained
+to lie closer to the space of normals described by the image given a known
+lighting condition. This also allows the relaxation of the unit albedo assumption
+and a spatially varying albedo is recovered.
 %TODO: Check Smith's work and see if there is more stuff
 %      for this section. Likely quite a lot of citations
 %      are missing here.

@@ -240,7 +240,18 @@ images of a MacBeth board or other colour chart, or the use of pre-calculated
 response model~\cite{grossberg2003space}. Therefore, unless explicitly
 mentioned, we make the strong assumption that the camera response function
 is the identity function and thus pixels in any given image directly
-represent the scene radiance.
+represent the scene radiance. This is a very strong prior as it is clearly
+violated by ``in-the-wild'' images where no efforts were made to linearise
+the response function. Furthermore, when considering ensembles of images, as
+done in \cref{sec:bg_ps}, it is highly likely that each image has a different
+respone function as they are generally taken by different cameras. However,
+work such as that of \citet{shi2014photometric} have shown that approximating
+the non-linear response function as a linear function is possible from
+``in-the-wild'' Internet images. Therefore, although the linear identity
+response function assumption is an incorrect one, it is possible to treat
+the response function as linear and thus linear solutions to the SfS problem
+may absorb the camera response function as an affine transforamtion of the
+surface normals.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 	\centering
@@ -308,6 +319,25 @@ Clearly, this is a function of both $\bb{p}$ and $\bb{q}$ and thus even
 the simplest SfS problem is under-constrained. Since
 even in the strictest settings SfS is under-constrained, any violations
 of the assumptions will only further serve to degrade the recovered shape.
+Although the SfS problem is ill-posed under the assumptions discussed above,
+there are further priors that can be placed in order to resolve some of these
+ambiguities. For example, \citet{prados2005shape} have shown that by modelling
+the light source as coming from the optical center rather than from far away
+it is possible to relax the SfS problem to include modelling of the
+$\frac{1}{r^2}$ attentuation term that arises in the Lambertian reflectance
+equation. This is normally removed under the assumption that the light source
+is infinitely far away and thus all of the light falls evenly on the surface.
+\citet{prados2005shape} showed that by explicitly modelling this attenuation
+term the SfS problem becomes well-posed and can be solved using Partial
+Differential Equations. Similarly, \citet{papadhimitri2013new} demonstrated
+that by swapping the orthographic camera assumption for a perspective
+camera, causing the problem to become less constrained, provides a
+well-posed and unique solution to the SfS problem. However, although it is
+possible to relax the SfS problem to help resolve ambiguities, these relaxations
+impose other constraints that generally involve a more complex and costly
+solution to the shape recovery problem. Therefore, it is not the case that
+these methods have solved SfS and thus SfS still remains an ill-posed and
+challenging area of open research.
 
 Although surface normals
 are a parametrisation of an objects shape, in this thesis we are most
