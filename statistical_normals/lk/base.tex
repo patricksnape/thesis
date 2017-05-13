@@ -2,7 +2,7 @@
 \section{Lucas-Kanade Alignment for 2.5D and 3D Images}\label{sec:singl_imag_lk}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this section we seek to perform alignment on 2.5D and 3D images using
-normals as our feature representation. We build upon the 
+normals as our feature representation. We build upon the
 Lucas-Kanade~\cite{lucas1981iterative} literature as these algorithms provide
 a strong foundation for construction of parametric image alignment methods. We note that
 the cases of 2.5D and 3D data will be considered separately and the derivation
@@ -20,7 +20,7 @@ are most commonly constructed using PCA and therefore our proposed KPCA
 framework is crucial to the construction of statistical appearance models for
 parametric alignment using surface normals. To this end, we describe how
 normals can be used for 2D alignment using 2.5D data in the case of the
-classical Affine Lucas-Kanade alignment and it's extension as AAMs using a 
+classical Affine Lucas-Kanade alignment and it's extension as AAMs using a
 KPCA appearance model.
 
 For 3D data, we take a more structured approach and present two fitting algorithms
@@ -39,14 +39,14 @@ When referring to the operations performed by the LK algorithm we will use the
 following notations. Images are denoted by unbolded capital letters such as
 $I$ and $T$. Indexing the image $I$ by a discretised coordinate is
 denoted $I(x, y) = c$ where $c$ would be a grayscale value in this case. We
-further define a linear index $k$ into the vectorised image such that $I(k)$ 
-implies the $k = x * height + y$ pixel coordinate. 
+further define a linear index $k$ into the vectorised image such that $I(k)$
+implies the $k = x * height + y$ pixel coordinate.
 This allows for simpler indexing of the vectorised image.
 Warp functions that describe how to sample a sub-pixel coordinate
 vector from an image are denoted by
-$\mathcal{W}(\bb{x}_i;\p) = \left[\mathcal{W}_x(\bb{x}_i;\p), \mathcal{W}_y(\bb{x}_i;\p),\mathcal{W}_z(\bb{x}_i;\p) \right]$ 
+$\mathcal{W}(\bb{x}_i;\p) = \left[\mathcal{W}_x(\bb{x}_i;\p), \mathcal{W}_y(\bb{x}_i;\p),\mathcal{W}_z(\bb{x}_i;\p) \right]$
 and express the warping of the $i$th coordinate vector,
-$\bb{x}_i = {[x_i, y_i, z_i]}^{\top}$ for a 3D coordinate and 
+$\bb{x}_i = {[x_i, y_i, z_i]}^{\top}$ for a 3D coordinate and
 $\bb{x}_i = {[x_i, y_i]}^{\top}$ for a 2D coordinate, by a set of parameters
 $\p = {\left[p_1, \ldots, p_n\right]}^{\top}$, where $n$ is the number of warp
 parameters. We define the vectorised set of singe coordinate vectors as
@@ -58,12 +58,12 @@ We assume that the identity warp is found when $\p = \zero$, which implies that
 $\mathcal{W}(\bb{x};\zero) = \bb{x}$. We abuse notation and define the
 warping of an image $I$ by parameter vector $\p$ as $I(\p) = I(\mathcal{W}(\bb{x};\p))$,
 where $I(\p)$ is a single column vector of concatenated pixels. For example,
-$I(\zero) = {[c_1, \ldots, c_D]}^T \in \R^{D \times 1}$ denotes the 
+$I(\zero) = {[c_1, \ldots, c_D]}^T \in \R^{D \times 1}$ denotes the
 sampling of the image using the
 identity warp and therefore each pixel in a grayscale image, $c_i$, are returned
 as a concatenated vector. Following the definition of
 \citet{antonakos2015feature}, we extend this sampling to a multi-channel image
-and so the sampling of an $C$ channel image is defined by 
+and so the sampling of an $C$ channel image is defined by
 $I(\zero) = {[c^1_1, \ldots, c^C_1, \ldots, c^1_D, \ldots, c^C_D]}^T \in \R^{(CD) \times 1}$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{Forward Additive LK Fitting}\label{subsubsec:lk-fa}
@@ -84,17 +84,17 @@ solving for some small $\Delta \p$ update to $\p$, the objective function
 becomes
 %%%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:l2-lk-linearised-fa}
-    \argmin_{\p} \quad \norm{I(\p) + \nabla I \frac{\partial \mathcal{W}}{\partial \p} \Delta \p - T(\zero)}^2
+    \argmin_{\p} \quad \norm{I(\p) + \nabla I(\p) \frac{\partial \mathcal{W}}{\partial \p} \Delta \p - T(\zero)}^2
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%
-where $\nabla I$ is the gradient over each dimension of $I(\p)$ warped into the
+where $\nabla I(\p)$ is the gradient over each dimension of $I(\p)$ warped into the
 frame of $T$ by the current warp estimate $\mathcal{W}(\bb{x};\p)$.
 $\frac{\partial \mathcal{W}}{\partial \p}$ is the Jacobian of the warp and
 represents the first order partial derivatives of the warp with respect to each
-parameter. $\nabla I \frac{\partial \mathcal{W}}{\partial \p}$ is commonly
+parameter. $\nabla I(\p) \frac{\partial \mathcal{W}}{\partial \p}$ is commonly
 referred to as the steepest descent images. We will express the steepest descent
-images as $\frac{\partial I(\p)}{\partial \p}$. 
-\cref{eq:l2-lk-linearised-fa} is now solvable by assuming the 
+images as $\frac{\partial I(\p)}{\partial \p}$.
+\cref{eq:l2-lk-linearised-fa} is now solvable by assuming the
 Gauss-Newton approximation to the Hessian,
 $\bb{H} = \left[ {\frac{\partial I(\p)}{\partial \p}}^{\top} \frac{\partial I(\p)}{\partial \p} \right]$:
 %%%%%%%%%%%%%%%%%%%%
@@ -104,6 +104,29 @@ $\bb{H} = \left[ {\frac{\partial I(\p)}{\partial \p}}^{\top} \frac{\partial I(\p
 %%%%%%%%%%%%%%%%%%%%
 \cref{eq:l2-lk-gauss-newton-fa} can then be solved by iteratively
 updating $\p \leftarrow \p + \Delta \p$ until convergence.
+See \cref{alg:lk_2d_fa} for an explanation of the iterative steps required
+for solving the problem.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}[t]
+\caption{Forward Additive 2D Lucas-Kanade Algorithm.}
+\label{alg:lk_2d_fa}
+    {\textbf{Input:} Input Image $I$, Template Image $T$} \\
+    {\textbf{Output:} Warp parameter vector $\p$}  \\
+    \begin{algorithmic}[1]
+        \State{}Initialise: $\p = \zero$\\
+        \While{$\norm{\Delta \p} > \epsilon$} %(Outer loop)
+            \State{}Warp $I$ with current estimate of the parameters $I(\p)$
+            \State{}Compute the error image $I(\p) - T(\zero)$
+            \State{}Warp the gradient of the input image $\nabla I(\p)$
+            \State{}Compute the warp Jacobian at the current parameter estimate $\frac{\partial \mathcal{W}}{\partial \p}$
+            \State{}Compute the steepest descent images $\frac{\partial I(\p)}{\partial \p} = \nabla I(\p) \frac{\partial \mathcal{W}}{\partial \p}$
+            \State{}Compute the Hessian $\left[ {\frac{\partial I(\p)}{\partial \p}}^{\top} \frac{\partial I(\p)}{\partial \p} \right]$
+            \State{}Compute the $\Delta \p$ using \cref{eq:l2-lk-gauss-newton-fa}
+            \State{}Compute the additive update $\p \leftarrow \p + \Delta \p$
+        \EndWhile{}
+    \end{algorithmic}
+\end{algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{ECC LK Fitting}\label{subsubsec:lk-ecc}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -121,34 +144,61 @@ Assuming a delta update as before and linearising in a similar manner to
 (\ref{eq:l2-lk-linearised-fa}) results in
 %%%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:ecc-lk-linearised}
-    \argmax_{\p} \quad \hat{T} \frac{I(\p) + \frac{\partial I(\p)}{\partial \p} \Delta \p}{\norm{{I(\p) + \frac{\partial I(\p)}{\partial \p} \Delta \p}}}
+    \argmax_{\p} \quad \hat{T} \frac{I(\p) + \J \Delta \p}{\norm{{I(\p) + \J \Delta \p}}}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%
-where $\hat{T} = \frac{T(\zero)}{\norm{T(\zero)}}$.
+where $\hat{T} = \frac{T(\zero)}{\norm{T(\zero)}}$ and
+$\J =\frac{\partial I(\p)}{\partial \p}$ for brevity in the following equations.
 \citet{evangelidis2008parametric} give a very comprehensive proof of
 the upper bound of \cref{eq:ecc-lk-linearised}, which yields the
 following solution for $\Delta \p$
 %%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:ecc-lk-gauss-newton-fa}
-    \Delta \p = \bb{H}^{-1} \frac{\partial I(\p)}{\partial \p}^{\top} \left[ \frac{\norm{I(\p)}^2 - {I(\p)}^{\top} \bb{Q} I(\p)}{\hat{T}^{\top} I(\p) - \hat{T}^{\top} \bb{Q} I(\p)} \hat{T} - I(\p) \right]
+    \Delta \p = \bb{H}^{-1} \J^{\top} \left[ \frac{\norm{I(\p)}^2 - {I(\p)}^{\top} \bb{Q} I(\p)}{\hat{T}^{\top} I(\p) - \hat{T}^{\top} \bb{Q} I(\p)} \hat{T} - I(\p) \right]
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%
-where $\bb{Q}$ is an orthogonal projection operator on the Jacobian, $\J =
-\frac{\partial I(\p)}{\partial \p}$, defined as $\bb{Q} = \J {(\J^\top
-\J)}^{-1} \J^\top$.
+where the Hessian as defined as before, $\bb{H} = \J^{\top} \J$ and $\bb{Q}$ is
+an orthogonal projection operator on the Jacobian $\J$,
+defined as $\bb{Q} = \J {(\J^\top \J)}^{-1} \J^\top$. Finally, the
+parameter update is performed additively via $\p \leftarrow \p + \Delta \p$.
 
-In fact, the $\Delta p$ update given in~\cite{evangelidis2008parametric} 
+In fact, the $\Delta p$ update given in~\cite{evangelidis2008parametric}
 is more complex than
 (\ref{eq:ecc-lk-gauss-newton-fa}), as it seeks to find an upper bound on the
-correlation between the two images. However, in the case where 
-(\ref{eq:ecc-lk-gauss-newton-fa}) does not apply, it is unlikely that the 
-algorithm is able to converge. For this reason, we only consider the update 
+correlation between the two images. However, in the case where
+(\ref{eq:ecc-lk-gauss-newton-fa}) does not apply, it is unlikely that the
+algorithm is able to converge. For this reason, we only consider the update
 equation presented in (\ref{eq:ecc-lk-gauss-newton-fa}).
+See \cref{alg:lk_2d_ecc_fa} for an explanation of the iterative steps required
+for solving the problem.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}[t]
+\caption{Forward Additive 2D ECC Lucas-Kanade Algorithm.}
+\label{alg:lk_2d_ecc_fa}
+    {\textbf{Input:} Input Image $I$, Template Image $T$} \\
+    {\textbf{Output:} Warp parameter vector $\p$}  \\
+    \begin{algorithmic}[1]
+        \State{}Initialise: $\p = \zero$, $\hat{T} = \frac{T(\zero)}{\norm{T(\zero)}}$\\
+        \While{$\norm{\Delta \p} > \epsilon$} %(Outer loop)
+            \State{}Warp $I$ with current estimate of the parameters $I(\p)$
+            \State{}Compute the error image with the normalized template $I(\p) - \hat{T}$
+            \State{}Warp the gradient of the input image $\nabla I(\p)$
+            \State{}Compute the warp Jacobian at the current parameter estimate $\frac{\partial \mathcal{W}}{\partial \p}$
+            \State{}Compute the steepest descent images Jacobian $\J = \nabla I(\p) \frac{\partial \mathcal{W}}{\partial \p}$
+            \State{}Compute the Hessian $\left[ \J^{\top} \J \right]$
+            \State{}Compute the Orthogonal projection operator $\bb{Q} = \J {(\J^\top
+\J)}^{-1} \J^\top$
+            \State{}Compute the $\Delta \p$ using \cref{eq:ecc-lk-gauss-newton-fa}
+            \State{}Compute the additive update $\p \leftarrow \p + \Delta \p$
+        \EndWhile{}
+    \end{algorithmic}
+\end{algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{Inverse Compositional LK}\label{subsubsec:lk-ic}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The inverse compositional algorithm, proposed by \citet{baker2004lucas}, 
+The inverse compositional algorithm, proposed by \citet{baker2004lucas},
 performs a compositional update of the warp and
 linearises over the template rather than the input image. Linearisation of the
 template image causes the gradient in the steepest descent images term to become
@@ -187,8 +237,8 @@ case becomes
     \Delta \p = \bb{H}^{-1} \frac{\partial \hat{T}}{\partial \p}^{\top} \left[ \frac{\norm{\hat{T}}^2 - \hat{T}^{\top} \bb{Q} \hat{T}}{{I(\p)}^{\top} \hat{T} - {I(\p)}^{\top} \bb{Q} \hat{T}} I(\p) - \hat{T} \right]
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%
-where $\bb{Q}$ is as before, except $\J = \frac{\partial \hat{T}}{\partial \p}$. 
-Any term involving $\hat{T}$ is fixed and pre-computable, so the reduction of 
+where $\bb{Q}$ is as before, except $\J = \frac{\partial \hat{T}}{\partial \p}$.
+Any term involving $\hat{T}$ is fixed and pre-computable, so the reduction of
 calculations per-iteration is substantial.
 
 It is worth noting that not every family of warps is suitable for the inverse
