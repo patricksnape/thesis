@@ -93,7 +93,9 @@ $\bb{s}_i$:
     \bb{s} = \bb{s}_0 + \sum^P_{i=1} p_i \bb{s}_i
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-where $p_i$ are the shape coefficients. The appearance model is learnt by first
+where $p_i$ are the shape coefficients.
+An example of an AAM shape model is given in \cref{fig:singl_img_aam_shape_model}.
+The appearance model is learnt by first
 warping each training image to the reference frame defined by $\bb{s}_0$
 to yield a set of shape-free textures. Each image is warped using an appropriate
 non-rigid warping function such as piecewise affine \cite{cootes2001active} or thin
@@ -124,6 +126,26 @@ which is the project-out inverse compositional algorithm (PIC)
 \cite{cootes2001active,amberg2009compositional} due to its efficiency. Although efficient, PIC
 is unable to perform well under unseen variation and therefore we have chosen to
 use the alternating simultaneous approach described in \cite{matthews2004active}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\tabcolsep}{2pt}
+\begin{figure}
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{cccccc}
+    Mean & PC 1 & PC 2 & PC 3 \\
+    \multirow{2}{*}{\includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_shape_mean}} & \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_shape_1_p3} & \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_shape_2_p3} & \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_shape_3_p3} \\
+     & \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_shape_1_m3} & \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_shape_2_m3} & \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_shape_3_m3}
+    \end{tabular}%
+    }
+    \caption{The PCA basis of facial deformation learnt from the
+             2D annotations from the 300W~\cite{sagonas2013300} competition
+             of the LFPW~\cite{belhumeur2013localizing} training images subset.
+             The top and bottom rows show the principal components for
+             $\pm 3 \sigma$ respectively.}
+\label{fig:singl_img_aam_shape_model}
+\end{figure}
+\setlength{\tabcolsep}{6pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Simultaneous IC Algorithm}\label{subsec:aam-simultaneous}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

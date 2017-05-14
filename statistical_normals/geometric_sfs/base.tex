@@ -27,9 +27,29 @@ kernels detailed in \cref{subsec:singl_img_ca}.
 
 In the case of SfS, we assume our input to be a set of normal vectors describing
 a surface $z(x, y)$ as a set of local surface normals $\bb{n}(x, y)$ projected
-on to the view plane. When reconstructing using component analysis, the normals
+on to the viewing plane. When reconstructing using component analysis, the normals
 have been concatenated into a column vector $\bb{x}$ as described in
 \cref{subsec:singl_img_ca}.
+
+Like most SfS methodologies, GSFS assumes a single point light source that
+is far away from the surface being viewed. The direction of this light source
+is assumed to be known and the light source is assumed to be unit intensity
+given it's distance from the surface. However, for ``in-the-wild'' images
+it is impossible to know the lighting conditions of the image. To provide
+the lighting direction for GSFS, we follow the methodology proposed in
+\citet{kemelmacher2011facereconstruction} and use the mean of the statistical
+model of normals to estimate a single light direction. More formally, this is
+solved as a simple linear least squares problem
+%%%%%%%%%%%%%%%%%%%%
+\begin{equation}\label{eq:light-estimate}
+    \bb{l} = \bb{{\bar{N}}}^{\dagger} \bb{I}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%
+where $\bb{l} \in \R^{3 \times 1}$ is the lighting direction vector,
+$\bb{{\bar{N}}} \in \R^{D \times 3}$ is the surface normals matrix of the mean
+and $\bb{I} \in \R^{D \times 1}$ is the vectorised image containing $D$ total
+pixels. This lighting direction is used to enforce the hard irradiance constriant
+described by the GSFS method~\cite{smith2006recovering}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {
 \alglanguage{pseudocode}
@@ -43,7 +63,7 @@ have been concatenated into a column vector $\bb{x}$ as described in
             \State{}Project the normals into the feature space using one of the projection operators from \cref{subsec:singl_img_ca}: $\phi_{F}(\bb{x})$
             \State{}Reconstruct the best fit feature space vector: $\bb{U}_{F} {\bb{U}_{F}}^T \phi_{F}(\bb{x})$.
             \State{}Use the inverse mapping to recreate a set of surface normals, ${x}' = {\phi_{F}}^{-1} \left( \bb{U}_{F} {\bb{U}_{F}}^T \phi_{F}(\bb{x}) \right)$, with individual normals ${\bb{n}(i, j)}'$
-            \State{}Enforce hard-irradiance constraint on the reconstructed normals to find the on-cone surface normal, ${\bb{n}(i, j)}''$.
+            \State{}Enforce the hard-irradiance constraint on the reconstructed normals to find the on-cone surface normal, ${\bb{n}(i, j)}''$.
     	\EndWhile{}
     \end{algorithmic}
 \end{algorithm}

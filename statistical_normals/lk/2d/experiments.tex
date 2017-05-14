@@ -8,7 +8,11 @@ using the KPCA framework to construct normal AAMs. In contrast to
 image warping in order to ensure that the normals we are computing are still
 valid normals that exist on the surface of the unit sphere. Therefore, in all
 cases we warp the depth values and then compute the normals after the
-warping.
+warping. This is more expensive than computing the normals once and then
+warping them, however, in comparison to the more complex image features
+often employed in the face alignment literature
+(\eg SIFT~\cite{lowe2004distinctive}) the re-computation of surface normals
+is relatively inexpensive.
 
 \textbf{Affine Lucas-Kanade Experiments.} In these experiments we use data
 from the Bosphorus~\cite{Savran:2008gg} database which provides depth images

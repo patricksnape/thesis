@@ -27,7 +27,7 @@ We denote these two methods Face Flow Low-Rank (LR) and Face Flow
 Full-Rank (FR). This self evaluation is particularly useful for demonstrating the importance
 and effectiveness of the low-rank constraint for multi-frame facial flow.
 
-To quantitatively evaluate the optical flow model for Face Flow, 
+To quantitatively evaluate the optical flow model for Face Flow,
 we propose a novel ground truth dataset formed
 from facial motion capture data~\cite{zhang2004spacetime}. The sequence that we
 evaluate must be in correspondence and ideally contain an interesting
@@ -39,8 +39,8 @@ and occlusions.
 
 In order to improve the robustness of our algorithm, we adopt a pseudo coarse-to-fine
 strategy for basis construction and create three bases of increasing scale. This is also
-commonly employed within optical algorithms to improve robustness. 
-In all of the following experiments, the feature descriptor employed is the dense 
+commonly employed within optical algorithms to improve robustness.
+In all of the following experiments, the feature descriptor employed is the dense
 SIFT~\cite{lowe2004distinctive} feature provided by VlFeat~\cite{vedaldi08vlfeat}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Practical Deformation Basis Construction}\label{subsec:face_flow_experiments_basis}
@@ -56,10 +56,10 @@ SIFT~\cite{lowe2004distinctive} feature provided by VlFeat~\cite{vedaldi08vlfeat
      & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/0_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/1_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/2_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/3_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/4_minus2}
     \end{tabular}%
     }
-    \caption{The PCA basis of facial deformation learnt from the 
-             3D LSFM~\cite{booth2016lsfm} model as described in 
-             \cref{subsec:face_flow_experiments_basis}. The top and bottoms rows
-             show the principals components for $\pm 2 \sigma$ respectively.}
+    \caption{The PCA basis of facial deformation learnt from the
+             3D LSFM~\cite{booth2016lsfm} model as described in
+             \cref{subsec:face_flow_experiments_basis}. The top and bottom rows
+             show the principal components for $\pm 2 \sigma$ respectively.}
 \label{fig:face_flow_3d_pca_basis}
 \end{figure}
 \setlength{\tabcolsep}{6pt}
@@ -75,10 +75,10 @@ SIFT~\cite{lowe2004distinctive} feature provided by VlFeat~\cite{vedaldi08vlfeat
      & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/0_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/1_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/2_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/3_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/4_minus2}
     \end{tabular}%
     }
-    \caption{The PCA basis of facial deformation learnt from the 
-             BU4D~\cite{yin2008high} database as described in 
-             \cref{subsec:face_flow_experiments_basis}. The top and bottoms rows
-             show the principals components for $\pm 2 \sigma$ respectively.}
+    \caption{The PCA basis of facial deformation learnt from the
+             BU4D~\cite{yin2008high} database as described in
+             \cref{subsec:face_flow_experiments_basis}. The top and bottom rows
+             show the principal components for $\pm 2 \sigma$ respectively.}
 \label{fig:face_flow_of_pca_basis}
 \end{figure}
 \setlength{\tabcolsep}{6pt}
@@ -94,14 +94,14 @@ takes a similar form to the landmark constraint proposed in this paper, and was
 found to improve the results considerably in sequences that displayed particularly
 expressive emotion, such as surprise.
 
-The BU4D database~\cite{yin2008high} consists of 102 subjects displaying 
+The BU4D database~\cite{yin2008high} consists of 102 subjects displaying
 6 canonical expression,
 from neutral to the apex of the emotion. We selected a neutral frame for every
 sequence and used this as the reference frame for the method of \citet{garg2013variational}.
 After computing trajectories for each sequence,
 we constructed a reference frame for our deformation basis using the mean
 of the neutral images we selected previously. We then applied principal
-component analysis (PCA) to learn the linear deformation model as described in 
+component analysis (PCA) to learn the linear deformation model as described in
 \cref{sec:face_flow_learning_deformation}.
 Experimentally, we found that $k=20$ principal components of
 non-rigid deformation accounts for $~95\%$ of the variance.
@@ -109,14 +109,14 @@ We note that the BU4D-FE data shows frontal faces and thus our model does not ca
 rotation. An illustration of the model is given in \cref{fig:face_flow_of_pca_basis}.
 
 Our 3D statistical model was constructed by rendering instances from a modified
-copy of the 3D morphable model provided by the 
+copy of the 3D morphable model provided by the
 Large Scale Facial Model (LSFM)~\cite{booth2016lsfm}. Only
 the shape model was utilised in this work. We augmented this model by manually
-aligning it with the mean blendshape model provided by 
+aligning it with the mean blendshape model provided by
 FaceWarehouse~\cite{Cao:2014gy}. We then formed an additive linear model
 of facial shape which allowed is to simulate expressions from the neutral
 only data provided by the LSFM.\@ We then sampled 1000 instances
-of this model within 2 standard deviations of the mean for LSFM and within a 
+of this model within 2 standard deviations of the mean for LSFM and within a
 hand picked set of ranges for each blendshape. These blendshape values were
 chosen in order to generate plausible facial shapes. These instances were
 then rendered with 10 randomly generated 3D poses in the range $[-30, 30]$ for
@@ -149,9 +149,9 @@ $25$ components.
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this experiment, we evaluated the performance of the optical flow basis
-using a synthetic ground truth sequence. We use the performance capture 
+using a synthetic ground truth sequence. We use the performance capture
 dataset provided by \citet{zhang2004spacetime}
-to generate three novel ground truth sequences consisting of 280 frames. 
+to generate three novel ground truth sequences consisting of 280 frames.
 This ground truth is provided by rendering
 the sequence of meshes in a fixed pose, which yields both a texture and a set of vertices
 in the scene. These vertices can then be used in order simply calculate flow for the face
@@ -182,15 +182,15 @@ Face Flow does not outperform state-of-the-art methods in the original untampere
 sequence. However, in the more interesting case of the illumination variation
 and occlusion sequences, our Face Flow method with low-rank constraint (Face Flow LR),
 performs the best. We also note that the low-rank method of our technique significantly
-outperforms the full-rank version, particularly in the occluded sequence. 
-Example endpoints for the three considered scenarios are given in 
+outperforms the full-rank version, particularly in the occluded sequence.
+Example endpoints for the three considered scenarios are given in
 \cref{fig:face_flow_synthetic_no_occl_examples,fig:face_flow_synthetic_illum_examples,%
 fig:face_flow_synthetic_illum_occl_examples}. Note how
 the face deformation is well localised and unlikely to undergo any gross deformations
 due to being constrained by a statistical basis.
 
 Finally, to provide evidence as to the stability of our algorithm, and the effect
-of the low-rank constraint on the outcome of the sequence, we present 
+of the low-rank constraint on the outcome of the sequence, we present
 \cref{fig:face_flow_per_frame_error}.
 This figure shows the mean per-frame endpoint error across the sequence. The Face Flow
 methods are given by the blue and green lines. Note how stable the Face Flow LR method is,
@@ -244,9 +244,9 @@ SIFTF    & 2.65               & 5.15               & 4.89               & 11.81 
         139 & \framerowsynth{nonoccluded}{139} \\
         233 & \framerowsynth{nonoccluded}{233}
     \end{tabular}
-    \caption{Example endpoint results for the original synthetic sequence 
-             without any outliers. Each row shows a different 
-             frame of the 280 frame synthetic sequence (Frame 16, 54, 139 and 
+    \caption{Example endpoint results for the original synthetic sequence
+             without any outliers. Each row shows a different
+             frame of the 280 frame synthetic sequence (Frame 16, 54, 139 and
              233 from top to bottom)}
 \label{fig:face_flow_synthetic_no_occl_examples}
 \end{figure}
@@ -289,8 +289,8 @@ SIFTF    & 2.65               & 5.15               & 4.89               & 11.81 
         233 & \framerowsynth{illumination_occlusion}{233}
     \end{tabular}
     \caption{Example endpoint results for the synthetic sequence including
-             illumination and occlusion variation. Each row shows a different 
-             frame of the 280 frame synthetic sequence (Frame 16, 54, 139 and 
+             illumination and occlusion variation. Each row shows a different
+             frame of the 280 frame synthetic sequence (Frame 16, 54, 139 and
              233 from top to bottom)}
 \label{fig:face_flow_synthetic_illum_occl_examples}
 \end{figure}
@@ -329,16 +329,16 @@ SIFTF    & 2.65               & 5.15               & 4.89               & 11.81 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this experiment, we evaluated the performance of the optical flow basis
 using a challenging ``in-the-wild'' sequence.
-The sequence consisting of 150 frames of a young woman reacting to a video. 
+The sequence consisting of 150 frames of a young woman reacting to a video.
 She reacts negatively and clearly presents discomfort by touching her face and shifting
 in her seat. This amounts to challenging variation in the sequence, including
 occlusions from her hand and motion blur from movement. In this sequence,
 we also provide evidence as to the benefit of incorporating the landmark constraint. The sequence was
 automatically landmarked using~\cite{kazemi2014one}, then our method was initialised with
 these landmarks for every frame. We also used the landmarks for the quadratic penaliser term.
-As \cref{fig:face_flow_real_examples} shows, Face Flow LR performs very well in this sequence. 
-In particular, we note that our method is very robust to the presence of occlusions, 
-aided by the sparse landmarks provided by~\cite{kazemi2014one}. 
+As \cref{fig:face_flow_real_examples} shows, Face Flow LR performs very well in this sequence.
+In particular, we note that our method is very robust to the presence of occlusions,
+aided by the sparse landmarks provided by~\cite{kazemi2014one}.
 We also provide \cref{tbl:face_flow_run_times}
 which demonstrates that Face Flow is an order of magnitude more efficient than
 the other considered methods for this sequence.
@@ -381,7 +381,7 @@ the other considered methods for this sequence.
 In this experiment we qualitatively evaluate the performance of our basis
 built from the 3D statistical model. In particular, we provide results on
 an expressive sequence of the politician Boris Johnson giving a speech, taken
-from one of training videos of the 
+from one of training videos of the
 300-VW competition~\cite{Chrysos:2015gt,shen2015first}. This sequence consists
 of 100 frames and contains out-plane rotation and expressive speaking. We
 consider this a suitable sequence for evaluating the 3D projected model
@@ -391,15 +391,15 @@ of the 3D reconstruction recovered in comparison to using only the sparse
 68 points provided by \citet{shen2015first}. Other than the change of deformation
 basis, all other parameters were maintained.
 
-To build the Face Flow template, the closest to neutral frame in the sequence 
-was chosen and warped by performing the least squares fitting on the 68 
-points described in \cref{sec:face_flow_3d_recovery}. 
-\cref{fig:face_flow_boris_references} shows the 3 references frames from 
+To build the Face Flow template, the closest to neutral frame in the sequence
+was chosen and warped by performing the least squares fitting on the 68
+points described in \cref{sec:face_flow_3d_recovery}.
+\cref{fig:face_flow_boris_references} shows the 3 references frames from
 the multi-scale Face Flow model. For qualitative comparison we compare the result
 of recovering the 3D statistical parameters from the dense points recovered by
 face flow from the sparse 68 points originally provided by the 300-VW competition.
 Similar to the experiment in \cref{subsec:face_flow_experiments_real}, we do
-utilise the sparse landmarks constraint with a weight of $0.05$. 
+utilise the sparse landmarks constraint with a weight of $0.05$.
 \cref{fig:face_flow_boris_results} shows the results of the Face Flow recovery
 against only fitting the sparse 68 points. The dense 2D fitting column refers
 the result of Face Flow. In the case of the sparse results, the dense fitting
@@ -412,7 +412,7 @@ In order to recover the 3D results, the non-linear problem described in
 on all of the points returned by Face Flow. For the sparse points, only the 68
 points are discovered. The furthest right column, which shows the 3D renderings,
 gives the clearest view of the results. It clearly shows that simply fitting
-the sparse points can cause the recovered 3D surface to resemble a caricature. 
+the sparse points can cause the recovered 3D surface to resemble a caricature.
 We also note that the results from Face Flow appear more consistent and more
 closely resemble the same individual, which we propose is likely due to the
 low-rank constraint constraining the output of the 2D deformations.
@@ -435,7 +435,7 @@ the face and often underestimates the extent of the cheek areas.
     }
     \caption{Results from the Boris Johnson sequence. Each row is a different
              frame. The top inner row of each result row are from the dense
-             fitting of Face Flow. The bottom row is the result of solving 
+             fitting of Face Flow. The bottom row is the result of solving
              the least squares problem on the 68 points shown in the input
              frame column. The initialisation column refers to the lowest
              resolution initialisation used for fitting Face flow. The dense 2D
