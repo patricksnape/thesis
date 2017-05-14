@@ -6,12 +6,12 @@ advantage of our coarse alignment and the single template recovered by our
 coarse alignment scheme. We also provide experiments that emphasise the increased
 robustness of our reconstructions over the least-squares solution of
 \citet{KemelmacherShlizerman:2013iv}. We show a new application to this type
-of model that involves improving the fitting results of an 
+of model that involves improving the fitting results of an
 AAM~\cite{cootes2001active} using our
-constructed SH basis. 
+constructed SH basis.
 
 Choosing the number of components, $k$, to recover is an
-important problem that was not properly addressed by \citet{KemelmacherShlizerman:2013iv}. 
+important problem that was not properly addressed by \citet{KemelmacherShlizerman:2013iv}.
 In these experiments we attempt to recover as many
 components as possible in order to strike a balance between cleanly
 reconstructed normals and deformations. However, there is a trade-off when choosing
@@ -39,7 +39,7 @@ quantitative evaluation, we focus on qualitative results in this chapter.
 Specifically we performed the following experiments:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{itemize}
-    \item We built our subspace using the HELEN~\cite{le2012interactive} 
+    \item We built our subspace using the HELEN~\cite{le2012interactive}
           dataset. We directly compare against the least-squares decomposition
           proposed in~\cite{KemelmacherShlizerman:2013iv} and show particularly
           challenging images from the dataset. This experiment highlights the
@@ -52,7 +52,7 @@ Specifically we performed the following experiments:
           from every image of HELEN~\cite{le2012interactive}, we can perform a
           secondary PCA on the normals in order to directly embed them within
           the GSFS algorithm. In this experiment, we compare against a clean
-          dataset of normals acquired from the 
+          dataset of normals acquired from the
           ICT-3DRFE~\cite{stratou2012exploring} database.
     \item We show how our subspace can be combined with an existing facial
     alignment algorithm, namely project-out AAMs~\cite{matthews2004active}. Our
@@ -76,7 +76,7 @@ what pre-processing was performed on each dataset.
              LFPW reference frame of $(150 \times 150)$ pixels, ``Inverse Warp''
              denotes warping back to the original images and ``Decomposition''
              denotes the total training time of our method described in
-             \cref{subsec:imag_coll_robust_sh_basis}. Original images were larger than 
+             \cref{subsec:imag_coll_robust_sh_basis}. Original images were larger than
              the reference, hence the increase from ``Warp'' to ``Inverse Warp''.
              Timings were recorded on an Intel Xeon E5--1650 3.20GHz with
              32GB of RAM.}
@@ -88,7 +88,7 @@ what pre-processing was performed on each dataset.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The process of building the robust SH basis was the same for all datasets
 involved. Facial annotations consisting of 68 points were recovered through
-various methods for each dataset. In the case of the 
+various methods for each dataset. In the case of the
 HELEN~\cite{le2012interactive} database, the manual
 annotations provided by the IBUG group were used~\cite{sagonas2013300,sagonas2013semi},
 in the case of the Yale B, Photoface and ICT-3DRFE databases, manual annotations
@@ -98,17 +98,17 @@ provided by the Dlib project~\cite{king2009dlib}.
 
 These annotations were then warped via a Piecewise Affine transformation to a
 mean reference shape that was built from all the faces, training and testing, of
-the LFPW~\cite{belhumeur2013localizing} facial annotations provided by 
+the LFPW~\cite{belhumeur2013localizing} facial annotations provided by
 IBUG~\cite{sagonas2013300,sagonas2013semi}.
 This provided the dense
 correspondence required for performing matrix decompositions. To construct our
 SH bases, we performed the algorithm as described in
 \cref{subsec:imag_coll_robust_sh_basis} on the warped images. In order to provide
 the example reconstructions, the reconstructed images were warped back into
-their original shapes and then integrated using the method of 
+their original shapes and then integrated using the method of
 \citet{frankot1988method}.
 
-\cref{tbl:imag_coll_timings} gives examples of the training time taken for the 
+\cref{tbl:imag_coll_timings} gives examples of the training time taken for the
 ``in-the-wild'' Tom Hanks images and the HELEN dataset. It is important to note that
 part of the reason the training time is much lower for the Tom Hanks images is
 that they have an inherently lower rank than the HELEN images as they are all of
@@ -117,7 +117,7 @@ timings do not scale linearly.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\yaleb}[1]
 {
-\includegraphics[width=3.5cm,height=4cm]{collection_ps/images/yaleb_results/yale_b_#1}                      & \hspace{1.5cm} 
+\includegraphics[width=3.5cm,height=4cm]{collection_ps/images/yaleb_results/yale_b_#1}                      & \hspace{1.5cm}
 \includegraphics[width=3.5cm,height=4cm]{collection_ps/images/yaleb_results/yale_b_#1_photometric}          & \hspace{1.5cm}
 \includegraphics[width=3.5cm,height=4cm]{collection_ps/images/yaleb_results/yale_b_#1_photometric_low_rank}
 }
@@ -125,14 +125,14 @@ timings do not scale linearly.
 \begin{figure}
     \centering
     \begin{tabular}{ccc}
-        Input & \hspace{1.5cm} Photometric Stereo & \hspace{1.5cm} Proposed  \vspace*{0.2cm} \\ 
+        Input & \hspace{1.5cm} Photometric Stereo & \hspace{1.5cm} Proposed  \vspace*{0.2cm} \\
         \yaleb{B01}                            \\
         \yaleb{B03}                            \\
-        \yaleb{B06}                                                  
+        \yaleb{B06}
     \end{tabular}
-    \caption{{Examples comparing against traditional Photometric Stereo}. 
-             Images from the Yale B dataset~\cite{georghiades2001fromfew}. 
-             First column is the input images, second column is traditional 
+    \caption{{Examples comparing against traditional Photometric Stereo}.
+             Images from the Yale B dataset~\cite{georghiades2001fromfew}.
+             First column is the input images, second column is traditional
              PS result and the third column is the proposed algorithm.}
 \label{fig:imag_coll_yale_b}
 \end{figure}
@@ -144,7 +144,7 @@ timings do not scale linearly.
 In this set of experiments we wished to convey two results: (1) that we are
 capable of quickly constructing our basis on a large number of in-the-wild
 images, (2) that the our robust formulation of the problem gives superior
-performance to the blind decomposition used by \citet{KemelmacherShlizerman:2013iv}. 
+performance to the blind decomposition used by \citet{KemelmacherShlizerman:2013iv}.
 In this experiment, $k = 200$ and the total number of components was thus $4k = 800$.
 \cref{fig:imag_coll_helen_compare} shows the results from this experiment. As we can
 clearly see, on challenging images the least-squares decomposition is unable to
@@ -160,7 +160,7 @@ PS contains no shape prior that limits the variability of the recovered shape.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Comparison Using Yale B}\label{subsec:imag_coll_experiments_yaleb}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In this experiment we compare the result of our proposed algorithm to 
+In this experiment we compare the result of our proposed algorithm to
 that of traditional Photometric Stereo. In this scenario, the images are assumed
 to be aligned and we do not perform any pre-processing of the images. Only the
 inner facial region is considered for recovery in order to reduce noise present
@@ -208,10 +208,10 @@ normals that are capable of constraining SFS within the space of human faces.
     \includegraphics[width=4cm,height=4.8cm]{collection_ps/images/smith/jude_law}                          \hspace{0.3cm}
     \includegraphics[width=4cm,height=4.8cm]{collection_ps/images/smith/law_smith_frontal_ict}             \hspace{0.3cm}
     \includegraphics[width=4cm,height=4.8cm]{collection_ps/images/smith/law_smith_frontal_low_rank}
-    \caption{{\bf Our subspace used for SFS}. Normals learnt automatically from 
+    \caption{{\bf Our subspace used for SFS}. Normals learnt automatically from
              the Spherical Harmonic subspace of HELEN~\cite{le2012interactive} vs
              normals from the clean data of ICT-3DRFE~\cite{stratou2012exploring}.
-             Middle column: the clean data. 
+             Middle column: the clean data.
              Right column: proposed subspace.}
 \label{fig:imag_coll_smith}
 \end{figure}
@@ -252,13 +252,13 @@ normals that are capable of constraining SFS within the space of human faces.
         \caption{}
 \label{subfig:imag_coll_improve_tom_hanks_improve}
     \end{subfigure}
-    \caption{{\bf Person specific model fitting for Tom Hanks.} Images of Tom 
-             Hanks coarsely aligned by a facial alignment method. Our algorithm 
-             improves the facial alignment and simultaneously recovers depth. 
-             Images shown are from a YouTube video of Tom Hanks. 
+    \caption{{\bf Person specific model fitting for Tom Hanks.} Images of Tom
+             Hanks coarsely aligned by a facial alignment method. Our algorithm
+             improves the facial alignment and simultaneously recovers depth.
+             Images shown are from a YouTube video of Tom Hanks.
              \cref{subfig:imag_coll_improve_tom_hanks_recovered} shows the
              recovered depth and improved landmarks from the person specific
-             fitting. 
+             fitting.
              \cref{subfig:imag_coll_improve_tom_hanks_improve} shows the
              improvement to the mean of all frames after the first iteration
              (top row) and after the final (10th) iteration (bottom row).}
@@ -270,7 +270,7 @@ normals that are capable of constraining SFS within the space of human faces.
 \newcommand{\tomhanks}[1]
 {
 \includegraphics[width=2.7cm,height=3.2cm]{collection_ps/images/tom_hanks/tom_hanks_#1}                   &
-\includegraphics[width=2.7cm,height=3.2cm]{collection_ps/images/tom_hanks/tom_hanks_#1_low_rank}          & 
+\includegraphics[width=2.7cm,height=3.2cm]{collection_ps/images/tom_hanks/tom_hanks_#1_low_rank}          &
 \includegraphics[width=2.7cm,height=3.2cm]{collection_ps/images/tom_hanks/tom_hanks_#1_low_rank_textured}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -279,13 +279,13 @@ normals that are capable of constraining SFS within the space of human faces.
 \begin{figure}
     \centering
     \begin{tabular}{cccccc}
-        Input & Shape & Textured & Input & Shape & Textured \vspace*{0.2cm} \\ 
+        Input & Shape & Textured & Input & Shape & Textured \vspace*{0.2cm} \\
         \tomhanks{14}            & \tomhanks{27}                            \\
         \tomhanks{95}            & \tomhanks{52}
     \end{tabular}
-    \caption{{\bf Example reconstructions of Tom Hanks}. Images automatically 
-             downloaded from Google Images. First column is the input images, 
-             second column is the untextured shape from the proposed technique 
+    \caption{{\bf Example reconstructions of Tom Hanks}. Images automatically
+             downloaded from Google Images. First column is the input images,
+             second column is the untextured shape from the proposed technique
              and the third column is the textured shape.}
 \label{fig:imag_coll_tom_hanks}
 \end{figure}
@@ -341,12 +341,12 @@ across all frames has been visibly improved.
         Input & \multicolumn{2}{c}{vizago.ch} & \multicolumn{2}{c}{facegen.com}  \\
         \comparemm{6}                                                            \\
         \comparemm{680}                                                          \\
-        \comparemm{821}                  
+        \comparemm{821}
     \end{tabular}
-    \caption{{\bf Examples of difficult reconstructions for existing commercial 
-              Morphable Model implementations}. 
-             Images from the HELEN~\cite{le2012interactive} dataset. 
-             Both implementations do not provide the ability to render 
+    \caption{{\bf Examples of difficult reconstructions for existing commercial
+              Morphable Model implementations}.
+             Images from the HELEN~\cite{le2012interactive} dataset.
+             Both implementations do not provide the ability to render
              textureless surfaces.
              Facegen.com reported invalid landmarks for the image given in the
              first row.}
@@ -376,9 +376,9 @@ across all frames has been visibly improved.
         \comparehelen{680}{chin}  \\ \vspace*{-0.07cm}
         \comparehelen{6}{chin}    \\ \vspace*{-0.07cm}
         \comparehelen{821}{side}  \\ \vspace*{-0.07cm}
-        \comparehelen{77}{side}                                      
+        \comparehelen{77}{side}
     \end{tabular}
-    \caption{{\bf Comparison with the least-squares decomposition 
+    \caption{{\bf Comparison with the least-squares decomposition
              of~\cite{KemelmacherShlizerman:2013iv}}.
              Images from the HELEN~\cite{le2012interactive} dataset.}
 \label{fig:imag_coll_helen_compare}

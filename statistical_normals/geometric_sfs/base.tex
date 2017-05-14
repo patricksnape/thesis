@@ -1,9 +1,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Geometric Shape-from-Shading With Kernels}\label{sec:singl_img_gsfs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Geometric Shape-from-Shading (GSFS) is the name given by 
-\cite{smith2006recovering,worthington1999new,smith2008facial} to their 
-SfS algorithm for statistical 
+Geometric Shape-from-Shading (GSFS) is the name given by
+\cite{smith2006recovering,worthington1999new,smith2008facial} to their
+SfS algorithm for statistical
 reconstruction of surface normals. Although we have chosen to place all KPCA
 kernels within this algorithm, we would stress that this is merely to provide a
 practical demonstration of the power of the proposed kernel component analysis.
@@ -12,7 +12,7 @@ compared to state-of-the-art SfS techniques that have no prior knowledge of
 object shape. A comparison of GSFS to a generic state-of-the-art SfS algorithm
 is given in \cref{subsec:sfs-compare}.
 
-GSFS extends the SfS algorithm given by \citet{worthington1999new} to include a 
+GSFS extends the SfS algorithm given by \citet{worthington1999new} to include a
 statistical prior on normals. The algorithm
 is simple to compute and produces results that are visually appealing and
 guaranteed to represent the space of faces. They initialise the normals by
@@ -89,7 +89,7 @@ have been concatenated into a column vector $\bb{x}$ as described in
     \sfsimgstop{#1}{IP}{cosine}
     \sfsimgstop{#1}{PGA}{pga}
     \sfsimgstop{#1}{SPHER}{spherical}
-    \sfsimgstop{#1}{SIRFS}{sirfs}
+    \sfsimgstop{#1}{SIRFS~\cite{barron2015shape}}{sirfs}
 }
 
 \newcommand{\sfsimgsall}[1]{

@@ -16,7 +16,7 @@ of 105 subjects under various expressions and occlusions. Given the pre-cropped
 nature of these input images we do not perform any pre-processing on the
 images other than a similarity alignment between the eye and mouth landmarks to
 ensure that the input images all have the same size. We also centre the depth
-values to mitigate any scaling issues. In all experiments we used the 
+values to mitigate any scaling issues. In all experiments we used the
 Inverse Compositional algorithm with an Affine motion model.
 We defined the template to be a padded
 bounding box around the salient regions of the faces, namely the eyes, nose and
@@ -30,7 +30,7 @@ An example occluded image is given in
 We compare the performance of our proposed IP and SPHERICAL features against
 depth data alone for the first 5 subjects of the database. The neutral frame
 for each subject is chosen as the template and 10 random affine perturbations
-of this initial bounding box ($\sigma = 0.04$) are generated for each image 
+of this initial bounding box ($\sigma = 0.04$) are generated for each image
 of a given subject.
 \cref{fig:single_img_2d_lk_results} shows the results of this experiment in
 the form of a cumulative error distribution (CED) graph which presents
@@ -82,9 +82,9 @@ severe occlusions.
     	\caption{Occluded Only}\label{subfig:singl_img_depth_lk_results_dirty}
     \end{subfigure}
     \hspace*{\fill}
-    \caption{Results for the Affine LK algorithms on the 
+    \caption{Results for the Affine LK algorithms on the
              Bosphorus~\cite{Savran:2008gg} dataset. Results are shown for the
-             first 5 subjects from the database for both the uncorrupted images 
+             first 5 subjects from the database for both the uncorrupted images
              and images containing occlusions.}
 \label{fig:single_img_2d_lk_results}
 \end{figure}
@@ -144,8 +144,12 @@ very challenging as is the case in the first row.
         \caption{SPHERICAL Mean}\label{subfig:singl_img_spherical_aam_mean}
     \end{subfigure}
     \hspace*{\fill}
-    \caption{The appearance model means for the Depth, IP and SPHERICAL 
-             AAM models.}
+    \caption{The appearance model means for the Depth, IP and SPHERICAL
+             AAM models.
+             Depth has a single feature channel (the depth values),
+             the IP has three feature channels, the x, y and z components of
+             the normals from left to right and SPHERICAL has 4 feature channels
+             defined by \cref{eq:normalised-spherical}}
 \label{fig:single_img_2d_aam_means}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -178,7 +182,7 @@ very challenging as is the case in the first row.
         \aamrow{04689d98}                               \\ \vspace{-0.3cm}
         \aamrow{04708d163}
     \end{tabular}
-    \caption{Examples of fitting the AAM models on the 
+    \caption{Examples of fitting the AAM models on the
              FRGC v2~\cite{phillips2005overview} data. The first row shows an
              example of a failure by the depth model due to the challenging
              initialisation. The second row shows a success for the depth model
