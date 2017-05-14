@@ -1,6 +1,49 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{2.5D Experiments}\label{subsubsec:singl_img_2d_lk_experiments}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+    \centering
+    \hspace*{\fill}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{statistical_normals/images/lk2d/lk_first_5_bosphorus}
+        \caption{All}\label{subfig:singl_img_depth_lk_results_all}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{statistical_normals/images/lk2d/lk_first_5_bosphorus_dirty}
+        \caption{Occluded Only}\label{subfig:singl_img_depth_lk_results_dirty}
+    \end{subfigure}
+    \hspace*{\fill}
+    \caption{Results for the Affine LK algorithms on the
+             Bosphorus~\cite{Savran:2008gg} dataset. Results are shown for the
+             first 5 subjects from the database for both the uncorrupted images
+             and images containing occlusions.}
+\label{fig:single_img_2d_lk_results}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+    \centering
+    \hspace*{\fill}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{statistical_normals/images/lk2d/bs004_template.png}
+        \caption{Template}\label{subfig:singl_img_depth_2d_lk_template}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{statistical_normals/images/lk2d/bs004_template_cropped.png}
+        \caption{Template Cropped}\label{subfig:singl_img_depth_2d_lk_template_cropped}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{statistical_normals/images/lk2d/bs004_occluded.png}
+        \caption{Occluded}\label{subfig:singl_img_depth_2d_lk_template_occluded}
+    \end{subfigure}
+    \hspace*{\fill}
+    \caption{An example template from the LK experiments.
+             \cref{subfig:singl_img_depth_2d_lk_template_occluded} shows an
+             example of an occluded image.}
+\label{fig:single_img_2d_lk_examples}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Our experimental evaluation for 2.5D input data is split into two parts: using
 normals as features for Affine Lucas-Kanade parametric image alignment and
 using the KPCA framework to construct normal AAMs. In contrast to
@@ -34,7 +77,7 @@ An example occluded image is given in
 We compare the performance of our proposed IP and SPHERICAL features against
 depth data alone for the first 5 subjects of the database. The neutral frame
 for each subject is chosen as the template and 10 random affine perturbations
-of this initial bounding box ($\sigma = 0.04$) are generated for each image
+of this initial bounding box ($\sigma = 0.10$) are generated for each image
 of a given subject.
 \cref{fig:single_img_2d_lk_results} shows the results of this experiment in
 the form of a cumulative error distribution (CED) graph which presents
@@ -53,45 +96,75 @@ severe occlusions.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
     \centering
-    \hspace*{\fill}
-    \begin{subfigure}[b]{0.2\textwidth}
-    	\includegraphics[width=\textwidth]{statistical_normals/images/lk2d/bs004_template.png}
-    	\caption{Template}\label{subfig:singl_img_depth_2d_lk_template}
-    \end{subfigure} \hfill
-    \begin{subfigure}[b]{0.2\textwidth}
-    	\includegraphics[width=\textwidth]{statistical_normals/images/lk2d/bs004_template_cropped.png}
-    	\caption{Template Cropped}\label{subfig:singl_img_depth_2d_lk_template_cropped}
-    \end{subfigure} \hfill
-    \begin{subfigure}[b]{0.2\textwidth}
-    	\includegraphics[width=\textwidth]{statistical_normals/images/lk2d/bs004_occluded.png}
-    	\caption{Occluded}\label{subfig:singl_img_depth_2d_lk_template_occluded}
-    \end{subfigure}
-    \hspace*{\fill}
-    \caption{An example template from the LK experiments.
-             \cref{subfig:singl_img_depth_2d_lk_template_occluded} shows an
-             example of an occluded image.}
-\label{fig:single_img_2d_lk_examples}
+    \includegraphics[width=0.7\textwidth]{statistical_normals/images/lk2d/aam_fgrc_500_random}
+    \caption{Cumulative Error Distribution (CED) graph for fitting the AAM
+             models on 500 random samples from the Spring 2004 subset of the
+             FRGC v2~\cite{phillips2005overview} data. The models were trained
+             using 1000 random images from the Spring 2003 subset with no
+             overlapping identities between the training and testing data.}
+\label{fig:single_img_aam_results}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\tabcolsep}{2pt}
+\begin{figure}
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{cccc}
+    Error & Depth & IP & SPHERICAL \\
+    0.02                                                                                                         &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_error_examples/depth_002_248}      &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_error_examples/normals_002_334}    &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_error_examples/spherical_002_296}  \\
+    0.03                                                                                                         &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_error_examples/depth_003_398}      &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_error_examples/normals_003_208}    &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_error_examples/spherical_003_484}  \\
+    0.04                                                                                                         &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_error_examples/depth_004_221}      &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_error_examples/normals_004_478}    &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_error_examples/spherical_004_330}  \\
+    0.05                                                                                                         &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_error_examples/depth_005_138}      &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_error_examples/normals_005_166}    &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/aam_error_examples/spherical_005_75}  \\
+    \end{tabular}%
+    }
+    \caption{Representative errors of the AAM fittings shown in
+             \cref{fig:single_img_aam_results}. We show final shapes that were
+             as close as possible to the given bin defined by the left hand
+             column. The ground truth for each image is provided as the yellow
+             landmarks (best viewed in colour).}
+\label{fig:aam-errors-examples}
+\end{figure}
+\setlength{\tabcolsep}{6pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\aamrow}[1]{%
+\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3.3cm]{statistical_normals/images/lk2d/#1_gt}}        &
+\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3.3cm]{statistical_normals/images/lk2d/#1_initial}}   &
+\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3.3cm]{statistical_normals/images/lk2d/#1_depth}}     &
+\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3.3cm]{statistical_normals/images/lk2d/#1_ip}}        &
+\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3.3cm]{statistical_normals/images/lk2d/#1_spherical}}
+}
+
+\setlength{\tabcolsep}{1pt}
 \begin{figure}[t]
     \centering
-    \hspace*{\fill}
-    \begin{subfigure}[b]{0.49\textwidth}
-    	\includegraphics[width=\textwidth]{statistical_normals/images/lk2d/lk_first_5_bosphorus}
-    	\caption{All}\label{subfig:singl_img_depth_lk_results_all}
-    \end{subfigure} \hfill
-    \begin{subfigure}[b]{0.49\textwidth}
-    	\includegraphics[width=\textwidth]{statistical_normals/images/lk2d/lk_first_5_bosphorus_dirty}
-    	\caption{Occluded Only}\label{subfig:singl_img_depth_lk_results_dirty}
-    \end{subfigure}
-    \hspace*{\fill}
-    \caption{Results for the Affine LK algorithms on the
-             Bosphorus~\cite{Savran:2008gg} dataset. Results are shown for the
-             first 5 subjects from the database for both the uncorrupted images
-             and images containing occlusions.}
-\label{fig:single_img_2d_lk_results}
+    \begin{tabular}{ccccc}
+        Ground Truth & Initial & Depth & IP & SPHERICAL \\ \vspace{-0.3cm}
+        \aamrow{04689d98}                               \\ \vspace{-0.3cm}
+        \aamrow{04708d163}
+    \end{tabular}
+    \caption{Examples of fitting the AAM models on the
+             FRGC v2~\cite{phillips2005overview} data. The first row shows an
+             example of a failure by the depth model due to the challenging
+             initialisation. The second row shows a success for the depth model
+             for a simpler initialisation. Note that our normal model was
+             successful in both cases.}
+\label{fig:single_img_2d_aam_examples}
 \end{figure}
+\setlength{\tabcolsep}{6pt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \textbf{AAM Experiments.} In these experiments we assessed the performance
@@ -118,81 +191,121 @@ reference frame diagonals of 75 and 150 pixels. We truncated our statistical
 shape model components to 3 and 6 components respectively due to the lack
 of out-of-plane rotation present in the dataset. For our appearance models
 we truncated the models to 95\% of the appearance variation for each resolution.
-\cref{fig:single_img_2d_aam_means} shows examples of the appearance model
+\cref{fig:single_img_2d_aam_appearance_depth,%
+      fig:single_img_2d_aam_appearance_normals,%
+      fig:single_img_2d_aam_appearance_spherical}
+shows examples of the appearance model
 means for the 3 appearance model subspaces considered here: depth, IP and
-SPHERICAL. \cref{fig:single_img_aam_results} shows the results of our
+SPHERICAL. The depth appearance basis is built directly from the depth values,
+the IP basis is built from the surface normals computed from the depth values
+and the SPHERICAL basis is built from the surface normals according
+to \cref{eq:normalised-spherical}. Interestingly, the SPHERICAL representation
+shown in \cref{fig:single_img_2d_aam_appearance_spherical} bears a striking
+resemblance to the spherical harmonic subspace used in \cref{ch:imag_coll}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\tabcolsep}{2pt}
+\begin{figure}
+    \centering
+    \resizebox{0.8\textwidth}{!}{%
+    \begin{tabular}{ccc}
+    Initial & 5 & 10 \\
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/fitting/fitting_1_0165} &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/fitting/fitting_5} &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/fitting/fitting_10} \\
+    15 & 20 & Final (22) \\
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/fitting/fitting_15} &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/fitting/fitting_20} &
+    \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/fitting/fitting_final_00224}
+    \end{tabular}%
+    }
+    \caption{An illustration of the iterative fitting process for a SPHERICAL
+             AAM. The initial error is $0.165$ and the final error is
+             $0.0224$ after 22 iterations.
+             This Figure illustrates that AAMs make coarser alignments
+             in the earlier iterations before making the finer grained alignments
+             to fit the face.}
+\label{fig:aam-fitting-example}
+\end{figure}
+\setlength{\tabcolsep}{6pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\cref{fig:single_img_aam_results} shows the results of our
 experiment in the form of a CED graph showing the mean euclidean error
 per point normalised by the average edge length of the ground truth
 bounding box. For initialisation we generated random perturbations of the
 ground truth bounding box using the parameters of a similarity transformation
-$\sigma = 0.04$. Note that our proposed normal kernels outperform the depth
+$\sigma = 0.10$. Note that our proposed normal kernels outperform the depth
 features by a large margin, despite the pre-processing applied to the input
 data. In fact, \cref{fig:single_img_2d_aam_examples} shows some examples
 of the fitting results for the considered kernels. Note that the depth model
 is unable to successfully align the input images when the initialisation is
 very challenging as is the case in the first row.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-    \centering
-    \hspace*{\fill}
-    \begin{subfigure}[b]{0.25\textwidth}
-        \includegraphics[width=\textwidth]{statistical_normals/images/lk2d/depth_aam_mean.png}
-        \caption{Depth Mean}\label{subfig:singl_img_depth_aam_mean}
-    \end{subfigure} \hfill
-    \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{statistical_normals/images/lk2d/normals_aam_mean.png}
-        \caption{IP Mean}\label{subfig:singl_img_ip_aam_mean}
-    \end{subfigure} \hfill
-    \begin{subfigure}[b]{0.25\textwidth}
-        \includegraphics[width=\textwidth]{statistical_normals/images/lk2d/spherical_aam_mean.png}
-        \caption{SPHERICAL Mean}\label{subfig:singl_img_spherical_aam_mean}
-    \end{subfigure}
-    \hspace*{\fill}
-    \caption{The appearance model means for the Depth, IP and SPHERICAL
-             AAM models.
-             Depth has a single feature channel (the depth values),
-             the IP has three feature channels, the x, y and z components of
-             the normals from left to right and SPHERICAL has 4 feature channels
-             defined by \cref{eq:normalised-spherical}}
-\label{fig:single_img_2d_aam_means}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=0.7\textwidth]{statistical_normals/images/lk2d/aam_fgrc_500_random}
-    \caption{Cumulative Error Distribution (CED) graph for fitting the AAM
-             models on 500 random samples from the Spring 2004 subset of the
-             FRGC v2~\cite{phillips2005overview} data. The models were trained
-             using 1000 random images from the Spring 2003 subset with no
-             overlapping identities between the training and testing data.}
-\label{fig:single_img_aam_results}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\aamrow}[1]{%
-\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3.3cm]{statistical_normals/images/lk2d/#1_gt}}        &
-\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3.3cm]{statistical_normals/images/lk2d/#1_initial}}   &
-\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3.3cm]{statistical_normals/images/lk2d/#1_depth}}     &
-\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3.3cm]{statistical_normals/images/lk2d/#1_ip}}        &
-\adjustbox{valign=m,vspace=1pt}{\includegraphics[width=3.3cm]{statistical_normals/images/lk2d/#1_spherical}}
-}
 
-\setlength{\tabcolsep}{1pt}
-\begin{figure}[t]
+As an illustration of the alignment process for an AAM is illustrated in
+\cref{fig:aam-fitting-example}. This shows the iterative progression of alignment
+beginning from the perturbed initialisation with error $0.165$ to the final
+error of $0.0224$. This AAM was built as described previously using the SPHERICAL
+features and 22 iterations were performed between the initialisation and
+the final result.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\tabcolsep}{2pt}
+\begin{figure}
     \centering
-    \begin{tabular}{ccccc}
-        Ground Truth & Initial & Depth & IP & SPHERICAL \\ \vspace{-0.3cm}
-        \aamrow{04689d98}                               \\ \vspace{-0.3cm}
-        \aamrow{04708d163}
-    \end{tabular}
-    \caption{Examples of fitting the AAM models on the
-             FRGC v2~\cite{phillips2005overview} data. The first row shows an
-             example of a failure by the depth model due to the challenging
-             initialisation. The second row shows a success for the depth model
-             for a simpler initialisation. Note that our normal model was
-             successful in both cases.}
-\label{fig:single_img_2d_aam_examples}
+    \resizebox{0.8\textwidth}{!}{%
+    \begin{tabular}{cccccc}
+    Mean & PC 1 & PC 2 & PC 3 & \\
+    \multirow{2}{*}{\includegraphics[valign=m,scale=0.05]{statistical_normals/images/lk2d/depth/depth_mean}} & \includegraphics[valign=m,scale=0.10]{statistical_normals/images/lk2d/depth/depth_1_p3} & \includegraphics[valign=m,scale=0.10]{statistical_normals/images/lk2d/depth/depth_2_p3} & \includegraphics[valign=m,scale=0.10]{statistical_normals/images/lk2d/depth/depth_3_p3} & $+3\sigma$ \\
+     & \includegraphics[valign=m,scale=0.10]{statistical_normals/images/lk2d/depth/depth_1_m3} & \includegraphics[valign=m,scale=0.10]{statistical_normals/images/lk2d/depth/depth_2_m3} & \includegraphics[valign=m,scale=0.10]{statistical_normals/images/lk2d/depth/depth_3_m3} & $-3\sigma$
+    \end{tabular}%
+    }
+    \caption{The PCA basis of appearance learnt from the
+             FRGC v2~\cite{phillips2005overview} for depth.
+             Depth has a single feature channel (the depth values).
+             The top and bottom rows
+             show the principal components for $\pm 3 \sigma$ respectively.}
+\label{fig:single_img_2d_aam_appearance_depth}
+\end{figure}
+\setlength{\tabcolsep}{6pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\tabcolsep}{2pt}
+\begin{figure}
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{cccccc}
+    Mean & PC 1 & PC 2 & PC 3 & \\
+    \multirow{3}{*}{\includegraphics[valign=m,scale=0.10]{statistical_normals/images/lk2d/normals/normals_mean}} & \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/normals/normals_1_p3} & \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/normals/normals_2_p3} & \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/normals/normals_3_p3} & $+3\sigma$ \\
+     & \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/normals/normals_1_m3} & \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/normals/normals_2_m3} & \includegraphics[valign=m,scale=0.16]{statistical_normals/images/lk2d/normals/normals_3_m3} & $-3\sigma$
+    \end{tabular}%
+    }
+    \caption{The PCA basis of appearance learnt from the
+             FRGC v2~\cite{phillips2005overview} for the IP feature.
+             The IP has three feature channels, the x, y and z components of
+             the normals.
+             The top and bottom rows
+             show the principal components for $\pm 3 \sigma$ respectively.}
+\label{fig:single_img_2d_aam_appearance_normals}
+\end{figure}
+\setlength{\tabcolsep}{6pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\tabcolsep}{2pt}
+\begin{figure}
+    \centering
+    \resizebox{0.8\textwidth}{!}{%
+    \begin{tabular}{cccccc}
+    Mean & PC 1 & PC 2 & PC 3 & \\
+    \multirow{3}{*}{\includegraphics[valign=m,scale=0.06]{statistical_normals/images/lk2d/spherical/spherical_mean}} & \includegraphics[valign=m,scale=0.12]{statistical_normals/images/lk2d/spherical/spherical_1_p3} & \includegraphics[valign=m,scale=0.12]{statistical_normals/images/lk2d/spherical/spherical_2_p3} & \includegraphics[valign=m,scale=0.12]{statistical_normals/images/lk2d/spherical/spherical_3_p3} & $+3\sigma$ \\
+     & \includegraphics[valign=m,scale=0.12]{statistical_normals/images/lk2d/spherical/spherical_1_m3} & \includegraphics[valign=m,scale=0.12]{statistical_normals/images/lk2d/spherical/spherical_2_m3} & \includegraphics[valign=m,scale=0.12]{statistical_normals/images/lk2d/spherical/spherical_3_m3} & $-3\sigma$
+    \end{tabular}%
+    }
+    \caption{The PCA basis of appearance learnt from the
+             FRGC v2~\cite{phillips2005overview} for the SPHERICAL feature.
+             SPHERICAL has 4 feature channels defined by
+             \cref{eq:normalised-spherical}.
+             The top and bottom rows
+             show the principal components for $\pm 3 \sigma$ respectively.}
+\label{fig:single_img_2d_aam_appearance_spherical}
 \end{figure}
 \setlength{\tabcolsep}{6pt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

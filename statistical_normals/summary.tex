@@ -15,7 +15,11 @@ Shape-from-Shading (SfS) of \citet{smith2006recovering} and show that our
 Kernel-PCA framework naturally augments the geometric SfS algorithm. We also
 provide the first ``in-the-wild'' results using this SfS algorithm and show
 that model-based SfS algorithms are capable of recovering plausible high-frequency
-normals and very challenging conditions.
+normals and very challenging conditions. However, it's important
+to note that these SfS methods require recovering of the lighting
+conditions within the image under relatively strict assumptions. These
+assumptions may not hold in practise and so a more complex and realistic
+illumination assumption may be required.
 
 Furthermore, we noted from the analysis of our two novel kernels that normals
 are suitable for use in Lucas-Kanade~\cite{lucas1981iterative} alignment
