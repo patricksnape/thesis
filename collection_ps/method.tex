@@ -227,18 +227,18 @@ Therefore, the solution of~\eqref{eq:text_E_update} is
 %%%%%%%%%%%%%%%%%%%
 { % Courtesy of the wonderful 4G!
 %%%%%%%%%%%%%%%%%%%
-\def\t#1{{\bb{#1}_{[t]}}}
-\def\tp#1{{\bb{#1}_{[t+1]}}}
+\newcommand{\txx}[1]{{\bb{#1}_{[t]}}}
+\newcommand{\tpxx}[1]{{\bb{#1}_{[t+1]}}}
 %%%%%%%%%%%%%%%%%%%
 \noindent Sub-problem~\eqref{eq:text_B_update} is a reduced rank Procrustes
 Rotation problem~\cite{zou2006sparse}. Its solution is given by
 $\bb{B}_{[t]} = \bb{U} \bb{V}^{\top}$ with
 %%%%%%%%%%%%%%%%%%%
 \begin{equation}\label{eq:text_B_update2}
-    \tp A {\left(\t L \ast \t C\right)}^{\top} = \bb{U} \bb{\Sigma} \bb{V^{\top}},
+    \tpxx A {\left(\txx L \ast \txx C\right)}^{\top} = \bb{U} \bb{\Sigma} \bb{V^{\top}},
 \end{equation}
 %%%%%%%%%%%%%%%%%%%
-being the SVD of $\tp A {\left(\t L \ast \t C\right)}^{\top}$. However, due the
+being the SVD of $\tpxx A {\left(\txx L \ast \txx C\right)}^{\top}$. However, due the
 unitary invariance of the Frobenius norm, Equation~\ref{eq:text_LC_update}
 becomes
 %%%%%%%%%%%%%%%%%%%
@@ -249,7 +249,7 @@ becomes
 Sub-problem~(\ref{eq:text_LC_update},~\ref{eq:text_LC_update2}) is a least
 squares factorisation of a Khatri-Rao product~\cite{roemer2010tensor}, which is
 solved as follows:
-Let $\bb{Q} = \tp B^{\top} \tp A, \bb{L} = \t L, \text{and} \; \bb{C} = \t C$.
+Let $\bb{Q} = \tpxx B^{\top} \tpxx A, \bb{L} = \txx L, \text{and} \; \bb{C} = \txx C$.
 Furthermore, let $\bb{q}_i, \bb{l}_i, \text{and} \; \bb{c}_i$ be the $i_{th}$
 columns of
 matrices $\bb{Q}, \bb{L}, \text{and} \; \bb{C}$, respectively.
