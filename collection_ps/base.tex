@@ -35,8 +35,9 @@ If we assume that the correspondence problem has been rectified previously,
 the known illumination constraint can be relaxed by performing
 Uncalibrated Photometric Stereo (U-PS)~\cite{hayakawa1994photometric,%
 basri2007photometric} which performs remarkably well for
-human faces~\cite{KemelmacherShlizerman:2013iv,kemelmacher2011face,%
-kemelmacher2012collection}. In contrast, the correspondence problem is an
+human faces~\cite{georghiades2001fromfew,KemelmacherShlizerman:2013iv,%
+kemelmacher2011face,kemelmacher2012collection}.
+In contrast, the correspondence problem is an
 unrealistic constraint for living objects. Even under highly constrained
 scenarios it can be very difficult for a person to remain completely still
 whilst multiple images are being captured.
@@ -138,7 +139,7 @@ Although a challenging scenario, previous works have considered the recovery
 of facial shape from unconstrained image collections.
 Typically, this involves
 solving some form of Uncalibrated Photometric Stereo problem
-\cite{basri2007photometric,papadhimitri2014closed,papadhimitri2014closed}.
+\cite{basri2007photometric,papadhimitri2014closed,papadhimitri2014closed,georghiades2001fromfew}.
 However, traditional U-PS techniques still assume that images of a single object are
 provided by a photometric stereo system under explicit yet unknown directed lighting.
 The relaxation of the U-PS problem to a class of
@@ -155,6 +156,15 @@ via a low rank tensor decomposition that provides a very efficient
 reconstruction methodology.
 However, all of these methods still require an explicit dense 3D model in order
 to perform their decomposition.
+\citet{georghiades2001fromfew} built a generative model of facial appearance
+by exploiting the U-PS problem. However, they focused primarily on using
+this model for facial recognition rather than focusing on the quality of the
+reconstruction. Their key insight was that multiple images of a single face
+under varying illumination forms a convex cone in the space of images that can
+be used as a generative model. They proposed to resolve the ambiguities that
+arise at depth reconstruction time through facial symmetry. Specifically, they
+assumed bilateral symmetry in that the top and bottom of the face must lie at
+approximately the same depth for a frontal image.
 
 \citet{KemelmacherShlizerman:2013iv} proposed a method for automatically
 building morphable models from unconstrained ``in-the-wild'' images of faces
