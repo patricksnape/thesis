@@ -275,7 +275,17 @@ factorisation to recover $\bb{L}$ and $\bb{C}$. In particular, we are most
 concerned about how they may affect the recovered normals before we integrate
 them to recover depth. In order to resolve these ambiguities, we take the
 simplest possible approach, we resolve the ambiguity using a template set
-of normals provided by a known mean face.
+of normals provided by a known mean face. After recovering the image-specific
+spherical harmonics from the model,
+$\bb{Q} = \bb{S} \times_2 \bb{c}_i \in \R^{d \times 4}$, we can take the
+last three columns of the spherical harmonics which represent the normals.
+We can then rotate them according to a set of reference normals by solving a
+linear least squares problem which recovers a rotation matrix that aligns the
+normals to stop permutations of the normals axes. We resove the GBR ambiguity
+by using a reference depth map and similar to the rotation ambiguity for normals
+we solve the sparse linear least squares problem that finds the Affine
+correction that accounts for the GBR. This is applied after integration
+of the surface normals.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{collection_ps/algorithm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

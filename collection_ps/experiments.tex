@@ -9,6 +9,41 @@ robustness of our reconstructions over the least-squares solution of
 of model that involves improving the fitting results of an
 AAM~\cite{cootes2001active} using our
 constructed SH basis.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+    \centering
+    \begin{subfigure}{4cm}
+        \centering
+        \fbox{\includegraphics[width=4cm,height=4cm]{collection_ps/images/basis/0}}
+        \caption*{Basis 0}
+    \end{subfigure}
+    \begin{subfigure}{4cm}
+        \centering
+        \fbox{\includegraphics[width=4cm,height=4cm]{collection_ps/images/basis/1}}
+        \caption*{Basis 1}
+    \end{subfigure}
+    \begin{subfigure}{4cm}
+        \centering
+        \fbox{\includegraphics[width=4cm,height=4cm]{collection_ps/images/basis/2}}
+        \caption*{Basis 2}
+    \end{subfigure}
+    \begin{subfigure}{4cm}
+        \centering
+        \fbox{\includegraphics[width=4cm,height=4cm]{collection_ps/images/basis/3}}
+        \caption*{Basis 3}
+    \end{subfigure}
+    \caption{{\bf Representation of the first 4 components of the $\bb{B}$
+             learnt from the HELEN~\cite{le2012interactive} images}.
+             These are the components of the first-order
+             Spherical Harmonics basis learnt from the HELEN database using
+             $k = 200$. Specifically, these are the first $4$ of the $200$
+             components of $\bb{B}$ from \cref{eq:class_specific_ps}. Note that
+             these images contain negative values and thus have been scaled
+             back into the positive range and so very dark areas represent
+             negative values.}
+\label{fig:helen-basis}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Choosing the number of components, $k$, to recover is an
 important problem that was not properly addressed by \citet{KemelmacherShlizerman:2013iv}.
@@ -36,7 +71,7 @@ recovered normals. However, in the presence of cast shadows, even the normals of
 PS are biased. For this reason, the lack of a standard and fair
 quantitative evaluation, we focus on qualitative results in this chapter.
 
-Specifically we performed the following experiments:
+We performed the following experiments:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{itemize}
     \item We built our subspace using the HELEN~\cite{le2012interactive}
@@ -146,7 +181,13 @@ capable of quickly constructing our basis on a large number of in-the-wild
 images, (2) that the our robust formulation of the problem gives superior
 performance to the blind decomposition used by \citet{KemelmacherShlizerman:2013iv}.
 In this experiment, $k = 200$ and the total number of components was thus $4k = 800$.
-\cref{fig:imag_coll_helen_compare} shows the results from this experiment. As we can
+An example of the quality of the Spherical
+Harmonics that can be recovered using our method for these ``in-the-wild''
+images is given in \cref{fig:helen-basis}. This Figure shows the $4$ Spherical
+Harmonics learnt from the HELEN images.
+
+\cref{fig:imag_coll_helen_compare,fig:imag_coll_helen_compare2} shows
+the results from this experiment. As we can
 clearly see, on challenging images the least-squares decomposition is unable to
 separate the appearance from the illumination and thus the recovered normals are
 unable to recover accurate shape.
@@ -360,16 +401,19 @@ across all frames has been visibly improved.
 \includegraphics[width=2.5cm,height=2.5cm]{collection_ps/images/helen/helen_#1}                  & \hspace{0.5cm}
 \includegraphics[width=2.3cm,height=2.5cm]{collection_ps/images/helen/helen_#1_frontal_low_rank} & \hspace{0.5cm}
 \includegraphics[width=2.3cm,height=2.5cm]{collection_ps/images/helen/helen_#1_frontal_ira}      & \hspace{0.5cm}
+\includegraphics[width=2.3cm,height=2.5cm]{collection_ps/images/helen/helen_#1_normals_low_rank} & \hspace{0.5cm}
+\includegraphics[width=2.3cm,height=2.5cm]{collection_ps/images/helen/helen_#1_normals_ira}      & \hspace{0.5cm}
 \includegraphics[width=3cm,height=2.5cm]{collection_ps/images/helen/helen_#1_#2_low_rank}        & \hspace{0.5cm}
 \includegraphics[width=3cm,height=2.5cm]{collection_ps/images/helen/helen_#1_#2_ira}
 }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{landscape}
 \thispagestyle{footeronly}
 \setlength{\tabcolsep}{1pt}
 \begin{figure*}
     \centering
-    \begin{tabular}{ccccc} \vspace*{0.2cm}
-        Input & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} \\
+    \begin{tabular}{ccccccc} \vspace*{0.2cm}
+        Input & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} \\
         \vspace*{-0.1cm}
         \comparehelen{1348}{side} \\ \vspace*{-0.07cm}
         \comparehelen{555}{side}  \\ \vspace*{-0.07cm}
@@ -380,8 +424,37 @@ across all frames has been visibly improved.
     \end{tabular}
     \caption{{\bf Comparison with the least-squares decomposition
              of~\cite{KemelmacherShlizerman:2013iv}}.
-             Images from the HELEN~\cite{le2012interactive} dataset.}
+             Images from the HELEN~\cite{le2012interactive} dataset. The centre
+             columns show an RGB mapping of the surface normals. Our
+             low-rank normals are much smoother than those of
+             \cite{KemelmacherShlizerman:2013iv}.}
 \label{fig:imag_coll_helen_compare}
+\end{figure*}
+\setlength{\tabcolsep}{6pt}
+\end{landscape}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{landscape}
+\thispagestyle{footeronly}
+\setlength{\tabcolsep}{1pt}
+\begin{figure*}
+    \centering
+    \begin{tabular}{ccccccc} \vspace*{0.2cm}
+        Input & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} & \hspace{0.5cm} Proposed & \hspace{0.5cm}~\cite{KemelmacherShlizerman:2013iv} \\
+        \vspace*{-0.1cm}
+        \comparehelen{38}{chin}  \\ \vspace*{-0.07cm}
+        \comparehelen{214}{side} \\ \vspace*{-0.07cm}
+        \comparehelen{481}{side} \\ \vspace*{-0.07cm}
+        \comparehelen{535}{side} \\ \vspace*{-0.07cm}
+        \comparehelen{642}{side} \\ \vspace*{-0.07cm}
+        \comparehelen{949}{side}
+    \end{tabular}
+    \caption{{\bf Further comparison with the least-squares decomposition
+             of~\cite{KemelmacherShlizerman:2013iv}}.
+             Images from the HELEN~\cite{le2012interactive} dataset. The centre
+             columns show an RGB mapping of the surface normals. Our
+             low-rank normals are much smoother than those of
+             \cite{KemelmacherShlizerman:2013iv}.}
+\label{fig:imag_coll_helen_compare2}
 \end{figure*}
 \setlength{\tabcolsep}{6pt}
 \end{landscape}
