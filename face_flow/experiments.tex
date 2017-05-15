@@ -45,44 +45,36 @@ SIFT~\cite{lowe2004distinctive} feature provided by VlFeat~\cite{vedaldi08vlfeat
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Practical Deformation Basis Construction}\label{subsec:face_flow_experiments_basis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setlength{\tabcolsep}{2pt}
-\begin{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
     \centering
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{cccccc}
-    Mean &  PC 1 & PC 2 & PC 3 & PC 4 & PC 5 \\
-    \multirow{2}{*}{\includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/mean}} &  \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/0_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/1_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/2_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/3_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/4_plus2} \\
-     & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/0_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/1_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/2_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/3_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/3d_pca_basis/4_minus2}
-    \end{tabular}%
-    }
-    \caption{The PCA basis of facial deformation learnt from the
-             3D LSFM~\cite{booth2016lsfm} model as described in
-             \cref{subsec:face_flow_experiments_basis}. The top and bottom rows
-             show the principal components for $\pm 2 \sigma$ respectively.}
-\label{fig:face_flow_3d_pca_basis}
+    \hspace*{\fill}
+    \begin{subfigure}[b]{0.2\textheight}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/contour_snapping/posed_head}
+        \caption{Original Image~\cite{sagonas2013300}}\label{subfig:face_flow_occluded_input}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.2\textheight}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/contour_snapping/posed_visibility_mask}
+        \caption{Visibility Mask}\label{subfig:face_flow_occluded_vis_mask}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.2\textheight}
+        \centering
+        \includegraphics[width=\textwidth]{face_flow/images/contour_snapping/sampled_no_snapping}
+        \caption{Naive Sampling}\label{subfig:face_flow_occluded_naive}
+    \end{subfigure}
+    \hspace*{\fill}
+    \caption{An example of the effect the occluded points have on sampling the
+             reference texture for the input in
+             \cref{subfig:face_flow_occluded_input}. The visibility mask in
+             \cref{subfig:face_flow_occluded_vis_mask} shows the occluded
+             vertices as black and the naive sampling is shown in
+             \cref{subfig:face_flow_occluded_naive}. Note how the eye is
+             duplicated by the occluded points.}
+\label{fig:face_flow_pose_example}
 \end{figure}
-\setlength{\tabcolsep}{6pt}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setlength{\tabcolsep}{2pt}
-\begin{figure}
-    \centering
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{cccccc}
-    Mean &  PC 1 & PC 2 & PC 3 & PC 4 & PC 5 \\
-    \multirow{2}{*}{\includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/mean}} &  \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/0_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/1_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/2_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/3_plus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/4_plus2} \\
-     & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/0_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/1_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/2_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/3_minus2} & \includegraphics[valign=m,scale=0.16]{face_flow/images/of_pca_basis/4_minus2}
-    \end{tabular}%
-    }
-    \caption{The PCA basis of facial deformation learnt from the
-             BU4D~\cite{yin2008high} database as described in
-             \cref{subsec:face_flow_experiments_basis}. The top and bottom rows
-             show the principal components for $\pm 2 \sigma$ respectively.}
-\label{fig:face_flow_of_pca_basis}
-\end{figure}
-\setlength{\tabcolsep}{6pt}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Our optical flow facial deformation basis is built by applying MFSF multi-frame optical flow method
 \footnote{Code publicly available at https://bitbucket.org/troussos/mfsf/} of \citet{garg2013variational} on
 the facial expression database BU4D~\cite{yin2008high}. We chose this database due

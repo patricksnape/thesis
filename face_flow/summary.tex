@@ -24,7 +24,13 @@ from the 3D statistical model enables the recovery of 3D facial surfaces by
 leveraging the correspondence that exists between every vertex in the 3D model
 and the dense deformation basis of Face Flow. Face Flow is also shown to be
 competitive with state-of-the-art optical flow methods, particularly in
-the presence of challenging illumination and occlusions.
+the presence of challenging illumination and occlusions. One draw back
+of the basis built from the 3D statistical model is that the method used
+for aligning the 3D basis with the images is prone to error. Due to the lack
+of hard correspondences for the boundary, the 3D to 2D alignment may not be
+very accurate, particularly for strong poses. Therefore, our model
+may be improved by performing better contour matching or by leveraging
+more robust 3D to 2D estimation methods~\cite{zhou20153d}.
 
 Although Face Flow was shown to perform strongly for ``in-the-wild'' sequences,
 it still treats the problem of 2D correspondence recovery and 3D shape recovery
