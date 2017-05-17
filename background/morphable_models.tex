@@ -93,6 +93,28 @@ and the input image. This work was inspired by the Eigenfaces work of
 the least squares problem a linearisation is performed via a Taylor series
 expansion and conjugate gradient descent is applied.
 
+More recently, the complex non-linear methodology of solving the 3DMM fitting
+problem has been replaced by Markov Chain Monte Carlo (MCMC) sampling
+methods~\cite{schonborn2016markov,egger2016occlusion,schonborn2015background}.
+In this case, the analysis-by-synthesis problem is modeled probabilistically
+by drawing samples from the posterior distribution of model parameters given
+the target image. Given that the statistical models of both texture and shape
+in the 3DMM fitting are generally modeled as PCA bases this Bayesian
+perspective of fitting is very natural. This is done by naturally interpreting
+the PCA bases in terms of Probabilistic PCA~\cite{tipping1999probabilistic}
+In order to perform image reconstruction,
+pixel comparison of the rendered image and the target is performed under a pixel-wise
+conditional independence assumption, which is approximately equal to the
+more classical sum of squared differences between the generated and target
+image pixels. Interestingly, ~\citet{schonborn2015background} also propose
+to explicitly impose a background model to prevent foreground shrinking
+which was shown to significantly improve fitting performance. The pixel-wise
+comparison previously described may also be relaxed to include a label
+that attempts to distinguish between non-face and face pixels in the rendered
+region~\cite{egger2016occlusion}. By introducing a binary labeling problem
+into the MCMC framework it becomes possible to more accurately
+perform 3DMM fitting in the presence of occlusions.
+
 Morphable Models may also be coupled with other cues, such a shading,
 in order to improve the performance of the recovered shape.
 \citet{patel2012driving} proposed the first method to couple 3DMMs with shading
