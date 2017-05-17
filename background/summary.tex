@@ -4,9 +4,30 @@
 In this background section we have outlined both the history and state-of-the-art
 methods for recovering dense facial surfaces from images and videos. Although
 this is a widely studied area with many methods providing impressive results,
-it is still yet to be considered a solved problem. The most challenging scenario,
-recovering shape from challenging ``in-the-wild'' data, is still
-a very complex issue within Computer Vision. Therefore, we work to extend
+it is still yet to be considered a solved problem. In particular, one of the
+strongest assumptions made in most high quality shape recovery methods is
+that of a detailed understanding of the construction of the scene. Whether
+this is in the form of the illumination conditions, surface reflectance
+properties or in prior knoweldge of correspondances between multiple images,
+the majority of state-of-the-art methods are unlikely to be applicable to
+``in-the-wild'' images. At the moment, the most commonly capture data
+is that of colour camera photographs under uncontrolled conditons with
+little knowledge of the scene construction. Therefore, the introduction
+of priors such as parametric models of the scenes surfaces or illumination
+are generally necessary to perform surface recovery. However, recent
+advances in sensor technology may soon provide multi-modal data inputs for
+consumers that will enable more wide-scale scene geometry understanding
+without the need for such restrictive assumptions. Examples such as the
+introduction of the Microsoft Kinect~\cite{zhang2012microsoft} have shown
+that consumer grade electronics for multi-modal imaging can greatly enhance
+the ability of modern systems to understand commonly observed scenes such as
+dwelling interiors. Despite this, the state-of-the-art methods are lacking in
+their ability to be able to be applied to commonly observed data such as videos
+of humans interacting directly with a camera.
+
+Therefore, we believe that the most challenging scenario,
+recovering shape from ``in-the-wild'' facial data, is still
+a very complex issue within Computer Vision. For this reason, we work to extend
 this area in the following chapters in order to shed further light on the
 applicability of both shading and alignment based methods for recovering
 dense 3D facial shape.
