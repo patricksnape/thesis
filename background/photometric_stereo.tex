@@ -46,7 +46,7 @@ $\bb{\tilde{n}}^i = \frac{\bb{\tilde{n}}^i}{\norm{\bb{\tilde{n}}^i}}$.
 	\includegraphics[height=2in]{background/images/photoface2}
 	\includegraphics[height=2in]{background/images/photoface3}
 	\caption{An example of Photometric Stereo imaging ``in-the-wild'' from
-	         the Photoface database~\cite{zafeiriou2013photoface}. 
+	         the Photoface database~\cite{zafeiriou2013photoface}.
 	         Notice the cast-shadows (yellow dashed) and specular highlights
 	         (cyan solid) present in the images.}
 \label{fig:bg_ps_photoface}
@@ -66,7 +66,39 @@ Another issue is that time-multiplexed illumination causes the input
 images to lose alignment with one another. If the subject moves at all
 during capturing then the input images are not aligned and this breaks
 one of the primary assumptions of PS:\@ that each pixel has multiple intensities
-of the same surface point with which to compute the normal. An alternative
+of the same surface point with which to compute the normal.
+Note that although the traditional form of Photometric Stereo is only unique
+for 3 or more images without cast shadows, it is possible to obtain
+solutions for as little as as
+images~\cite{mecca2013uniqueness,mecca2016unifying}. However, performing PS
+on less than 3 images generally requires more complex numerical solutions to the
+PS problem or the use of other useful cues such as photomtric
+ratios~\citet{smith2016height,queau2016unbiased,mecca2016unifying}. Photometric
+ratios have the distinct advantage that they lead to linear equations in
+depth and thus avoid the integration of surface normals which may be non-integrable
+and thus need to be constrained to lie in an integrable space e.g. using methods
+such as that of \citet{frankot1988method}. Generally, set of of partial differential
+equations (PDEs) are constructed from the photometric ratios which can then
+be solved using methods such as semi-Langrangian schemes to recover surface
+depth~\cite{mecca2013uniqueness,mecca2016unifying}. However, the primary
+challenge in photometric ratio methods is how to robustly choose pixel
+pairs that conform strongly to the reflectance model assumptions. Although this
+is typically assume to be a Lambertian reflectance model, more complex models
+have also been considered for photometric ratio
+methods~\cite{chandraker2013differential,mecca2015realistic}.
+\citet{smith2016height} improve upon the robustness of the photometric ratio
+methods by building a model based solution. They propose to use the results
+of a more traditional PS method to serve as a ``model'' of the underlying surface
+and then later estimates of the surface shape that deviate strongly from
+this prior can be rejected as noise. These robustly chosen photometric
+ratio samples are then using to solve a sparse linear least squares problem.
+\cite{queau2016unbiased} also propose to use photometric ratios for solving
+PS but instead extend the greyscale assumption of~\cite{smith2016height}
+to perform PS on coloured images. It is also possible to solve directly
+for depth using image formation assumptions by recovering the maximum
+likelihood estimate of the depth~\cite{harrison2012maximum}.
+
+An alternative
 way to perform Photometric Stereo is
 \textit{Multi-spectral Photometric Stereo} (MS-PS). Here MS-PS refers to
 using lighting of varying wavelengths in order to simultaneously capture
@@ -119,7 +151,7 @@ there have been efforts to perform PS on less constrained conditions, as in
 the Photoface Database~\cite{zafeiriou2013photoface}, it still requires calibrated
 lighting and specialised hardware. However, the PS problem can be relaxed by
 considering the separation of lighting and surface components as a matrix
-factorisation problem~\cite{basri2007photometric,hayakawa1994photometric}. 
+factorisation problem~\cite{basri2007photometric,hayakawa1994photometric}.
 This is called \textit{Uncalibrated Photometric Stereo} (U-PS),
 due to the lack of requirement for calibrated illumination.
 
@@ -131,10 +163,10 @@ order to build a target that is as close to the input image as possible. The
 more similar the target and input images are, the better the optical flow
 results will be. In \citet{kemelmacher2012collection}, they extend this
 idea and further normalise the texture output by constraining the linear
-model to a rank 4 subspace. This subspace is consistent with the spherical 
-harmonics subspace of faces and thus the output reference frame contains 
-a face closer to the mean but with illumination variation maintained. It is 
-assumed that all input images are approximately frontal and that there is 
+model to a rank 4 subspace. This subspace is consistent with the spherical
+harmonics subspace of faces and thus the output reference frame contains
+a face closer to the mean but with illumination variation maintained. It is
+assumed that all input images are approximately frontal and that there is
 sufficient lighting variation in the input in order to allow the illumination
 components to dominate the first 4 eigenvectors.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -329,10 +329,13 @@ equation. This is normally removed under the assumption that the light source
 is infinitely far away and thus all of the light falls evenly on the surface.
 \citet{prados2005shape} showed that by explicitly modelling this attenuation
 term the SfS problem becomes well-posed and can be solved using Partial
-Differential Equations. Similarly, \citet{papadhimitri2013new} demonstrated
-that by swapping the orthographic camera assumption for a perspective
-camera, causing the problem to become less constrained, provides a
-well-posed and unique solution to the SfS problem. However, although it is
+Differential Equations. Similarly, swapping the unrealistic orthographic
+camera assumption with a perspective camera may also lead to better defined
+solutions~\citet{penna1989shape,breuss2012perspective}. Using perspective
+projection was also shwon to aid in the recovery of shape for Photometric
+Stereo in~\cite{tankus2005photometric} and was shown by
+\citet{papadhimitri2013new} to provide a unique solution to the uncalibrated
+Photometric Stereo problem. However, although it is
 possible to relax the SfS problem to help resolve ambiguities, these relaxations
 impose other constraints that generally involve a more complex and costly
 solution to the shape recovery problem. Therefore, it is not the case that
@@ -364,6 +367,11 @@ is the divergence operator. The interested reader should consult the
 work of \citet{agrawal2006range}, which provides a unified method for
 surface gradient field integration, including the commonly employed Fourier
 basis method of \citet{frankot1988method}.
+Although it is not possible to solve for the depth directly using only one
+image, it is possible if one or more images are provided and therefore
+a system of linear equations can be solved to yield the depth. Please see
+\cref{sec:bg_ps} for more information about shape recovery from multiple
+images of the same object under varying illuminations.
 
 In the following section we review relevant facial SfS algorithms. Unless
 explicitly mentioned, the methods below assume that faces exhibit ideal
